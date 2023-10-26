@@ -4,44 +4,50 @@
 
 BookListDetailModel::BookListDetailModel(QObject *parent)
     : QObject{parent},
-    mBookId("")
+    mKode("")
 {
 }
 
-QString BookListDetailModel::bookId()
+QString BookListDetailModel::kode()
 {
-    return mBookId;
+    return mKode;
 }
 
-void BookListDetailModel::setBookId(const QString &Id)
+void BookListDetailModel::setKode(const QString &Id)
 {
-    this->mBookId = Id;
+    this->mKode = Id;
     QSqlQuery query;
     query.prepare(
-        "SELECT Buku.*, Penerbit.Nm_penerbit FROM Buku "
-        "JOIN Penerbit on Penerbit.Kode_Penerbit = Buku.Kode_Penerbit "
-        "WHERE Buku.Kode_buku = :kode"
+        "SELECT"
+        "   Buku.*,"
+        "   Kategori.jenis "
+        "FROM Buku "
+        "   JOIN Kategori ON "
+        "       Kategori.kd_kategori = Buku.kd_kategori "
+        "WHERE Buku.kd_buku = :kode"
         );
-    query.bindValue(":kode", mBookId);
+    query.bindValue(":kode", mKode);
 
     if (!query.exec())
         qFatal() << query.lastError().text();
 
     if (query.next()) {
         QSqlRecord record = query.record();
-        mJudul = record.value("Judul").toString();
-        mPenulis = record.value("Pengarang").toString();
-        mJumlahBuku = record.value("Jml_buku").toInt();
-        mKodePenerbit = record.value("Kode_penerbit").toString();
-        mNamaPenerbit = record.value("Nm_penerbit").toString();
+        mJudul = record.value("judul").toString();
+        mPenulis = record.value("penulis").toString();
+        mJumlahBuku = record.value("jumlah_buku").toInt();
+        mKodeKategori = record.value("kd_kategori").toString();
+        mJenis = record.value("jenis").toString();
+        mTahunTerbit = record.value("tahunTerbit").toInt();
     } else {
         mJudul = "";
         mPenulis = "";
         mJumlahBuku = 0;
-        mKodePenerbit = "";
-        mNamaPenerbit = "";
+        mKodeKategori = "";
+        mJenis = "";
+        mTahunTerbit = 0;
     }
-    emit bookIdChanged();
+    emit kodeChanged();
 }
 
 QString BookListDetailModel::judul()
@@ -59,12 +65,17 @@ int BookListDetailModel::jumlahBuku()
     return mJumlahBuku;
 }
 
-QString BookListDetailModel::kodePenerbit()
+QString BookListDetailModel::kodeKategori()
 {
-    return mKodePenerbit;
+    return mKodeKategori;
 }
 
-QString BookListDetailModel::namaPenerbit()
+QString BookListDetailModel::jenis()
 {
-    return mNamaPenerbit;
+    return mJenis;
+}
+
+int BookListDetailModel::tahunTerbit() const
+{
+    return mTahunTerbit;
 }

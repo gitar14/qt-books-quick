@@ -1,4 +1,5 @@
 import QtQuick
+import my.id.levirs.books
 
 Column {
     padding: 16
@@ -9,7 +10,9 @@ Column {
         cellWidth: 125
         cellHeight: 150
 
-        model: penerbitModel
+        model: KategoriModel {
+
+        }
 
         delegate: Rectangle {
             width: GridView.view.cellWidth - 8
@@ -26,13 +29,13 @@ Column {
                 padding: 8
 
                 Text {
-                    text: model.Kode_penerbit
+                    text: model.kode
                     anchors.horizontalCenter: parent.horizontalCenter
                     horizontalAlignment: Text.AlignHCenter
                 }
 
                 Text {
-                    text: model.Nm_penerbit
+                    text: model.jenis
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
             }

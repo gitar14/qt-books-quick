@@ -3,7 +3,6 @@ import QtQuick.Window
 import QtQuick.Controls
 
 Window {
-    required property var penerbitModel
     property string currentView: "CategoryList.qml"
 
     width: 960

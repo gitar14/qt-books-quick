@@ -11,10 +11,11 @@ BookListModel::BookListModel(QObject *parent)
 QHash<int, QByteArray> BookListModel::roleNames() const
 {
     QHash<int, QByteArray> names;
-    names[Qt::UserRole] = "Kode";
-    names[Qt::UserRole + 1] = "Judul";
-    names[Qt::UserRole + 2] = "Pengarang";
-    names[Qt::UserRole + 3] = "Penerbit";
+    names[KodeRole] = "kode";
+    names[JudulRole] = "judul";
+    names[PenulisRole] = "penulis";
+    names[TahunTerbitRole] = "tahunTerbit";
+    names[KategoriRole] = "kategori";
     return names;
 }
 
@@ -33,7 +34,15 @@ QString BookListModel::getKodeByIndex(int index)
 void BookListModel::refresh()
 {
     QSqlQuery query;
-    if (!query.exec("SELECT Kode_Buku, Judul, Pengarang, Penerbit.Nm_penerbit FROM Buku JOIN Penerbit on Penerbit.Kode_Penerbit = Buku.Kode_Penerbit"))
+    if (!query.exec("SELECT"
+                    "   Buku.kd_buku,"
+                    "   Buku.judul,"
+                    "   Buku.penulis,"
+                    "   Buku.tahun_terbit,"
+                    "   Kategori.jenis "
+                    "FROM Buku"
+                    "   JOIN Kategori ON"
+                    "       Buku.kd_kategori = Kategori.kd_kategori"))
         qFatal() << query.lastError().text();
 
     setQuery(std::move(query));

@@ -8,35 +8,38 @@
 class BookListDetailModel : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString bookId READ bookId WRITE setBookId NOTIFY bookIdChanged)
-    Q_PROPERTY(QString judul READ judul NOTIFY bookIdChanged)
-    Q_PROPERTY(QString penulis READ penulis NOTIFY bookIdChanged)
-    Q_PROPERTY(int jumlahBuku READ jumlahBuku NOTIFY bookIdChanged)
-    Q_PROPERTY(QString kodePenerbit READ kodePenerbit NOTIFY bookIdChanged)
-    Q_PROPERTY(QString namaPenerbit READ namaPenerbit NOTIFY bookIdChanged)
+    Q_PROPERTY(QString kode READ kode WRITE setKode NOTIFY kodeChanged)
+    Q_PROPERTY(QString judul READ judul NOTIFY kodeChanged)
+    Q_PROPERTY(QString penulis READ penulis NOTIFY kodeChanged)
+    Q_PROPERTY(int jumlahBuku READ jumlahBuku NOTIFY kodeChanged)
+    Q_PROPERTY(QString kodeKategori READ kodeKategori NOTIFY kodeChanged)
+    Q_PROPERTY(QString jenis READ jenis NOTIFY kodeChanged)
+    Q_PROPERTY(int tahunTerbit READ tahunTerbit NOTIFY kodeChanged)
     QML_ELEMENT
 public:
     explicit BookListDetailModel(QObject *parent = nullptr);
 
-    QString bookId();
-    void setBookId(const QString &Id);
+    QString kode();
+    void setKode(const QString &Id);
 
     QString judul();
     QString penulis();
     int jumlahBuku();
-    QString kodePenerbit();
-    QString namaPenerbit();
+    QString kodeKategori();
+    QString jenis();
+    int tahunTerbit() const;
 
 signals:
-    void bookIdChanged();
+    void kodeChanged();
 
 private:
-    QString mBookId;
+    QString mKode;
     QString mJudul;
     QString mPenulis;
     int mJumlahBuku;
-    QString mKodePenerbit;
-    QString mNamaPenerbit;
+    QString mKodeKategori;
+    QString mJenis;
+    int mTahunTerbit;
 };
 
 #endif // BOOKLISTDETAILMODEL_H

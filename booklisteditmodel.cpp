@@ -8,46 +8,49 @@ BookListEditModel::BookListEditModel(QObject *parent)
     
 }
 
-QString BookListEditModel::bookId()
+QString BookListEditModel::kode()
 {
-    return mBookId;
+    return mKode;
 }
 
-void BookListEditModel::setBookId(QString Id)
+void BookListEditModel::setKodeId(QString Id)
 {
-    mBookId = Id;
-    emit bookIdChanged();
+    mKode = Id;
+    emit kodeChanged();
 
     QSqlQuery query;
 
     QString judul = "";
     QString penulis = "";
     int jumlahBuku = 0;
-    mPenerbitKode = "";
+    int tahunTerbit = 0;
+    mKodeKategori = "";
 
-    if (mBookId.length() != 0) {
-        query.prepare("SELECT * FROM Buku WHERE Kode_buku = :kode");
-        query.bindValue(":kode", mBookId);
+    if (mKode.length() != 0) {
+        query.prepare("SELECT * FROM Buku WHERE kd_buku = :kode");
+        query.bindValue(":kode", mKode);
 
         if (!query.exec())
             qFatal() << query.lastError().text();
 
         if (query.next()) {
             QSqlRecord record = query.record();
-            judul = record.value("Judul").toString();
-            penulis = record.value("Pengarang").toString();
-            jumlahBuku = record.value("Jml_buku").toInt();
-            mPenerbitKode = record.value("Kode_penerbit").toString();
+            judul = record.value("judul").toString();
+            penulis = record.value("penulis").toString();
+            jumlahBuku = record.value("jumlah_buku").toInt();
+            tahunTerbit = record.value("tahun_terbit").toInt();
+            mKodeKategori = record.value("kd_kategori").toString();
         }
     }
 
     setJudul(judul);
     setPenulis(penulis);
     setJumlahBuku(jumlahBuku);
+    setTahunTerbit(tahunTerbit);
 
-    mPenerbitList.clear();
+    mKategoriList.clear();
 
-    query.prepare("SELECT Kode_penerbit, Nm_penerbit FROM Penerbit");
+    query.prepare("SELECT kd_kategori, jenis FROM Kategori");
 
     if (!query.exec())
         qFatal() << query.lastError().text();
@@ -55,29 +58,29 @@ void BookListEditModel::setBookId(QString Id)
     while (query.next()) {
         QSqlRecord record = query.record();
 
-        mPenerbitList[record.value(0).toString()] = record.value(1).toString();
+        mKategoriList[record.value(0).toString()] = record.value(1).toString();
     }
 
-    emit penerbitListChanged();
+    emit kategoriListChanged();
 
-    int penerbitIndex = -1;
+    int kategoriIndex = -1;
 
-    if (mPenerbitKode.length() != 0) {
-        QStringList kodeList = mPenerbitList.keys();
+    if (mKodeKategori.length() != 0) {
+        QStringList kodeList = mKategoriList.keys();
         for (int i = 0; i < kodeList.length(); i++) {
-            if (kodeList[i] == mPenerbitKode) {
-                penerbitIndex = i;
+            if (kodeList[i] == mKodeKategori) {
+                kategoriIndex = i;
                 break;
             }
         }
     }
 
-    setPenerbitIndex(penerbitIndex);
+    setKategoriIndex(kategoriIndex);
 }
 
 void BookListEditModel::setIsNew()
 {
-    setBookId("");
+    setKodeId("");
 }
 
 QString BookListEditModel::judul()
@@ -95,14 +98,14 @@ int BookListEditModel::jumlahBuku()
     return mJumlahBuku;
 }
 
-int BookListEditModel::penerbitIndex()
+int BookListEditModel::kategoriIndex()
 {
-    return mPenerbitIndex;
+    return mKategoriIndex;
 }
 
-QStringList BookListEditModel::penerbitList()
+QStringList BookListEditModel::kategoriList()
 {
-    return mPenerbitList.values();
+    return mKategoriList.values();
 }
 
 void BookListEditModel::setJudul(QString judul)
@@ -126,22 +129,22 @@ void BookListEditModel::setJumlahBuku(int jumlah)
     emit jumlahBukuChanged();
 }
 
-void BookListEditModel::setPenerbitIndex(int index)
+void BookListEditModel::setKategoriIndex(int index)
 {
-    if (mPenerbitIndex == index) return;
-    mPenerbitIndex = index;
-    emit penerbitIndexChanged();
+    if (mKategoriIndex == index) return;
+    mKategoriIndex = index;
+    emit kategoriIndexChanged();
 
-    mPenerbitKode = mPenerbitList.keys().value(index);
-    qInfo() << mPenerbitKode;
+    mKodeKategori = mKategoriList.keys().value(index);
+    qInfo() << mKodeKategori;
 }
 
 void BookListEditModel::submit()
 {
     QSqlQuery query;
-    if (mBookId.length() == 0) {
+    if (mKode.length() == 0) {
         QSqlQuery idQuery;
-        if (!idQuery.exec("SELECT MAX(CAST(Kode_buku AS UNSIGNED)) FROM Buku"))
+        if (!idQuery.exec("SELECT MAX(CAST(kd_buku AS UNSIGNED)) FROM Buku"))
             qFatal() << "Error get max id " << idQuery.lastError();
 
         int maxId = -1;
@@ -150,38 +153,54 @@ void BookListEditModel::submit()
         }
 
         query.prepare("INSERT INTO Buku("
-                      " Kode_buku,"
-                      " Judul,"
-                      " Pengarang,"
-                      " Jml_Buku,"
-                      " Kode_Penerbit,"
-                      " Harga_Sebulan"
+                      " kd_buku,"
+                      " judul,"
+                      " penulis,"
+                      " jumlah_buku,"
+                      " tahun_terbit"
+                      " kd_kategori,"
                       ") VALUES ("
                       " :kode,"
                       " :judul,"
-                      " :pengarang,"
-                      " :jml_buku,"
-                      " :kode_penerbit,"
+                      " :penulis,"
+                      " :jumlah,"
+                      " :tahun_terbit,"
+                      " :kategori,"
                       " 0"
                       ")");
         query.bindValue(":kode", QString::number(maxId + 1).rightJustified(4, '0'));
     } else {
         query.prepare("UPDATE Buku SET "
-                      "Judul = :judul,"
-                      "Pengarang = :pengarang,"
-                      "Jml_Buku = :jml_buku,"
-                      "Kode_penerbit = :kode_penerbit "
-                      "WHERE Kode_buku = :kode");
-        query.bindValue(":kode", mBookId);
+                      "judul = :judul,"
+                      "penulis = :penulis,"
+                      "jumlah_buku = :jumlah,"
+                      "tahun_terbit = :tahun_terbit,"
+                      "kd_kategori = :kategori "
+                      "WHERE kd_buku = :kode");
+        query.bindValue(":kode", mKode);
     }
 
     query.bindValue(":judul", mJudul);
-    query.bindValue(":pengarang", mPenulis);
-    query.bindValue(":jml_buku", mJumlahBuku);
-    query.bindValue(":kode_penerbit", mPenerbitKode);
+    query.bindValue(":penulis", mPenulis);
+    query.bindValue(":jumlah", mJumlahBuku);
+    query.bindValue(":tahun_terbit", mTahunTerbit);
+    query.bindValue(":kategori", mKodeKategori);
 
     if (!query.exec())
         qFatal() << "Error submit " << query.lastError().text();
 
 
+}
+
+int BookListEditModel::tahunTerbit() const
+{
+    return mTahunTerbit;
+}
+
+void BookListEditModel::setTahunTerbit(int newTahunTerbit)
+{
+    if (mTahunTerbit == newTahunTerbit)
+        return;
+    mTahunTerbit = newTahunTerbit;
+    emit tahunTerbitChanged();
 }

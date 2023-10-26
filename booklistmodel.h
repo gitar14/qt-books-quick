@@ -9,6 +9,14 @@ class BookListModel : public QSqlQueryModel
     Q_OBJECT
     QML_ELEMENT
 public:
+    enum Role {
+        KodeRole = Qt::UserRole,
+        JudulRole,
+        PenulisRole,
+        TahunTerbitRole,
+        KategoriRole,
+    };
+
     explicit BookListModel(QObject *parent = nullptr);
 
     QHash<int, QByteArray> roleNames() const;

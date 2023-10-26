@@ -23,7 +23,7 @@ RowLayout {
             anchors.fill: parent
             anchors.margins: 16
             anchors.bottomMargin: 64 + 16 + 16
-            onCurrentItemChanged:  detailModel.bookId = model.getKodeByIndex(currentIndex)
+            onCurrentItemChanged:  detailModel.kode = model.getKodeByIndex(currentIndex)
 
             spacing: 8
             model: listModel
@@ -50,19 +50,15 @@ RowLayout {
                     padding: 8
 
                     Text {
-                        text: model.Kode
+                        text: model.judul
                     }
 
                     Text {
-                        text: model.Judul
+                        text: model.penulis
                     }
 
                     Text {
-                        text: model.Pengarang
-                    }
-
-                    Text {
-                        text: model.Penerbit
+                        text: model.kategori
                     }
                 }
             }
@@ -126,7 +122,7 @@ RowLayout {
 
             Text {
                 Layout.fillWidth: true
-                text: detailModel.bookId
+                text: detailModel.kode
             }
 
             Text {
@@ -148,12 +144,12 @@ RowLayout {
             }
 
             Text {
-                text: "Penerbit"
+                text: "Kategori"
             }
 
             Text {
                 Layout.fillWidth: true
-                text: detailModel.namaPenerbit
+                text: detailModel.jenis
             }
 
             Text {
@@ -178,7 +174,7 @@ RowLayout {
                 Button {
                     text: "Edit"
                     onClicked: {
-                        editModel.bookId = detailModel.bookId
+                        editModel.kode = detailModel.kode
                         editDialog.open()
                     }
                 }
@@ -231,7 +227,7 @@ RowLayout {
 
 
                 Label {
-                    text: "Pengarang"
+                    text: "Penulis"
                 }
 
                 TextField {
@@ -241,14 +237,14 @@ RowLayout {
                 }
 
                 Label {
-                    text: "Penerbit"
+                    text: "Kategori"
                 }
 
                 ComboBox {
                     Layout.fillWidth: true
-                    model: editModel.penerbitList
-                    currentIndex: editModel.penerbitIndex
-                    onCurrentIndexChanged: editModel.penerbitIndex = currentIndex
+                    model: editModel.kategoriList
+                    currentIndex: editModel.kategoriIndex
+                    onCurrentIndexChanged: editModel.kategoriIndex = currentIndex
                 }
 
 
@@ -260,6 +256,16 @@ RowLayout {
                     Layout.fillWidth: true
                     value: editModel.jumlahBuku
                     onValueChanged: editModel.jumlahBuku = value
+                }
+
+                Label {
+                    text: "Tahun Terbit"
+                }
+
+                SpinBox {
+                    Layout.fillWidth: true
+                    value: editModel.tahunTerbit
+                    onValueChanged: editModel.tahunTerbit = value
                 }
             }
         }

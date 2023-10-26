@@ -16,7 +16,7 @@ qt_add_qml_module(appqt-books-qml
     URI qt-books-qml
     VERSION 1.0
     QML_FILES Main.qml
-    SOURCES penerbitmodel.h penerbitmodel.cpp
+    SOURCES kategorimodel.h kategorimodel.cpp
     QML_FILES CategoryList.qml
     SOURCES booklistmodel.h booklistmodel.cpp
     QML_FILES BookList.qml

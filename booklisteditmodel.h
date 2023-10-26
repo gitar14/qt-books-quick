@@ -7,49 +7,56 @@
 class BookListEditModel : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString bookId READ bookId WRITE setBookId NOTIFY bookIdChanged)
+    Q_PROPERTY(QString kode READ kode WRITE setKodeId NOTIFY kodeChanged)
     Q_PROPERTY(QString judul READ judul WRITE setJudul NOTIFY judulChanged)
     Q_PROPERTY(QString penulis READ penulis WRITE setPenulis NOTIFY penulisChanged)
     Q_PROPERTY(int jumlahBuku READ jumlahBuku WRITE setJumlahBuku NOTIFY jumlahBukuChanged)
-    Q_PROPERTY(int penerbitIndex READ penerbitIndex WRITE setPenerbitIndex NOTIFY penerbitIndexChanged)
-    Q_PROPERTY(QStringList penerbitList READ penerbitList NOTIFY penerbitListChanged)
+    Q_PROPERTY(int kategoriIndex READ kategoriIndex WRITE setKategoriIndex NOTIFY kategoriIndexChanged)
+    Q_PROPERTY(QStringList kategoriList READ kategoriList NOTIFY kategoriListChanged)
+    Q_PROPERTY(int tahunTerbit READ tahunTerbit WRITE setTahunTerbit NOTIFY tahunTerbitChanged)
     QML_ELEMENT
 public:
     explicit BookListEditModel(QObject *parent = nullptr);
 
-    QString bookId();
-    void setBookId(QString Id);
+    QString kode();
+    void setKodeId(QString Id);
 
     Q_INVOKABLE void setIsNew();
 
     QString judul();
     QString penulis();
     int jumlahBuku();
-    int penerbitIndex();
-    QStringList penerbitList();
+    int kategoriIndex();
+    QStringList kategoriList();
 
     void setJudul(QString judul);
     void setPenulis(QString penulis);
     void setJumlahBuku(int jumlah);
-    void setPenerbitIndex(int index);
+    void setKategoriIndex(int index);
 
     Q_INVOKABLE void submit();
+    int tahunTerbit() const;
+    void setTahunTerbit(int newTahunTerbit);
+
 signals:
-    void bookIdChanged();
+    void kodeChanged();
     void judulChanged();
     void penulisChanged();
     void jumlahBukuChanged();
-    void penerbitIndexChanged();
-    void penerbitListChanged();
+    void kategoriIndexChanged();
+    void kategoriListChanged();
+
+    void tahunTerbitChanged();
 
 private:
-    QString mBookId;
+    QString mKode;
     QString mJudul;
     QString mPenulis;
     int mJumlahBuku;
-    QString mPenerbitKode;
-    QMap<QString, QString> mPenerbitList;
-    int mPenerbitIndex;
+    QString mKodeKategori;
+    QMap<QString, QString> mKategoriList;
+    int mKategoriIndex;
+    int mTahunTerbit;
 };
 
 #endif // BOOKLISTEDITMODEL_H
