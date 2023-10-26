@@ -3,18 +3,7 @@
 KategoriModel::KategoriModel(QObject *parent)
     : QSqlQueryModel{parent}
 {
-    QSqlQuery query;
-    if (!query.exec("SELECT"
-                    "   kd_kategori,"
-                    "   jenis "
-                    "FROM Kategori"))
-        qFatal("Cannot query Kategori: %s", qPrintable(query.lastError().text()));
-
-    setQuery(std::move(query));
-
-    if (lastError().isValid()) {
-        qFatal("Cannot move Kategori query: %s", qPrintable(lastError().text()));
-    }
+    refresh();
 }
 
 QHash<int, QByteArray> KategoriModel::roleNames() const
@@ -39,4 +28,79 @@ QVariant KategoriModel::data(const QModelIndex &item, int role) const
         }
     }
     return value;
+}
+
+void KategoriModel::refresh()
+{
+    QSqlQuery query;
+    if (!query.exec("SELECT"
+                    "   kd_kategori,"
+                    "   jenis "
+                    "FROM Kategori"))
+        qFatal("Cannot query Kategori: %s", qPrintable(query.lastError().text()));
+
+    setQuery(std::move(query));
+
+    if (lastError().isValid()) {
+        qFatal("Cannot move Kategori query: %s", qPrintable(lastError().text()));
+    }
+}
+
+void KategoriModel::addNew(QString jenis)
+{
+    QSqlQuery query;
+    if (!query.exec("SELECT MAX(CAST(kd_kategori AS UNSIGNED)) FROM Kategori"))
+        qFatal() << "Error get max id " << query.lastError();
+
+    int maxId = -1;
+    if (query.next()) {
+        maxId = query.value(0).toInt();
+    }
+
+    query.prepare("INSERT INTO Kategori("
+               "   kd_kategori,"
+               "   jenis"
+               ") VALUES ("
+               "   :kode,"
+               "   :jenis"
+               ")");
+
+    query.bindValue(":kode", QString::number(maxId + 1).rightJustified(4, '0'));
+    query.bindValue(":jenis", jenis);
+
+    if (!query.exec())
+        qFatal() << "Cannot add Kategori " << query.lastError().text();
+
+    refresh();
+}
+
+void KategoriModel::edit(QString kode, QString jenis)
+{
+    QSqlQuery query;
+
+    query.prepare("UPDATE Kategori SET "
+                  " jenis = :jenis "
+                  "WHERE kd_kategori = :kode");
+
+    query.bindValue(":kode", kode);
+    query.bindValue(":jenis", jenis);
+
+    if (!query.exec())
+        qFatal() << "Cannot edit Kategori " << query.lastError().text();
+
+    refresh();
+}
+
+void KategoriModel::remove(QString kode)
+{
+    QSqlQuery query;
+
+    query.prepare("DELETE FROM Kategori WHERE kd_kategori = :kode");
+
+    query.bindValue(":kode", kode);
+
+    if (!query.exec())
+        qFatal() << "Cannot remove Kategori " << query.lastError().text();
+
+    refresh();
 }

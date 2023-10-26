@@ -25,7 +25,7 @@ Window {
                         view: "BookList.qml"
                     }
                     ListElement {
-                        name: "Kategori B"
+                        name: "Kategori"
                         view: "CategoryList.qml"
                     }
                 }
