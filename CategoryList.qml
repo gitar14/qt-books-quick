@@ -55,7 +55,7 @@ RowLayout {
                             Layout.fillHeight: true
                         }
 
-                        Text {
+                        Label {
                             text: model.jenis
                             Layout.alignment: Qt.AlignHCenter
                         }
@@ -104,6 +104,7 @@ RowLayout {
             anchors.margins: 16
             columns: 2
             columnSpacing: 16
+            visible: currentItemData ? true : false
 
             Label {
                 text: "Kode"
@@ -147,6 +148,17 @@ RowLayout {
                 }
             }
         }
+
+        Label {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.margins: 16
+            visible: currentItemData ? false : true
+
+            text: "Tidak ada kategori yang terpilih"
+        }
     }
 
 
@@ -172,6 +184,7 @@ RowLayout {
                      currentKode,
                      jenisTextField.text
                 )
+            isNew = false
         }
 
         ColumnLayout {
