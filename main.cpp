@@ -9,6 +9,7 @@
 #include "booklistmodel.h"
 #include "booklistdetailmodel.h"
 #include "booklisteditmodel.h"
+#include "penerbitmodel.h"
 
 void initializeDatabase(QSqlDatabase &db) {
     QSqlQuery query;
@@ -17,6 +18,12 @@ void initializeDatabase(QSqlDatabase &db) {
                     "   jenis VARCHAR(25) NOT NULL"
                     ")"))
         qFatal() << "Cannot create Kategori table " << query.lastError().text();
+    if (!query.exec("CREATE TABLE IF NOT EXISTS Penerbit("
+                    "   kd_penerbit VARCHAR (4) NOT NULL PRIMARY KEY,"
+                    "   nama_penerbit VARCHAR(25) NOT NULL,"
+                    "   alamat_penerbit VARCHAR(30) NOT NULL"
+                    ")"))
+         qFatal() << "Cannot create Penerbit table " << query.lastError().text();
 
     if (!query.exec("CREATE TABLE IF NOT EXISTS Buku("
                     "   kd_buku VARCHAR(4) NOT NULL PRIMARY KEY,"
@@ -56,6 +63,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<BookListDetailModel>("my.id.levirs.books", 1, 0, "BookListDetailModel");
     qmlRegisterType<BookListEditModel>("my.id.levirs.books", 1, 0, "BookListEditModel");
     qmlRegisterType<KategoriModel>("my.id.levirs.books", 1, 0, "KategoriModel");
+    qmlRegisterType<PenerbitModel>("Kelompok7.Perpus", 1, 0, "PenerbitModel");
 
     QQuickStyle::setStyle("Material");
 

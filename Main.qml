@@ -28,6 +28,10 @@ Window {
                         name: "Kategori"
                         view: "CategoryList.qml"
                     }
+                    ListElement{
+                        name : "Penerbit"
+                        view : "PenerbitList.qml"
+                    }
                 }
 
                 delegate: Rectangle {
