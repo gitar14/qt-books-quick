@@ -3,7 +3,6 @@
 #include <QQuickStyle>
 #include <QtSql>
 #include <QDir>
-//#include <QFile>
 
 #include "kategorimodel.h"
 #include "booklistmodel.h"
@@ -69,12 +68,6 @@ int main(int argc, char *argv[])
     QDir().mkdir(dataDir);
 
     QString dbPath = dataDir + "/data.db";
-//    QFile dbFile(dbPath);
-//    if (!dbFile.exists()) {
-//        dbFile.open(QFile::WriteOnly);
-//        dbFile.close();
-//    }
-
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(dbPath);
@@ -90,7 +83,6 @@ int main(int argc, char *argv[])
         &app, []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
 
-    KategoriModel model;
     engine.loadFromModule("qt-books-qml", "Main");
 
     return app.exec();
