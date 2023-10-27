@@ -19,11 +19,9 @@ void BookListDetailModel::setKode(const QString &Id)
     QSqlQuery query;
     query.prepare(
         "SELECT"
-        "   Buku.*,"
-        "   Kategori.jenis "
+        "   kd_kategori,"
+        "   jumlah_buku "
         "FROM Buku "
-        "   JOIN Kategori ON "
-        "       Kategori.kd_kategori = Buku.kd_kategori "
         "WHERE Buku.kd_buku = :kode"
         );
     query.bindValue(":kode", mKode);
@@ -33,31 +31,13 @@ void BookListDetailModel::setKode(const QString &Id)
 
     if (query.next()) {
         QSqlRecord record = query.record();
-        mJudul = record.value("judul").toString();
-        mPenulis = record.value("penulis").toString();
         mJumlahBuku = record.value("jumlah_buku").toInt();
         mKodeKategori = record.value("kd_kategori").toString();
-        mJenis = record.value("jenis").toString();
-        mTahunTerbit = record.value("tahunTerbit").toInt();
     } else {
-        mJudul = "";
-        mPenulis = "";
         mJumlahBuku = 0;
         mKodeKategori = "";
-        mJenis = "";
-        mTahunTerbit = 0;
     }
     emit kodeChanged();
-}
-
-QString BookListDetailModel::judul()
-{
-    return mJudul;
-}
-
-QString BookListDetailModel::penulis()
-{
-    return mPenulis;
 }
 
 int BookListDetailModel::jumlahBuku()
@@ -68,14 +48,4 @@ int BookListDetailModel::jumlahBuku()
 QString BookListDetailModel::kodeKategori()
 {
     return mKodeKategori;
-}
-
-QString BookListDetailModel::jenis()
-{
-    return mJenis;
-}
-
-int BookListDetailModel::tahunTerbit() const
-{
-    return mTahunTerbit;
 }

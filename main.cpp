@@ -8,7 +8,6 @@
 #include "kategorimodel.h"
 #include "booklistmodel.h"
 #include "booklistdetailmodel.h"
-#include "booklisteditmodel.h"
 #include "penerbitmodel.h"
 
 void initializeDatabase(QSqlDatabase &db) {
@@ -61,7 +60,6 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<BookListModel>("my.id.levirs.books", 1, 0, "BookListModel");
     qmlRegisterType<BookListDetailModel>("my.id.levirs.books", 1, 0, "BookListDetailModel");
-    qmlRegisterType<BookListEditModel>("my.id.levirs.books", 1, 0, "BookListEditModel");
     qmlRegisterType<KategoriModel>("my.id.levirs.books", 1, 0, "KategoriModel");
     qmlRegisterType<PenerbitModel>("Kelompok7.Perpus", 1, 0, "PenerbitModel");
 

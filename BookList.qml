@@ -8,18 +8,26 @@ RowLayout {
         id: detailModel
     }
 
-    BookListEditModel {
-        id: editModel
-    }
-
     BookListModel {
         id: listModel
     }
+
+    KategoriModel {
+        id: bukuKategoriModel
+    }
+
+    property var currentItemData: bukuListView.currentItem ? bukuListView.currentItem.itemData : null
+    property var currentKode: currentItemData ? currentItemData.kode : ""
+    property var currentJudul: currentItemData ? currentItemData.judul : ""
+    property var currentPenulis: currentItemData ? currentItemData.penulis : ""
+    property var currentTahunTerbit: currentItemData ? currentItemData.tahunTerbit : ""
+    property var currenKategori: currentItemData ? currentItemData.kategori : ""
 
     Rectangle {
         Layout.fillHeight: true
         Layout.fillWidth: true
         ListView {
+            id: bukuListView
             anchors.fill: parent
             anchors.margins: 16
             anchors.bottomMargin: 64 + 16 + 16
@@ -30,6 +38,7 @@ RowLayout {
 
             delegate: Rectangle {
                 property var listView: ListView.view
+                property var itemData: model
                 width: ListView.view.width
                 height: column.height
 
@@ -47,7 +56,7 @@ RowLayout {
                 Column {
                     id: column
                     width: parent.width
-                    padding: 8
+                    padding: 16
 
                     Text {
                         text: model.judul
@@ -77,7 +86,12 @@ RowLayout {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    editModel.setIsNew()
+                    editDialog.kode = ""
+                    editDialog.judul = ""
+                    editDialog.penulis = ""
+                    editDialog.jumlahBuku = 0
+                    editDialog.tahunTerbit = 0
+                    editDialog.kodeKategori = ""
                     editDialog.open()
                 }
             }
@@ -122,7 +136,7 @@ RowLayout {
 
             Text {
                 Layout.fillWidth: true
-                text: detailModel.kode
+                text: currentKode
             }
 
             Text {
@@ -131,16 +145,16 @@ RowLayout {
 
             Text {
                 Layout.fillWidth: true
-                text: detailModel.judul
+                text: currentJudul
             }
 
             Text {
-                text: "Pengarang"
+                text: "Penulis"
             }
 
             Text {
                 Layout.fillWidth: true
-                text: detailModel.penulis
+                text: currentPenulis
             }
 
             Text {
@@ -149,7 +163,7 @@ RowLayout {
 
             Text {
                 Layout.fillWidth: true
-                text: detailModel.jenis
+                text: currenKategori
             }
 
             Text {
@@ -159,6 +173,15 @@ RowLayout {
             Text {
                 Layout.fillWidth: true
                 text: detailModel.jumlahBuku
+            }
+
+            Text {
+                text: "Tahun Terbit"
+            }
+
+            Text {
+                Layout.fillWidth: true
+                text: currentTahunTerbit
             }
 
 
@@ -174,7 +197,12 @@ RowLayout {
                 Button {
                     text: "Edit"
                     onClicked: {
-                        editModel.kode = detailModel.kode
+                        editDialog.kode = currentKode
+                        editDialog.judul = currentJudul
+                        editDialog.penulis = currentPenulis
+                        editDialog.jumlahBuku = detailModel.jumlahBuku
+                        editDialog.tahunTerbit = currentTahunTerbit
+                        editDialog.kodeKategori = detailModel.kodeKategori
                         editDialog.open()
                     }
                 }
@@ -187,6 +215,13 @@ RowLayout {
     }
 
     Dialog {
+        property string kode: ""
+        property string judul: ""
+        property string penulis: ""
+        property int jumlahBuku: 0
+        property int tahunTerbit: 0
+        property string kodeKategori: ""
+
         id: editDialog
         parent: Overlay.overlay
 
@@ -196,12 +231,27 @@ RowLayout {
         contentHeight: editDialogColumn.height
 
         modal: true
-        title: "Edit Buku"
+        title: kode == "" ? "Tambah Buku" : "Edit Buku"
         standardButtons: Dialog.Ok | Dialog.Cancel
 
         onAccepted: {
-            editModel.submit()
-            listModel.refresh()
+            if (kode == "")
+                listModel.addNew(
+                    judul,
+                    penulis,
+                    jumlahBuku,
+                    tahunTerbit,
+                    kodeKategori
+                )
+            else
+                listModel.edit(
+                    kode,
+                    judul,
+                    penulis,
+                    jumlahBuku,
+                    tahunTerbit,
+                    kodeKategori
+                )
         }
 
         Flickable {
@@ -221,8 +271,8 @@ RowLayout {
 
                 TextField {
                     Layout.fillWidth: true
-                    text: editModel.judul
-                    onTextChanged: editModel.judul = text
+                    text: editDialog.judul
+                    onTextChanged: editDialog.judul = text
                 }
 
 
@@ -232,8 +282,8 @@ RowLayout {
 
                 TextField {
                     Layout.fillWidth: true
-                    text: editModel.penulis
-                    onTextChanged: editModel.penulis = text
+                    text: editDialog.penulis
+                    onTextChanged: editDialog.penulis = text
                 }
 
                 Label {
@@ -242,9 +292,12 @@ RowLayout {
 
                 ComboBox {
                     Layout.fillWidth: true
-                    model: editModel.kategoriList
-                    currentIndex: editModel.kategoriIndex
-                    onCurrentIndexChanged: editModel.kategoriIndex = currentIndex
+                    model: bukuKategoriModel
+                    valueRole: "kode"
+                    textRole: "jenis"
+                    editable: true
+                    currentIndex: bukuKategoriModel.getIndexByKode(editDialog.kodeKategori)
+                    onCurrentValueChanged: editDialog.kodeKategori = currentValue
                 }
 
 
@@ -254,8 +307,11 @@ RowLayout {
 
                 SpinBox {
                     Layout.fillWidth: true
-                    value: editModel.jumlahBuku
-                    onValueChanged: editModel.jumlahBuku = value
+                    value: editDialog.jumlahBuku
+                    onValueChanged: editDialog.jumlahBuku = value
+                    editable: true
+                    from: 0
+                    to: 10000
                 }
 
                 Label {
@@ -264,8 +320,11 @@ RowLayout {
 
                 SpinBox {
                     Layout.fillWidth: true
-                    value: editModel.tahunTerbit
-                    onValueChanged: editModel.tahunTerbit = value
+                    value: editDialog.tahunTerbit
+                    onValueChanged: editDialog.tahunTerbit = value
+                    editable: true
+                    from: 0
+                    to: 10000
                 }
             }
         }

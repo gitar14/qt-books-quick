@@ -24,6 +24,21 @@ public:
 
     Q_INVOKABLE QString getKodeByIndex(int index);
     Q_INVOKABLE void refresh();
+    Q_INVOKABLE void addNew(
+        QString judul,
+        QString penulis,
+        int jumlahBuku,
+        int tahunTerbit,
+        QString kodeKategori
+    );
+    Q_INVOKABLE void edit(
+        QString kode,
+        QString judul,
+        QString penulis,
+        int jumlahBuku,
+        int tahunTerbit,
+        QString kodeKategori
+    );
 };
 
 #endif // BOOKLISTMODEL_H

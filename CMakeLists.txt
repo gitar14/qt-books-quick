@@ -22,7 +22,7 @@ qt_add_qml_module(appqt-books-qml
     QML_FILES BookList.qml
     SOURCES booklistdetailmodel.h booklistdetailmodel.cpp
     SOURCES booklistdetailmodel.h booklistdetailmodel.cpp
-    SOURCES booklisteditmodel.h booklisteditmodel.cpp
+    SOURCES
     QML_FILES PenerbitList.qml
     SOURCES penerbitmodel.h penerbitmodel.cpp
 )

@@ -49,3 +49,65 @@ void BookListModel::refresh()
     if (lastError().isValid())
         qFatal() << lastError().text();
 }
+
+void BookListModel::addNew(QString judul, QString penulis, int jumlahBuku, int tahunTerbit, QString kodeKategori)
+{
+    QSqlQuery query;
+    if (!query.exec("SELECT MAX(CAST(kd_buku AS UNSIGNED)) FROM Buku"))
+        qFatal() << "Error get max id " << query.lastError();
+
+    int maxId = -1;
+    if (query.next()) {
+        maxId = query.value(0).toInt();
+    }
+
+    query.prepare("INSERT INTO Buku("
+                  " kd_buku,"
+                  " judul,"
+                  " penulis,"
+                  " jumlah_buku,"
+                  " tahun_terbit,"
+                  " kd_kategori"
+                  ") VALUES ("
+                  " :kode,"
+                  " :judul,"
+                  " :penulis,"
+                  " :jumlah,"
+                  " :tahun_terbit,"
+                  " :kategori"
+                  ")");
+    query.bindValue(":kode", QString::number(maxId + 1).rightJustified(4, '0'));
+    query.bindValue(":judul", judul);
+    query.bindValue(":penulis", penulis);
+    query.bindValue(":jumlah", jumlahBuku);
+    query.bindValue(":tahun_terbit", tahunTerbit);
+    query.bindValue(":kategori", kodeKategori);
+
+    if (!query.exec())
+        qFatal() << "Cannot add Buku " << query.lastError().text();
+
+    refresh();
+}
+
+void BookListModel::edit(QString kode, QString judul, QString penulis, int jumlahBuku, int tahunTerbit, QString kodeKategori)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE Buku SET "
+                  "judul = :judul,"
+                  "penulis = :penulis,"
+                  "jumlah_buku = :jumlah,"
+                  "tahun_terbit = :tahun_terbit,"
+                  "kd_kategori = :kategori "
+                  "WHERE kd_buku = :kode");
+    query.bindValue(":kode", kode);
+    query.bindValue(":judul", judul);
+    query.bindValue(":penulis", penulis);
+    query.bindValue(":jumlah", jumlahBuku);
+    query.bindValue(":tahun_terbit", tahunTerbit);
+    query.bindValue(":kategori", kodeKategori);
+
+    if (!query.exec())
+        qFatal() << "Cannot edit Buku " << query.lastError().text();
+
+    refresh();
+}
