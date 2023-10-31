@@ -39,6 +39,9 @@ public:
         int tahunTerbit,
         QString kodeKategori
     );
+    Q_INVOKABLE void setIgnoredKodeList(QStringList ignoredIdList);
+private:
+    QStringList mIgnoredKodeList;
 };
 
 #endif // BOOKLISTMODEL_H

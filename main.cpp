@@ -8,6 +8,9 @@
 #include "booklistmodel.h"
 #include "booklistdetailmodel.h"
 #include "penerbitmodel.h"
+#include "pengadaanbukumodel.h"
+#include "editablepengadaanbukumodel.h"
+#include "pengadaanmodel.h"
 
 void initializeDatabase(QSqlDatabase &db) {
     QSqlQuery query;
@@ -44,6 +47,7 @@ void initializeDatabase(QSqlDatabase &db) {
     if (!query.exec("CREATE TABLE IF NOT EXISTS Pengadaan_buku("
                     "   kd_buku VARCHAR(4) NOT NULL,"
                     "   kd_pengadaan VARCHAR(4) NOT NULL,"
+                    "   jumlah_pengadaan_buku INT NOT NULL,"
                     "   PRIMARY KEY (kd_buku, kd_pengadaan),"
                     "   FOREIGN KEY (kd_buku)"
                     "       REFERENCES Buku(kd_buku),"
@@ -61,6 +65,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<BookListDetailModel>("my.id.levirs.books", 1, 0, "BookListDetailModel");
     qmlRegisterType<KategoriModel>("my.id.levirs.books", 1, 0, "KategoriModel");
     qmlRegisterType<PenerbitModel>("Kelompok7.Perpus", 1, 0, "PenerbitModel");
+    qmlRegisterType<PengadaanBukuModel>("Kelompok7.Perpus", 1, 0, "PengadaanBukuModel");
+    qmlRegisterType<EditablePengadaanBukuModel>("Kelompok7.Perpus", 1, 0, "EditablePengadaanBukuModel");
+    qmlRegisterType<PengadaanModel>("Kelompok7.Perpus", 1, 0, "PengadaanModel");
 
     QQuickStyle::setStyle("Material");
 

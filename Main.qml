@@ -32,6 +32,10 @@ Window {
                         name : "Penerbit"
                         view : "PenerbitList.qml"
                     }
+                    ListElement {
+                        name: "Pengadaan Buku"
+                        view: "PengadaanList.qml"
+                    }
                 }
 
                 delegate: Rectangle {
