@@ -106,11 +106,11 @@ void BookListModel::refresh()
     }
 
     if (!query.exec())
-        qFatal() << query.lastError().text();
+        qFatal() << "Cannot query for Buku " << query.lastError().text();
 
     setQuery(std::move(query));
     if (lastError().isValid())
-        qFatal() << lastError().text();
+        qFatal() << "Cannot set query for Buku " << lastError().text();
 }
 
 void BookListModel::addNew(QString judul, QString penulis, int jumlahBuku, int tahunTerbit, QString kodeKategori, QString kodePenerbit)
