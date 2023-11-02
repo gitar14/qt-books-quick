@@ -61,7 +61,8 @@ void initializeDatabase(QSqlDatabase &db) {
         qFatal() << "Cannot create Pengadaan_buku table " << query.lastError().text();
     if (!query.exec("CREATE TABLE IF NOT EXISTS Member("
                     "   kd_member VARCHAR (4) NOT NULL PRIMARY KEY,"
-                    "   nama_member VARCHAR(25) NOT NULL,"
+                    "   nama_depan_member VARCHAR(25) NOT NULL,"
+                    "   nama_belakang_member VARCHAR(25) NOT NULL,"
                     "   tgl_lahir VARCHAR(30) NOT NULL"
                     ")"))
         qFatal() << "Cannot create Member table " << query.lastError().text();
