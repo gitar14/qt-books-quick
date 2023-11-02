@@ -70,6 +70,35 @@ void PenerbitModel::add(QString nama, QString alamat)
     refresh();
 }
 
+void PenerbitModel::edit(QString kode, QString nama, QString alamat)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE Penerbit SET"
+                  " nama_penerbit = :nama,"
+                  " alamat_penerbit = :alamat "
+                  "WHERE kd_penerbit = :kode");
+    query.bindValue(":nama",nama);
+    query.bindValue(":alamat",alamat);
+    query.bindValue(":kode",kode);
+
+    if(!query.exec())
+        qFatal()<< "Cannot edit Penerbit" << query.lastError().text();
+
+    refresh();
+}
+
+void PenerbitModel::remove(QString kode)
+{
+    QSqlQuery query;
+    query.prepare("DELETE from Penerbit where kd_penerbit = :kode");
+    query.bindValue(":kode",kode);
+
+    if(!query.exec())
+        qFatal()<< "Cannot delete Penerbit" << query.lastError().text();
+
+    refresh();
+}
+
 void PenerbitModel::refresh()
 {
     QSqlQuery query;

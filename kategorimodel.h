@@ -23,6 +23,7 @@ public:
     Q_INVOKABLE void addNew(QString jenis);
     Q_INVOKABLE void edit(QString kode, QString jenis);
     Q_INVOKABLE void remove(QString kode);
+    Q_INVOKABLE int getIndexByKode(QString kode);
 };
 
 #endif // KATEGORIMODEL_H

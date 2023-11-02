@@ -104,3 +104,14 @@ void KategoriModel::remove(QString kode)
 
     refresh();
 }
+
+int KategoriModel::getIndexByKode(QString kode)
+{
+    int count = rowCount();
+    for (int i = 0; i < count; i++) {
+        if (data(index(i, 0), KodeRole).toString() == kode) {
+            return i;
+        }
+    }
+    return -1;
+}

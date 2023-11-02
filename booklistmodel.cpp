@@ -33,19 +33,123 @@ QString BookListModel::getKodeByIndex(int index)
 
 void BookListModel::refresh()
 {
+    QString filter = "";
+    QMap<QString, QVariant> filterBinds;
+
+    if (mIgnoredKodeList.length() > 0) {
+        QStringList paramNameList;
+        QStringListIterator ignoredKodeIterator(mIgnoredKodeList);
+
+        int index = 0;
+        while (ignoredKodeIterator.hasNext()) {
+
+            QString ignoredKode = ignoredKodeIterator.next();
+            QString paramName = ":ignored_kode_" + QString::number(index);
+
+            paramNameList.append(paramName);
+            filterBinds[paramName] = ignoredKode;
+
+            index++;
+        }
+
+        filter.append(QString("Buku.kd_buku NOT IN (%1)").arg(paramNameList.join(",")));
+    }
+
     QSqlQuery query;
-    if (!query.exec("SELECT"
-                    "   Buku.kd_buku,"
-                    "   Buku.judul,"
-                    "   Buku.penulis,"
-                    "   Buku.tahun_terbit,"
-                    "   Kategori.jenis "
-                    "FROM Buku"
-                    "   JOIN Kategori ON"
-                    "       Buku.kd_kategori = Kategori.kd_kategori"))
+
+    QString queryString = "SELECT"
+                          "   Buku.kd_buku,"
+                          "   Buku.judul,"
+                          "   Buku.penulis,"
+                          "   Buku.tahun_terbit,"
+                          "   Kategori.jenis "
+                          "FROM Buku"
+                          "   JOIN Kategori ON"
+                          "       Buku.kd_kategori = Kategori.kd_kategori ";
+    if (filter.length() > 0)
+        queryString.append("WHERE ").append(filter);
+    query.prepare(queryString);
+
+    QMapIterator<QString, QVariant> filterBindsIterator(filterBinds);
+
+    while (filterBindsIterator.hasNext()) {
+        filterBindsIterator.next();
+        query.bindValue(filterBindsIterator.key(), filterBindsIterator.value());
+    }
+
+    if (!query.exec())
         qFatal() << query.lastError().text();
 
     setQuery(std::move(query));
     if (lastError().isValid())
         qFatal() << lastError().text();
+}
+
+void BookListModel::addNew(QString judul, QString penulis, int jumlahBuku, int tahunTerbit, QString kodeKategori)
+{
+    QSqlQuery query;
+    if (!query.exec("SELECT MAX(CAST(kd_buku AS UNSIGNED)) FROM Buku"))
+        qFatal() << "Error get max id " << query.lastError();
+
+    int maxId = -1;
+    if (query.next()) {
+        maxId = query.value(0).toInt();
+    }
+
+    query.prepare("INSERT INTO Buku("
+                  " kd_buku,"
+                  " judul,"
+                  " penulis,"
+                  " jumlah_buku,"
+                  " tahun_terbit,"
+                  " kd_kategori"
+                  ") VALUES ("
+                  " :kode,"
+                  " :judul,"
+                  " :penulis,"
+                  " :jumlah,"
+                  " :tahun_terbit,"
+                  " :kategori"
+                  ")");
+
+    query.bindValue(":kode", QString::number(maxId + 1).rightJustified(4, '0'));
+    query.bindValue(":judul", judul);
+    query.bindValue(":penulis", penulis);
+    query.bindValue(":jumlah", jumlahBuku);
+    query.bindValue(":tahun_terbit", tahunTerbit);
+    query.bindValue(":kategori", kodeKategori);
+
+    if (!query.exec())
+        qFatal() << "Cannot add Buku " << query.lastError().text();
+
+    refresh();
+}
+
+void BookListModel::edit(QString kode, QString judul, QString penulis, int jumlahBuku, int tahunTerbit, QString kodeKategori)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE Buku SET "
+                  "judul = :judul,"
+                  "penulis = :penulis,"
+                  "jumlah_buku = :jumlah,"
+                  "tahun_terbit = :tahun_terbit,"
+                  "kd_kategori = :kategori "
+                  "WHERE kd_buku = :kode");
+    query.bindValue(":kode", kode);
+    query.bindValue(":judul", judul);
+    query.bindValue(":penulis", penulis);
+    query.bindValue(":jumlah", jumlahBuku);
+    query.bindValue(":tahun_terbit", tahunTerbit);
+    query.bindValue(":kategori", kodeKategori);
+
+    if (!query.exec())
+        qFatal() << "Cannot edit Buku " << query.lastError().text();
+
+    refresh();
+}
+
+void BookListModel::setIgnoredKodeList(QStringList ignoredIdList)
+{
+    mIgnoredKodeList = ignoredIdList;
+    refresh();
 }
