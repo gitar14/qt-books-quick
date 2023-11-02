@@ -21,6 +21,7 @@ public:
     QVariant data(const QModelIndex &item, int role) const;
 
     Q_INVOKABLE void add(QString nama, QString alamat);
+    Q_INVOKABLE void edit(QString kode, QString nama, QString alamat);
 
     void refresh();
 };
