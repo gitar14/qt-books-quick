@@ -104,6 +104,7 @@ RowLayout {
         GridLayout{
             anchors.fill: parent
             columns: 2
+            visible: penerbitDetailFrame.penerbitKode!=""
 
             Label{
             text: "Kode"
@@ -136,16 +137,25 @@ RowLayout {
 
             Row {
             Layout.columnSpan: 2
+            spacing: 8
             Button{
             text: "Edit"
-            onClicked: {
+                onClicked: {
                 editPenerbitDialog.penerbitKode = penerbitDetailFrame.penerbitKode
                 editPenerbitDialog.penerbitNama = penerbitDetailFrame.penerbitNama
                 editPenerbitDialog.penerbitAlamat = penerbitDetailFrame.penerbitAlamat
                 editPenerbitDialog.open()
+                }
+            }
+            Button{
+                text: "Hapus"
+                    onClicked: penerbitModel.remove(penerbitDetailFrame.penerbitKode)
             }
             }
-            }
+        }
+        Label {
+            text: "Tidak Ada Data"
+            visible: penerbitDetailFrame.penerbitKode==""
         }
     }
 
