@@ -123,12 +123,13 @@ RowLayout {
         }
     }
 
-    Rectangle {
+    Frame {
         id: bookDetailFrame
-        border.color: "#dedede"
-        border.width: 1
-        radius: 16
+//        border.color: "#dedede"
+//        border.width: 1
+//        radius: 16
         width: 300
+        Layout.minimumWidth: 300
         Layout.maximumWidth: 300
         Layout.fillHeight: true
         Layout.rightMargin: 16
@@ -138,13 +139,10 @@ RowLayout {
         property string bukuPenerbit: ""
 
         GridLayout {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.margins: 16
+            anchors.fill: parent
             columns: 2
             columnSpacing: 16
+            visible: currentKode != ""
 
             Text {
                 Layout.columnSpan: 2
@@ -241,8 +239,14 @@ RowLayout {
 
                 Button {
                     text: "Hapus"
+                    onClicked: listModel.remove(currentKode)
                 }
             }
+        }
+
+        Label {
+            text: "Tidak Ada Data Buku"
+            visible: currentKode == ""
         }
     }
 

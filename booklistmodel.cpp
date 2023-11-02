@@ -181,6 +181,18 @@ void BookListModel::edit(QString kode, QString judul, QString penulis, int jumla
     refresh();
 }
 
+void BookListModel::remove(QString kode)
+{
+    QSqlQuery query;
+
+    query.prepare("DELETE from Buku WHERE kd_buku = :kode");
+    query.bindValue(":kode", kode);
+    if (!query.exec())
+        qFatal() << "Cannot remove Buku " << query.lastError().text();
+
+    refresh();
+}
+
 void BookListModel::setIgnoredKodeList(QStringList ignoredIdList)
 {
     mIgnoredKodeList = ignoredIdList;
