@@ -20,6 +20,7 @@ void BookListDetailModel::setKode(const QString &Id)
     query.prepare(
         "SELECT"
         "   kd_kategori,"
+        "   kd_penerbit,"
         "   jumlah_buku "
         "FROM Buku "
         "WHERE Buku.kd_buku = :kode"
@@ -33,9 +34,11 @@ void BookListDetailModel::setKode(const QString &Id)
         QSqlRecord record = query.record();
         mJumlahBuku = record.value("jumlah_buku").toInt();
         mKodeKategori = record.value("kd_kategori").toString();
+        mKodePenerbit = record.value("kd_penerbit").toString();
     } else {
         mJumlahBuku = 0;
         mKodeKategori = "";
+        mKodePenerbit = "";
     }
     emit kodeChanged();
 }
@@ -48,4 +51,9 @@ int BookListDetailModel::jumlahBuku()
 QString BookListDetailModel::kodeKategori()
 {
     return mKodeKategori;
+}
+
+QString BookListDetailModel::kodePenerbit()
+{
+    return mKodePenerbit;
 }

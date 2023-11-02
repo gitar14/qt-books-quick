@@ -99,6 +99,16 @@ void PenerbitModel::remove(QString kode)
     refresh();
 }
 
+int PenerbitModel::getIndexByKode(QString kode)
+{
+    int count = rowCount();
+    for (int i=0;i<count;i++){
+        if(data(index(i,0), KodeRole).toString()== kode)
+            return i;
+    }
+    return -1;
+}
+
 void PenerbitModel::refresh()
 {
     QSqlQuery query;
