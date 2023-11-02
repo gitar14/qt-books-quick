@@ -40,6 +40,11 @@ Window {
                         name: "Pengadaan Buku"
                         view: "PengadaanList.qml"
                     }
+                    ListElement {
+                        name: "Peminjaman Buku"
+                        view: "PeminjamanList.qml"
+                    }
+
                 }
 
                 delegate: Rectangle {
