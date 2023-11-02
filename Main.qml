@@ -31,7 +31,10 @@ Window {
                     ListElement{
                         name : "Penerbit"
                         view : "PenerbitList.qml"
-                    }
+                  
+                    ListElement{
+                        name : "Member"
+                        view : "MemberList.qml"
                     ListElement {
                         name: "Pengadaan Buku"
                         view: "PengadaanList.qml"
