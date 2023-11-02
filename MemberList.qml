@@ -14,6 +14,7 @@ RowLayout {
         Layout.leftMargin: 16
         Layout.topMargin: 16
         Layout.bottomMargin: 16
+
         GridView {
             id: memberGridView
             model : memberModel
@@ -25,20 +26,22 @@ RowLayout {
             onCurrentItemChanged: {
                  if(currentItem==null){
                     memberDetailFrame.memberKode = ""
-                    memberDetailFrame.memberNama = ""
+                    memberDetailFrame.memberNamaDepan = ""
+                    memberDetailFrame.memberNamaBelakang = ""
                     memberDetailFrame.memberTanggalLahir = ""
                     }
-                 else{
+                 else {
                     memberDetailFrame.memberKode = currentItem.itemData.kode
-                    memberDetailFrame.memberNama = currentItem.itemData.name
+                    memberDetailFrame.memberNamaDepan = currentItem.itemData.namaDepan
+                    memberDetailFrame.memberNamaBelakang = currentItem.itemData.namaBelakang
                     memberDetailFrame.memberTanggalLahir = currentItem.itemData.tanggalLahir
                     }
             }
 
             delegate: Rectangle {
                 property var itemData: model
-                width: GridView.view.cellwidth - 8
-                height: GridView.view.cellwidth - 8
+                width: GridView.view.cellWidth - 8
+                height: GridView.view.cellHeight - 8
                 border.color: "#dedede"
                 border.width: 1
                 radius: 16
@@ -78,7 +81,8 @@ RowLayout {
 
             onClicked: {
                 editMemberDialog.memberKode = ""
-                editMemberDialog.memberNama = ""
+                editMemberDialog.memberNamaDepan = ""
+                editMemberDialog.memberNamaBelakang = ""
                 editMemberDialog.memberTanggalLahir = ""
                 editMemberDialog.open()
             }
@@ -88,7 +92,8 @@ RowLayout {
     Frame {
         id: memberDetailFrame
         property string memberKode: ""
-        property string memberNama: ""
+        property string memberNamaDepan: ""
+        property string memberNamaBelakang: ""
         property string memberTanggalLahir: ""
 
         Layout.minimumWidth: 300
@@ -108,15 +113,26 @@ RowLayout {
             }
 
             Label{
+                Layout.fillWidth: true
             text:  memberDetailFrame.memberKode
             }
 
             Label{
-            text: "Nama"
+            text: "Nama Depan"
             }
 
             Label{
-            text:  memberDetailFrame.memberNama
+                 Layout.fillWidth: true
+            text:  memberDetailFrame.memberNamaDepan
+            }
+
+            Label{
+            text: "Nama Belakang"
+            }
+
+            Label{
+                 Layout.fillWidth: true
+            text:  memberDetailFrame.memberNamaBelakang
             }
 
             Label{
@@ -124,6 +140,7 @@ RowLayout {
             }
 
             Label{
+                 Layout.fillWidth: true
             text:  memberDetailFrame.memberTanggalLahir
             }
 
@@ -139,7 +156,8 @@ RowLayout {
             text: "Edit"
                 onClicked: {
                 editMemberDialog.memberKode = memberDetailFrame.memberKode
-                editMemberDialog.memberNama = memberDetailFrame.memberNama
+                editMemberDialog.memberNamaDepan = memberDetailFrame.memberNamaDepan
+                editMemberDialog.memberNamaBelakang = memberDetailFrame.memberNamaBelakang
                 editMemberDialog.memberTanggalLahir = memberDetailFrame.memberTanggalLahir
                 editMemberDialog.open()
                 }
@@ -164,26 +182,36 @@ RowLayout {
         anchors.centerIn: parent
         width: 400
         property string memberKode: ""
-        property string memberNama: ""
+        property string memberNamaDepan: ""
+         property string memberNamaBelakang: ""
         property string memberTanggalLahir: ""
 
         onAccepted:{
             if(memberKode=="")
-            memberModel.add(memberNama, memberTanggalLahir)
-            else memberModel.edit(memberKode,memberNama,memberTanggalLahir)
+            memberModel.add(memberNamaDepan, memberNamaBelakang, memberTanggalLahir)
+            else memberModel.edit(memberKode,memberNamaDepan, memberNamaBelakang, memberTanggalLahir)
         }
 
         ColumnLayout {
             anchors.fill: parent
 
             Label {
-                text: "Nama"
+                text: "Nama Depan"
             }
             TextField {
-                text: editMemberDialog.memberNama
-                id: namaTextField
+                text: editMemberDialog.memberNamaDepan
+                id: namaDepanTextField
                 Layout.fillWidth: true
-                onTextChanged: editMemberDialog.memberNama = text
+                onTextChanged: editMemberDialog.memberNamaDepan = text
+            }
+            Label {
+                text: "Nama Belakang"
+            }
+            TextField {
+                text: editMemberDialog.memberNamaBelakang
+                id: namaBelakangTextField
+                Layout.fillWidth: true
+                onTextChanged: editMemberDialog.memberNamaBelakang = text
             }
             Label {
                 text : "Tanggal Lahir"
