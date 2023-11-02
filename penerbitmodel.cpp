@@ -87,6 +87,18 @@ void PenerbitModel::edit(QString kode, QString nama, QString alamat)
     refresh();
 }
 
+void PenerbitModel::remove(QString kode)
+{
+    QSqlQuery query;
+    query.prepare("DELETE from Penerbit where kd_penerbit = :kode");
+    query.bindValue(":kode",kode);
+
+    if(!query.exec())
+        qFatal()<< "Cannot delete Penerbit" << query.lastError().text();
+
+    refresh();
+}
+
 void PenerbitModel::refresh()
 {
     QSqlQuery query;
