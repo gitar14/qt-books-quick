@@ -25,6 +25,8 @@ qt_add_qml_module(appqt-books-qml
     SOURCES booklisteditmodel.h booklisteditmodel.cpp
     QML_FILES PenerbitList.qml
     SOURCES penerbitmodel.h penerbitmodel.cpp
+    QML_FILES MemberList.qml
+    SOURCES membermodel.h membermodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

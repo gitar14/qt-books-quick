@@ -32,6 +32,10 @@ Window {
                         name : "Penerbit"
                         view : "PenerbitList.qml"
                     }
+                    ListElement{
+                        name : "Member"
+                        view : "MemberList.qml"
+                    }
                 }
 
                 delegate: Rectangle {
