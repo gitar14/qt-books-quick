@@ -11,6 +11,7 @@
 #include "pengadaanbukumodel.h"
 #include "editablepengadaanbukumodel.h"
 #include "pengadaanmodel.h"
+#include "membermodel.h"
 
 void initializeDatabase(QSqlDatabase &db) {
     QSqlQuery query;
@@ -29,12 +30,15 @@ void initializeDatabase(QSqlDatabase &db) {
     if (!query.exec("CREATE TABLE IF NOT EXISTS Buku("
                     "   kd_buku VARCHAR(4) NOT NULL PRIMARY KEY,"
                     "   kd_kategori VARCHAR(4) NOT NULL,"
+                    "   kd_penerbit VARCHAR(4) NOT NULL,"
                     "   judul VARHCHAR(25) NOT NULL,"
                     "   jumlah_buku INTEGER NOT NULL,"
                     "   penulis VARCHAR(25) NOT NULL,"
                     "   tahun_terbit INTEGER NOT NULL,"
                     "   FOREIGN KEY (kd_kategori)"
-                    "       REFERENCES Kategori(kd_kategori)"
+                    "       REFERENCES Kategori(kd_kategori), "
+                    "   FOREIGN KEY (kd_penerbit)"
+                    "       REFERENCES Penerbit(kd_penerbit)"
                     ")"))
         qFatal() << "Cannot create Buku table " << query.lastError().text();
 
@@ -74,6 +78,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<PengadaanBukuModel>("Kelompok7.Perpus", 1, 0, "PengadaanBukuModel");
     qmlRegisterType<EditablePengadaanBukuModel>("Kelompok7.Perpus", 1, 0, "EditablePengadaanBukuModel");
     qmlRegisterType<PengadaanModel>("Kelompok7.Perpus", 1, 0, "PengadaanModel");
+    qmlRegisterType<MemberModel>("Kelompok7.Perpus", 1, 0, "MemberModel");
 
     QQuickStyle::setStyle("Material");
 

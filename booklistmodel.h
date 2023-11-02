@@ -15,6 +15,7 @@ public:
         PenulisRole,
         TahunTerbitRole,
         KategoriRole,
+        PenerbitRole
     };
 
     explicit BookListModel(QObject *parent = nullptr);
@@ -29,7 +30,8 @@ public:
         QString penulis,
         int jumlahBuku,
         int tahunTerbit,
-        QString kodeKategori
+        QString kodeKategori,
+        QString kodePenerbit
     );
     Q_INVOKABLE void edit(
         QString kode,
@@ -37,8 +39,10 @@ public:
         QString penulis,
         int jumlahBuku,
         int tahunTerbit,
-        QString kodeKategori
+        QString kodeKategori,
+        QString kodePenerbit
     );
+    Q_INVOKABLE void remove(QString kode);
     Q_INVOKABLE void setIgnoredKodeList(QStringList ignoredIdList);
 private:
     QStringList mIgnoredKodeList;

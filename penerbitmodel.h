@@ -23,6 +23,7 @@ public:
     Q_INVOKABLE void add(QString nama, QString alamat);
     Q_INVOKABLE void edit(QString kode, QString nama, QString alamat);
     Q_INVOKABLE void remove(QString kode);
+    Q_INVOKABLE int getIndexByKode(QString kode);
 
 
     void refresh();

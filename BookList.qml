@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import my.id.levirs.books
+import Kelompok7.Perpus
 
 RowLayout {
     BookListDetailModel {
@@ -14,6 +15,10 @@ RowLayout {
 
     KategoriModel {
         id: bukuKategoriModel
+    }
+
+    PenerbitModel{
+        id: bukuPenerbitModel
     }
 
     property var currentItemData: bukuListView.currentItem ? bukuListView.currentItem.itemData : null
@@ -31,7 +36,16 @@ RowLayout {
             anchors.fill: parent
             anchors.margins: 16
             anchors.bottomMargin: 64 + 16 + 16
-            onCurrentItemChanged:  detailModel.kode = model.getKodeByIndex(currentIndex)
+            onCurrentItemChanged: {
+
+                detailModel.kode = model.getKodeByIndex(currentIndex)
+                if (currentItem == null){
+                bookDetailFrame.bukuPenerbit = ""
+                }
+                else {
+                bookDetailFrame.bukuPenerbit = currentItem.itemData.penerbit
+                }
+            }
 
             spacing: 8
             model: listModel
@@ -69,6 +83,10 @@ RowLayout {
                     Text {
                         text: model.kategori
                     }
+
+                    Label{
+                        text: model.penerbit
+                    }
                 }
             }
         }
@@ -92,6 +110,7 @@ RowLayout {
                     editDialog.jumlahBuku = 0
                     editDialog.tahunTerbit = 0
                     editDialog.kodeKategori = ""
+                    editDialog.kodePenerbit = ""
                     editDialog.open()
                 }
             }
@@ -104,25 +123,26 @@ RowLayout {
         }
     }
 
-    Rectangle {
-        border.color: "#dedede"
-        border.width: 1
-        radius: 16
+    Frame {
+        id: bookDetailFrame
+//        border.color: "#dedede"
+//        border.width: 1
+//        radius: 16
         width: 300
+        Layout.minimumWidth: 300
         Layout.maximumWidth: 300
         Layout.fillHeight: true
         Layout.rightMargin: 16
         Layout.topMargin: 16
         Layout.bottomMargin: 16
 
+        property string bukuPenerbit: ""
+
         GridLayout {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.margins: 16
+            anchors.fill: parent
             columns: 2
             columnSpacing: 16
+            visible: currentKode != ""
 
             Text {
                 Layout.columnSpan: 2
@@ -166,6 +186,15 @@ RowLayout {
                 text: currenKategori
             }
 
+            Label {
+                text: "Penerbit"
+            }
+
+            Label{
+                text: bookDetailFrame.bukuPenerbit
+                Layout.fillWidth: true
+            }
+
             Text {
                 text: "Jumlah Buku"
             }
@@ -203,14 +232,21 @@ RowLayout {
                         editDialog.jumlahBuku = detailModel.jumlahBuku
                         editDialog.tahunTerbit = currentTahunTerbit
                         editDialog.kodeKategori = detailModel.kodeKategori
+                        editDialog.kodePenerbit = detailModel.kodePenerbit
                         editDialog.open()
                     }
                 }
 
                 Button {
                     text: "Hapus"
+                    onClicked: listModel.remove(currentKode)
                 }
             }
+        }
+
+        Label {
+            text: "Tidak Ada Data Buku"
+            visible: currentKode == ""
         }
     }
 
@@ -221,6 +257,7 @@ RowLayout {
         property int jumlahBuku: 0
         property int tahunTerbit: 0
         property string kodeKategori: ""
+        property string kodePenerbit: ""
 
         id: editDialog
         parent: Overlay.overlay
@@ -241,7 +278,8 @@ RowLayout {
                     penulis,
                     jumlahBuku,
                     tahunTerbit,
-                    kodeKategori
+                    kodeKategori,
+                    kodePenerbit
                 )
             else
                 listModel.edit(
@@ -250,7 +288,8 @@ RowLayout {
                     penulis,
                     jumlahBuku,
                     tahunTerbit,
-                    kodeKategori
+                    kodeKategori,
+                    kodePenerbit
                 )
         }
 
@@ -298,6 +337,20 @@ RowLayout {
                     editable: true
                     currentIndex: bukuKategoriModel.getIndexByKode(editDialog.kodeKategori)
                     onCurrentValueChanged: editDialog.kodeKategori = currentValue
+                }
+
+                Label{
+                text: "Penerbit"
+                }
+
+                ComboBox{
+                Layout.fillWidth: true
+                model: bukuPenerbitModel
+                valueRole: "kode"
+                textRole: "name"
+                editable: true
+                currentIndex: bukuPenerbitModel.getIndexByKode(editDialog.kodePenerbit)
+                onCurrentValueChanged: editDialog.kodePenerbit = currentValue
                 }
 
 
