@@ -42,6 +42,7 @@ public:
         QString kodeKategori,
         QString kodePenerbit
     );
+    Q_INVOKABLE void remove(QString kode);
     Q_INVOKABLE void setIgnoredKodeList(QStringList ignoredIdList);
 private:
     QStringList mIgnoredKodeList;
