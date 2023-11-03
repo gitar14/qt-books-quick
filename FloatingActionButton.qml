@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Controls.Material
 
 RoundButton {
     text : "+"
@@ -10,9 +11,6 @@ RoundButton {
     anchors.bottomMargin: 16
     anchors.rightMargin: 16
     font.pixelSize: 24
-    palette.button: "#1976D2"
-
-//    background: Rectangle {
-//        color: "#1976D2"
-//    }
+    Material.background: Material.Blue
+    Material.foreground: "#ffffff"
 }

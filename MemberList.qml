@@ -65,14 +65,8 @@ Item {
             }
         }
     }
-    RoundButton {
-        text : "+"
-        width : 64
-        height : 64
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        font.pixelSize: 24
 
+    FloatingActionButton {
         onClicked: addClicked()
     }
 }
