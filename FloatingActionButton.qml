@@ -11,6 +11,6 @@ RoundButton {
     anchors.bottomMargin: 16
     anchors.rightMargin: 16
     font.pixelSize: 24
-    Material.background: Material.Blue
+    Material.background: Material.accent
     Material.foreground: "#ffffff"
 }
