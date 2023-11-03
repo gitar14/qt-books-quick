@@ -22,7 +22,7 @@ Window {
                 model: ListModel {
                     ListElement {
                         name: "Buku"
-                        view: "BookList.qml"
+                        view: "BukuScreen.qml"
                     }
                     ListElement {
                         name: "Kategori"
