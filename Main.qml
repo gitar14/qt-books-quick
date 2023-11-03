@@ -38,7 +38,7 @@ Window {
                     }
                     ListElement {
                         name: "Pengadaan Buku"
-                        view: "PengadaanList.qml"
+                        view: "PengadaanScreen.qml"
                     }
                     ListElement {
                         name: "Peminjaman Buku"

@@ -26,7 +26,7 @@ qt_add_qml_module(appqt-books-qml
     QML_FILES PenerbitScreen.qml
     SOURCES penerbitmodel.h penerbitmodel.cpp
     SOURCES editablepengadaanbukumodel.h editablepengadaanbukumodel.cpp
-    QML_FILES PengadaanList.qml
+    QML_FILES PengadaanScreen.qml
     SOURCES pengadaanmodel.h pengadaanmodel.cpp
     SOURCES pengadaanbukumodel.h pengadaanbukumodel.cpp
     SOURCES basepengadaanbukumodel.h
@@ -48,6 +48,10 @@ qt_add_qml_module(appqt-books-qml
     QML_FILES BukuEditDialog.qml
     QML_FILES BukuDetailFrame.qml
     QML_FILES BukuList.qml
+    QML_FILES PengadaanEditDialog.qml
+    QML_FILES BukuPilihDialog.qml
+    QML_FILES PengadaanDetailFrame.qml
+    QML_FILES PengadaanList.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
