@@ -47,7 +47,7 @@ QVariant MemberModel::data(const QModelIndex &item, int role) const
     return QSqlQueryModel::data(index(row, columnIndex), Qt::DisplayRole);
 }
 
-void MemberModel::add(QString namaDepan, QString namaBelakang, QString tgl_lahir)
+void MemberModel::add(QString namaDepan, QString namaBelakang, QDateTime tgl_lahir)
 {
     QSqlQuery query;
     if (!query.exec("SELECT MAX(CAST(kd_member AS UNSIGNED)) FROM Member"))
@@ -81,7 +81,7 @@ void MemberModel::add(QString namaDepan, QString namaBelakang, QString tgl_lahir
     refresh();
 }
 
-void MemberModel::edit(QString kode, QString namaDepan, QString namaBelakang, QString tanggalLahir)
+void MemberModel::edit(QString kode, QString namaDepan, QString namaBelakang, QDateTime tanggalLahir)
 {
     QSqlQuery query;
     query.prepare("UPDATE Member SET"
