@@ -52,6 +52,7 @@ qt_add_qml_module(appqt-books-qml
     QML_FILES BukuPilihDialog.qml
     QML_FILES PengadaanDetailFrame.qml
     QML_FILES PengadaanList.qml
+    QML_FILES BukuListView.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
