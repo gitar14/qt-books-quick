@@ -3,7 +3,7 @@ import QtQuick.Window
 import QtQuick.Controls
 
 Window {
-    property string currentView: "CategoryList.qml"
+    property string currentView: "KategoriScreen.qml"
 
     width: 960
     height: 480
@@ -26,15 +26,15 @@ Window {
                     }
                     ListElement {
                         name: "Kategori"
-                        view: "CategoryList.qml"
+                        view: "KategoriScreen.qml"
                     }
                     ListElement{
                         name : "Penerbit"
-                        view : "PenerbitList.qml"
+                        view : "PenerbitScreen.qml"
                     }
                     ListElement{
                         name : "Member"
-                        view : "MemberList.qml"
+                        view : "MemberScreen.qml"
                     }
                     ListElement {
                         name: "Pengadaan Buku"
