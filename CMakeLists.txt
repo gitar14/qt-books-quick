@@ -44,6 +44,7 @@ qt_add_qml_module(appqt-books-qml
     QML_FILES MemberEditDialog.qml
     QML_FILES MemberDetailFrame.qml
     QML_FILES MemberList.qml
+    QML_FILES DateField.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
