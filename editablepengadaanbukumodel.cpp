@@ -63,6 +63,11 @@ Qt::ItemFlags EditablePengadaanBukuModel::flags(const QModelIndex &index) const
 
 void EditablePengadaanBukuModel::append(QString kodeBuku, int jumlah)
 {
+    if (kodeBuku == "") {
+        qCritical() << "Appending blank kodeBuku into EditablePengadaanBuku is forbidden";
+        return;
+    }
+
     int row = mItemList.length();
     emit beginInsertRows(QModelIndex(), row, row);
 

@@ -111,6 +111,8 @@ void BookListModel::refresh()
     setQuery(std::move(query));
     if (lastError().isValid())
         qFatal() << "Cannot set query for Buku " << lastError().text();
+
+    emit countChanged();
 }
 
 void BookListModel::addNew(QString judul, QString penulis, int jumlahBuku, int tahunTerbit, QString kodeKategori, QString kodePenerbit)
@@ -197,4 +199,9 @@ void BookListModel::setIgnoredKodeList(QStringList ignoredIdList)
 {
     mIgnoredKodeList = ignoredIdList;
     refresh();
+}
+
+int BookListModel::count() const
+{
+    return rowCount();
 }
