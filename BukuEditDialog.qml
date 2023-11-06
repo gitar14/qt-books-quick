@@ -22,7 +22,8 @@ Dialog {
         }
         Button {
             text: "Simpan"
-            enabled: bukuJudul.length > 0 && bukuPenulis.length > 0
+            enabled: bukuJudul.length > 0 && bukuPenulis.length > 0 && bukuKodeKategori > 0 && bukuKodePenerbit > 0
+
             DialogButtonBox.buttonRole: Dialog.AcceptRole
             flat: true
         }
@@ -98,6 +99,12 @@ Dialog {
                 onCurrentValueChanged: bukuKodeKategori = currentValue
             }
 
+            Label {
+                text: "Kategori Tidak Boleh Kosong"
+                color: Material.color(Material.Red)
+                visible: bukuKodeKategori.length == 0
+            }
+
             Label{
                 text: "Penerbit"
             }
@@ -112,6 +119,11 @@ Dialog {
                 onCurrentValueChanged: bukuKodePenerbit = currentValue
             }
 
+            Label {
+                text: "Penerbit Tidak Boleh Kosong"
+                color: Material.color(Material.Red)
+                visible: bukuKodePenerbit.length == 0
+            }
 
             Label {
                 text: "Jumlah Buku"
