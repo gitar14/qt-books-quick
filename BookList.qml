@@ -91,34 +91,16 @@ RowLayout {
             }
         }
 
-        Rectangle {
-            width: 64
-            height: 64
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            anchors.rightMargin: 16
-            anchors.bottomMargin: 16
-            radius: 32
-            color: "#bebebe"
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    editDialog.kode = ""
-                    editDialog.judul = ""
-                    editDialog.penulis = ""
-                    editDialog.jumlahBuku = 0
-                    editDialog.tahunTerbit = 0
-                    editDialog.kodeKategori = ""
-                    editDialog.kodePenerbit = ""
-                    editDialog.open()
-                }
-            }
-
-            Text {
-                font.pixelSize: 48
-                text: "+"
-                anchors.centerIn: parent
+        FloatingActionButton {
+            onClicked: {
+                editDialog.kode = ""
+                editDialog.judul = ""
+                editDialog.penulis = ""
+                editDialog.jumlahBuku = 0
+                editDialog.tahunTerbit = 0
+                editDialog.kodeKategori = ""
+                editDialog.kodePenerbit = ""
+                editDialog.open()
             }
         }
     }
