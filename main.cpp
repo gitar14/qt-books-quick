@@ -12,6 +12,7 @@
 #include "editablepengadaanbukumodel.h"
 #include "pengadaanmodel.h"
 #include "membermodel.h"
+#include "editablepeminjamanbukumodel.h"
 
 void initializeDatabase(QSqlDatabase &db) {
     QSqlQuery query;
@@ -80,6 +81,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<EditablePengadaanBukuModel>("Kelompok7.Perpus", 1, 0, "EditablePengadaanBukuModel");
     qmlRegisterType<PengadaanModel>("Kelompok7.Perpus", 1, 0, "PengadaanModel");
     qmlRegisterType<MemberModel>("Kelompok7.Perpus", 1, 0, "MemberModel");
+    qmlRegisterType<EditablePeminjamanBukuModel>("Kelompok7.Perpus", 1, 0, "EditablePeminjamanBukuModel");
 
     QQuickStyle::setStyle("Material");
 
