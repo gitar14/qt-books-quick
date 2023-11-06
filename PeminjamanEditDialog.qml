@@ -8,7 +8,7 @@ Dialog {
     property string peminjamanKode: ""
     property string peminjamanSumber: ""
     property date peminjamanTanggal: new Date ()
-//    required property EditablePeminjamanBukuModel peminjamanBukuModel
+    required property EditablePeminjamanBukuModel peminjamanBukuModel
     required property BookListModel bukuModel
 
     parent: Overlay.overlay
@@ -26,12 +26,11 @@ Dialog {
         title: "Tambah Buku ke Peminjaman"
         listModel: bukuModel
 
-//        onAccepted: {
-//            peminjamanBukuModel.append(
-//                bukuModel.getKodeByIndex(selectedIndex)
-//                        0
-//                )
-//            }
+        onAccepted: {
+            peminjamanBukuModel.append(
+                bukuModel.getKodeByIndex(selectedIndex)
+                )
+            }
     }
 
     Flickable {
@@ -42,42 +41,6 @@ Dialog {
         ColumnLayout {
             id: editPeminjamanDialogLayout
             width: parent.width
-
-            Repeater {
-//                model: peminjamanBukuModel
-
-                delegate: Frame {
-                    Layout.fillWidth: true
-
-                    ColumnLayout {
-                        spacing: 8
-                        anchors.fill: parent
-
-                        Label {
-                            text: model.judulBuku
-                        }
-
-                        Label {
-                            text: "Jumlah"
-                        }
-
-                        SpinBox {
-                            editable: true
-                            from: 0
-                            to: 10000
-                            value: model.jumlah
-                            Layout.fillWidth: true
-                            onValueChanged: model.jumlah = value
-                        }
-
-                        Button {
-                            text: "Hapus"
-                            Layout.fillWidth: true
-                            onClicked: peminjamanBukuModel.remove(index)
-                        }
-                    }
-                }
-            }
 
             Label {
                 text: "Tanggal Peminjaman"
@@ -103,6 +66,32 @@ Dialog {
 
             Label {
                 text: "Buku"
+            }
+            Repeater {
+                model: peminjamanBukuModel
+
+                delegate: Frame {
+                    Layout.fillWidth: true
+
+                    ColumnLayout {
+                        spacing: 8
+                        anchors.fill: parent
+
+                        Label {
+                            text: model.judulBuku
+                        }
+
+                        Label {
+                            text: "Jumlah"
+                        }
+
+                        Button {
+                            text: "Hapus"
+                            Layout.fillWidth: true
+                            onClicked: peminjamanBukuModel.remove(index)
+                        }
+                    }
+                }
             }
 
             Button {

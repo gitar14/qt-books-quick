@@ -10,10 +10,10 @@ RowLayout {
 //        kodePeminjaman: peminjamanDetailFrame.peminjamanKode
 //    }
 
-//    EditablePeminjamanBukuModel {
-//        id: edittablePengadaanBukuModel
+    EditablePeminjamanBukuModel {
+        id: editablePeminjamanBukuModel
 //        onItemsChanged: peminjamanBukuListModel.setIgnoredKodeList(kodeBukuList)
-//    }
+    }
 
 //    PeminjamanModel {
 //        id: peminjamanModel
@@ -55,7 +55,7 @@ RowLayout {
 
     PeminjamanEditDialog{
         id: editPeminjamanDialog
-//        peminjamanBukuModel: editablePeminjamanBukuModel
+        peminjamanBukuModel: editablePeminjamanBukuModel
         bukuModel: peminjamanBukuListModel
         onAccepted: {
             if (peminjamanKode == "") {
