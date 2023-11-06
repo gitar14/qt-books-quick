@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Controls.Material
 
 Dialog {
     property string bukuKode: ""
@@ -13,6 +14,21 @@ Dialog {
     property var kategoriModel
     property var penerbitModel
 
+    footer : DialogButtonBox {
+        Button {
+            text: "Batal"
+            DialogButtonBox.buttonRole: Dialog.RejectRole
+            flat: true
+        }
+        Button {
+            text: "Simpan"
+            enabled: bukuJudul.length > 0 && bukuPenulis.length > 0
+            DialogButtonBox.buttonRole: Dialog.AcceptRole
+            flat: true
+        }
+    }
+
+
     parent: Overlay.overlay
 
     x: (parent.width - width) / 2
@@ -22,7 +38,6 @@ Dialog {
 
     modal: true
     title: bukuKode == "" ? "Tambah Buku" : "Edit Buku"
-    standardButtons: Dialog.Ok | Dialog.Cancel
 
     Flickable {
         id: editDialogFlickable
@@ -41,8 +56,15 @@ Dialog {
 
             TextField {
                 Layout.fillWidth: true
+                maximumLength: 25
                 text: bukuJudul
                 onTextChanged: bukuJudul = text
+            }
+
+            Label {
+                text: "Judul Tidak Boleh Kosong"
+                color: Material.color(Material.Red)
+                visible: bukuJudul.length == 0
             }
 
             Label {
@@ -51,8 +73,15 @@ Dialog {
 
             TextField {
                 Layout.fillWidth: true
+                maximumLength: 25
                 text: bukuPenulis
                 onTextChanged: bukuPenulis = text
+            }
+
+            Label {
+                text: "Penulis Tidak Boleh Kosong"
+                color: Material.color(Material.Red)
+                visible: bukuPenulis.length == 0
             }
 
             Label {

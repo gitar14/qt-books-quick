@@ -5,7 +5,6 @@ import QtQuick.Controls.Material
 
 Dialog{
     title: memberKode=="" ? "Tambah Member" : "Edit Member"
-    standardButtons: Dialog.Ok | Dialog.Cancel
     parent: Overlay.overlay
     anchors.centerIn: parent
     width: 400
