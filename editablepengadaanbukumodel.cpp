@@ -1,5 +1,6 @@
 #include "editablepengadaanbukumodel.h"
 #include "basepengadaanbukumodel.h"
+#include "sqlhelper.h"
 #include <QtSql>
 
 EditablePengadaanBukuModel::EditablePengadaanBukuModel(QObject *parent)
@@ -11,6 +12,36 @@ EditablePengadaanBukuModel::EditablePengadaanBukuModel(QObject *parent)
 QHash<int, QByteArray>  EditablePengadaanBukuModel::roleNames() const
 {
     return BasePengadaanBukuModel::getRoleNames();
+}
+
+void EditablePengadaanBukuModel::refresh()
+{
+    QString queryString = "SELECT "
+                          " COUNT(kd_buku) > 0 "
+                          "FROM Buku ";
+    QHash<QString, QVariant> binds;
+    QStringList kodeList = getKodeBukuList();
+
+    if (kodeList.length() > 0) {
+        queryString += QStringLiteral(" WHERE kd_buku NOT IN(%1)").arg(
+            SQLHelper::generateArrayBinds(":ignored_kode", kodeList, binds)
+        );
+    }
+
+    QSqlQuery query;
+    query.prepare(queryString);
+    SQLHelper::applyBindMaps(query, binds);
+
+    if (!query.exec())
+        qFatal() << "Cannot get is buku available from EditablePengadaanBukuModel " << query.lastError().text();
+
+
+    if (query.next()) {
+        mBukuAvailable = query.record().value(0).toBool();
+        return;
+    }
+
+    mBukuAvailable = false;
 }
 
 
@@ -89,6 +120,8 @@ void EditablePengadaanBukuModel::append(QString kodeBuku, int jumlah)
     mItemList.append(item);
 
     emit endInsertRows();
+
+    refresh();
     emit itemsChanged();
 }
 
@@ -111,6 +144,8 @@ void EditablePengadaanBukuModel::remove(int index)
     mItemList.remove(index);
 
     emit endRemoveRows();
+
+    refresh();
     emit itemsChanged();
 }
 
@@ -121,6 +156,8 @@ void EditablePengadaanBukuModel::clear()
     mItemList.clear();
 
     emit endRemoveRows();
+
+    refresh();
     emit itemsChanged();
 }
 
@@ -140,5 +177,12 @@ void EditablePengadaanBukuModel::populateFrom(QAbstractItemModel *model)
     }
 
     emit endInsertRows();
+
+    refresh();
     emit itemsChanged();
- }
+}
+
+bool EditablePengadaanBukuModel::isBukuAvailable() const
+{
+    return mBukuAvailable;
+}

@@ -90,7 +90,7 @@ Dialog {
                 }
             }
             Button {
-                visible: bukuModel.count > 0
+                visible: pengadaanBukuModel.isBukuAvailable
                 text: "Tambah Buku"
                 Layout.fillWidth: true
                 onClicked: tambahPengadaanBukuDialog.open()

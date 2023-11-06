@@ -18,6 +18,8 @@ Dialog {
 
         TextField {
             Layout.fillWidth: true
+            text: listModel.textQuery
+            onTextChanged: listModel.textQuery = text
         }
 
         BukuListView {
