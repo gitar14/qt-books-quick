@@ -14,7 +14,7 @@ RowLayout {
            editMemberDialog.memberKode = ""
            editMemberDialog.memberNamaDepan = ""
            editMemberDialog.memberNamaBelakang = ""
-           editMemberDialog.memberTanggalLahir = ""
+           editMemberDialog.memberTanggalLahir = new Date()
            editMemberDialog.open()
        }
        onCurrentItemDataChanged: {

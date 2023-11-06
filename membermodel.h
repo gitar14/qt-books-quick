@@ -14,7 +14,7 @@ public:
         NamaRole,
         NamaDepanRole,
         NamaBelakangRole,
-        TglLahirRole
+        TanggalLahirRole
     };
 
     explicit MemberModel(QObject *parent = nullptr);
@@ -22,8 +22,8 @@ public:
     QHash<int, QByteArray> roleNames() const;
     QVariant data(const QModelIndex &item, int role) const;
 
-    Q_INVOKABLE void add(QString namaDepan, QString namaBelakang, QString tgl_lahir);
-    Q_INVOKABLE void edit(QString kode, QString namaDepan, QString namaBelakang, QString tgl_lahir);
+    Q_INVOKABLE void add(QString namaDepan, QString namaBelakang, QDate tanggalLahir);
+    Q_INVOKABLE void edit(QString kode, QString namaDepan, QString namaBelakang, QDate tanggalLahir);
     Q_INVOKABLE void remove(QString kode);
     void refresh();
 };
