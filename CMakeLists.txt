@@ -56,6 +56,11 @@ qt_add_qml_module(appqt-books-qml
     QML_FILES PeminjamanScreen.qml
     QML_FILES PeminjamanEditDialog.qml
     QML_FILES PeminjamanDetailFrame.qml
+    SOURCES sqlhelper.h
+    SOURCES sqlhelper.cpp
+    SOURCES basepeminjamanbukumodel.h
+    SOURCES basepeminjamanbukumodel.cpp
+    SOURCES editablepeminjamanbukumodel.h editablepeminjamanbukumodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

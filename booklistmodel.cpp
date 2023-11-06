@@ -1,4 +1,5 @@
 #include "booklistmodel.h"
+#include "sqlhelper.h"
 
 #include <QtSql>
 
@@ -58,26 +59,18 @@ QString BookListModel::getKodeByIndex(int index)
 
 void BookListModel::refresh()
 {
-    QString filter = "";
-    QMap<QString, QVariant> filterBinds;
+    QStringList filterList;
+    QHash<QString, QVariant> filterBinds;
 
     if (mIgnoredKodeList.length() > 0) {
-        QStringList paramNameList;
-        QStringListIterator ignoredKodeIterator(mIgnoredKodeList);
+        filterList.append(QString("Buku.kd_buku NOT IN (%1)").arg(
+            SQLHelper::generateArrayBinds(":ignored_kode", mIgnoredKodeList, filterBinds)
+        ));
+    }
 
-        int index = 0;
-        while (ignoredKodeIterator.hasNext()) {
-
-            QString ignoredKode = ignoredKodeIterator.next();
-            QString paramName = ":ignored_kode_" + QString::number(index);
-
-            paramNameList.append(paramName);
-            filterBinds[paramName] = ignoredKode;
-
-            index++;
-        }
-
-        filter.append(QString("Buku.kd_buku NOT IN (%1)").arg(paramNameList.join(",")));
+    if (mTextQuery.length() > 0) {
+        filterList.append("Buku.judul LIKE :text_query");
+        filterBinds[":text_query"] = "%" + mTextQuery + "%";
     }
 
     QSqlQuery query;
@@ -94,16 +87,11 @@ void BookListModel::refresh()
                           "       Buku.kd_kategori = Kategori.kd_kategori "
                           "   JOIN Penerbit ON"
                           "       Penerbit.kd_penerbit = Buku.kd_penerbit ";
-    if (filter.length() > 0)
-        queryString.append("WHERE ").append(filter);
+    if (filterList.length() > 0)
+        queryString.append("WHERE ").append(filterList.join(" AND "));
     query.prepare(queryString);
 
-    QMapIterator<QString, QVariant> filterBindsIterator(filterBinds);
-
-    while (filterBindsIterator.hasNext()) {
-        filterBindsIterator.next();
-        query.bindValue(filterBindsIterator.key(), filterBindsIterator.value());
-    }
+    SQLHelper::applyBindMaps(query, filterBinds);
 
     if (!query.exec())
         qFatal() << "Cannot query for Buku " << query.lastError().text();
@@ -204,4 +192,20 @@ void BookListModel::setIgnoredKodeList(QStringList ignoredIdList)
 int BookListModel::count() const
 {
     return rowCount();
+}
+
+QString BookListModel::textQuery() const
+{
+    return mTextQuery;
+}
+
+void BookListModel::setTextQuery(const QString &newQuery)
+{
+    if (mTextQuery == newQuery)
+        return;
+
+    mTextQuery = newQuery;
+    emit queryChanged();
+
+    refresh();
 }

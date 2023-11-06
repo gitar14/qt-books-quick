@@ -8,6 +8,7 @@ class BookListModel : public QSqlQueryModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_PROPERTY(QString textQuery READ textQuery WRITE setTextQuery NOTIFY queryChanged)
     QML_ELEMENT
 public:
     enum Role {
@@ -47,11 +48,17 @@ public:
     Q_INVOKABLE void setIgnoredKodeList(QStringList ignoredIdList);
     int count() const;
 
+    QString textQuery() const;
+    void setTextQuery(const QString &newQuery);
+
 signals:
     void countChanged();
 
+    void queryChanged();
+
 private:
     QStringList mIgnoredKodeList;
+    QString mTextQuery;
 };
 
 #endif // BOOKLISTMODEL_H
