@@ -67,6 +67,26 @@ void initializeDatabase(QSqlDatabase &db) {
                     "   tanggal_lahir DATE NOT NULL"
                     ")"))
         qFatal() << "Cannot create Member table " << query.lastError().text();
+    if (!query.exec("CREATE TABLE IF NOT EXISTS Peminjaman("
+                    "   kd_peminjaman VARCHAR(4) NOT NULL PRIMARY KEY,"
+                    "   kd_member VARCHAR(4) NOT NULL,"
+                    "   tanggal_peminjaman DATE NOT NULL,"
+                    "   lama_peminjaman INTEGER NOT NULL,"
+                    "   FOREIGN KEY (kd_member)"
+                    "       REFERENCES Member(kd_member)"
+                    ")"))
+        qFatal() << "Cannot create Peminjaman table " << query.lastError().text();
+
+    if (!query.exec("CREATE TABLE IF NOT EXISTS Peminjaman_buku("
+                    "   kd_buku VARCHAR(4) NOT NULL,"
+                    "   kd_peminjaman VARCHAR(4) NOT NULL,"
+                    "   PRIMARY KEY (kd_buku, kd_peminjaman),"
+                    "   FOREIGN KEY (kd_buku)"
+                    "       REFERENCES Buku(kd_buku),"
+                    "   FOREIGN KEY (kd_peminjaman)"
+                    "       REFERENCES Peminjaman(kd_peminjaman)"
+                    ")"))
+        qFatal() << "Cannot create Peminjaman_buku table " << query.lastError().text();
 }
 
 int main(int argc, char *argv[])
