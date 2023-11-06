@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Controls.Material
 import my.id.levirs.books
 import Kelompok7.Perpus
 
@@ -10,12 +11,25 @@ Dialog {
     required property EditablePengadaanBukuModel pengadaanBukuModel
     required property BookListModel bukuModel
 
+    footer : DialogButtonBox {
+        Button {
+            text: "Batal"
+            DialogButtonBox.buttonRole: Dialog.RejectRole
+            flat: true
+        }
+        Button {
+            text: "Simpan"
+            enabled: pengadaanSumber.length > 0
+            DialogButtonBox.buttonRole: Dialog.AcceptRole
+            flat: true
+        }
+    }
+
     parent: Overlay.overlay
     anchors.centerIn: parent
 
     modal: true
     title: "Pengadaan Baru"
-    standardButtons: Dialog.Ok | Dialog.Cancel
 
     width: 400
     contentHeight: editPengadaanDialogLayout.height
@@ -47,8 +61,14 @@ Dialog {
             }
             TextField {
                 Layout.fillWidth: true
+                maximumLength: 25
                 text: pengadaanSumber
                 onTextChanged: pengadaanSumber = text
+            }
+            Label {
+                text: "Sumber Tidak Boleh Kosong"
+                color: Material.color(Material.Red)
+                visible: pengadaanSumber.length == 0
             }
             Label {
                 text: "Buku"
