@@ -10,8 +10,8 @@ Dialog{
     width: 400
     property string memberKode: ""
     property string memberNamaDepan: ""
-     property string memberNamaBelakang: ""
-    property string memberTanggalLahir: ""
+    property string memberNamaBelakang: ""
+    property date memberTanggalLahir: new Date()
 
 
 
@@ -39,11 +39,11 @@ Dialog{
         Label {
             text : "Tanggal Lahir"
         }
-        TextField {
-            text: editMemberDialog.memberTanggalLahir
+        DateField {
+            currentDate: editMemberDialog.memberTanggalLahir
             id: tanggalLahirTextFiled
             Layout.fillWidth: true
-            onTextChanged: editMemberDialog.memberTanggalLahir = text
+            onCurrentDateChanged: editMemberDialog.memberTanggalLahir = currentDate
         }
     }
 }

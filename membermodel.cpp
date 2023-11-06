@@ -14,7 +14,7 @@ QHash<int, QByteArray> MemberModel::roleNames() const
     names[NamaRole] = "name";
     names[NamaDepanRole] = "namaDepan";
     names[NamaBelakangRole] = "namaBelakang";
-    names[TglLahirRole] = "tanggalLahir";
+    names[TanggalLahirRole] = "tanggalLahir";
     return names;
 }
 
@@ -37,7 +37,7 @@ QVariant MemberModel::data(const QModelIndex &item, int role) const
     case NamaBelakangRole:
         columnIndex = 2;
         break;
-    case TglLahirRole:
+    case TanggalLahirRole:
         columnIndex = 3;
         break;
     default:
@@ -47,7 +47,7 @@ QVariant MemberModel::data(const QModelIndex &item, int role) const
     return QSqlQueryModel::data(index(row, columnIndex), Qt::DisplayRole);
 }
 
-void MemberModel::add(QString namaDepan, QString namaBelakang, QDateTime tgl_lahir)
+void MemberModel::add(QString namaDepan, QString namaBelakang, QDate tanggalLahir)
 {
     QSqlQuery query;
     if (!query.exec("SELECT MAX(CAST(kd_member AS UNSIGNED)) FROM Member"))
@@ -62,7 +62,7 @@ void MemberModel::add(QString namaDepan, QString namaBelakang, QDateTime tgl_lah
                   " kd_member,"
                   " nama_depan_member,"
                   " nama_belakang_member,"
-                  " tgl_lahir"
+                  " tanggal_lahir"
                   ") VALUES ("
                   " :kode,"
                   " :namaDepan,"
@@ -73,7 +73,7 @@ void MemberModel::add(QString namaDepan, QString namaBelakang, QDateTime tgl_lah
     query.bindValue(":kode", QString::number(maxId + 1).rightJustified(4, '0'));
     query.bindValue(":namaDepan", namaDepan);
     query.bindValue(":namaBelakang", namaBelakang);
-    query.bindValue(":tanggalLahir", tgl_lahir);
+    query.bindValue(":tanggalLahir", tanggalLahir);
 
     if (!query.exec())
         qFatal() << "Cannot add Member " << query.lastError().text();
@@ -81,13 +81,13 @@ void MemberModel::add(QString namaDepan, QString namaBelakang, QDateTime tgl_lah
     refresh();
 }
 
-void MemberModel::edit(QString kode, QString namaDepan, QString namaBelakang, QDateTime tanggalLahir)
+void MemberModel::edit(QString kode, QString namaDepan, QString namaBelakang, QDate tanggalLahir)
 {
     QSqlQuery query;
     query.prepare("UPDATE Member SET"
                   " nama_depan_member = :namaDepan,"
                   " nama_belakang_member = :namaBelakang,"
-                  " tgl_lahir = :tanggalLahir "
+                  " tanggal_lahir = :tanggalLahir "
                   "WHERE kd_member = :kode");
     query.bindValue(":namaDepan", namaDepan);
     query.bindValue(":namaBelakang", namaBelakang);
@@ -119,7 +119,7 @@ void MemberModel::refresh()
                     "   kd_member,"
                     "   nama_depan_member,"
                     "   nama_belakang_member,"
-                    "   tgl_lahir "
+                    "   tanggal_lahir "
                     "FROM Member"))
         qFatal() << "Cannot select from Member" << query.lastError().text();
 

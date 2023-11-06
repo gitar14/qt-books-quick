@@ -63,7 +63,7 @@ void initializeDatabase(QSqlDatabase &db) {
                     "   kd_member VARCHAR (4) NOT NULL PRIMARY KEY,"
                     "   nama_depan_member VARCHAR(25) NOT NULL,"
                     "   nama_belakang_member VARCHAR(25) NOT NULL,"
-                    "   tgl_lahir DATETIME NOT NULL"
+                    "   tanggal_lahir DATE NOT NULL"
                     ")"))
         qFatal() << "Cannot create Member table " << query.lastError().text();
 }
