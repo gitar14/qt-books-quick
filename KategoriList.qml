@@ -32,20 +32,12 @@ Rectangle {
 
             model: listModel
 
-            delegate: Rectangle {
+            delegate: CardDelegate {
                 property var itemData: model
                 width: GridView.view.cellWidth - 8
                 height: GridView.view.cellHeight - 8
-
-                border.color: "#dedede"
-                border.width: 1
-                radius: 16
-                color: GridView.isCurrentItem ? "#efefef" : "#ffffff"
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: kategoriGrid.currentIndex = index
-                }
+                highlighted: GridView.isCurrentItem
+                onClicked: GridView.view.currentIndex = index
 
                 ColumnLayout {
                     anchors.fill: parent

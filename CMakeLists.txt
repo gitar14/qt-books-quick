@@ -63,6 +63,7 @@ qt_add_qml_module(appqt-books-qml
     SOURCES peminjamanmodel.h peminjamanmodel.cpp
     RESOURCES resources.qrc
     QML_FILES SearchField.qml
+    QML_FILES CardDelegate.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
