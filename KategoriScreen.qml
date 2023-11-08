@@ -16,6 +16,7 @@ Page {
                 text: "Kategori"
                 horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter
+                font.pixelSize: 20
             }
 
             SearchField {
