@@ -79,7 +79,7 @@ Window {
                         font.bold: true
                         verticalAlignment: Qt.AlignVCenter
                         color: sidebarDelegate.highlighted ?
-                                   sidebarDelegate.Material.accent :
+                                   sidebarDelegate.Material.primary :
                                    sidebarDelegate.Material.foreground
                     }
 
@@ -90,7 +90,7 @@ Window {
                         width: parent.width + sidebarRadius
 
                         color: sidebarDelegate.highlighted ?
-                                   Qt.alpha(Material.shade(sidebarDelegate.Material.accent, Material.Shade500), 0.12)
+                                   Qt.alpha(Material.shade(sidebarDelegate.Material.primary, Material.Shade500), 0.12)
                                  : "transparent"
                         radius: 32
 
