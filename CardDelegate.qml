@@ -12,10 +12,10 @@ ItemDelegate {
 
         color: control.highlighted ?
                    control.Material.listHighlightColor
-                 : "transparent"
+                 : "white"
         radius: 16
         border.width: 1
-        border.color: control.Material.listHighlightColor
+        border.color: "#dedede"
 
         Ripple {
             width: parent.width
