@@ -7,6 +7,7 @@
 class KategoriModel : public QSqlQueryModel
 {
     Q_OBJECT
+    Q_PROPERTY(QString textQuery READ textQuery WRITE setTextQuery NOTIFY textQueryChanged)
     QML_ELEMENT
 public:
     enum Role {
@@ -24,6 +25,12 @@ public:
     Q_INVOKABLE void edit(QString kode, QString jenis);
     Q_INVOKABLE void remove(QString kode);
     Q_INVOKABLE int getIndexByKode(QString kode);
+    QString textQuery() const;
+    void setTextQuery(const QString &newTextQuery);
+signals:
+    void textQueryChanged();
+private:
+    QString mTextQuery;
 };
 
 #endif // KATEGORIMODEL_H

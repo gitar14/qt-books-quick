@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.16)
 project(qt-books-qml VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Sql QuickControls2)
 
@@ -59,6 +60,9 @@ qt_add_qml_module(appqt-books-qml
     SOURCES basepeminjamanbukumodel.cpp
     SOURCES editablepeminjamanbukumodel.h editablepeminjamanbukumodel.cpp
     SOURCES peminjamanbukumodel.h peminjamanbukumodel.cpp
+    SOURCES peminjamanmodel.h peminjamanmodel.cpp
+    RESOURCES resources.qrc
+    QML_FILES SearchField.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

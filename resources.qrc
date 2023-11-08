@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file alias="search-black.svg">icons/search-black.svg</file>
+    </qresource>
+</RCC>

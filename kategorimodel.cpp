@@ -1,4 +1,5 @@
 #include "kategorimodel.h"
+#include "sqlhelper.h"
 
 KategoriModel::KategoriModel(QObject *parent)
     : QSqlQueryModel{parent}
@@ -32,11 +33,22 @@ QVariant KategoriModel::data(const QModelIndex &item, int role) const
 
 void KategoriModel::refresh()
 {
+    QHash<QString, QVariant> bindMaps;
+    QString queryString = "SELECT"
+                          "   kd_kategori,"
+                          "   jenis "
+                          "FROM Kategori";
+    if (mTextQuery.length() > 0) {
+        queryString.append(" WHERE jenis LIKE :text_query");
+        bindMaps[":text_query"] = "%" + mTextQuery + "%";
+    }
+
     QSqlQuery query;
-    if (!query.exec("SELECT"
-                    "   kd_kategori,"
-                    "   jenis "
-                    "FROM Kategori"))
+    query.prepare(queryString);
+
+    SQLHelper::applyBindMaps(query, bindMaps);
+
+    if (!query.exec())
         qFatal("Cannot query Kategori: %s", qPrintable(query.lastError().text()));
 
     setQuery(std::move(query));
@@ -114,4 +126,18 @@ int KategoriModel::getIndexByKode(QString kode)
         }
     }
     return -1;
+}
+
+QString KategoriModel::textQuery() const
+{
+    return mTextQuery;
+}
+
+void KategoriModel::setTextQuery(const QString &newTextQuery)
+{
+    if (mTextQuery == newTextQuery)
+        return;
+    mTextQuery = newTextQuery;
+    refresh();
+    emit textQueryChanged();
 }
