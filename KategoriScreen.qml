@@ -5,6 +5,8 @@ import QtQuick.Controls.Material
 import my.id.levirs.books
 
 Page {
+    leftPadding: sidebarRadius
+
     header: ToolBar {
         RowLayout {
             anchors.fill: parent

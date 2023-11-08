@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
+import QtQuick.Controls.Material.impl
 
 Window {
     property string currentView: "KategoriScreen.qml"
@@ -10,10 +11,30 @@ Window {
     visible: true
     title: qsTr("Hello World")
 
-    Rectangle {
-        width: 250
+    property int sidebarRadius: 32
+    property int sidebarWidth: 250
+
+    Loader {
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+
+        anchors.leftMargin: sidebarWidth - sidebarRadius
+
+        source: currentView
+    }
+
+    Frame {
+        width: sidebarWidth
         height: parent.height
-        color: "#dedede"
+        background: Rectangle {
+            width: parent.width + radius
+            x: -radius
+            radius: sidebarRadius
+            border.color: "#dedede"
+        }
+        padding: 0
 
         Column {
             anchors.fill: parent
@@ -47,38 +68,47 @@ Window {
 
                 }
 
-                delegate: Rectangle {
-                    height: row.height
+                delegate: ItemDelegate {
+                    id: sidebarDelegate
                     width: parent.width
-                    color: "#dedede"
+                    onClicked: currentView = view
+                    highlighted: currentView === view
 
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: currentView = view
+                    contentItem: Label {
+                        text: name
+                        font.bold: true
+                        verticalAlignment: Qt.AlignVCenter
+                        color: sidebarDelegate.highlighted ?
+                                   sidebarDelegate.Material.accent :
+                                   sidebarDelegate.Material.foreground
                     }
 
-                    Column {
-                        width: parent.width
-                        id: row
-                        padding: 16
 
-                        Text {
-                            text: name
+                    background: Rectangle {
+                        implicitHeight: sidebarDelegate.Material.delegateHeight
+                        x: -sidebarRadius
+                        width: parent.width + sidebarRadius
+
+                        color: sidebarDelegate.highlighted ?
+                                   Qt.alpha(Material.shade(sidebarDelegate.Material.accent, Material.Shade500), 0.12)
+                                 : "transparent"
+                        radius: 32
+
+                        Ripple {
+                            width: parent.width
+                            height: parent.height
+                            clip: true
+                            clipRadius: 32
+                            pressed: sidebarDelegate.pressed
+                            anchor: sidebarDelegate
+                            active: enabled &&
+                                    (sidebarDelegate.down || sidebarDelegate.visualFocus || sidebarDelegate.hovered)
+                            color: sidebarDelegate.Material.rippleColor
                         }
+
                     }
                 }
             }
         }
-    }
-
-    Loader {
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-
-        anchors.leftMargin: 250
-
-        source: currentView
     }
 }
