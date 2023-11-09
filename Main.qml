@@ -52,6 +52,7 @@ ApplicationWindow {
 
         function onUserAdded() {
             mainStackView.push("UserLoginScreen.qml")
+            loginAfterUserAddedConnection.enabled = false
         }
     }
 
