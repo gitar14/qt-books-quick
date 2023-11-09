@@ -7,6 +7,7 @@
 namespace SQLHelper {
     QString generateArrayBinds(QString prefix, const QStringList& list, QHash<QString, QVariant>& binds);
     void applyBindMaps(QSqlQuery& query, const QHash<QString, QVariant>& binds);
+    void initializeDatabase(QSqlDatabase& db);
 }
 
 #endif // SQLHELPER_H
