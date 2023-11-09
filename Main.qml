@@ -6,7 +6,7 @@ ApplicationWindow {
     property string currentView: "KategoriScreen.qml"
 
     width: 960
-    height: 480
+    height: 640
     visible: true
     title: qsTr("Hello World")
 
@@ -23,11 +23,35 @@ ApplicationWindow {
         target: ConnectionManager
 
         function onConnected() {
-            mainStackView.replace("DashboardScreen.qml");
+            if (!UserManager.hasAvailableUser()) {
+                loginAfterUserAddedConnection.enabled = true
+                mainStackView.push("UserBuatAdminScreen.qml")
+            } else {
+                mainStackView.push("UserLoginScreen.qml")
+            }
         }
+
         function onConnectionFailed() {
             if (!mainStackView.currentItem)
                 mainStackView.push("ConnectionScreen.qml");
+        }
+    }
+
+    Connections {
+        target: UserManager
+
+        function onLoggedIn() {
+            mainStackView.push("DashboardScreen.qml")
+        }
+    }
+
+    Connections {
+        id: loginAfterUserAddedConnection
+        enabled: false
+        target: UserManager
+
+        function onUserAdded() {
+            mainStackView.push("UserLoginScreen.qml")
         }
     }
 

@@ -79,6 +79,16 @@ namespace SQLHelper {
                         "   tanggal_lahir DATE NOT NULL"
                         ")"))
             qFatal() << "Cannot create Member table " << query.lastError().text();
+
+        if (!query.exec("CREATE TABLE IF NOT EXISTS User("
+                        "   id_user VARCHAR(15) NOT NULL PRIMARY KEY,"
+                        "   nama_depan_user VARCHAR(25) NOT NULL,"
+                        "   nama_belakang_user VARCHAR(25) NOT NULL,"
+                        "   role TINYINT NOT NULL,"
+                        "   password_hash VARCHAR(100) NOT NULL"
+                        ")"))
+            qFatal() << "Cannot create User table " << query.lastError().text();
+
         if (!query.exec("CREATE TABLE IF NOT EXISTS Peminjaman("
                         "   kd_peminjaman VARCHAR(4) NOT NULL PRIMARY KEY,"
                         "   kd_member VARCHAR(4) NOT NULL,"
@@ -107,6 +117,7 @@ namespace SQLHelper {
         QStringList tableList{
             "Peminjaman_buku",
             "Peminjaman",
+            "User",
             "Member",
             "Pengadaan_buku",
             "Pengadaan",

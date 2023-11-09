@@ -2,10 +2,13 @@ cmake_minimum_required(VERSION 3.16)
 
 project(qt-books-qml VERSION 0.1 LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Sql QuickControls2)
+find_path(BOTAN_INCLUDE_DIRS "botan/build.h")
+find_library(BOTAN_LIBRARY "botan-3")
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -73,6 +76,9 @@ qt_add_qml_module(appqt-books-qml
     SOURCES configurationmanager.h configurationmanager.cpp
     QML_FILES SettingsScreen.qml
     SOURCES settingsmodel.h settingsmodel.cpp
+    QML_FILES UserBuatAdminScreen.qml
+    SOURCES usermanager.h usermanager.cpp
+    QML_FILES UserLoginScreen.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -86,8 +92,9 @@ set_target_properties(appqt-books-qml PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
+target_include_directories(appqt-books-qml PRIVATE ${BOTAN_INCLUDE_DIRS})
 target_link_libraries(appqt-books-qml
-    PRIVATE Qt6::Quick Qt6::Sql Qt6::QuickControls2
+    PRIVATE Qt6::Quick Qt6::Sql Qt6::QuickControls2 ${BOTAN_LIBRARY}
 )
 
 include(GNUInstallDirs)
