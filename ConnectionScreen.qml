@@ -4,7 +4,20 @@ import QtQuick.Layouts
 import Kelompok7.Perpus
 
 Item {
-    property var selectedIndex
+    property var selectedConnection
+    property bool isRememberConnection: false
+
+    Component.onCompleted: {
+        selectedConnection = ConnectionManager.getRememberedConnection()
+
+        if (selectedConnection == "mysql") {
+            stackView.push(mysqlView);
+        }
+
+        if (selectedConnection.length > 0) {
+            isRememberConnection = true
+        }
+    }
 
     Frame {
         anchors.centerIn: parent
@@ -33,36 +46,41 @@ Item {
                 Repeater {
                     model: ListModel {
                         ListElement {
-                            name: "SQLite Lokal"
+                            name: "sqlite"
+                            title: "SQLite Lokal"
                         }
 
                         ListElement {
-                            name: "MySQL (File Lokal)"
+                            name: "mysql"
+                            title: "MySQL (File Lokal)"
                         }
                     }
 
                     CardDelegate {
                         Layout.fillWidth: true
-                        text: name
-                        highlighted: selectedIndex == index
-                        onClicked: selectedIndex = index
+                        text: title
+                        highlighted: selectedConnection == name
+                        onClicked: selectedConnection = name
                     }
                 }
 
                 CheckBox {
                     text: "Ingat pilihan saat ini"
+                    checked: isRememberConnection
+                    onCheckStateChanged: isRememberConnection = checked
                 }
 
                 Button {
                     Layout.alignment: Qt.AlignRight
                     text: "Pilih"
-                    enabled: selectedIndex != null
+                    enabled: selectedConnection != null
                     highlighted: true
 
                     onClicked: {
-                        if (selectedIndex == 0) {
+                        ConnectionManager.setRememberedConnection(isRememberConnection ? selectedConnection : "");
+                        if (selectedConnection == "sqlite") {
                             ConnectionManager.openSqlite();
-                        } else if (selectedIndex == 1) {
+                        } else if (selectedConnection == "mysql") {
                             stackView.push(mysqlView)
                         }
                     }
@@ -75,11 +93,21 @@ Item {
 
             ColumnLayout {
                 id: mysqlLayout
-                property string host: "localhost"
-                property int port: 3306
-                property string database: ""
-                property string username: ""
-                property string password: ""
+                property string host
+                property int port
+                property string database
+                property string username
+                property string password
+                property bool isRemembered
+
+                Component.onCompleted: {
+                    host = ConnectionManager.getRememberedMySqlHost();
+                    port = ConnectionManager.getRememberedMySqlPort();
+                    database = ConnectionManager.getRememberedMySqlDatabase();
+                    username = ConnectionManager.getRememberedMySqlUserName();
+                    password = ConnectionManager.getRememberedMySqlPassword();
+                    isRemembered = ConnectionManager.isMySqlConfigRemembered();
+                }
 
                 Label {
                     font.pixelSize: 20
@@ -146,6 +174,12 @@ Item {
                     onTextChanged: mysqlLayout.password = text
                 }
 
+                CheckBox {
+                    text: "Simpan konfigurasi MySQL"
+                    checked: mysqlLayout.isRemembered
+                    onCheckedChanged: mysqlLayout.isRemembered = checked
+                }
+
                 RowLayout {
                    Layout.fillWidth: true
 
@@ -164,6 +198,7 @@ Item {
 
                        onClicked: {
                            ConnectionManager.openMySql(
+                                       mysqlLayout.isRemembered,
                                        mysqlLayout.host,
                                        mysqlLayout.port,
                                        mysqlLayout.database,

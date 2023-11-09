@@ -13,11 +13,21 @@ ApplicationWindow {
     property int sidebarRadius: 32
     property int sidebarWidth: 250
 
+    Component.onCompleted: {
+        if (!ConnectionManager.connectByRemembered()) {
+            mainStackView.push("ConnectionScreen.qml");
+        }
+    }
+
     Connections {
         target: ConnectionManager
 
         function onConnected() {
             mainStackView.replace("DashboardScreen.qml");
+        }
+        function onConnectionFailed() {
+            if (!mainStackView.currentItem)
+                mainStackView.push("ConnectionScreen.qml");
         }
     }
 
@@ -25,7 +35,6 @@ ApplicationWindow {
     StackView {
         id: mainStackView
         anchors.fill: parent
-        initialItem: "ConnectionScreen.qml"
     }
 
 }
