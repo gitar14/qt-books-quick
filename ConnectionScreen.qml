@@ -73,7 +73,7 @@ Item {
                 Button {
                     Layout.alignment: Qt.AlignRight
                     text: "Pilih"
-                    enabled: selectedConnection != null
+                    enabled: selectedConnection.length > 0
                     highlighted: true
 
                     onClicked: {

@@ -14,6 +14,7 @@
 #include "membermodel.h"
 #include "editablepeminjamanbukumodel.h"
 #include "connectionmanager.h"
+#include "settingsmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -28,6 +29,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<PengadaanModel>("Kelompok7.Perpus", 1, 0, "PengadaanModel");
     qmlRegisterType<MemberModel>("Kelompok7.Perpus", 1, 0, "MemberModel");
     qmlRegisterType<EditablePeminjamanBukuModel>("Kelompok7.Perpus", 1, 0, "EditablePeminjamanBukuModel");
+    qmlRegisterType<SettingsModel>("Kelompok7.Perpus", 1, 0, "SettingsModel");
     qmlRegisterSingletonInstance("Kelompok7.Perpus", 1, 0, "ConnectionManager", ConnectionManager::getInstance());
 
     QQuickStyle::setStyle("Material");

@@ -144,6 +144,13 @@ bool ConnectionManager::connectByRemembered()
     return false;
 }
 
+void ConnectionManager::clearRememberedConfiguration()
+{
+    mConfig.clear();
+    mMySqlConfig.clear();
+    storeConfig();
+}
+
 ConnectionManager::ConnectionManager(QObject *parent)
     : QObject{parent}
 {

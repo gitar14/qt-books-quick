@@ -102,4 +102,26 @@ namespace SQLHelper {
 
     }
 
+    void clearDatabase(QSqlDatabase &db)
+    {
+        QStringList tableList{
+            "Peminjaman_buku",
+            "Peminjaman",
+            "Member",
+            "Pengadaan_buku",
+            "Pengadaan",
+            "Buku",
+            "Penerbit",
+            "Kategori"
+        };
+
+        QSqlQuery query;
+        for (QStringList::iterator it = tableList.begin(); it != tableList.end(); it++) {
+            query.prepare(QStringLiteral("DROP TABLE IF EXISTS %1").arg(*it));
+            if (!query.exec()) {
+                qFatal() << "Cannot drop table " << *it << " " << query.lastError().text();
+            }
+        }
+    }
+
 }

@@ -31,6 +31,7 @@ public:
         );
 
     Q_INVOKABLE bool connectByRemembered();
+    Q_INVOKABLE void clearRememberedConfiguration();
 
 private:
     explicit ConnectionManager(QObject *parent = nullptr);

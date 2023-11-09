@@ -55,7 +55,10 @@ Item {
                         name: "Peminjaman Buku"
                         view: "PeminjamanList.qml"
                     }
-
+                    ListElement {
+                        name: "Pengaturan"
+                        view: "SettingsScreen.qml"
+                    }
                 }
 
                 delegate: ItemDelegate {
