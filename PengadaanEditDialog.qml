@@ -110,8 +110,8 @@ Dialog {
                 }
             }
             Button {
-                visible: pengadaanBukuModel.isBukuAvailable
-                text: "Tambah Buku"
+                enabled: pengadaanBukuModel.isBukuAvailable
+                text: enabled ? "Tambah Buku" : "Tidak Ada Buku Tersedia"
                 Layout.fillWidth: true
                 onClicked: tambahPengadaanBukuDialog.open()
             }
