@@ -1,84 +1,65 @@
 import QtQuick
-import QtQuick.Window
 import QtQuick.Controls
+import Kelompok7.Perpus
 
-Window {
+ApplicationWindow {
     property string currentView: "KategoriScreen.qml"
 
     width: 960
-    height: 480
+    height: 640
     visible: true
     title: qsTr("Hello World")
 
-    Rectangle {
-        width: 250
-        height: parent.height
-        color: "#dedede"
+    property int sidebarRadius: 32
+    property int sidebarWidth: 250
 
-        Column {
-            anchors.fill: parent
-            Repeater {
-
-                model: ListModel {
-                    ListElement {
-                        name: "Buku"
-                        view: "BukuScreen.qml"
-                    }
-                    ListElement {
-                        name: "Kategori"
-                        view: "KategoriScreen.qml"
-                    }
-                    ListElement{
-                        name : "Penerbit"
-                        view : "PenerbitScreen.qml"
-                    }
-                    ListElement{
-                        name : "Member"
-                        view : "MemberScreen.qml"
-                    }
-                    ListElement {
-                        name: "Pengadaan Buku"
-                        view: "PengadaanScreen.qml"
-                    }
-                    ListElement {
-                        name: "Peminjaman Buku"
-                        view: "PeminjamanScreen.qml"
-                    }
-
-                }
-
-                delegate: Rectangle {
-                    height: row.height
-                    width: parent.width
-                    color: "#dedede"
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: currentView = view
-                    }
-
-                    Column {
-                        width: parent.width
-                        id: row
-                        padding: 16
-
-                        Text {
-                            text: name
-                        }
-                    }
-                }
-            }
+    Component.onCompleted: {
+        if (!ConnectionManager.connectByRemembered()) {
+            mainStackView.push("ConnectionScreen.qml");
         }
     }
 
-    Loader {
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
+    Connections {
+        target: ConnectionManager
 
-        anchors.leftMargin: 250
+        function onConnected() {
+            if (!UserManager.hasAvailableUser()) {
+                loginAfterUserAddedConnection.enabled = true
+                mainStackView.push("UserBuatAdminScreen.qml")
+            } else {
+                mainStackView.push("UserLoginScreen.qml")
+            }
+        }
 
-        source: currentView
+        function onConnectionFailed() {
+            if (!mainStackView.currentItem)
+                mainStackView.push("ConnectionScreen.qml");
+        }
     }
+
+    Connections {
+        target: UserManager
+
+        function onLoggedIn() {
+            mainStackView.push("DashboardScreen.qml")
+        }
+    }
+
+    Connections {
+        id: loginAfterUserAddedConnection
+        enabled: false
+        target: UserManager
+
+        function onUserAdded() {
+            mainStackView.push("UserLoginScreen.qml")
+            loginAfterUserAddedConnection.enabled = false
+        }
+    }
+
+
+    StackView {
+        id: mainStackView
+        anchors.fill: parent
+    }
+
 }
