@@ -11,6 +11,7 @@ Basic.TextField {
     placeholderText: "Cari"
     leftPadding: 36
     rightPadding: 16
+    color: "#000000"
 
     background: Rectangle {
         color: "#ffffff"
