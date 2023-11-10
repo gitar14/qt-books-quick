@@ -2,7 +2,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <botan/system_rng.h>
-#include <botan/argon2fmt.h>
+#include <botan/bcrypt.h>
 
 UserManager::UserManager(QObject *parent)
     : QObject{parent}
@@ -24,14 +24,7 @@ bool UserManager::hasAvailableUser()
 
 void UserManager::addUser(QString id, QString namaDepan, QString namaBelakang, UserRole role, QString password)
 {
-    QByteArray passwordBytes = password.toUtf8();
-    QString passwordHash = QString::fromStdString(Botan::argon2_generate_pwhash(
-        passwordBytes.data(),
-        passwordBytes.length(),
-        Botan::system_rng(),
-        1,
-        19 * 1024,
-        2));
+    QString passwordHash = QString::fromStdString(Botan::generate_bcrypt(password.toStdString(), Botan::system_rng()));
     QSqlQuery query;
 
     query.prepare("INSERT INTO User("
@@ -78,12 +71,10 @@ void UserManager::login(QString id, QString password)
         return;
     }
 
-    QByteArray passwordBytes = password.toUtf8();
     QString passwordHash = query.value("password_hash").toString();
 
-    if (!Botan::argon2_check_pwhash(
-            passwordBytes.data(),
-            passwordBytes.length(),
+    if (!Botan::check_bcrypt(
+            password.toStdString(),
             passwordHash.toStdString())) {
         emit loginFailed("Password salah");
         return;
