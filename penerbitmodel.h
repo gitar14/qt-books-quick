@@ -7,6 +7,7 @@
 class PenerbitModel : public QSqlQueryModel
 {
     Q_OBJECT
+    Q_PROPERTY(QString textQuery READ textQuery WRITE setTextQuery NOTIFY textQueryChanged)
     QML_ELEMENT
 public:
     enum Role {
@@ -27,6 +28,12 @@ public:
 
 
     void refresh();
+    QString textQuery() const;
+    void setTextQuery(const QString &newTextQuary);
+signals:
+    void textQueryChanged();
+private:
+    QString mTextQuery;
 };
 
 #endif // PENERBITMODEL_H

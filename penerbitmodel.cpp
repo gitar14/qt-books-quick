@@ -1,5 +1,6 @@
 #include "penerbitmodel.h"
 #include <QtSql>
+#include "sqlhelper.h"
 
 PenerbitModel::PenerbitModel(QObject *parent)
     : QSqlQueryModel{parent}
@@ -111,13 +112,36 @@ int PenerbitModel::getIndexByKode(QString kode)
 
 void PenerbitModel::refresh()
 {
+    QHash<QString,QVariant>binds;
+    QString queryString="SELECT "
+                          "   kd_penerbit,"
+                          "   nama_penerbit,"
+                          "   alamat_penerbit "
+                          "FROM Penerbit";
+    if (mTextQuery.length()){
+        queryString+= " WHERE nama_penerbit LIKE :textQuery";
+        binds[":textQuery"]="%"+mTextQuery+"%";
+
+    }
     QSqlQuery query;
-    if (!query.exec("SELECT "
-                    "   kd_penerbit,"
-                    "   nama_penerbit,"
-                    "   alamat_penerbit "
-                    "FROM Penerbit"))
+    query.prepare(queryString);
+    SQLHelper::applyBindMaps(query,binds);
+    if (!query.exec())
         qFatal() << "Cannot select from Penerbit " << query.lastError().text();
 
     setQuery(std::move(query));
+}
+
+QString PenerbitModel::textQuery() const
+{
+    return mTextQuery;
+}
+
+void PenerbitModel::setTextQuery(const QString &newTextQuary)
+{
+    if (mTextQuery == newTextQuary)
+        return;
+    mTextQuery = newTextQuary;
+    emit textQueryChanged();
+    refresh();
 }
