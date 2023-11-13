@@ -1,4 +1,5 @@
 #include "membermodel.h"
+#include "sqlhelper.h"
 #include <QtSql>
 
 MemberModel::MemberModel(QObject *parent)
@@ -114,14 +115,38 @@ void MemberModel::remove(QString kode)
 
 void MemberModel::refresh()
 {
+    QHash<QString,QVariant>binds;
+    QString queryString = "SELECT "
+                          "   kd_member,"
+                          "   nama_depan_member,"
+                          "   nama_belakang_member,"
+                          "   tanggal_lahir "
+                          "FROM Member";
+    if (mTextQuery.length()>0) {
+        queryString += " WHERE (nama_depan_member || ' ' || nama_belakang_member) LIKE :textQuery";
+        binds[":textQuery"]="%"+ mTextQuery +"%";
+    }
+
     QSqlQuery query;
-    if (!query.exec("SELECT "
-                    "   kd_member,"
-                    "   nama_depan_member,"
-                    "   nama_belakang_member,"
-                    "   tanggal_lahir "
-                    "FROM Member"))
+    query.prepare(queryString);
+    SQLHelper::applyBindMaps(query,binds);
+
+    if (!query.exec())
         qFatal() << "Cannot select from Member" << query.lastError().text();
 
     setQuery(std::move(query));
+}
+
+QString MemberModel::TextQuery() const
+{
+    return mTextQuery;
+}
+
+void MemberModel::setTextQuery(const QString &newTextQuery)
+{
+    if (mTextQuery == newTextQuery)
+        return;
+    mTextQuery = newTextQuery;
+    emit textQueryChanged();
+    refresh();
 }
