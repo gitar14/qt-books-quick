@@ -5,50 +5,29 @@ import Kelompok7.Perpus
 import my.id.levirs.books
 
 RowLayout {
-//    PeminjamanBukuModel {
-//        id: peminjamanBukuModel
-//        kodePeminjaman: peminjamanDetailFrame.peminjamanKode
-//    }
+    PeminjamanBukuModel {
+        id: peminjamanBukuModel
+        kodePeminjaman: peminjamanDetailFrame.peminjamanKode
+    }
 
     EditablePeminjamanBukuModel {
         id: editablePeminjamanBukuModel
 //        onItemsChanged: peminjamanBukuListModel.setIgnoredKodeList(kodeBukuList)
     }
 
-//    PeminjamanModel {
-//        id: peminjamanModel
-//    }
-
-    ListModel {
+    PeminjamanModel {
         id: peminjamanModel
-
-        ListElement {
-            namaMember: "Dida"
-            tanggalPinjam: "18 JAN"
-            tenggatPinjam: "23 noV"
-        }
-
-        ListElement {
-            namaMember: "Jepe"
-            tanggalPinjam: "12 April"
-            tenggatPinjam: "12 Jan"
-        }
-
-        ListElement {
-            namaMember: "Akmul"
-            tanggalPinjam: "14 Des"
-            tenggatPinjam: "14 Feb"
-        }
     }
 
     BookListModel {
         id: peminjamanBukuListModel
     }
 
-//    PengadaanListModel {
-//        id: peminjamanListModel
-//    }
-    PeminjamanList{
+    MemberModel {
+        id: memberModel
+    }
+
+    PeminjamanList {
         onAddClicked: editPeminjamanDialog.open()
         listModel: peminjamanModel
     }
@@ -57,6 +36,7 @@ RowLayout {
         id: editPeminjamanDialog
         peminjamanBukuModel: editablePeminjamanBukuModel
         bukuModel: peminjamanBukuListModel
+        memberModel: memberModel
         onAccepted: {
             if (peminjamanKode == "") {
                 peminjamanKode = peminjamanmodel.add(peminjamanSumber);
@@ -70,5 +50,6 @@ RowLayout {
 
     PeminjamanDetailFrame{
         id: peminjamanDetailFrame
+        peminjamanBukuModel: peminjamanBukuModel
     }
 }

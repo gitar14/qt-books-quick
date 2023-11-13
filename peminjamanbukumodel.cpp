@@ -32,8 +32,8 @@ void PeminjamanBukuModel::refresh()
 {
     QSqlQuery query;
     query.prepare("SELECT"
-                  " Buku.kd_buku,"
-                  " Buku.judul "
+                  " Peminjaman_buku.kd_buku,"
+                  " Peminjaman_buku.judul "
                   "FROM Peminjaman_buku "
                   "LEFT JOIN Buku"
                   " ON Buku.kd_buku = Peminjaman_buku.kd_buku "
@@ -53,6 +53,11 @@ QHash<int, QByteArray> PeminjamanBukuModel::roleNames() const
     return BasePeminjamanBukuModel::getRoleNames();
 }
 
+void PeminjamanBukuModel::internalUpdateAll(QString kodePeminjaman, QAbstractItemModel *model)
+{
+    
+}
+
 QString PeminjamanBukuModel::kodePeminjaman() const
 {
     return mKodePeminjaman;
@@ -65,4 +70,24 @@ void PeminjamanBukuModel::setKodePeminjaman(const QString &newKodePeminjaman)
     mKodePeminjaman = newKodePeminjaman;
     emit kodePeminjamanChanged();
     refresh();
+}
+
+void PeminjamanBukuModel::updateAll(QAbstractItemModel *model)
+{
+    
+}
+
+void PeminjamanBukuModel::addAll(QString kodePengadaan, QAbstractItemModel *model)
+{
+    
+}
+
+void PeminjamanBukuModel::removeAll()
+{
+    
+}
+
+int PeminjamanBukuModel::count() const
+{
+    
 }

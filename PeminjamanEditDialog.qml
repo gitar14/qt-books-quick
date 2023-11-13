@@ -6,10 +6,13 @@ import Kelompok7.Perpus
 
 Dialog {
     property string peminjamanKode: ""
-    property string peminjamanSumber: ""
+    property string peminjamanMemberKode: ""
+    property string peminjamanMemberNama: ""
+    property int peminjamanLama: 0
     property date peminjamanTanggal: new Date ()
     required property EditablePeminjamanBukuModel peminjamanBukuModel
     required property BookListModel bukuModel
+    required property MemberModel memberModel
 
     parent: Overlay.overlay
     anchors.centerIn: parent
@@ -33,6 +36,16 @@ Dialog {
             }
     }
 
+    MemberPilihDialog {
+        id: memberPilihDialog
+        listModel: memberModel
+
+        onAccepted: {
+            peminjamanMemberKode = currentItemData.kode
+            peminjamanMemberNama = currentItemData.name
+        }
+    }
+
     Flickable {
         id: editPeminjamanDialogFlickable
         anchors.fill: parent
@@ -41,6 +54,18 @@ Dialog {
         ColumnLayout {
             id: editPeminjamanDialogLayout
             width: parent.width
+
+            Label {
+                text: "Member"
+            }
+
+            Label {
+                text: peminjamanMemberNama
+            }
+
+            Button {
+                onClicked: memberPilihDialog.open()
+            }
 
             Label {
                 text: "Tanggal Peminjaman"
@@ -59,9 +84,9 @@ Dialog {
                 editable: true
                 from: 0
                 to: 1000
-                //value: model.lama
+                value: peminjamanLama
                 Layout.fillWidth:true
-//                onValueChanged: model.lama = value
+                onValueChanged: peminjamanLama = value
             }
 
             Label {
@@ -95,7 +120,7 @@ Dialog {
             }
 
             Button {
-//                visible: bukuModel.count > 0
+                visible: bukuModel.count > 0
                 text: "Tambah Buku"
                 Layout.fillWidth: true
                 onClicked: tambahPeminjamanBukuDialog.open()

@@ -5,8 +5,9 @@ import Kelompok7.Perpus
 
 Frame {
     property string peminjamanKode: ""
-    property string peminjamanSumber: ""
-//    required property PeminjamanBukuModel peminjamanBukuModel
+    property string peminjamanLama: ""
+    property date peminjamanTanggal: new Date()
+    required property PeminjamanBukuModel peminjamanBukuModel
 
     signal editClicked()
     signal deleteClicked()
@@ -36,14 +37,14 @@ Frame {
         }
 
         Label{
-            text: tanggalPeminjamanTextField
+            text: peminjamanTanggal
             Layout.columnSpan: 2
             Layout.alignment: Qt.AlignHCenter
 
         }
 
         Label{
-            text: "Lama Pengembalian"
+            text: "Lama Peminjaman"
         }
 
         Label{

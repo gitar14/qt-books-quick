@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-
+import Kelompok7.Perpus
 
 
 
@@ -10,7 +10,7 @@ Item {
     Layout.fillWidth: true
 
     property var currentItemData
-    required property ListModel listModel
+    required property PeminjamanModel listModel
     signal addClicked()
 
     ListView {
