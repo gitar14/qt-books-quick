@@ -18,8 +18,8 @@ Page {
             }
 
             SearchField{
-//                text: penerbitModel.textQuery
-//                onTextChanged: penerbitModel.textQuery = text
+                text: penerbitModel.textQuery
+               onTextChanged: penerbitModel.textQuery = text
             }
         }
     }
