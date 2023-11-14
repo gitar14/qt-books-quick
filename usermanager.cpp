@@ -66,7 +66,8 @@ void UserManager::login(QString id, QString password)
     query.prepare("SELECT "
                   " nama_depan_user,"
                   " nama_belakang_user,"
-                  " password_hash "
+                  " password_hash,"
+                  " role "
                   "FROM User WHERE id_user = :id");
     query.bindValue(":id", id);
 
@@ -90,10 +91,32 @@ void UserManager::login(QString id, QString password)
     }
 
     emit loggedIn();
+
+    mLoggedUserId = id;
+    mLoggedUserName =  QStringLiteral("%1 %2").arg(
+        query.value("nama_depan_user").toString(),
+        query.value("nama_belakang_user").toString());
+    mLoggedUserRole = (UserRole) query.value("role").toInt();
+    emit loggedUserChanged();
 }
 
 UserManager *UserManager::getInstance()
 {
     static UserManager instance;
     return &instance;
+}
+
+UserManager::UserRole UserManager::loggedUserRole() const
+{
+    return mLoggedUserRole;
+}
+
+QString UserManager::loggedUserName() const
+{
+    return mLoggedUserName;
+}
+
+QString UserManager::loggedUserId() const
+{
+    return mLoggedUserId;
 }
