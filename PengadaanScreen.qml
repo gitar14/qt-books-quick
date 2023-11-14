@@ -2,9 +2,28 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import Kelompok7.Perpus
-import my.id.levirs.books
 
-RowLayout {
+
+Page {
+    leftPadding: sidebarRadius
+    header: ToolBar {
+        RowLayout {
+            anchors.fill: parent
+
+            Label {
+                Layout.fillWidth: true
+                text: "Pengadaan"
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+                font.pixelSize: 20
+            }
+
+            SearchField {
+                text: pengadaanModel.textQuery
+                onTextChanged: pengadaanModel.textQuery = text
+            }
+        }
+    }
     PengadaanBukuModel {
         id: pengadaanBukuModel
         kodePengadaan: pengadaanDetailFrame.pengadaanKode
@@ -23,6 +42,9 @@ RowLayout {
     BookListModel {
         id: pengadaanBukuListModel
     }
+
+    RowLayout{
+        anchors.fill: parent
 
     PengadaanList {
         listModel: pengadaanModel
@@ -71,5 +93,6 @@ RowLayout {
                 pengadaanBukuModel.updateAll(editablePengadaanBukuModel);
             }
         }
+    }
     }
 }

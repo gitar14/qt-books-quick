@@ -27,29 +27,18 @@ Item {
             }
         }
 
-        delegate: Control {
+        delegate: CardDelegate {
             id: pengadaanListItem
             property var itemData: model
-            property bool isSelected: ListView.isCurrentItem
+            highlighted: ListView.isCurrentItem
             width: ListView.view.width
+            onClicked: pengadaanListView.currentIndex = index
             padding: 16
-
-            background: Rectangle {
-                border.color: "#dedede"
-                border.width: 1
-                radius: 16
-                color: pengadaanListItem.isSelected ? "#efefef" : "#ffffff"
-
-                MouseArea {
-                    anchors.fill: parent
-
-                    onClicked: pengadaanListView.currentIndex = index
-                }
-            }
 
             contentItem: Label {
                 id: pengadaanListItemContent
                 text: model.sumber
+                verticalAlignment: Qt.AlignVCenter
             }
         }
     }

@@ -5,22 +5,15 @@ import QtQuick.Layouts
 Item {
     Layout.fillHeight: true
     Layout.fillWidth: true
-    Layout.leftMargin: 16
-    Layout.topMargin: 16
-    Layout.bottomMargin: 16
 
     signal addClicked()
     property var currentItemData
     property var listModel
 
-    GridView {
+    AppGridView {
         id: memberGridView
         model: listModel
 
-        height: parent.height
-        width: parent.width
-        cellHeight: 150
-        cellWidth: 125
         onCurrentItemChanged: {
              if(currentItem==null){
                  currentItemData=null
@@ -32,20 +25,13 @@ Item {
                 }
         }
 
-        delegate: Rectangle {
+        delegate: CardDelegate {
             property var itemData: model
             width: GridView.view.cellWidth - 8
             height: GridView.view.cellHeight - 8
-            border.color: "#dedede"
-            border.width: 1
-            radius: 16
-            color: GridView.isCurrentItem ? "#efefef" : "#ffffff"
-
-            MouseArea {
-                anchors.fill: parent
-
-                onClicked: memberGridView.currentIndex = index
-            }
+            highlighted: GridView.isCurrentItem
+            onClicked: memberGridView.currentIndex = index
+            padding: 16
 
             ColumnLayout{
                 anchors.fill:parent

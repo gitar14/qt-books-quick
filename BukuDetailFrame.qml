@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-Frame {
+BaseDetailFrame {
     property string bukuKode: ""
     property string bukuJudul: ""
     property string bukuPenulis: ""
@@ -14,13 +14,6 @@ Frame {
     signal editClicked()
     signal deleteClicked()
 
-    width: 300
-    Layout.minimumWidth: 300
-    Layout.maximumWidth: 300
-    Layout.fillHeight: true
-    Layout.rightMargin: 16
-    Layout.topMargin: 16
-    Layout.bottomMargin: 16
 
     GridLayout {
         anchors.fill: parent

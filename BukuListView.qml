@@ -3,24 +3,18 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 ListView {
+    id: bukuListView
     spacing: 8
 
-    delegate: Rectangle {
+    delegate: CardDelegate {
         property var listView: ListView.view
         property var itemData: model
         width: ListView.view.width
         height: bukuColumn.height
+        padding: 16
+        highlighted: ListView.isCurrentItem
+        onClicked: bukuListView.currentIndex = index
 
-        border.color: "#dedede"
-        border.width: 1
-        radius: 16
-
-        color: ListView.isCurrentItem ? "#efefef" : "#ffffff"
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: parent.listView.currentIndex = index
-        }
 
         Column {
             id: bukuColumn

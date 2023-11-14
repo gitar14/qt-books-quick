@@ -2,8 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-Frame {
-//    id: penerbitDetailFrame
+BaseDetailFrame {
     property string penerbitKode: ""
     property string penerbitNama: ""
     property string penerbitAlamat: ""
@@ -11,19 +10,17 @@ Frame {
     signal editClicked()
     signal deleteClicked()
 
-    Layout.minimumWidth: 300
-    width: 300
-    Layout.fillHeight: true
-    Layout.topMargin: 16
-    Layout.bottomMargin: 16
-    Layout.rightMargin: 16
-    padding: 16
-
     GridLayout{
         anchors.fill: parent
         columns: 2
         visible: penerbitKode != ""
         columnSpacing: 16
+
+        Text {
+            Layout.columnSpan: 2
+            text: "Penerbit Detail"
+            font.pixelSize: 24
+        }
 
         Label{
             text: "Kode"

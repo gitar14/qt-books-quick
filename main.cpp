@@ -18,23 +18,25 @@
 #include "usermanager.h"
 #include "usermodel.h"
 
+#define PACKAGE "Kelompok7.Perpus"
+
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<BookListModel>("my.id.levirs.books", 1, 0, "BookListModel");
-    qmlRegisterType<BookListDetailModel>("my.id.levirs.books", 1, 0, "BookListDetailModel");
-    qmlRegisterType<KategoriModel>("my.id.levirs.books", 1, 0, "KategoriModel");
-    qmlRegisterType<PenerbitModel>("Kelompok7.Perpus", 1, 0, "PenerbitModel");
-    qmlRegisterType<PengadaanBukuModel>("Kelompok7.Perpus", 1, 0, "PengadaanBukuModel");
-    qmlRegisterType<EditablePengadaanBukuModel>("Kelompok7.Perpus", 1, 0, "EditablePengadaanBukuModel");
-    qmlRegisterType<PengadaanModel>("Kelompok7.Perpus", 1, 0, "PengadaanModel");
-    qmlRegisterType<MemberModel>("Kelompok7.Perpus", 1, 0, "MemberModel");
-    qmlRegisterType<EditablePeminjamanBukuModel>("Kelompok7.Perpus", 1, 0, "EditablePeminjamanBukuModel");
-    qmlRegisterType<SettingsModel>("Kelompok7.Perpus", 1, 0, "SettingsModel");
-    qmlRegisterType<UserModel>("my.id.levirs.books",1,0,"UserModel");
-    qmlRegisterSingletonInstance("Kelompok7.Perpus", 1, 0, "ConnectionManager", ConnectionManager::getInstance());
-    qmlRegisterSingletonInstance("Kelompok7.Perpus", 1, 0, "UserManager", UserManager::getInstance());
+    qmlRegisterType<BookListModel>(PACKAGE, 1, 0, "BookListModel");
+    qmlRegisterType<BookListDetailModel>(PACKAGE, 1, 0, "BookListDetailModel");
+    qmlRegisterType<KategoriModel>(PACKAGE, 1, 0, "KategoriModel");
+    qmlRegisterType<PenerbitModel>(PACKAGE, 1, 0, "PenerbitModel");
+    qmlRegisterType<PengadaanBukuModel>(PACKAGE, 1, 0, "PengadaanBukuModel");
+    qmlRegisterType<EditablePengadaanBukuModel>(PACKAGE, 1, 0, "EditablePengadaanBukuModel");
+    qmlRegisterType<PengadaanModel>(PACKAGE, 1, 0, "PengadaanModel");
+    qmlRegisterType<MemberModel>(PACKAGE, 1, 0, "MemberModel");
+    qmlRegisterType<EditablePeminjamanBukuModel>(PACKAGE, 1, 0, "EditablePeminjamanBukuModel");
+    qmlRegisterType<UserModel>(PACKAGE,1,0,"UserModel");
+    qmlRegisterType<SettingsModel>(PACKAGE, 1, 0, "SettingsModel");
+    qmlRegisterSingletonInstance(PACKAGE, 1, 0, "ConnectionManager", ConnectionManager::getInstance());
+    qmlRegisterSingletonInstance(PACKAGE, 1, 0, "UserManager", UserManager::getInstance());
 
     QQuickStyle::setStyle("Material");
 
