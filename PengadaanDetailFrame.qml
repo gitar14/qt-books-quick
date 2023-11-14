@@ -17,6 +17,12 @@ BaseDetailFrame {
         visible: pengadaanKode != ""
         columns: 2
 
+        Text {
+            Layout.columnSpan: 2
+            text: "Pengadaan Detail"
+            font.pixelSize: 24
+        }
+
         Label {
             text: "Kode"
         }
