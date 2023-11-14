@@ -1,6 +1,7 @@
 #include "pengadaanmodel.h"
 #include "basepengadaanbukumodel.h"
 #include <QtSql>
+#include "sqlhelper.h"
 
 PengadaanModel::PengadaanModel(QObject *parent)
     : QSqlQueryModel{parent}
@@ -36,12 +37,21 @@ QVariant PengadaanModel::data(const QModelIndex &item, int role) const
 
 void PengadaanModel::refresh()
 {
+    QHash<QString,QVariant>binds;
+    QString queryString="SELECT "
+                          "   kd_pengadaan,"
+                          "   sumber "
+                          "FROM Pengadaan";
+    if(mTextQuery.length() > 0){
+        queryString+= " WHERE sumber LIKE :textQuery";
+        binds[":textQuery"]="%"+mTextQuery+"%";
+    }
+    qInfo() << queryString;
     QSqlQuery query;
+    query.prepare(queryString);
+    SQLHelper::applyBindMaps(query,binds);
 
-    if (!query.exec("SELECT "
-                    "   kd_pengadaan,"
-                    "   sumber "
-                    "FROM Pengadaan"))
+    if (!query.exec())
         qFatal() << "Cannot query Pengadaan " << query.lastError().text();
 
     setQuery(std::move(query));
@@ -108,4 +118,18 @@ void PengadaanModel::remove(QString kode)
         qFatal() << "Cannot remove pengadaan " << query.lastError().text();
 
     refresh();
+}
+
+QString PengadaanModel::textQuery() const
+{
+    return mTextQuery;
+}
+
+void PengadaanModel::seTextQuery(const QString &newTextQuery)
+{
+    if (mTextQuery == newTextQuery)
+        return;
+    mTextQuery = newTextQuery;
+    emit textQueryChanged();
+    refresh ();
 }
