@@ -88,6 +88,11 @@ Item {
                             view: "PeminjamanScreen.qml"
                         }
                         ListElement {
+                            name: "Pegawai"
+                            view: "UserScreen.qml"
+                        }
+
+                        ListElement {
                             name: "Pengaturan"
                             view: "SettingsScreen.qml"
                         }
