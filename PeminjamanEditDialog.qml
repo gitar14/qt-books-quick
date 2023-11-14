@@ -59,12 +59,19 @@ Dialog {
                 text: "Member"
             }
 
-            Label {
-                text: peminjamanMemberNama
-            }
+            RowLayout {
+                Layout.fillWidth: true
 
-            Button {
-                onClicked: memberPilihDialog.open()
+                TextField {
+                    text: peminjamanMemberNama
+                    readOnly: true
+                    Layout.fillWidth: true
+                }
+
+                Button {
+                    onClicked: memberPilihDialog.open()
+                    text: "Ganti"
+                }
             }
 
             Label {
@@ -106,10 +113,6 @@ Dialog {
                             text: model.judulBuku
                         }
 
-                        Label {
-                            text: "Jumlah"
-                        }
-
                         Button {
                             text: "Hapus"
                             Layout.fillWidth: true
@@ -120,7 +123,7 @@ Dialog {
             }
 
             Button {
-                visible: bukuModel.count > 0
+                visible: peminjamanBukuModel.isBukuAvailable
                 text: "Tambah Buku"
                 Layout.fillWidth: true
                 onClicked: tambahPeminjamanBukuDialog.open()

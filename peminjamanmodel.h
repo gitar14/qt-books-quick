@@ -11,6 +11,8 @@ class PeminjamanModel : public QSqlQueryModel
 public:
     enum Role {
         KodeRole = Qt::UserRole,
+        NamaMemberRole,
+        KodeMemberRole,
         TanggalRole,
         LamaRole
     };
@@ -21,8 +23,8 @@ public:
     QVariant data(const QModelIndex &item, int role) const;
 
     Q_INVOKABLE void refresh();
-    Q_INVOKABLE QString add(QString sumber);
-    Q_INVOKABLE void update(QString kode, QString sumber);
+    Q_INVOKABLE QString add(QString kodeMember, QDate tanggal, int lama);
+    Q_INVOKABLE void update(QString kode, QString kodeMember, QDate tanggal, int lama);
     Q_INVOKABLE void remove(QString kode);
 };
 

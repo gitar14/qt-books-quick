@@ -29,28 +29,26 @@ Item {
             }
         }
 
-        delegate: Control {
+        delegate: CardDelegate {
             id: peminjamanlistItem
             property var itemData: model
-            property bool isSelected: ListView.isCurrentItem
+            highlighted: ListView.isCurrentItem
             width: ListView.view.width
             padding: 16
+            onClicked: peminjamanListView.currentIndex = index
 
-            background: Rectangle {
-                border.color: "#dedede"
-                border.width: 1
-                radius: 16
-                color: peminjamanlistItem.isSelected ? "#efefef" : "#ffffff"
-
-                MouseArea {
-                    anchors.fill: parent
-
-                    onClicked: peminjamanListView.currentIndex = index
+            contentItem: ColumnLayout {
+                Label {
+                    text: model.namaMember
                 }
-            }
 
-            contentItem: Label {
-                text: model.namaMember
+                Label {
+                    text: model.tanggal
+                }
+
+                Label {
+                   text: model.lama + " hari"
+                }
             }
          }
     }
@@ -58,41 +56,4 @@ Item {
     FloatingActionButton {
         onClicked: addClicked()
     }
-
-//        height: parent.height
-//        width: parent.width
-//        cellHeight: 150
-//        cellWidth: 125
-
-//     Dialog {
-//            id: editPeminjamDialog
-//            title: "Tambah Peminjam"
-//            standardButtons: Dialog.Ok | Dialog.Cancel
-//            parent: Overlay.overlay
-//            anchors.centerIn: parent
-//            width: 400
-
-//            onAccepted: {
-//                Model.add(namaTextField.text, tgl_lahirTextFiled.text)
-//            }
-
-//            ColumnLayout {
-//                anchors.fill: parent
-
-//                Label {
-//                    text: "Nama"
-//                }
-//                TextField {
-//                    id: namaTextField
-//                    Layout.fillWidth: true
-//                }
-//                Label {
-//                    text : "Tanggal Lahir"
-//                }
-//                TextField {
-//                    id: tgl_lahirTextFiled
-//                    Layout.fillWidth: true
-//                }
-//            }
-//    }
 }
