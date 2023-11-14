@@ -30,7 +30,7 @@ Item {
 
         ColumnLayout {
             anchors.fill: parent
-
+            
             Frame {
                 Layout.leftMargin: 16
                 Layout.rightMargin: 16
@@ -85,7 +85,7 @@ Item {
                         }
                         ListElement {
                             name: "Peminjaman Buku"
-                            view: "PeminjamanList.qml"
+                            view: "PeminjamanScreen.qml"
                         }
                         ListElement {
                             name: "Pengaturan"

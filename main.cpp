@@ -16,6 +16,8 @@
 #include "connectionmanager.h"
 #include "settingsmodel.h"
 #include "usermanager.h"
+#include "peminjamanmodel.h"
+#include "peminjamanbukumodel.h"
 
 #define PACKAGE "Kelompok7.Perpus"
 
@@ -32,6 +34,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<PengadaanModel>(PACKAGE, 1, 0, "PengadaanModel");
     qmlRegisterType<MemberModel>(PACKAGE, 1, 0, "MemberModel");
     qmlRegisterType<EditablePeminjamanBukuModel>(PACKAGE, 1, 0, "EditablePeminjamanBukuModel");
+    qmlRegisterType<PeminjamanModel>(PACKAGE, 1, 0, "PeminjamanModel");
+    qmlRegisterType<PeminjamanBukuModel>(PACKAGE, 1, 0, "PeminjamanBukuModel");
     qmlRegisterType<SettingsModel>(PACKAGE, 1, 0, "SettingsModel");
     qmlRegisterSingletonInstance(PACKAGE, 1, 0, "ConnectionManager", ConnectionManager::getInstance());
     qmlRegisterSingletonInstance(PACKAGE, 1, 0, "UserManager", UserManager::getInstance());
