@@ -7,6 +7,7 @@
 class MemberModel : public QSqlQueryModel
 {
     Q_OBJECT
+    Q_PROPERTY(QString textQuery READ TextQuery WRITE setTextQuery NOTIFY textQueryChanged)
     QML_ELEMENT
 public:
     enum Role {
@@ -26,6 +27,12 @@ public:
     Q_INVOKABLE void edit(QString kode, QString namaDepan, QString namaBelakang, QDate tanggalLahir);
     Q_INVOKABLE void remove(QString kode);
     void refresh();
+    QString TextQuery() const;
+    void setTextQuery(const QString &newTextQuery);
+signals:
+    void textQueryChanged();
+private:
+    QString mTextQuery;
 };
 
 #endif // PENERBITMODEL_H
