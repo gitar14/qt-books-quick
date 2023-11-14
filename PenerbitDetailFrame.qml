@@ -2,22 +2,13 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-Frame {
-//    id: penerbitDetailFrame
+BaseDetailFrame {
     property string penerbitKode: ""
     property string penerbitNama: ""
     property string penerbitAlamat: ""
 
     signal editClicked()
     signal deleteClicked()
-
-    Layout.minimumWidth: 300
-    width: 300
-    Layout.fillHeight: true
-    Layout.topMargin: 16
-    Layout.bottomMargin: 16
-    Layout.rightMargin: 16
-    padding: 16
 
     GridLayout{
         anchors.fill: parent
