@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import my.id.levirs.books
 import Kelompok7.Perpus
 
 RowLayout {

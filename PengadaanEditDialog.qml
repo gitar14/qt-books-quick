@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
-import my.id.levirs.books
 import Kelompok7.Perpus
 
 Dialog {
