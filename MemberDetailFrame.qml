@@ -17,6 +17,12 @@ BaseDetailFrame {
         columnSpacing: 16
         visible: memberKode!=""
 
+        Text {
+            Layout.columnSpan: 2
+            text: "Member Detail"
+            font.pixelSize: 24
+        }
+
         Label{
         text: "Kode"
         }

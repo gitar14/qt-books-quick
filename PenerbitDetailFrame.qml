@@ -16,6 +16,12 @@ BaseDetailFrame {
         visible: penerbitKode != ""
         columnSpacing: 16
 
+        Text {
+            Layout.columnSpan: 2
+            text: "Penerbit Detail"
+            font.pixelSize: 24
+        }
+
         Label{
             text: "Kode"
         }

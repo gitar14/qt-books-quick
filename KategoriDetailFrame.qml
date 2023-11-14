@@ -15,6 +15,12 @@ BaseDetailFrame {
         columnSpacing: 16
         visible: kategoriKode != ""
 
+        Text {
+            Layout.columnSpan: 2
+            text: "Kategori Detail"
+            font.pixelSize: 24
+        }
+
         Label {
             text: "Kode"
         }
