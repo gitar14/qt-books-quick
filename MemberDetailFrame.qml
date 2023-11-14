@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-Frame {
+BaseDetailFrame {
     property string memberKode: ""
     property string memberNamaDepan: ""
     property string memberNamaBelakang: ""
@@ -11,16 +11,10 @@ Frame {
     signal editClicked()
     signal deleteClicked()
 
-    Layout.minimumWidth: 300
-    Layout.maximumWidth: 300
-    Layout.fillHeight: true
-    Layout.topMargin: 16
-    Layout.bottomMargin: 16
-    Layout.rightMargin: 16
-    padding: 16
     GridLayout{
         anchors.fill: parent
         columns: 2
+        columnSpacing: 16
         visible: memberKode!=""
 
         Label{
