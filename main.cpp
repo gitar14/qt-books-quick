@@ -16,6 +16,7 @@
 #include "connectionmanager.h"
 #include "settingsmodel.h"
 #include "usermanager.h"
+#include "usermodel.h"
 #include "peminjamanmodel.h"
 #include "peminjamanbukumodel.h"
 
@@ -34,6 +35,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<PengadaanModel>(PACKAGE, 1, 0, "PengadaanModel");
     qmlRegisterType<MemberModel>(PACKAGE, 1, 0, "MemberModel");
     qmlRegisterType<EditablePeminjamanBukuModel>(PACKAGE, 1, 0, "EditablePeminjamanBukuModel");
+    qmlRegisterType<UserModel>(PACKAGE,1,0,"UserModel");
     qmlRegisterType<PeminjamanModel>(PACKAGE, 1, 0, "PeminjamanModel");
     qmlRegisterType<PeminjamanBukuModel>(PACKAGE, 1, 0, "PeminjamanBukuModel");
     qmlRegisterType<SettingsModel>(PACKAGE, 1, 0, "SettingsModel");
