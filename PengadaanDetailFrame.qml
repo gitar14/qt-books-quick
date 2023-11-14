@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Kelompok7.Perpus
 
-Frame {
+BaseDetailFrame {
     property string pengadaanKode: ""
     property string pengadaanSumber: ""
     required property PengadaanBukuModel pengadaanBukuModel
@@ -11,25 +11,17 @@ Frame {
     signal editClicked()
     signal deleteClicked()
 
-    Layout.minimumWidth: 300
-    Layout.maximumWidth: 300
-    Layout.fillHeight: true
-    Layout.rightMargin: 16
-    Layout.topMargin: 16
-    Layout.bottomMargin: 16
-    padding: 16
-
-    background: Rectangle {
-        border.color: "#dedede"
-        border.width: 1
-        radius: 16
-    }
-
     GridLayout {
         anchors.fill: parent
         columnSpacing: 16
         visible: pengadaanKode != ""
         columns: 2
+
+        Text {
+            Layout.columnSpan: 2
+            text: "Pengadaan Detail"
+            font.pixelSize: 24
+        }
 
         Label {
             text: "Kode"
