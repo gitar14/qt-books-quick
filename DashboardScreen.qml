@@ -55,6 +55,10 @@ Item {
                         name: "Peminjaman Buku"
                         view: "PeminjamanList.qml"
                     }
+                    ListElement{
+                        name: "User"
+                        view: "UserScreen.qml"
+                    }
                     ListElement {
                         name: "Pengaturan"
                         view: "SettingsScreen.qml"

@@ -2,4 +2,10 @@
     <qresource prefix="/icons">
         <file alias="search-black.svg">icons/search-black.svg</file>
     </qresource>
+    <qresource prefix="/">
+        <file>UserScreen.qml</file>
+        <file>UserList.qml</file>
+        <file>UserEditDialog.qml</file>
+        <file>UserDetailFrame.qml</file>
+    </qresource>
 </RCC>
