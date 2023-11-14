@@ -1,6 +1,6 @@
 #include "editablepeminjamanbukumodel.h"
 #include "basepeminjamanbukumodel.h"
-
+#include "sqlhelper.h"
 #include <QtSql>
 
 EditablePeminjamanBukuModel::EditablePeminjamanBukuModel(QObject *parent)
@@ -59,9 +59,101 @@ void EditablePeminjamanBukuModel::append(QString kodeBuku)
     mItemList.append(item);
 
     emit endInsertRows();
+
+    refresh();
+    emit itemsChanged();
 }
 
 QHash<int, QByteArray> EditablePeminjamanBukuModel::roleNames() const
 {
     return BasePeminjamanBukuModel::getRoleNames();
+}
+
+QStringList EditablePeminjamanBukuModel::getKodeBukuList()
+{
+    QStringList list;
+    QListIterator<Item> it(mItemList);
+    while (it.hasNext()){
+        list.append(it.next().kodeBuku);
+    }
+    return list;
+}
+
+void EditablePeminjamanBukuModel::remove(int index)
+{
+    if (index < 0 || index > mItemList.length()) return;
+
+    emit beginRemoveRows(QModelIndex(), index, index);
+
+    mItemList.remove(index);
+
+    emit endRemoveRows();
+
+    refresh();
+    emit itemsChanged();
+}
+
+void EditablePeminjamanBukuModel::clear()
+{
+    emit beginRemoveRows(QModelIndex(), 0, mItemList.length());
+
+    mItemList.clear();
+
+    emit endRemoveRows();
+
+    refresh();
+    emit itemsChanged();
+}
+
+void EditablePeminjamanBukuModel::populateFrom(QAbstractItemModel *model)
+{
+    clear();
+    int count = model->rowCount();
+    emit beginInsertColumns(QModelIndex(), 0, count - 1);
+
+    for (int i = 0; i < count; i++){
+        Item item;
+        QModelIndex index = model->index(i, 0);
+        item.kodeBuku = model->data(index, BasePeminjamanBukuModel::KodeBukuRole).toString();
+        item.judulBuku = model->data(index, BasePeminjamanBukuModel::JudulBukuRole).toString();
+        mItemList.push_back(item);
+    }
+    emit endInsertRows();
+
+    refresh();
+    emit itemsChanged();
+}
+
+void EditablePeminjamanBukuModel::refresh()
+{
+    QString queryString = "SELECT "
+                          " COUNT (kd_buku) > 0 "
+                          "FROM Buku ";
+    QHash<QString, QVariant> binds;
+    QStringList kodeList = getKodeBukuList();
+
+    if (kodeList.length() > 0) {
+        queryString += QStringLiteral(" WHERE kd_buku NOT IN(%1)").arg(
+            SQLHelper::generateArrayBinds(":ingored_id", kodeList, binds)
+            );
+    }
+
+    QSqlQuery query;
+    query.prepare(queryString);
+    SQLHelper::applyBindMaps(query, binds);
+
+    if (!query.exec())
+        qFatal() << "Cannot get is buku available from EditablePeminjamanBukuModel " << query.lastError().text();
+
+    if (query.next()) {
+        mBukuAvailable = query.value(0).toBool();
+        return;
+    }
+
+    mBukuAvailable = false;
+}
+
+bool EditablePeminjamanBukuModel::isBukuAvailable() const
+{
+    return mBukuAvailable;
 }

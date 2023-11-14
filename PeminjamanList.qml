@@ -1,106 +1,59 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import Kelompok7.Perpus
 
 
-RowLayout {
-    Item {
-        Layout.fillHeight: true
-        Layout.fillWidth: true
-        Layout.leftMargin: 16
-        Layout.topMargin: 16
-        Layout.bottomMargin: 16
-        GridView {
-            model: ListModel {
-                ListElement {
-                    peminjam: "Dadi"
-                    tanggalMulai: "fgfg"
-                    tanggalTenggat: "jjj"
-                }
+
+Item {
+    Layout.fillHeight: true
+    Layout.fillWidth: true
+
+    property var currentItemData
+    required property PeminjamanModel listModel
+    signal addClicked()
+
+    ListView {
+        id: peminjamanListView
+        anchors.fill: parent
+        anchors.margins: 16
+        model: listModel
+        spacing: 8
+
+        onCurrentItemChanged: {
+            if (currentItem != null){
+                currentItemData = currentItem.itemData
             }
-
-            height: parent.height
-            width: parent.width
-            cellHeight: 150
-            cellWidth: 125
-            delegate: Rectangle {
-            height: GridView.view.cellwidth - 8
-            width: GridView.view.cellwidth - 8
-            border.color: "#dedede"
-            border.width:1
-            radius: 16
-
-            ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: 16
-                Rectangle {
-                    Layout.fillHeight: true
-                    }
-                Label {
-                    text: model.peminjam
-                    Layout.alignment: Qt.AlignHCenter
-                    }
-                Label {
-                    text: model.tanggalMulai
-                    Layout.alignment: Qt.AlignHCenter
-                    }
-                Label {
-                    text: model.tanggalTenggat
-                    Layout.alignment: Qt.AlignHCenter
-                    }
-                }
-
+            else{
+                currentItemData = null
             }
         }
-        RoundButton{
-            text: "+"
-            width: 64
-            height: 64
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            font.pixelSize: 24
-        }
+
+        delegate: CardDelegate {
+            id: peminjamanlistItem
+            property var itemData: model
+            highlighted: ListView.isCurrentItem
+            width: ListView.view.width
+            padding: 16
+            onClicked: peminjamanListView.currentIndex = index
+
+            contentItem: ColumnLayout {
+                Label {
+                    text: model.namaMember
+                }
+
+                Label {
+                    text: model.tanggal
+                }
+
+                Label {
+                   text: model.lama + " hari"
+                }
+            }
+         }
     }
-    Rectangle {
-        border.color: "#dedede"
-        border.width: 1
-        radius: 16
-        Layout.minimumWidth: 300
-        width: 300
-        Layout.fillHeight: true
-        Layout.topMargin: 16
-        Layout.bottomMargin: 16
-        Layout.rightMargin: 16
+
+    FloatingActionButton {
+        onClicked: addClicked()
     }
-//    Dialog {
-//            id: editPeminjamDialog
-//            title: "Tambah Peminjam"
-//            standardButtons: Dialog.Ok | Dialog.Cancel
-//            parent: Overlay.overlay
-//            anchors.centerIn: parent
-//            width: 400
-
-//            onAccepted: {
-//                Model.add(namaTextField.text, tgl_lahirTextFiled.text)
-//            }
-
-//            ColumnLayout {
-//                anchors.fill: parent
-
-//                Label {
-//                    text: "Nama"
-//                }
-//                TextField {
-//                    id: namaTextField
-//                    Layout.fillWidth: true
-//                }
-//                Label {
-//                    text : "Tanggal Lahir"
-//                }
-//                TextField {
-//                    id: tgl_lahirTextFiled
-//                    Layout.fillWidth: true
-//                }
-//            }
-//    }
 }

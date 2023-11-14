@@ -65,7 +65,7 @@ Dialog{
         }
         DateField {
             currentDate: editMemberDialog.memberTanggalLahir
-            id: tanggalLahirTextFiled
+            id: tanggalLahirTextField
             Layout.fillWidth: true
             onCurrentDateChanged: editMemberDialog.memberTanggalLahir = currentDate
         }
