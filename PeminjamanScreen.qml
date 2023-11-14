@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import Kelompok7.Perpus
-import my.id.levirs.books
 
 Page {
     leftPadding: sidebarRadius
