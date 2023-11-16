@@ -92,10 +92,13 @@ namespace SQLHelper {
         if (!query.exec("CREATE TABLE IF NOT EXISTS Peminjaman("
                         "   kd_peminjaman VARCHAR(4) NOT NULL PRIMARY KEY,"
                         "   kd_member VARCHAR(4) NOT NULL,"
+                        "   id_user VARCHAR(4) NOT NULL,"
                         "   tanggal_peminjaman DATE NOT NULL,"
                         "   lama_peminjaman INTEGER NOT NULL,"
                         "   FOREIGN KEY (kd_member)"
-                        "       REFERENCES Member(kd_member)"
+                        "       REFERENCES Member(kd_member),"
+                        "   FOREIGN KEY (id_user)"
+                        "       REFERENCES User(id_user)"
                         ")"))
             qFatal() << "Cannot create Peminjaman table " << query.lastError().text();
 

@@ -1,5 +1,6 @@
 #include "peminjamanmodel.h"
 #include "basepeminjamanbukumodel.h"
+#include "usermanager.h"
 #include <QtSql>
 
 PeminjamanModel::PeminjamanModel(QObject *parent)
@@ -84,15 +85,18 @@ QString PeminjamanModel::add(QString kodeMember,QDate tanggal, int lama)
     query.prepare("INSERT INTO Peminjaman ("
                   " kd_peminjaman,"
                   " kd_member,"
+                  " id_user,"
                   " tanggal_peminjaman, "
                   " lama_peminjaman "
                   ") VALUES ("
                   " :kode,"
                   " :member,"
+                  " :user,"
                   " :tanggal,"
                   " :lama"
                   ")");
     query.bindValue(":kode", kode);
+    query.bindValue(":user", UserManager::getInstance()->loggedUserId());
     query.bindValue(":member", kodeMember);
     query.bindValue(":tanggal", tanggal);
     query.bindValue(":lama", lama);
