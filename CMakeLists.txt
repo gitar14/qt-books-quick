@@ -89,6 +89,7 @@ qt_add_qml_module(appqt-books-qml
     QML_FILES UserEditDialog.qml
     QML_FILES UserDetailFrame.qml
     QML_FILES MemberPilihDialog.qml
+    QML_FILES PengembalianAddDialog.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

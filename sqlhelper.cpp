@@ -112,12 +112,24 @@ namespace SQLHelper {
                         "       REFERENCES Peminjaman(kd_peminjaman)"
                         ")"))
             qFatal() << "Cannot create Peminjaman_buku table " << query.lastError().text();
-
+        if (!query.exec("CREATE TABLE IF NOT EXISTS Pengembalian("
+                        "   kd_pengembalian VARCHAR(4) NOT NULL PRIMARY KEY,"
+                        "   kd_peminjaman VARCHAR(4) NOT NULL,"
+                        "   id_user VARCHAR(4) NOT NULL,"
+                        "   tanggal_pengembalian DATE NOT NULL,"
+                        "   denda INT NOT NULL,"
+                        "   FOREIGN KEY (kd_peminjaman)"
+                        "       REFERENCES Peminjaman(kd_peminjaman)"
+                        "   FOREIGN KEY (id_user)"
+                        "       REFERENCES User(id_user)"
+                        ")"))
+            qFatal() << "Cannot create table Pengembalian";
     }
 
     void clearDatabase(QSqlDatabase &db)
     {
         QStringList tableList{
+            "Pengembalian",
             "Peminjaman_buku",
             "Peminjaman",
             "User",
@@ -138,4 +150,18 @@ namespace SQLHelper {
         }
     }
 
+    QString generateId(const QString &table, const QString &primaryKey, const QString &prefix) {
+        QSqlQuery query;
+        if (!query.exec(QStringLiteral(
+                            "SELECT MAX(CAST(%1 AS UNSIGNED)) FROM %2"
+                            ).arg(primaryKey, table)))
+            qFatal() << "Cannot query max " << table << " kode " << query.lastError().text();
+
+        int maxKode = -1;
+        if (query.next()) {
+            maxKode = query.value(0).toInt();
+        }
+
+        return QString::number(maxKode + 1).rightJustified(4, '0');
+    }
 }

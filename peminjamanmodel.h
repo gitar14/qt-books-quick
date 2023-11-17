@@ -14,7 +14,10 @@ public:
         NamaMemberRole,
         KodeMemberRole,
         TanggalRole,
-        LamaRole
+        LamaRole,
+        TanggalTenggatRole,
+        TanggalPengembalianRole,
+        SudahDikembalikanRole
     };
 
     explicit PeminjamanModel (QObject *parent = nullptr);
@@ -26,6 +29,8 @@ public:
     Q_INVOKABLE QString add(QString kodeMember, QDate tanggal, int lama);
     Q_INVOKABLE void update(QString kode, QString kodeMember, QDate tanggal, int lama);
     Q_INVOKABLE void remove(QString kode);
+    Q_INVOKABLE void tandaiDikembalikan(QString kode, QDate tanggal, int denda);
+    Q_INVOKABLE void tandaiBelumDikembalikan(QString kode);
 };
 
 #endif // PEMINJAMANMODEL_H

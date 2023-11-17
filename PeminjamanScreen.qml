@@ -68,12 +68,18 @@ Page {
                     peminjamanDetailFrame.peminjamanMemberNama = currentItemData.namaMember
                     peminjamanDetailFrame.peminjamanLama = currentItemData.lama
                     peminjamanDetailFrame.peminjamanTanggal = currentItemData.tanggal
+                    peminjamanDetailFrame.peminjamanTanggalTenggat = currentItemData.tanggalTenggat
+                    peminjamanDetailFrame.peminjamanTanggalPengembalian = currentItemData.tanggalPengembalian
+                    peminjamanDetailFrame.peminjamanSudahDikembalikan = currentItemData.sudahDikembalikan
                 } else {
                     peminjamanDetailFrame.peminjamanKode = ""
                     peminjamanDetailFrame.peminjamanMemberKode = ""
                     peminjamanDetailFrame.peminjamanMemberNama = ""
                     peminjamanDetailFrame.peminjamanLama = 0
                     peminjamanDetailFrame.peminjamanTanggal = new Date()
+                    peminjamanDetailFrame.peminjamanTanggalTenggat = new Date()
+                    peminjamanDetailFrame.peminjamanTanggalPengembalian = new Date()
+                    peminjamanDetailFrame.peminjamanSudahDikembalikan = false
                 }
             }
         }
@@ -94,6 +100,14 @@ Page {
             }
         }
 
+        PengembalianAddDialog {
+            id: dialogPengembalian
+
+            onAccepted: {
+                peminjamanModel.tandaiDikembalikan(peminjamanDetailFrame.peminjamanKode, pengembalianTanggal, pengembalianDenda)
+            }
+        }
+
         PeminjamanDetailFrame{
             id: peminjamanDetailFrame
             peminjamanBukuModel: peminjamanBukuModel
@@ -110,6 +124,16 @@ Page {
             onDeleteClicked: {
                 peminjamanBukuModel.removeAll();
                 peminjamanModel.remove(peminjamanKode);
+            }
+
+            onTandaiDikembalikanClicked: {
+                dialogPengembalian.pengembalianTanggal = new Date()
+                dialogPengembalian.pengembalianDenda = 0
+                dialogPengembalian.open()
+            }
+
+            onTandaiBelumDikembalikanClicked: {
+                peminjamanModel.tandaiBelumDikembalikan(peminjamanKode)
             }
         }
     }

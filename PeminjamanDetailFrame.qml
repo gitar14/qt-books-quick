@@ -7,12 +7,17 @@ Frame {
     property string peminjamanKode: ""
     property string peminjamanMemberKode: ""
     property string peminjamanMemberNama: ""
-    property int peminjamanLama: 0
     property date peminjamanTanggal: new Date()
+    property int peminjamanLama: 0
+    property date peminjamanTanggalTenggat: new Date()
+    property date peminjamanTanggalPengembalian: new Date()
+    property bool peminjamanSudahDikembalikan: false
     required property PeminjamanBukuModel peminjamanBukuModel
 
     signal editClicked()
     signal deleteClicked()
+    signal tandaiDikembalikanClicked()
+    signal tandaiBelumDikembalikanClicked()
 
     Layout.minimumWidth: 300
     Layout.maximumWidth: 300
@@ -49,7 +54,7 @@ Frame {
             Layout.fillWidth: true
         }
         Label{
-            text: "Tanggal Peminjaman"
+            text: "Tanggal"
         }
 
         Label{
@@ -63,8 +68,37 @@ Frame {
         }
 
         Label{
-            text: peminjamanLama
+            text: peminjamanLama + " hari"
             Layout.fillWidth: true
+        }
+
+        Label {
+            text: "Tanggal Tenggat"
+        }
+
+        Label {
+            text: Qt.formatDate(peminjamanTanggal, locale, locale.LongFormat)
+            Layout.fillWidth: true
+        }
+
+        Label {
+            text: "Status"
+        }
+
+        Label {
+            Layout.fillWidth: true
+            text: peminjamanSudahDikembalikan ? "Sudah Dikembalikan" : "Belum Dikembalikan"
+        }
+
+        Label {
+            visible: peminjamanSudahDikembalikan
+            text: "Tanggal Pengembalian"
+        }
+
+        Label {
+            visible: peminjamanSudahDikembalikan
+            Layout.fillWidth: true
+            text: Qt.formatDate(peminjamanTanggalPengembalian, locale, locale.LongFormat)
         }
 
         ListView {
@@ -88,6 +122,20 @@ Frame {
                     text: model.judulBuku
                 }
             }
+        }
+
+        Button {
+            visible: !peminjamanSudahDikembalikan
+            text: "Tandai Dikembalikan"
+            onClicked: tandaiDikembalikanClicked()
+            Layout.columnSpan: 2
+        }
+
+        Button {
+            visible: peminjamanSudahDikembalikan
+            text: "Tandai Belum Dikembalikan"
+            onClicked: tandaiBelumDikembalikanClicked()
+            Layout.columnSpan: 2
         }
 
         Row {

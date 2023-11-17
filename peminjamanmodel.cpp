@@ -1,6 +1,7 @@
 #include "peminjamanmodel.h"
 #include "basepeminjamanbukumodel.h"
 #include "usermanager.h"
+#include "sqlhelper.h"
 #include <QtSql>
 
 PeminjamanModel::PeminjamanModel(QObject *parent)
@@ -16,6 +17,9 @@ QHash<int, QByteArray> PeminjamanModel::roleNames() const
     names[NamaMemberRole] = "namaMember";
     names[TanggalRole] = "tanggal";
     names[LamaRole] = "lama";
+    names[TanggalTenggatRole] = "tanggalTenggat";
+    names[TanggalPengembalianRole] = "tanggalPengembalian";
+    names[SudahDikembalikanRole] = "sudahDikembalikan";
     return names;
 }
 
@@ -41,6 +45,12 @@ QVariant PeminjamanModel::data(const QModelIndex &item, int role) const
     case LamaRole:
         columnIndex = 5;
         break;
+    case TanggalTenggatRole:
+        return data(item, TanggalRole).toDate().addDays(data(item, LamaRole).toInt());
+    case TanggalPengembalianRole:
+        return QSqlQueryModel::data(index(item.row(), 6)).toDate();
+    case SudahDikembalikanRole:
+        return data(item, TanggalPengembalianRole).toDate().isValid();
     default:
         columnIndex = -1;
     }
@@ -58,10 +68,13 @@ void PeminjamanModel::refresh()
                     "   Member.nama_belakang_member,"
                     "   Peminjaman.kd_member,"
                     "   Peminjaman.tanggal_peminjaman,"
-                    "   Peminjaman.lama_peminjaman "
+                    "   Peminjaman.lama_peminjaman,"
+                    "   Pengembalian.tanggal_pengembalian "
                     "FROM Peminjaman "
                     "JOIN Member"
-                    "   ON Member.kd_member = Peminjaman.kd_member"))
+                    "   ON Member.kd_member = Peminjaman.kd_member "
+                    "LEFT JOIN Pengembalian "
+                    "   ON Pengembalian.kd_peminjaman = Peminjaman.kd_peminjaman"))
         qFatal() << "Cannot query Peminjaman " << query.lastError().text();
 
     setQuery(std::move(query));
@@ -139,6 +152,48 @@ void PeminjamanModel::remove(QString kode)
 
     if (!query.exec())
         qFatal() << "Cannot remove peminjaman " << query.lastError().text();
+
+    refresh();
+}
+
+void PeminjamanModel::tandaiDikembalikan(QString kode, QDate tanggal, int denda)
+{
+    QString kodePengembalian = SQLHelper::generateId("Peminjaman", "kd_peminjaman", "");
+
+    QSqlQuery query;
+    query.prepare("INSERT INTO Pengembalian("
+                  " kd_pengembalian,"
+                  " kd_peminjaman,"
+                  " id_user,"
+                  " tanggal_pengembalian,"
+                  " denda"
+                  ") VALUES ("
+                  " :pengembalian,"
+                  " :peminjaman,"
+                  " :user,"
+                  " :tanggal,"
+                  " :denda"
+                  ")");
+    query.bindValue(":pengembalian", kodePengembalian);
+    query.bindValue(":user", UserManager::getInstance()->loggedUserId());
+    query.bindValue(":peminjaman", kode);
+    query.bindValue(":tanggal", tanggal);
+    query.bindValue(":denda", denda);
+
+    if (!query.exec())
+        qFatal() << "Cannot add Pengembalian " << query.lastError().text();
+
+    refresh();
+}
+
+void PeminjamanModel::tandaiBelumDikembalikan(QString kode)
+{
+    QSqlQuery query;
+    query.prepare("DELETE FROM Pengembalian WHERE kd_peminjaman = :kode");
+    query.bindValue(":kode", kode);
+
+    if (!query.exec())
+        qFatal() << "Cannot remove Pengembalian " << query.lastError().text();
 
     refresh();
 }
