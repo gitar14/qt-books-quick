@@ -14,7 +14,7 @@ CREATE TABLE Buku(
    kd_buku INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
    kd_kategori INTEGER NOT NULL,
    kd_penerbit INTEGER NOT NULL,
-   judul VARCHAR(25) NOT NULL,
+   judul VARCHAR(50) NOT NULL,
    jumlah_hilang INTEGER NOT NULL,
    penulis VARCHAR(25) NOT NULL,
    tahun_terbit INTEGER NOT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE Peminjaman(
    kd_peminjaman INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
    kd_detail_peminjaman INTEGER NOT NULL,
    kd_buku INTEGER NOT NULL,
-   denda INTEGER NOT NULL,
+   denda INTEGER,
    FOREIGN KEY (kd_detail_peminjaman)
        REFERENCES Detail_Peminjaman(kd_detail_peminjaman),
    FOREIGN KEY (kd_buku)
