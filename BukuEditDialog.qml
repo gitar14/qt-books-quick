@@ -56,10 +56,16 @@ Dialog {
             }
 
             TextField {
+                id: bukuJudulTextField
                 Layout.fillWidth: true
                 maximumLength: 25
                 text: bukuJudul
                 onTextChanged: bukuJudul = text
+            }
+
+            Label {
+                Layout.alignment: Qt.AlignRight
+                text: (bukuJudulTextField.maximumLength - bukuJudul.length) + " tersisa"
             }
 
             Label {
@@ -73,10 +79,16 @@ Dialog {
             }
 
             TextField {
+                id: bukuPenulisTextField
                 Layout.fillWidth: true
                 maximumLength: 25
                 text: bukuPenulis
                 onTextChanged: bukuPenulis = text
+            }
+
+            Label {
+                Layout.alignment: Qt.AlignRight
+                text: (bukuPenulisTextField.maximumLength - bukuPenulis.length) + " tersisa"
             }
 
             Label {

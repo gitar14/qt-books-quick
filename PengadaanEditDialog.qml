@@ -59,11 +59,18 @@ Dialog {
                 text: "Sumber"
             }
             TextField {
+                id: pengadaanSumberTextField
                 Layout.fillWidth: true
                 maximumLength: 25
                 text: pengadaanSumber
                 onTextChanged: pengadaanSumber = text
             }
+
+            Label {
+                Layout.alignment: Qt.AlignRight
+                text: (pengadaanSumberTextField.maximumLength - pengadaanSumber.length) + " tersisa"
+            }
+
             Label {
                 text: "Sumber Tidak Boleh Kosong"
                 color: Material.color(Material.Red)
