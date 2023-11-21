@@ -22,6 +22,7 @@ Item {
         }
 
         model: listModel
+        cellHeight: 100
 
         delegate: CardDelegate {
             property var itemData: model

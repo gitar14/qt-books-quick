@@ -81,13 +81,13 @@ void UserManager::login(QString id, QString password)
         return;
     }
 
-    emit loggedIn();
-
     mLoggedUserId = id;
     mLoggedUserName =  QStringLiteral("%1 %2").arg(
         query.value("nama_depan_user").toString(),
         query.value("nama_belakang_user").toString());
     mLoggedUserRole = (UserRole) query.value("role").toInt();
+
+    emit loggedIn();
     emit loggedUserChanged();
 }
 

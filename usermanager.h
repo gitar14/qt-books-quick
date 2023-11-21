@@ -17,6 +17,7 @@ public:
         AdminRole = 0,
         PegawaiRole
     };
+    Q_ENUM(UserRole)
 
     Q_INVOKABLE bool hasAvailableUser();
     Q_INVOKABLE void addUser(QString id, QString namaDepan, QString namaBelakang, UserRole role, QString password);

@@ -63,6 +63,12 @@ Item {
                 Repeater {
 
                     model: ListModel {
+                        Component.onCompleted: {
+                            if (UserManager.loggedUserRole != UserManager.AdminRole) {
+                                remove(count - 2)
+                            }
+                        }
+
                         ListElement {
                             name: "Buku"
                             view: "BukuScreen.qml"
