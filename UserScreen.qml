@@ -13,7 +13,7 @@ Page {
 
             Label {
                 Layout.fillWidth: true
-                text: "User"
+                text: "Pegawai"
                 horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter
                 font.pixelSize: 20

@@ -17,8 +17,9 @@ Dialog {
     property string userNamaDepan: ""
     property string userNamaBelakang: ""
     property string userPassword: ""
+    property string userPasswordUlang: ""
 
-    title: userIsNew ? "User Baru" : "Edit User"
+    title: userIsNew ? "Pegawai" : "Edit User"
 
     footer: DialogButtonBox {
         Button {
@@ -29,7 +30,7 @@ Dialog {
         Button {
             text: "Simpan"
             enabled: userNamaDepan.length > 0 && userNamaBelakang.length > 0
-                     && (userPassword.length > 0 || !userIsNew) && useridUser.length > 0
+                     && ((userPassword.length > 0 && userPassword == userPasswordUlang) || !userIsNew) && useridUser.length > 0
             DialogButtonBox.buttonRole: Dialog.AcceptRole
             flat: true
         }
@@ -139,10 +140,35 @@ Dialog {
                 text: (userPasswordTextField.maximumLength - userPassword.length) + " tersisa"
             }
 
+            Label{
+            text: "Password tidak boleh kosong"
+            color: Material.color(Material.Red)
+            visible: userIsNew && userPassword.length == 0
+            }
+
             Label {
-                color: Material.color(Material.Red)
-                text: "Password tidak boleh kosong"
-                visible: userIsNew && userPassword.length == 0
+                text: "Ulangi Password"
+            }
+
+
+            TextField {
+                Layout.fillWidth: true
+                echoMode: TextInput.Password
+                id:userPasswordUlangTextfield
+                text: userPasswordUlang
+                onTextChanged: userPasswordUlang = text
+                maximumLength: 8
+            }
+
+            Label {
+                text: (userPasswordUlangTextfield.maximumLength - userPasswordUlangTextfield.length) + " tersisa"
+                Layout.alignment: Qt.AlignRight
+            }
+
+            Label{
+            text: "Password harus sama"
+            color: Material.color(Material.Red)
+            visible: userIsNew && userPasswordUlang != userPassword
             }
         }
     }

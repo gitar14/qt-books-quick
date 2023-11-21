@@ -6,6 +6,7 @@ import Kelompok7.Perpus
 BaseDetailFrame {
     property string pengadaanKode: ""
     property string pengadaanSumber: ""
+    property date pengadaanTanggal: new Date()
     required property PengadaanBukuModel pengadaanBukuModel
 
     signal editClicked()
@@ -38,6 +39,15 @@ BaseDetailFrame {
 
         Label {
             text: pengadaanSumber
+            Layout.fillWidth: true
+        }
+
+        Label{
+            text: "Tanggal"
+        }
+
+        Label{
+            text: Qt.formatDate(pengadaanTanggal, locale, locale.LongFormat)
             Layout.fillWidth: true
         }
 

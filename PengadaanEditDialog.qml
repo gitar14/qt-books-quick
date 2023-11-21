@@ -7,6 +7,7 @@ import Kelompok7.Perpus
 Dialog {
     property string pengadaanKode: ""
     property string pengadaanSumber: ""
+    property date pengadaanTanggal: new Date ()
     required property EditablePengadaanBukuModel pengadaanBukuModel
     required property BookListModel bukuModel
 
@@ -75,6 +76,16 @@ Dialog {
                 text: "Sumber Tidak Boleh Kosong"
                 color: Material.color(Material.Red)
                 visible: pengadaanSumber.length == 0
+            }
+
+            Label {
+                text : "Tanggal"
+            }
+            DateField {
+                currentDate: editPengadaanDialog.pengadaanTanggal
+                id: tanggalTextField
+                Layout.fillWidth: true
+                onCurrentDateChanged: editPengadaanDialog.pengadaanTanggal = currentDate
             }
             Label {
                 text: "Buku"

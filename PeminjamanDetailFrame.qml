@@ -60,7 +60,6 @@ Frame {
         Label{
             text: Qt.formatDate(peminjamanTanggal, locale, locale.LongFormat)
             Layout.fillWidth: true
-
         }
 
         Label{

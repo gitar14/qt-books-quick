@@ -57,7 +57,8 @@ namespace SQLHelper {
 
         if (!query.exec("CREATE TABLE IF NOT EXISTS Pengadaan("
                         "   kd_pengadaan VARCHAR(4) NOT NULL PRIMARY KEY,"
-                        "   sumber VARCHAR(25) NOT NULL"
+                        "   sumber VARCHAR(25) NOT NULL,"
+                        "   tanggal_pengadaan DATE NOT NULL"
                         ")"))
             qFatal() << "Cannot create Pengadaan table " << query.lastError().text();
 

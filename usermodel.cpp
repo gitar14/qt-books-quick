@@ -51,7 +51,8 @@ void UserModel::refresh()
                           "   id_user,"
                           "   nama_depan_user, "
                           "   nama_belakang_user "
-                          "FROM User";
+                          "FROM User "
+                          "WHERE role = 1";
     if (mTextQuery.length()>0) {
         queryString += " WHERE (nama_depan_user || ' ' || nama_belakang_user) LIKE :textQuery";
         binds[":textQuery"]="%"+ mTextQuery +"%";

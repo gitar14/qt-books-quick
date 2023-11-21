@@ -12,7 +12,8 @@ class PengadaanModel : public QSqlQueryModel
 public:
     enum Role {
         KodeRole = Qt::UserRole,
-        SumberRole
+        SumberRole,
+        TanggalPengadaanRole
     };
 
     explicit PengadaanModel(QObject *parent = nullptr);
@@ -21,7 +22,7 @@ public:
     QVariant data(const QModelIndex &item, int role) const;
 
     Q_INVOKABLE void refresh();
-    Q_INVOKABLE QString add(QString sumber);
+    Q_INVOKABLE QString add(QString sumber, QDate tanggalPengadaan);
     Q_INVOKABLE void update(QString kode, QString sumber);
     Q_INVOKABLE void remove(QString kode);
     QString textQuery() const;

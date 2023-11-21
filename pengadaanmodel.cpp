@@ -14,6 +14,7 @@ QHash<int, QByteArray> PengadaanModel::roleNames() const
     QHash<int, QByteArray> names;
     names[KodeRole] = "kode";
     names[SumberRole] = "sumber";
+    names[TanggalPengadaanRole] = "tanggalPengadaan";
     return names;
 }
 
@@ -30,6 +31,9 @@ QVariant PengadaanModel::data(const QModelIndex &item, int role) const
     case SumberRole:
         columnIndex = 1;
         break;
+    case TanggalPengadaanRole:
+        columnIndex = 2;
+        break;
     }
 
     return QSqlQueryModel::data(index(item.row(), columnIndex), Qt::DisplayRole);
@@ -40,7 +44,8 @@ void PengadaanModel::refresh()
     QHash<QString,QVariant>binds;
     QString queryString="SELECT "
                           "   kd_pengadaan,"
-                          "   sumber "
+                          "   sumber,"
+                          "   tanggal_pengadaan "
                           "FROM Pengadaan";
     if(mTextQuery.length() > 0){
         queryString+= " WHERE sumber LIKE :textQuery";
@@ -52,7 +57,7 @@ void PengadaanModel::refresh()
     SQLHelper::applyBindMaps(query,binds);
 
     if (!query.exec())
-        qFatal() << "Cannot query Pengadaan " << query.lastError().text();
+        qFatal() << "Cannot query Pengadaan " << query.lastError().text() << query.lastQuery();
 
     setQuery(std::move(query));
 
@@ -60,7 +65,7 @@ void PengadaanModel::refresh()
         qFatal() << "Cannot move Pengadaan query " << lastError().text();
 }
 
-QString PengadaanModel::add(QString sumber)
+QString PengadaanModel::add(QString sumber, QDate tanggalPengadaan)
 {
     QSqlQuery query;
     if (!query.exec("SELECT MAX(CAST(kd_pengadaan AS UNSIGNED)) FROM Pengadaan"))
@@ -74,13 +79,16 @@ QString PengadaanModel::add(QString sumber)
     QString kode = QString::number(maxKode + 1).rightJustified(4, '0');
     query.prepare("INSERT INTO Pengadaan ("
                   " kd_pengadaan,"
-                  " sumber"
+                  " sumber,"
+                  " tanggal_pengadaan"
                   ") VALUES ("
                   " :kode,"
-                  " :sumber"
+                  " :sumber,"
+                  " :tanggalPengadaan"
                   ")");
     query.bindValue(":kode", kode);
     query.bindValue(":sumber", sumber);
+    query.bindValue(":tanggalPengadaan", tanggalPengadaan);
 
     if (!query.exec())
         qFatal() << "Cannot insert into Pengadaan " << query.lastError().text();
