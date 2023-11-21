@@ -34,6 +34,7 @@ Dialog {
             delegate: CardDelegate {
                 property var itemData: model
                 highlighted: ListView.isCurrentItem
+                onClicked: memberListView.currentIndex = index
                 text: model.name
             }
         }
