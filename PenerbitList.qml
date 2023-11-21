@@ -34,6 +34,17 @@ Item  {
             ColumnLayout{
                 anchors.fill:parent
                 anchors.margins: 16
+
+                Image {
+                    source: "qrc:/icons/icons/homework-black.svg"
+                    fillMode: Image.PreserveAspectFit
+                    Layout.alignment: Qt.AlignHCenter
+                    width: 48
+                    height: 48
+                    sourceSize.width: 48
+                    sourceSize.height: 48
+                }
+
                 Rectangle{
                     Layout.fillHeight: true
 
