@@ -24,6 +24,7 @@ public:
     Q_INVOKABLE void updateAll(QAbstractItemModel* model);
     Q_INVOKABLE void addAll(int kodePengadaan, QAbstractItemModel* model);
     Q_INVOKABLE void removeAll();
+    Q_INVOKABLE void resetDenda();
     int count() const;
 
 signals:

@@ -6,7 +6,8 @@
 namespace BasePeminjamanBukuModel {
     enum Role {
         KodeBukuRole = Qt::UserRole,
-        JudulBukuRole
+        JudulBukuRole,
+        DendaRole
     };
 
     QHash<int, QByteArray> getRoleNames();

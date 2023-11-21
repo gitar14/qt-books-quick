@@ -22,6 +22,8 @@ QVariant EditablePeminjamanBukuModel::data(const QModelIndex &index, int role) c
         return item.kodeBuku;
     case BasePeminjamanBukuModel::JudulBukuRole:
         return item.judulBuku;
+    case BasePeminjamanBukuModel::DendaRole:
+        return item.denda;
     }
 
     return QVariant();
@@ -44,6 +46,7 @@ void EditablePeminjamanBukuModel::append(int kodeBuku)
 
     Item item;
     item.kodeBuku = kodeBuku;
+    item.denda = 0;
 
     QSqlQuery query;
     query.prepare("SELECT judul FROM Buku WHERE kd_buku = :kode");
@@ -91,6 +94,7 @@ void EditablePeminjamanBukuModel::remove(int index)
 
     refresh();
     emit itemsChanged();
+    emit totalDendaChanged();
 }
 
 void EditablePeminjamanBukuModel::clear()
@@ -103,6 +107,7 @@ void EditablePeminjamanBukuModel::clear()
 
     refresh();
     emit itemsChanged();
+    emit totalDendaChanged();
 }
 
 void EditablePeminjamanBukuModel::populateFrom(QAbstractItemModel *model)
@@ -116,12 +121,14 @@ void EditablePeminjamanBukuModel::populateFrom(QAbstractItemModel *model)
         QModelIndex index = model->index(i, 0);
         item.kodeBuku = model->data(index, BasePeminjamanBukuModel::KodeBukuRole).toInt();
         item.judulBuku = model->data(index, BasePeminjamanBukuModel::JudulBukuRole).toString();
+        item.denda = model->data(index, BasePeminjamanBukuModel::DendaRole).toInt();
         mItemList.push_back(item);
     }
     emit endInsertRows();
 
     refresh();
     emit itemsChanged();
+    emit totalDendaChanged();
 }
 
 void EditablePeminjamanBukuModel::refresh()
@@ -156,4 +163,35 @@ void EditablePeminjamanBukuModel::refresh()
 bool EditablePeminjamanBukuModel::isBukuAvailable() const
 {
     return mBukuAvailable;
+}
+
+bool EditablePeminjamanBukuModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    int row = index.row();
+    if (row < 0 || row >= mItemList.length())
+        return false;
+
+    Item& item = mItemList[row];
+    if (role == BasePeminjamanBukuModel::DendaRole) {
+        item.denda = value.toInt();
+        emit itemsChanged();
+        emit totalDendaChanged();
+        return true;
+    }
+
+    return false;
+}
+
+Qt::ItemFlags EditablePeminjamanBukuModel::flags(const QModelIndex &index) const
+{
+    return Qt::ItemIsEditable;
+}
+
+int EditablePeminjamanBukuModel::totalDenda() const
+{
+    int total = 0;
+    for (int i = 0; i < mItemList.length(); i++) {
+        total += mItemList.at(i).denda;
+    }
+    return total;
 }

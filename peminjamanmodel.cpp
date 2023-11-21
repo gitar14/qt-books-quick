@@ -142,7 +142,7 @@ void PeminjamanModel::remove(int kode)
     refresh();
 }
 
-void PeminjamanModel::tandaiDikembalikan(int kode, QDate tanggal, int denda)
+void PeminjamanModel::tandaiDikembalikan(int kode, QDate tanggal)
 {
     QSqlQuery query;
     query.prepare("UPDATE Detail_Peminjaman "

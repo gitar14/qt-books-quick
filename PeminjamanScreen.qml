@@ -102,9 +102,11 @@ Page {
 
         PengembalianAddDialog {
             id: dialogPengembalian
+            peminjamanBukuModel: editablePeminjamanBukuModel
 
             onAccepted: {
-                peminjamanModel.tandaiDikembalikan(peminjamanDetailFrame.peminjamanKode, pengembalianTanggal, pengembalianDenda)
+                peminjamanModel.tandaiDikembalikan(peminjamanDetailFrame.peminjamanKode, pengembalianTanggal)
+                peminjamanBukuModel.updateAll(editablePeminjamanBukuModel)
             }
         }
 
@@ -128,12 +130,13 @@ Page {
 
             onTandaiDikembalikanClicked: {
                 dialogPengembalian.pengembalianTanggal = new Date()
-                dialogPengembalian.pengembalianDenda = 0
+                editablePeminjamanBukuModel.populateFrom(peminjamanBukuModel)
                 dialogPengembalian.open()
             }
 
             onTandaiBelumDikembalikanClicked: {
                 peminjamanModel.tandaiBelumDikembalikan(peminjamanKode)
+                peminjamanBukuModel.resetDenda()
             }
         }
     }

@@ -21,6 +21,9 @@ QVariant PeminjamanBukuModel::data(const QModelIndex &item, int role) const
     case BasePeminjamanBukuModel::JudulBukuRole:
         columnIndex = 1;
         break;
+    case BasePeminjamanBukuModel::DendaRole:
+        columnIndex = 2;
+        break;
     default:
         columnIndex = -1;
     }
@@ -33,7 +36,8 @@ void PeminjamanBukuModel::refresh()
     QSqlQuery query;
     query.prepare("SELECT"
                   " Peminjaman.kd_buku,"
-                  " Buku.judul "
+                  " Buku.judul,"
+                  " Peminjaman.denda "
                   "FROM Peminjaman "
                   "LEFT JOIN Buku"
                   " ON Buku.kd_buku = Peminjaman.kd_buku "
@@ -59,17 +63,21 @@ void PeminjamanBukuModel::internalUpdateAll(int kodePeminjaman, QAbstractItemMod
     for (int i = 0; i < count; i++){
         query.prepare("INSERT INTO Peminjaman("
                       " kd_detail_peminjaman,"
-                      " kd_buku"
+                      " kd_buku,"
+                      " denda"
                       ") VALUES ("
                       " :peminjaman,"
-                      " :buku"
+                      " :buku,"
+                      " :denda"
                       ") ON CONFLICT ("
                       " kd_detail_peminjaman,"
                       " kd_buku"
-                      ") DO NOTHING");
+                      ") DO UPDATE "
+                      " SET denda = :denda");
         QModelIndex index = model->index(i, 0);
         query.bindValue(":peminjaman", kodePeminjaman);
         query.bindValue(":buku", model->data(index, BasePeminjamanBukuModel::KodeBukuRole).toInt());
+        query.bindValue(":denda", model->data(index, BasePeminjamanBukuModel::DendaRole).toInt());
 
         if (!query.exec())
             qFatal() << "Cannot upsert Peminjaman_buku " << query.lastError().text();
@@ -150,11 +158,24 @@ void PeminjamanBukuModel::removeAll()
 {
     QSqlQuery query;
     query.prepare("DELETE FROM"
-                  " Peminjaman_buku "
-                  "WHERE kd_peminjaman = :kode");
+                  " Peminjaman "
+                  "WHERE kd_detail_peminjaman = :kode");
     query.bindValue(":kode", mKodePeminjaman);
     if (!query.exec())
         qFatal() << "Canot delete Peminjaman buku " << query.lastError().text();
+
+    refresh();
+}
+
+void PeminjamanBukuModel::resetDenda()
+{
+    QSqlQuery query;
+    query.prepare("UPDATE Peminjaman "
+                  "SET denda = 0 "
+                  "WHERE kd_detail_peminjaman = :kode");
+    query.bindValue(":kode", mKodePeminjaman);
+    if (!query.exec())
+        qFatal() << "Cannot reset dendan for peminjaman" << query.lastError().text();
 
     refresh();
 }

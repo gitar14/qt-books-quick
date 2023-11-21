@@ -62,7 +62,7 @@ BaseDetailFrame {
         }
 
         Label {
-            text: Qt.formatDate(peminjamanTanggal, locale, locale.LongFormat)
+            text: Qt.formatDate(peminjamanTanggalTenggat, locale, locale.LongFormat)
             Layout.fillWidth: true
         }
 
@@ -103,8 +103,15 @@ BaseDetailFrame {
                     radius: 16
                 }
 
-                contentItem: Label {
-                    text: model.judulBuku
+                contentItem: Column {
+                    Label {
+                        text: model.judulBuku
+                    }
+
+                    Label {
+                        visible: model.denda
+                        text: "Denda: " + model.denda
+                    }
                 }
             }
         }

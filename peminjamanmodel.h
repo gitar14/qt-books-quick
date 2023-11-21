@@ -29,7 +29,7 @@ public:
     Q_INVOKABLE int add(int kodeMember, QDate tanggal, int lama);
     Q_INVOKABLE void update(int kode, int kodeMember, QDate tanggal, int lama);
     Q_INVOKABLE void remove(int kode);
-    Q_INVOKABLE void tandaiDikembalikan(int kode, QDate tanggal, int denda);
+    Q_INVOKABLE void tandaiDikembalikan(int kode, QDate tanggal);
     Q_INVOKABLE void tandaiBelumDikembalikan(int kode);
 };
 
