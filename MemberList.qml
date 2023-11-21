@@ -36,10 +36,21 @@ Item {
             ColumnLayout{
                 anchors.fill:parent
                 anchors.margins: 16
-                Rectangle{
-                    Layout.fillHeight: true
 
+                Image {
+                    source: "qrc:/icons/assignment-ind-black.svg"
+                    fillMode: Image.PreserveAspectFit
+                    Layout.alignment: Qt.AlignHCenter
+                    width: 48
+                    height: 48
+                    sourceSize.width: 48
+                    sourceSize.height: 48
                 }
+
+                Item {
+                    Layout.fillHeight: true
+                }
+
                 Label {
                     text: model.name
                     Layout.alignment: Qt.AlignHCenter

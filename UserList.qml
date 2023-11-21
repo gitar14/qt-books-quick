@@ -34,6 +34,15 @@ Item {
             contentItem: ColumnLayout {
                 spacing: 2
 
+                Image {
+                    source: "qrc:/icons/user-black.svg"
+                    fillMode: Image.PreserveAspectFit
+                    Layout.alignment: Qt.AlignHCenter
+                    width: 48
+                    height: 48
+                    sourceSize.width: 48
+                    sourceSize.height: 48
+                }
                 Rectangle {
                     Layout.fillHeight: true
                 }
