@@ -44,7 +44,7 @@ void PengadaanModel::refresh()
 {
     QHash<QString,QVariant>binds;
     QString queryString="SELECT "
-                          "   kd_pengadaan,"
+                          "   kd_detail_pengadaan,"
                           "   sumber,"
                           "   tanggal_pengadaan "
                           "FROM Detail_Pengadaan";
@@ -69,7 +69,7 @@ void PengadaanModel::refresh()
 int PengadaanModel::add(QString sumber, QDate tanggalPengadaan)
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO Detail_Pengadaan ("
+    query.prepare("INSERT INTO Detail_Pengadaan("
                   " id_user,"
                   " sumber,"
                   " tanggal_pengadaan"
