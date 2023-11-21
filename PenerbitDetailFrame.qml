@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 BaseDetailFrame {
-    property string penerbitKode: ""
+    property int penerbitKode: -1
     property string penerbitNama: ""
     property string penerbitAlamat: ""
 
@@ -13,7 +13,7 @@ BaseDetailFrame {
     GridLayout{
         anchors.fill: parent
         columns: 2
-        visible: penerbitKode != ""
+        visible: penerbitKode != -1
         columnSpacing: 16
 
         Text {
@@ -69,6 +69,6 @@ BaseDetailFrame {
     }
     Label {
         text: "Tidak Ada Data"
-        visible: penerbitKode == ""
+        visible: penerbitKode == -1
     }
 }

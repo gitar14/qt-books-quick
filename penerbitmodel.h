@@ -22,9 +22,9 @@ public:
     QVariant data(const QModelIndex &item, int role) const;
 
     Q_INVOKABLE void add(QString nama, QString alamat);
-    Q_INVOKABLE void edit(QString kode, QString nama, QString alamat);
-    Q_INVOKABLE void remove(QString kode);
-    Q_INVOKABLE int getIndexByKode(QString kode);
+    Q_INVOKABLE void edit(int kode, QString nama, QString alamat);
+    Q_INVOKABLE void remove(int kode);
+    Q_INVOKABLE int getIndexByKode(int kode);
 
 
     void refresh();

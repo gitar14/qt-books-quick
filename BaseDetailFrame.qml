@@ -3,8 +3,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Frame {
-    Layout.minimumWidth: 300
-    Layout.maximumWidth: 300
+    Layout.minimumWidth: 350
+    Layout.maximumWidth: 350
     Layout.fillHeight: true
     Layout.rightMargin: 16
     Layout.topMargin: 16

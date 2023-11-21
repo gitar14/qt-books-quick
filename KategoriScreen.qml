@@ -37,14 +37,14 @@ Page {
         KategoriList {
             listModel: kategoriModel
             onAddClicked: {
-                kategoriEditDialog.kategoriKode = ""
+                kategoriEditDialog.kategoriKode = -1
                 kategoriEditDialog.kategoriJenis = ""
                 kategoriEditDialog.open()
             }
 
             onCurrentItemDataChanged: {
                 if (currentItemData == null) {
-                    kategoriDetailFrame.kategoriKode = ""
+                    kategoriDetailFrame.kategoriKode = -1
                     kategoriDetailFrame.kategoriJenis = ""
                 } else {
                     kategoriDetailFrame.kategoriKode = currentItemData.kode
@@ -68,7 +68,7 @@ Page {
             id: kategoriEditDialog
 
             onAccepted: {
-                if (kategoriKode == "")
+                if (kategoriKode == -1)
                     kategoriModel.addNew(kategoriJenis)
                 else kategoriModel.edit(
                          kategoriKode,

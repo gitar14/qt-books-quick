@@ -8,29 +8,29 @@
 class BookListDetailModel : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString kode READ kode WRITE setKode NOTIFY kodeChanged)
+    Q_PROPERTY(int kode READ kode WRITE setKode NOTIFY kodeChanged)
     Q_PROPERTY(int jumlahBuku READ jumlahBuku NOTIFY kodeChanged)
-    Q_PROPERTY(QString kodeKategori READ kodeKategori NOTIFY kodeChanged)
-    Q_PROPERTY(QString kodePenerbit READ kodePenerbit NOTIFY kodeChanged)
+    Q_PROPERTY(int kodeKategori READ kodeKategori NOTIFY kodeChanged)
+    Q_PROPERTY(int kodePenerbit READ kodePenerbit NOTIFY kodeChanged)
     QML_ELEMENT
 public:
     explicit BookListDetailModel(QObject *parent = nullptr);
 
-    QString kode();
-    void setKode(const QString &Id);
+    int kode();
+    void setKode(const int &id);
 
     int jumlahBuku();
-    QString kodeKategori();
-    QString kodePenerbit();
+    int kodeKategori();
+    int kodePenerbit();
 
 signals:
     void kodeChanged();
 
 private:
-    QString mKode;
+    int mKode;
     int mJumlahBuku;
-    QString mKodeKategori;
-    QString mKodePenerbit;
+    int mKodeKategori;
+    int mKodePenerbit;
 };
 
 #endif // BOOKLISTDETAILMODEL_H

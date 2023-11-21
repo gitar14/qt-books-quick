@@ -7,7 +7,7 @@
 class EditablePengadaanBukuModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(QStringList kodeBukuList READ getKodeBukuList NOTIFY itemsChanged)
+    Q_PROPERTY(QList<int> kodeBukuList READ getKodeBukuList NOTIFY itemsChanged)
     Q_PROPERTY(bool isBukuAvailable READ isBukuAvailable NOTIFY itemsChanged)
     QML_ELEMENT
 public:    
@@ -19,9 +19,9 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
 
-    QStringList getKodeBukuList();
+    QList<int> getKodeBukuList();
 
-    Q_INVOKABLE void append(QString kodeBuku, int jumlah);
+    Q_INVOKABLE void append(int kodeBuku, int jumlah);
     Q_INVOKABLE void remove(int index);
     Q_INVOKABLE void clear();
     Q_INVOKABLE void populateFrom(QAbstractItemModel *model);
@@ -34,7 +34,7 @@ protected:
 private:
     class PengadaanBukuItem {
     public:
-        QString kodeBuku;
+        int kodeBuku;
         int jumlah;
         QString judulBuku;
     };

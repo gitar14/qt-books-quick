@@ -49,7 +49,7 @@ Page {
     PengadaanList {
         listModel: pengadaanModel
         onAddClicked: {
-            editPengadaanDialog.pengadaanKode = ""
+            editPengadaanDialog.pengadaanKode = -1
             editPengadaanDialog.pengadaanSumber = ""
             editPengadaanDialog.pengadaanTanggal = new Date ()
             editablePengadaanBukuModel.clear();
@@ -61,7 +61,7 @@ Page {
                 pengadaanDetailFrame.pengadaanSumber = currentItemData.sumber
                 PengadaanDetailFrame.pengadaanTanggal = currentItemData.tanggal
             } else {
-                pengadaanDetailFrame.pengadaanKode = ""
+                pengadaanDetailFrame.pengadaanKode = -1
                 pengadaanDetailFrame.pengadaanSumber = ""
                 PengadaanDetailFrame.pengadaanTanggal = new Date ()
             }
@@ -89,7 +89,7 @@ Page {
         pengadaanBukuModel: editablePengadaanBukuModel
         bukuModel: pengadaanBukuListModel
         onAccepted: {
-            if (pengadaanKode == "") {
+            if (pengadaanKode == -1) {
                 pengadaanKode = pengadaanModel.add(pengadaanSumber, pengadaanTanggal);
                 pengadaanBukuModel.addAll(pengadaanKode, editablePengadaanBukuModel);
             } else {

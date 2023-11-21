@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 BaseDetailFrame {
-    property string kategoriKode: ""
+    property int kategoriKode: -1
     property string kategoriJenis: ""
 
     signal editClicked()
@@ -13,7 +13,7 @@ BaseDetailFrame {
         anchors.fill: parent
         columns: 2
         columnSpacing: 16
-        visible: kategoriKode != ""
+        visible: kategoriKode != -1
 
         Text {
             Layout.columnSpan: 2
@@ -61,7 +61,7 @@ BaseDetailFrame {
 
     Label {
         anchors.fill: parent
-        visible: kategoriKode == ""
+        visible: kategoriKode == -1
 
         text: "Tidak ada kategori yang terpilih"
     }

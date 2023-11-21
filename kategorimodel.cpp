@@ -36,7 +36,7 @@ void KategoriModel::refresh()
     QHash<QString, QVariant> bindMaps;
     QString queryString = "SELECT"
                           "   kd_kategori,"
-                          "   jenis "
+                          "   nama_kategori "
                           "FROM Kategori";
     if (mTextQuery.length() > 0) {
         queryString.append(" WHERE jenis LIKE :text_query");
@@ -61,24 +61,13 @@ void KategoriModel::refresh()
 void KategoriModel::addNew(QString jenis)
 {
     QSqlQuery query;
-    if (!query.exec("SELECT MAX(CAST(kd_kategori AS UNSIGNED)) FROM Kategori"))
-        qFatal() << "Error get max id " << query.lastError();
-
-    int maxId = -1;
-    if (query.next()) {
-        maxId = query.value(0).toInt();
-    }
-
     query.prepare("INSERT INTO Kategori("
-               "   kd_kategori,"
-               "   jenis"
+               "   nama_kategori"
                ") VALUES ("
-               "   :kode,"
-               "   :jenis"
+               "   :kategori"
                ")");
 
-    query.bindValue(":kode", QString::number(maxId + 1).rightJustified(4, '0'));
-    query.bindValue(":jenis", jenis);
+    query.bindValue(":kategori", jenis);
 
     if (!query.exec())
         qFatal() << "Cannot add Kategori " << query.lastError().text();
@@ -86,16 +75,16 @@ void KategoriModel::addNew(QString jenis)
     refresh();
 }
 
-void KategoriModel::edit(QString kode, QString jenis)
+void KategoriModel::edit(int kode, QString jenis)
 {
     QSqlQuery query;
 
     query.prepare("UPDATE Kategori SET "
-                  " jenis = :jenis "
+                  " nama_kategori = :kategori "
                   "WHERE kd_kategori = :kode");
 
     query.bindValue(":kode", kode);
-    query.bindValue(":jenis", jenis);
+    query.bindValue(":kategori", jenis);
 
     if (!query.exec())
         qFatal() << "Cannot edit Kategori " << query.lastError().text();
@@ -103,7 +92,7 @@ void KategoriModel::edit(QString kode, QString jenis)
     refresh();
 }
 
-void KategoriModel::remove(QString kode)
+void KategoriModel::remove(int kode)
 {
     QSqlQuery query;
 
@@ -117,11 +106,11 @@ void KategoriModel::remove(QString kode)
     refresh();
 }
 
-int KategoriModel::getIndexByKode(QString kode)
+int KategoriModel::getIndexByKode(int kode)
 {
     int count = rowCount();
     for (int i = 0; i < count; i++) {
-        if (data(index(i, 0), KodeRole).toString() == kode) {
+        if (data(index(i, 0), KodeRole).toInt() == kode) {
             return i;
         }
     }

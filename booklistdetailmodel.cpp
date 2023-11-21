@@ -4,24 +4,24 @@
 
 BookListDetailModel::BookListDetailModel(QObject *parent)
     : QObject{parent},
-    mKode("")
+    mKode(-1)
 {
 }
 
-QString BookListDetailModel::kode()
+int BookListDetailModel::kode()
 {
     return mKode;
 }
 
-void BookListDetailModel::setKode(const QString &Id)
+void BookListDetailModel::setKode(const int &id)
 {
-    this->mKode = Id;
+    this->mKode = id;
     QSqlQuery query;
     query.prepare(
         "SELECT"
         "   kd_kategori,"
         "   kd_penerbit,"
-        "   jumlah_buku "
+        "   jumlah_hilang "
         "FROM Buku "
         "WHERE Buku.kd_buku = :kode"
         );
@@ -32,13 +32,13 @@ void BookListDetailModel::setKode(const QString &Id)
 
     if (query.next()) {
         QSqlRecord record = query.record();
-        mJumlahBuku = record.value("jumlah_buku").toInt();
-        mKodeKategori = record.value("kd_kategori").toString();
-        mKodePenerbit = record.value("kd_penerbit").toString();
+        mJumlahBuku = record.value("jumlah_hilang").toInt();
+        mKodeKategori = record.value("kd_kategori").toInt();
+        mKodePenerbit = record.value("kd_penerbit").toInt();
     } else {
         mJumlahBuku = 0;
-        mKodeKategori = "";
-        mKodePenerbit = "";
+        mKodeKategori = -1;
+        mKodePenerbit = -1;
     }
     emit kodeChanged();
 }
@@ -48,12 +48,12 @@ int BookListDetailModel::jumlahBuku()
     return mJumlahBuku;
 }
 
-QString BookListDetailModel::kodeKategori()
+int BookListDetailModel::kodeKategori()
 {
     return mKodeKategori;
 }
 
-QString BookListDetailModel::kodePenerbit()
+int BookListDetailModel::kodePenerbit()
 {
     return mKodePenerbit;
 }

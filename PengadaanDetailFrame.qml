@@ -4,7 +4,7 @@ import QtQuick.Controls
 import Kelompok7.Perpus
 
 BaseDetailFrame {
-    property string pengadaanKode: ""
+    property int pengadaanKode: -1
     property string pengadaanSumber: ""
     property date pengadaanTanggal: new Date()
     required property PengadaanBukuModel pengadaanBukuModel
@@ -15,7 +15,7 @@ BaseDetailFrame {
     GridLayout {
         anchors.fill: parent
         columnSpacing: 16
-        visible: pengadaanKode != ""
+        visible: pengadaanKode != -1
         columns: 2
 
         Text {
@@ -104,7 +104,7 @@ BaseDetailFrame {
     }
 
     Label {
-        visible: pengadaanDetailFrame.detailSumber == ""
+        visible: pengadaanKode == -1
         text: "Tidak ada item yang terpilih"
     }
 }
