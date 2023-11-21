@@ -43,25 +43,14 @@ QVariant PenerbitModel::data(const QModelIndex &item, int role) const
 void PenerbitModel::add(QString nama, QString alamat)
 {
     QSqlQuery query;
-    if (!query.exec("SELECT MAX(CAST(kd_penerbit AS UNSIGNED)) FROM Penerbit"))
-        qFatal() << "Cannot get max id " << query.lastError().text();
-
-    int maxId = -1;
-    if (query.next()) {
-        maxId = query.value(0).toInt();
-    }
-
     query.prepare("INSERT INTO Penerbit("
-                  " kd_penerbit,"
                   " nama_penerbit,"
                   " alamat_penerbit"
                   ") VALUES ("
-                  " :kode,"
                   " :nama,"
                   " :alamat"
                   ")");
 
-    query.bindValue(":kode", QString::number(maxId + 1).rightJustified(4, '0'));
     query.bindValue(":nama", nama);
     query.bindValue(":alamat", alamat);
 
@@ -71,7 +60,7 @@ void PenerbitModel::add(QString nama, QString alamat)
     refresh();
 }
 
-void PenerbitModel::edit(QString kode, QString nama, QString alamat)
+void PenerbitModel::edit(int kode, QString nama, QString alamat)
 {
     QSqlQuery query;
     query.prepare("UPDATE Penerbit SET"
@@ -88,7 +77,7 @@ void PenerbitModel::edit(QString kode, QString nama, QString alamat)
     refresh();
 }
 
-void PenerbitModel::remove(QString kode)
+void PenerbitModel::remove(int kode)
 {
     QSqlQuery query;
     query.prepare("DELETE from Penerbit where kd_penerbit = :kode");
@@ -100,11 +89,11 @@ void PenerbitModel::remove(QString kode)
     refresh();
 }
 
-int PenerbitModel::getIndexByKode(QString kode)
+int PenerbitModel::getIndexByKode(int kode)
 {
     int count = rowCount();
     for (int i=0;i<count;i++){
-        if(data(index(i,0), KodeRole).toString()== kode)
+        if(data(index(i,0), KodeRole).toInt()== kode)
             return i;
     }
     return -1;

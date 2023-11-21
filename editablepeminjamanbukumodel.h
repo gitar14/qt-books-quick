@@ -7,7 +7,7 @@
 class EditablePeminjamanBukuModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(QStringList kodeBukuList READ getKodeBukuList NOTIFY itemsChanged)
+    Q_PROPERTY(QList<int> kodeBukuList READ getKodeBukuList NOTIFY itemsChanged)
     Q_PROPERTY(bool isBukuAvailable READ isBukuAvailable NOTIFY itemsChanged)
     QML_ELEMENT
 public:
@@ -16,12 +16,12 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     int rowCount(const QModelIndex &parent) const;
 
-    QStringList getKodeBukuList();
+    QList<int> getKodeBukuList();
 
 
     Q_INVOKABLE void remove(int index);
     Q_INVOKABLE void clear();
-    Q_INVOKABLE void append(QString kodeBuku);
+    Q_INVOKABLE void append(int kodeBuku);
     Q_INVOKABLE void populateFrom(QAbstractItemModel *model);
     bool isBukuAvailable() const;
 
@@ -32,7 +32,7 @@ protected:
 private:
     class Item {
     public:
-        QString kodeBuku;
+        int kodeBuku;
         QString judulBuku;
     };
 

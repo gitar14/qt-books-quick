@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 
 Dialog {
-    property string bukuKode: ""
+    property int bukuKode: -1
     property string bukuJudul: ""
     property string bukuPenulis: ""
     property int bukuJumlahBuku: 0
@@ -38,7 +38,7 @@ Dialog {
     contentHeight: editDialogColumn.height
 
     modal: true
-    title: bukuKode == "" ? "Tambah Buku" : "Edit Buku"
+    title: bukuKode == -1 ? "Tambah Buku" : "Edit Buku"
 
     Flickable {
         id: editDialogFlickable

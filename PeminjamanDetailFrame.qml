@@ -3,9 +3,9 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Kelompok7.Perpus
 
-Frame {
-    property string peminjamanKode: ""
-    property string peminjamanMemberKode: ""
+BaseDetailFrame {
+    property int peminjamanKode: -1
+    property int peminjamanMemberKode: -1
     property string peminjamanMemberNama: ""
     property date peminjamanTanggal: new Date()
     property int peminjamanLama: 0
@@ -19,24 +19,10 @@ Frame {
     signal tandaiDikembalikanClicked()
     signal tandaiBelumDikembalikanClicked()
 
-    Layout.minimumWidth: 300
-    Layout.maximumWidth: 300
-    Layout.fillHeight: true
-    Layout.rightMargin: 16
-    Layout.topMargin: 16
-    Layout.bottomMargin: 16
-    padding: 16
-
-    background: Rectangle {
-        border.color: "#dedede"
-        border.width: 1
-        radius: 16
-    }
-
-    GridLayout{
+    GridLayout {
         anchors.fill: parent
         columnSpacing: 16
-        visible: peminjamanKode !=""
+        visible: peminjamanKode != -1
         columns: 2
 
         Text {

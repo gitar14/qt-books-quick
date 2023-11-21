@@ -25,27 +25,27 @@ public:
     QHash<int, QByteArray> roleNames() const;
     QVariant data(const QModelIndex &item, int role) const;
 
-    Q_INVOKABLE QString getKodeByIndex(int index);
+    Q_INVOKABLE int getKodeByIndex(int index);
     Q_INVOKABLE void refresh();
     Q_INVOKABLE void addNew(
         QString judul,
         QString penulis,
         int jumlahBuku,
         int tahunTerbit,
-        QString kodeKategori,
-        QString kodePenerbit
+        int kodeKategori,
+        int kodePenerbit
     );
     Q_INVOKABLE void edit(
-        QString kode,
+        int kode,
         QString judul,
         QString penulis,
-        int jumlahBuku,
+        int jumlahHilang,
         int tahunTerbit,
-        QString kodeKategori,
-        QString kodePenerbit
+        int kodeKategori,
+        int kodePenerbit
     );
-    Q_INVOKABLE void remove(QString kode);
-    Q_INVOKABLE void setIgnoredKodeList(QStringList ignoredIdList);
+    Q_INVOKABLE void remove(int kode);
+    Q_INVOKABLE void setIgnoredKodeList(QList<int> ignoredIdList);
     int count() const;
 
     QString textQuery() const;
@@ -57,7 +57,7 @@ signals:
     void queryChanged();
 
 private:
-    QStringList mIgnoredKodeList;
+    QList<int> mIgnoredKodeList;
     QString mTextQuery;
 };
 

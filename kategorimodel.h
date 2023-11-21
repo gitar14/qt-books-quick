@@ -22,9 +22,9 @@ public:
 
     Q_INVOKABLE void refresh();
     Q_INVOKABLE void addNew(QString jenis);
-    Q_INVOKABLE void edit(QString kode, QString jenis);
-    Q_INVOKABLE void remove(QString kode);
-    Q_INVOKABLE int getIndexByKode(QString kode);
+    Q_INVOKABLE void edit(int kode, QString jenis);
+    Q_INVOKABLE void remove(int kode);
+    Q_INVOKABLE int getIndexByKode(int kode);
     QString textQuery() const;
     void setTextQuery(const QString &newTextQuery);
 signals:

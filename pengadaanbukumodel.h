@@ -8,7 +8,7 @@
 class PengadaanBukuModel : public QSqlQueryModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString kodePengadaan READ kodePengadaan WRITE setKodePengadaan NOTIFY kodePengadaanChanged)
+    Q_PROPERTY(int kodePengadaan READ kodePengadaan WRITE setKodePengadaan NOTIFY kodePengadaanChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     QML_ELEMENT
 public:
@@ -18,11 +18,11 @@ public:
     QVariant data(const QModelIndex &item, int role) const;
 
     void refresh();
-    QString kodePengadaan() const;
-    void setKodePengadaan(const QString &newKodePengadaan);
+    int kodePengadaan() const;
+    void setKodePengadaan(const int &newKodePengadaan);
 
     Q_INVOKABLE void updateAll(QAbstractItemModel* model);
-    Q_INVOKABLE void addAll(QString kodePengadaan, QAbstractItemModel* model);
+    Q_INVOKABLE void addAll(int kodePengadaan, QAbstractItemModel* model);
     Q_INVOKABLE void removeAll();
     int count() const;
 
@@ -31,9 +31,9 @@ signals:
     void countChanged();
 
 private:
-    QString mKodePengadaan;
+    int mKodePengadaan;
 
-    void internalUpdateAll(QString kodePengadaan, QAbstractItemModel* model);
+    void internalUpdateAll(int kodePengadaan, QAbstractItemModel* model);
 };
 
 #endif // PENGADAANBUKUMODEL_H

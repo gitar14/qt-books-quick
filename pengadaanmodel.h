@@ -22,9 +22,9 @@ public:
     QVariant data(const QModelIndex &item, int role) const;
 
     Q_INVOKABLE void refresh();
-    Q_INVOKABLE QString add(QString sumber, QDate tanggalPengadaan);
-    Q_INVOKABLE void update(QString kode, QString sumber);
-    Q_INVOKABLE void remove(QString kode);
+    Q_INVOKABLE int add(QString sumber, QDate tanggalPengadaan);
+    Q_INVOKABLE void update(int kode, QString sumber);
+    Q_INVOKABLE void remove(int kode);
     QString textQuery() const;
     void seTextQuery(const QString &newTextQuery);
 signals:

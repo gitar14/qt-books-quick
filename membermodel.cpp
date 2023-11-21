@@ -51,27 +51,16 @@ QVariant MemberModel::data(const QModelIndex &item, int role) const
 void MemberModel::add(QString namaDepan, QString namaBelakang, QDate tanggalLahir)
 {
     QSqlQuery query;
-    if (!query.exec("SELECT MAX(CAST(kd_member AS UNSIGNED)) FROM Member"))
-        qFatal() << "Cannot get max id " << query.lastError().text();
-
-    int maxId = -1;
-    if (query.next()) {
-        maxId = query.value(0).toInt();
-    }
-
     query.prepare("INSERT INTO Member("
-                  " kd_member,"
                   " nama_depan_member,"
                   " nama_belakang_member,"
                   " tanggal_lahir"
                   ") VALUES ("
-                  " :kode,"
                   " :namaDepan,"
                   " :namaBelakang,"
                   " :tanggalLahir"
                   ")");
 
-    query.bindValue(":kode", QString::number(maxId + 1).rightJustified(4, '0'));
     query.bindValue(":namaDepan", namaDepan);
     query.bindValue(":namaBelakang", namaBelakang);
     query.bindValue(":tanggalLahir", tanggalLahir);
@@ -82,7 +71,7 @@ void MemberModel::add(QString namaDepan, QString namaBelakang, QDate tanggalLahi
     refresh();
 }
 
-void MemberModel::edit(QString kode, QString namaDepan, QString namaBelakang, QDate tanggalLahir)
+void MemberModel::edit(int kode, QString namaDepan, QString namaBelakang, QDate tanggalLahir)
 {
     QSqlQuery query;
     query.prepare("UPDATE Member SET"
@@ -101,7 +90,7 @@ void MemberModel::edit(QString kode, QString namaDepan, QString namaBelakang, QD
     refresh();
 }
 
-void MemberModel::remove(QString kode)
+void MemberModel::remove(int kode)
 {
     QSqlQuery query;
     query.prepare("DELETE from Member where kd_member = :kode");

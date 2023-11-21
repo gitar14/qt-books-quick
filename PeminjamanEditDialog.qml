@@ -4,8 +4,8 @@ import QtQuick.Layouts
 import Kelompok7.Perpus
 
 Dialog {
-    property string peminjamanKode: ""
-    property string peminjamanMemberKode: ""
+    property int peminjamanKode: -1
+    property int peminjamanMemberKode: -1
     property string peminjamanMemberNama: ""
     property int peminjamanLama: 0
     property date peminjamanTanggal: new Date ()

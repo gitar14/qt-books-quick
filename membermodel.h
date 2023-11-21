@@ -24,8 +24,8 @@ public:
     QVariant data(const QModelIndex &item, int role) const;
 
     Q_INVOKABLE void add(QString namaDepan, QString namaBelakang, QDate tanggalLahir);
-    Q_INVOKABLE void edit(QString kode, QString namaDepan, QString namaBelakang, QDate tanggalLahir);
-    Q_INVOKABLE void remove(QString kode);
+    Q_INVOKABLE void edit(int kode, QString namaDepan, QString namaBelakang, QDate tanggalLahir);
+    Q_INVOKABLE void remove(int kode);
     void refresh();
     QString TextQuery() const;
     void setTextQuery(const QString &newTextQuery);

@@ -20,7 +20,7 @@ void EditablePengadaanBukuModel::refresh()
                           " COUNT(kd_buku) > 0 "
                           "FROM Buku ";
     QHash<QString, QVariant> binds;
-    QStringList kodeList = getKodeBukuList();
+    QList<int> kodeList = getKodeBukuList();
 
     if (kodeList.length() > 0) {
         queryString += QStringLiteral(" WHERE kd_buku NOT IN(%1)").arg(
@@ -92,9 +92,9 @@ Qt::ItemFlags EditablePengadaanBukuModel::flags(const QModelIndex &index) const
     return Qt::ItemIsEditable;
 }
 
-void EditablePengadaanBukuModel::append(QString kodeBuku, int jumlah)
+void EditablePengadaanBukuModel::append(int kodeBuku, int jumlah)
 {
-    if (kodeBuku == "") {
+    if (kodeBuku == -1) {
         qCritical() << "Appending blank kodeBuku into EditablePengadaanBuku is forbidden";
         return;
     }
@@ -125,9 +125,9 @@ void EditablePengadaanBukuModel::append(QString kodeBuku, int jumlah)
     emit itemsChanged();
 }
 
-QStringList EditablePengadaanBukuModel::getKodeBukuList()
+QList<int> EditablePengadaanBukuModel::getKodeBukuList()
 {
-    QStringList list;
+    QList<int> list;
     QListIterator<PengadaanBukuItem> it(mItemList);
     while (it.hasNext()) {
         list.append(it.next().kodeBuku);
@@ -170,7 +170,7 @@ void EditablePengadaanBukuModel::populateFrom(QAbstractItemModel *model)
     for (int i = 0; i < count; i++) {
         PengadaanBukuItem item;
         QModelIndex index = model->index(i, 0);
-        item.kodeBuku = model->data(index, BasePengadaanBukuModel::KodeBukuRole).toString();
+        item.kodeBuku = model->data(index, BasePengadaanBukuModel::KodeBukuRole).toInt();
         item.jumlah = model->data(index, BasePengadaanBukuModel::JumlahRole).toInt();
         item.judulBuku = model->data(index, BasePengadaanBukuModel::JudulBukuRole).toString();
         mItemList.push_back(item);

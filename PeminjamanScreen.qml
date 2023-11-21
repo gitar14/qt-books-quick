@@ -53,8 +53,8 @@ Page {
         PeminjamanList {
             listModel: peminjamanModel
             onAddClicked: {
-                editPeminjamanDialog.peminjamanKode = ""
-                editPeminjamanDialog.peminjamanMemberKode = ""
+                editPeminjamanDialog.peminjamanKode = -1
+                editPeminjamanDialog.peminjamanMemberKode = -1
                 editPeminjamanDialog.peminjamanMemberNama = ""
                 editPeminjamanDialog.peminjamanLama = 0
                 editPeminjamanDialog.peminjamanTanggal = new Date()
@@ -72,8 +72,8 @@ Page {
                     peminjamanDetailFrame.peminjamanTanggalPengembalian = currentItemData.tanggalPengembalian
                     peminjamanDetailFrame.peminjamanSudahDikembalikan = currentItemData.sudahDikembalikan
                 } else {
-                    peminjamanDetailFrame.peminjamanKode = ""
-                    peminjamanDetailFrame.peminjamanMemberKode = ""
+                    peminjamanDetailFrame.peminjamanKode = -1
+                    peminjamanDetailFrame.peminjamanMemberKode = -1
                     peminjamanDetailFrame.peminjamanMemberNama = ""
                     peminjamanDetailFrame.peminjamanLama = 0
                     peminjamanDetailFrame.peminjamanTanggal = new Date()
@@ -90,7 +90,7 @@ Page {
             bukuModel: peminjamanBukuListModel
             memberModel: memberModel
             onAccepted: {
-                if (peminjamanKode == "") {
+                if (peminjamanKode == -1) {
                     peminjamanKode = peminjamanModel.add(peminjamanMemberKode, peminjamanTanggal, peminjamanLama)
                     peminjamanBukuModel.addAll(peminjamanKode, editablePeminjamanBukuModel);
                 } else {

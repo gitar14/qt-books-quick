@@ -34,14 +34,14 @@ Page {
         PenerbitList {
             listModel: penerbitModel
             onAddClicked: {
-                editPenerbitDialog.penerbitKode = ""
+                editPenerbitDialog.penerbitKode = -1
                 editPenerbitDialog.penerbitNama = ""
                 editPenerbitDialog.penerbitAlamat = ""
                 editPenerbitDialog.open()
             }
             onCurrentItemDataChanged: {
                 if (currentItemData == null) {
-                    penerbitDetailFrame.penerbitKode = ""
+                    penerbitDetailFrame.penerbitKode = -1
                     penerbitDetailFrame.penerbitNama = ""
                     penerbitDetailFrame.penerbitAlamat = ""
                 } else {
@@ -68,7 +68,7 @@ Page {
             id: editPenerbitDialog
 
             onAccepted: {
-                if(penerbitKode == "")
+                if(penerbitKode == -1)
                     penerbitModel.add(penerbitNama, penerbitAlamat)
                 else penerbitModel.edit(penerbitKode, penerbitNama, penerbitAlamat)
             }

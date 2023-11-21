@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 BaseDetailFrame {
-    property string bukuKode: ""
+    property int bukuKode: -1
     property string bukuJudul: ""
     property string bukuPenulis: ""
     property string bukuKategori: ""
@@ -19,7 +19,7 @@ BaseDetailFrame {
         anchors.fill: parent
         columns: 2
         columnSpacing: 16
-        visible: bukuKode != ""
+        visible: bukuKode != -1
 
         Text {
             Layout.columnSpan: 2
@@ -114,6 +114,6 @@ BaseDetailFrame {
 
     Label {
         text: "Tidak Ada Data Buku"
-        visible: bukuKode == ""
+        visible: bukuKode == -1
     }
 }

@@ -5,7 +5,7 @@ import QtQuick.Controls.Material
 import Kelompok7.Perpus
 
 Dialog {
-    property string pengadaanKode: ""
+    property int pengadaanKode: -1
     property string pengadaanSumber: ""
     property date pengadaanTanggal: new Date ()
     required property EditablePengadaanBukuModel pengadaanBukuModel
