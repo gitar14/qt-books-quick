@@ -34,14 +34,20 @@ Dialog{
             text: "Nama Depan"
         }
         TextField {
+            id: memberNamaDepanTextField
             text: editMemberDialog.memberNamaDepan
             maximumLength: 25
-            id: namaDepanTextField
             Layout.fillWidth: true
             onTextChanged: editMemberDialog.memberNamaDepan = text
         }
+
         Label {
-            text: "Nama Tidak Boleh Kosong"
+            Layout.alignment: Qt.AlignRight
+            text: (memberNamaDepanTextField.maximumLength - memberNamaDepan.length) + " tersisa"
+        }
+
+        Label {
+            text: "Nama Depan Tidak Boleh Kosong"
             color: Material.color(Material.Red)
             visible: memberNamaDepan.length == 0
         }
@@ -49,14 +55,20 @@ Dialog{
             text: "Nama Belakang"
         }
         TextField {
+            id: memberNamaBelakangTextField
             text: editMemberDialog.memberNamaBelakang
             maximumLength: 25
-            id: namaBelakangTextField
             Layout.fillWidth: true
             onTextChanged: editMemberDialog.memberNamaBelakang = text
         }
+
         Label {
-            text: "Nama Tidak Boleh Kosong"
+            Layout.alignment: Qt.AlignRight
+            text: (memberNamaBelakangTextField.maximumLength - memberNamaBelakang.length) + " tersisa"
+        }
+
+        Label {
+            text: "Nama Belakang Tidak Boleh Kosong"
             color: Material.color(Material.Red)
             visible: memberNamaBelakang.length == 0
         }

@@ -7,6 +7,7 @@ import Kelompok7.Perpus
 Dialog {
     property int pengadaanKode: -1
     property string pengadaanSumber: ""
+    property date pengadaanTanggal: new Date ()
     required property EditablePengadaanBukuModel pengadaanBukuModel
     required property BookListModel bukuModel
 
@@ -59,15 +60,32 @@ Dialog {
                 text: "Sumber"
             }
             TextField {
+                id: pengadaanSumberTextField
                 Layout.fillWidth: true
                 maximumLength: 25
                 text: pengadaanSumber
                 onTextChanged: pengadaanSumber = text
             }
+
+            Label {
+                Layout.alignment: Qt.AlignRight
+                text: (pengadaanSumberTextField.maximumLength - pengadaanSumber.length) + " tersisa"
+            }
+
             Label {
                 text: "Sumber Tidak Boleh Kosong"
                 color: Material.color(Material.Red)
                 visible: pengadaanSumber.length == 0
+            }
+
+            Label {
+                text : "Tanggal"
+            }
+            DateField {
+                currentDate: editPengadaanDialog.pengadaanTanggal
+                id: tanggalTextField
+                Layout.fillWidth: true
+                onCurrentDateChanged: editPengadaanDialog.pengadaanTanggal = currentDate
             }
             Label {
                 text: "Buku"

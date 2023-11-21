@@ -33,11 +33,18 @@ Dialog{
             text: "Nama"
         }
         TextField {
+            id: penerbitNamaTextField
             text: editPenerbitDialog.penerbitNama
             maximumLength: 25
             Layout.fillWidth: true
             onTextChanged: editPenerbitDialog.penerbitNama = text
         }
+
+        Label {
+            Layout.alignment: Qt.AlignRight
+            text: (penerbitNamaTextField.maximumLength - penerbitNama.length) + " tersisa"
+        }
+
         Label {
             text: "Nama Tidak Boleh Kosong"
             color: Material.color(Material.Red)
@@ -49,11 +56,18 @@ Dialog{
         }
 
         TextField {
+            id: penerbitAlamatTextField
             text: editPenerbitDialog.penerbitAlamat
             maximumLength: 30
             Layout.fillWidth: true
             onTextChanged: editPenerbitDialog.penerbitAlamat = text
         }
+
+        Label {
+            Layout.alignment: Qt.AlignRight
+            text: (penerbitAlamatTextField.maximumLength - penerbitAlamat.length) + " tersisa"
+        }
+
         Label {
             text: "Alamat Tidak Boleh Kosong"
             color: Material.color(Material.Red)

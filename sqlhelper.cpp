@@ -49,7 +49,6 @@ namespace SQLHelper {
                             ).arg(autoIncrement)))
             qFatal() << "Cannot create Buku table " << query.lastError().text();
 
-
         if (!query.exec("CREATE TABLE IF NOT EXISTS User("
                         "   id_user VARCHAR(15) NOT NULL PRIMARY KEY,"
                         "   nama_depan_user VARCHAR(25) NOT NULL,"

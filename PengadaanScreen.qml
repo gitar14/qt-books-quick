@@ -51,6 +51,7 @@ Page {
         onAddClicked: {
             editPengadaanDialog.pengadaanKode = -1
             editPengadaanDialog.pengadaanSumber = ""
+            editPengadaanDialog.pengadaanTanggal = new Date ()
             editablePengadaanBukuModel.clear();
             editPengadaanDialog.open()
         }
@@ -58,9 +59,11 @@ Page {
             if (currentItemData != null) {
                 pengadaanDetailFrame.pengadaanKode = currentItemData.kode
                 pengadaanDetailFrame.pengadaanSumber = currentItemData.sumber
+                PengadaanDetailFrame.pengadaanTanggal = currentItemData.tanggal
             } else {
                 pengadaanDetailFrame.pengadaanKode = -1
                 pengadaanDetailFrame.pengadaanSumber = ""
+                PengadaanDetailFrame.pengadaanTanggal = new Date ()
             }
         }
     }
@@ -71,6 +74,7 @@ Page {
         onEditClicked: {
             editPengadaanDialog.pengadaanKode = pengadaanKode
             editPengadaanDialog.pengadaanSumber = pengadaanSumber
+            editPengadaanDialog.pengadaanTanggal = pengadaanTanggal
             editablePengadaanBukuModel.populateFrom(pengadaanBukuModel);
             editPengadaanDialog.open();
         }
@@ -86,10 +90,10 @@ Page {
         bukuModel: pengadaanBukuListModel
         onAccepted: {
             if (pengadaanKode == -1) {
-                pengadaanKode = pengadaanModel.add(pengadaanSumber);
+                pengadaanKode = pengadaanModel.add(pengadaanSumber, pengadaanTanggal);
                 pengadaanBukuModel.addAll(pengadaanKode, editablePengadaanBukuModel);
             } else {
-                pengadaanModel.update(pengadaanKode, pengadaanSumber);
+                pengadaanModel.update(pengadaanKode, pengadaanSumber, pengadaanTanggal);
                 pengadaanBukuModel.updateAll(editablePengadaanBukuModel);
             }
         }
