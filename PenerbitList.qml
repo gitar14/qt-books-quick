@@ -22,6 +22,8 @@ Item  {
                 currentItemData = currentItem.itemData;
             }
         }
+        cellHeight: 125
+
         delegate: CardDelegate {
             property var itemData: model
             width: GridView.view.cellWidth - 8
@@ -31,10 +33,7 @@ Item  {
             onClicked: penerbitGridView.currentIndex = index
 
 
-            ColumnLayout{
-                anchors.fill:parent
-                anchors.margins: 16
-
+            contentItem: ColumnLayout{
                 Image {
                     source: "qrc:/icons/icons/homework-black.svg"
                     fillMode: Image.PreserveAspectFit
@@ -45,10 +44,6 @@ Item  {
                     sourceSize.height: 48
                 }
 
-                Rectangle{
-                    Layout.fillHeight: true
-
-                }
                 Label {
                     text: model.name
                     Layout.alignment: Qt.AlignHCenter

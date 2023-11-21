@@ -22,11 +22,12 @@ Item {
         }
 
         model: listModel
+        cellHeight: 100
 
         delegate: CardDelegate {
             property var itemData: model
-            width: GridView.view.itemWidth
-            height: GridView.view.itemHeight
+            width: GridView.view.cellWidth - 8
+            height: GridView.view.cellHeight - 8
             highlighted: GridView.isCurrentItem
             onClicked: GridView.view.currentIndex = index
             padding: 16
@@ -42,11 +43,6 @@ Item {
                     height: 48
                     sourceSize.width: 48
                     sourceSize.height: 48
-                }
-
-
-                Rectangle {
-                    Layout.fillHeight: true
                 }
 
                 Label {

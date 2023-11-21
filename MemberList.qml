@@ -33,10 +33,7 @@ Item {
             onClicked: memberGridView.currentIndex = index
             padding: 16
 
-            ColumnLayout{
-                anchors.fill:parent
-                anchors.margins: 16
-
+            contentItem: ColumnLayout{
                 Image {
                     source: "qrc:/icons/assignment-ind-black.svg"
                     fillMode: Image.PreserveAspectFit
@@ -47,17 +44,19 @@ Item {
                     sourceSize.height: 48
                 }
 
-                Item {
-                    Layout.fillHeight: true
-                }
-
                 Label {
+                    Layout.fillWidth: true
                     text: model.name
-                    Layout.alignment: Qt.AlignHCenter
+                    horizontalAlignment: Qt.AlignHCenter
+                    wrapMode: Label.Wrap
+                    maximumLineCount: 2
+                    elide: Text.ElideRight
                 }
                 Label {
+                    Layout.fillWidth: true
                     text: model.tanggalLahir
-                    Layout.alignment: Qt.AlignHCenter
+                    horizontalAlignment: Qt.AlignHCenter
+                    wrapMode: Text.Wrap
                 }
             }
         }
