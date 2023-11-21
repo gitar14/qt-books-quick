@@ -5,18 +5,6 @@
 #include <QSqlError>
 
 namespace SQLHelper {
-    QString generateArrayBinds(QString prefix, const QStringList& list, QHash<QString, QVariant> &binds)
-    {
-        QStringList bindResults;
-        for (qsizetype i = 0; i < list.length(); i++) {
-            QString name = prefix + QString::number(i);
-            bindResults.push_back(name);
-            binds[name] = list.at(i);
-        }
-
-        return bindResults.join(",");
-    }
-
     void applyBindMaps(QSqlQuery &query, const QHash<QString, QVariant> &binds)
     {
         for (QHash<QString, QVariant>::const_iterator it = binds.begin(); it != binds.end(); it++) {
@@ -26,59 +14,41 @@ namespace SQLHelper {
 
     void initializeDatabase(QSqlDatabase &db)
     {
-
         QSqlQuery query(db);
-        if (!query.exec("CREATE TABLE IF NOT EXISTS Kategori("
-                        "   kd_kategori VARCHAR(4) NOT NULL PRIMARY KEY,"
-                        "   jenis VARCHAR(25) NOT NULL"
-                        ")"))
+        const QString autoIncrement = db.driverName() == "QSQLITE" ? "AUTOINCREMENT" : "AUTO_INCREMENT";
+        if (!query.exec(QStringLiteral(
+                "CREATE TABLE IF NOT EXISTS Kategori("
+                "   kd_kategori INTEGER NOT NULL PRIMARY KEY %1,"
+                "   nama_kategori VARCHAR(25) NOT NULL"
+                ")"
+                            ).arg(autoIncrement)))
             qFatal() << "Cannot create Kategori table " << query.lastError().text();
-        if (!query.exec("CREATE TABLE IF NOT EXISTS Penerbit("
-                        "   kd_penerbit VARCHAR (4) NOT NULL PRIMARY KEY,"
-                        "   nama_penerbit VARCHAR(25) NOT NULL,"
-                        "   alamat_penerbit VARCHAR(30) NOT NULL"
-                        ")"))
+        if (!query.exec(QStringLiteral(
+                "CREATE TABLE IF NOT EXISTS Penerbit("
+                "   kd_penerbit INTEGER NOT NULL PRIMARY KEY %1,"
+                "   nama_penerbit VARCHAR(25) NOT NULL,"
+                "   alamat_penerbit VARCHAR(30) NOT NULL"
+                ")"
+                            ).arg(autoIncrement)))
             qFatal() << "Cannot create Penerbit table " << query.lastError().text();
 
-        if (!query.exec("CREATE TABLE IF NOT EXISTS Buku("
-                        "   kd_buku VARCHAR(4) NOT NULL PRIMARY KEY,"
-                        "   kd_kategori VARCHAR(4) NOT NULL,"
-                        "   kd_penerbit VARCHAR(4) NOT NULL,"
-                        "   judul VARCHAR(25) NOT NULL,"
-                        "   jumlah_buku INTEGER NOT NULL,"
-                        "   penulis VARCHAR(25) NOT NULL,"
-                        "   tahun_terbit INTEGER NOT NULL,"
-                        "   FOREIGN KEY (kd_kategori)"
-                        "       REFERENCES Kategori(kd_kategori), "
-                        "   FOREIGN KEY (kd_penerbit)"
-                        "       REFERENCES Penerbit(kd_penerbit)"
-                        ")"))
+        if (!query.exec(QStringLiteral(
+                "CREATE TABLE IF NOT EXISTS Buku("
+                "   kd_buku INTEGER NOT NULL PRIMARY KEY %1,"
+                "   kd_kategori INTEGER NOT NULL,"
+                "   kd_penerbit INTEGER NOT NULL,"
+                "   judul VARCHAR(50) NOT NULL,"
+                "   jumlah_hilang INTEGER NOT NULL DEFAULT 0,"
+                "   penulis VARCHAR(25) NOT NULL,"
+                "   tahun_terbit INTEGER NOT NULL,"
+                "   FOREIGN KEY (kd_kategori)"
+                "       REFERENCES Kategori(kd_kategori), "
+                "   FOREIGN KEY (kd_penerbit)"
+                "       REFERENCES Penerbit(kd_penerbit)"
+                ")"
+                            ).arg(autoIncrement)))
             qFatal() << "Cannot create Buku table " << query.lastError().text();
 
-        if (!query.exec("CREATE TABLE IF NOT EXISTS Pengadaan("
-                        "   kd_pengadaan VARCHAR(4) NOT NULL PRIMARY KEY,"
-                        "   sumber VARCHAR(25) NOT NULL"
-                        ")"))
-            qFatal() << "Cannot create Pengadaan table " << query.lastError().text();
-
-        if (!query.exec("CREATE TABLE IF NOT EXISTS Pengadaan_buku("
-                        "   kd_buku VARCHAR(4) NOT NULL,"
-                        "   kd_pengadaan VARCHAR(4) NOT NULL,"
-                        "   jumlah_pengadaan_buku INT NOT NULL,"
-                        "   PRIMARY KEY (kd_buku, kd_pengadaan),"
-                        "   FOREIGN KEY (kd_buku)"
-                        "       REFERENCES Buku(kd_buku),"
-                        "   FOREIGN KEY (kd_pengadaan)"
-                        "       REFERENCES Pengadaan(kd_pengadaan)"
-                        ")"))
-            qFatal() << "Cannot create Pengadaan_buku table " << query.lastError().text();
-        if (!query.exec("CREATE TABLE IF NOT EXISTS Member("
-                        "   kd_member VARCHAR (4) NOT NULL PRIMARY KEY,"
-                        "   nama_depan_member VARCHAR(25) NOT NULL,"
-                        "   nama_belakang_member VARCHAR(25) NOT NULL,"
-                        "   tanggal_lahir DATE NOT NULL"
-                        ")"))
-            qFatal() << "Cannot create Member table " << query.lastError().text();
 
         if (!query.exec("CREATE TABLE IF NOT EXISTS User("
                         "   id_user VARCHAR(15) NOT NULL PRIMARY KEY,"
@@ -89,41 +59,72 @@ namespace SQLHelper {
                         ")"))
             qFatal() << "Cannot create User table " << query.lastError().text();
 
-        if (!query.exec("CREATE TABLE IF NOT EXISTS Peminjaman("
-                        "   kd_peminjaman VARCHAR(4) NOT NULL PRIMARY KEY,"
-                        "   kd_member VARCHAR(4) NOT NULL,"
-                        "   id_user VARCHAR(4) NOT NULL,"
-                        "   tanggal_peminjaman DATE NOT NULL,"
-                        "   lama_peminjaman INTEGER NOT NULL,"
-                        "   FOREIGN KEY (kd_member)"
-                        "       REFERENCES Member(kd_member),"
-                        "   FOREIGN KEY (id_user)"
-                        "       REFERENCES User(id_user)"
-                        ")"))
-            qFatal() << "Cannot create Peminjaman table " << query.lastError().text();
+        if (!query.exec(QStringLiteral(
+                "CREATE TABLE IF NOT EXISTS Detail_Pengadaan("
+                "   kd_detail_pengadaan INTEGER NOT NULL PRIMARY KEY %1,"
+                "   id_user VARCHAR(15) NOT NULL,"
+                "   sumber VARCHAR(25) NOT NULL,"
+                "   tanggal_pengadaan DATE NOT NULL,"
+                "   FOREIGN KEY (id_user) "
+                "       REFERENCES User(id_user)"
+                ")"
+                            ).arg(autoIncrement)))
+            qFatal() << "Cannot create Detail_Pengadaan table " << query.lastError().text();
 
-        if (!query.exec("CREATE TABLE IF NOT EXISTS Peminjaman_buku("
-                        "   kd_buku VARCHAR(4) NOT NULL,"
-                        "   kd_peminjaman VARCHAR(4) NOT NULL,"
-                        "   PRIMARY KEY (kd_buku, kd_peminjaman),"
-                        "   FOREIGN KEY (kd_buku)"
-                        "       REFERENCES Buku(kd_buku),"
-                        "   FOREIGN KEY (kd_peminjaman)"
-                        "       REFERENCES Peminjaman(kd_peminjaman)"
-                        ")"))
-            qFatal() << "Cannot create Peminjaman_buku table " << query.lastError().text();
-        if (!query.exec("CREATE TABLE IF NOT EXISTS Pengembalian("
-                        "   kd_pengembalian VARCHAR(4) NOT NULL PRIMARY KEY,"
-                        "   kd_peminjaman VARCHAR(4) NOT NULL,"
-                        "   id_user VARCHAR(4) NOT NULL,"
-                        "   tanggal_pengembalian DATE NOT NULL,"
-                        "   denda INT NOT NULL,"
-                        "   FOREIGN KEY (kd_peminjaman)"
-                        "       REFERENCES Peminjaman(kd_peminjaman)"
-                        "   FOREIGN KEY (id_user)"
-                        "       REFERENCES User(id_user)"
-                        ")"))
-            qFatal() << "Cannot create table Pengembalian";
+        if (!query.exec(QStringLiteral(
+                "CREATE TABLE IF NOT EXISTS Pengadaan("
+                "   kd_pengadaan INTEGER NOT NULL PRIMARY KEY %1,"
+                "   kd_detail_pengadaan INTEGER NOT NULL,"
+                "   kd_buku INTEGER NOT NULL,"
+                "   jumlah_pengadaan_buku INT NOT NULL,"
+                "   UNIQUE(kd_detail_pengadaan, kd_buku),"
+                "   FOREIGN KEY (kd_buku)"
+                "       REFERENCES Buku(kd_buku),"
+                "   FOREIGN KEY (kd_detail_pengadaan)"
+                "       REFERENCES Detail_Pengadaan(kd_detail_pengadaan)"
+                ")"
+                            ).arg(autoIncrement)))
+            qFatal() << "Cannot create Pengadaan table " << query.lastError().text();
+        if (!query.exec(QStringLiteral(
+                "CREATE TABLE IF NOT EXISTS Member("
+                "   kd_member INTEGER NOT NULL PRIMARY KEY %1,"
+                "   nama_depan_member VARCHAR(25) NOT NULL,"
+                "   nama_belakang_member VARCHAR(25) NOT NULL,"
+                "   tanggal_lahir DATE NOT NULL"
+                ")"
+                            ).arg(autoIncrement)))
+            qFatal() << "Cannot create Member table " << query.lastError().text();
+
+        if (!query.exec(QStringLiteral(
+                "CREATE TABLE IF NOT EXISTS Detail_Peminjaman("
+                "   kd_detail_peminjaman INTEGER NOT NULL PRIMARY KEY %1,"
+                "   id_user VARCHAR(4) NOT NULL,"
+                "   kd_member INTEGER NOT NULL,"
+                "   tanggal_peminjaman DATE NOT NULL,"
+                "   lama_peminjaman INTEGER NOT NULL,"
+                "   tanggal_pengembalian DATE,"
+                "   FOREIGN KEY (kd_member)"
+                "       REFERENCES Member(kd_member),"
+                "   FOREIGN KEY (id_user)"
+                "       REFERENCES User(id_user)"
+                ")"
+                            ).arg(autoIncrement)))
+            qFatal() << "Cannot create Detail_Peminjaman table " << query.lastError().text();
+
+        if (!query.exec(QStringLiteral(
+                "CREATE TABLE IF NOT EXISTS Peminjaman("
+                "   kd_peminjaman INTEGER NOT NULL PRIMARY KEY %1,"
+                "   kd_detail_peminjaman INTEGER NOT NULL,"
+                "   kd_buku INTEGER NOT NULL,"
+                "   denda INTEGER,"
+                "   UNIQUE (kd_detail_peminjaman, kd_buku),"
+                "   FOREIGN KEY (kd_buku)"
+                "       REFERENCES Buku(kd_buku),"
+                "   FOREIGN KEY (kd_detail_peminjaman)"
+                "       REFERENCES Detail_Peminjaman(kd_detail_peminjaman)"
+                ")"
+                            ).arg(autoIncrement)))
+            qFatal() << "Cannot create Peminjaman table " << query.lastError().text();
     }
 
     void clearDatabase(QSqlDatabase &db)

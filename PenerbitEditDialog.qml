@@ -4,12 +4,12 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 
 Dialog{
-    title: penerbitKode == "" ? "Tambah Penerbit" : "Edit Penerbit"
+    title: penerbitKode == -1 ? "Tambah Penerbit" : "Edit Penerbit"
     parent: Overlay.overlay
     anchors.centerIn: parent
     width: 400
 
-    property string penerbitKode: ""
+    property int penerbitKode: -1
     property string penerbitNama: ""
     property string penerbitAlamat: ""
 

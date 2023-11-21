@@ -2,6 +2,7 @@
 #include "basepengadaanbukumodel.h"
 #include <QtSql>
 #include "sqlhelper.h"
+#include "usermanager.h"
 
 PengadaanModel::PengadaanModel(QObject *parent)
     : QSqlQueryModel{parent}
@@ -39,9 +40,9 @@ void PengadaanModel::refresh()
 {
     QHash<QString,QVariant>binds;
     QString queryString="SELECT "
-                          "   kd_pengadaan,"
+                          "   kd_detail_pengadaan,"
                           "   sumber "
-                          "FROM Pengadaan";
+                          "FROM Detail_Pengadaan";
     if(mTextQuery.length() > 0){
         queryString+= " WHERE sumber LIKE :textQuery";
         binds[":textQuery"]="%"+mTextQuery+"%";
@@ -60,26 +61,19 @@ void PengadaanModel::refresh()
         qFatal() << "Cannot move Pengadaan query " << lastError().text();
 }
 
-QString PengadaanModel::add(QString sumber)
+int PengadaanModel::add(QString sumber)
 {
     QSqlQuery query;
-    if (!query.exec("SELECT MAX(CAST(kd_pengadaan AS UNSIGNED)) FROM Pengadaan"))
-        qFatal() << "Cannot query max Pengadaan kode " << query.lastError().text();
-
-    int maxKode = -1;
-    if (query.next()) {
-        maxKode = query.value(0).toInt();
-    }
-
-    QString kode = QString::number(maxKode + 1).rightJustified(4, '0');
-    query.prepare("INSERT INTO Pengadaan ("
-                  " kd_pengadaan,"
-                  " sumber"
+    query.prepare("INSERT INTO Detail_Pengadaan ("
+                  " id_user,"
+                  " sumber,"
+                  " tanggal_pengadaan"
                   ") VALUES ("
-                  " :kode,"
-                  " :sumber"
+                  " :user,"
+                  " :sumber,"
+                  " '2023-10-10'"
                   ")");
-    query.bindValue(":kode", kode);
+    query.bindValue(":user", UserManager::getInstance()->loggedUserId());
     query.bindValue(":sumber", sumber);
 
     if (!query.exec())
@@ -87,16 +81,16 @@ QString PengadaanModel::add(QString sumber)
 
     refresh();
 
-    return kode;
+    return query.lastInsertId().toInt();
 }
 
-void PengadaanModel::update(QString kode, QString sumber)
+void PengadaanModel::update(int kode, QString sumber)
 {
     QSqlQuery query;
-    query.prepare("UPDATE Pengadaan "
+    query.prepare("UPDATE Detail_Pengadaan "
                   " SET sumber = :sumber "
                   "WHERE "
-                  " kd_pengadaan = :kode"
+                  " kd_detail_pengadaan = :kode"
                   );
     query.bindValue(":kode", kode);
     query.bindValue(":sumber", sumber);
@@ -107,11 +101,11 @@ void PengadaanModel::update(QString kode, QString sumber)
     refresh();
 }
 
-void PengadaanModel::remove(QString kode)
+void PengadaanModel::remove(int kode)
 {
     QSqlQuery query;
-    query.prepare("DELETE FROM Pengadaan "
-                  "WHERE kd_pengadaan = :kode");
+    query.prepare("DELETE FROM Detail_Pengadaan "
+                  "WHERE kd_detail_pengadaan = :kode");
     query.bindValue(":kode", kode);
 
     if (!query.exec())

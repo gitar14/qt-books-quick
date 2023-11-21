@@ -4,11 +4,11 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 
 Dialog{
-    title: memberKode=="" ? "Tambah Member" : "Edit Member"
+    title: memberKode == -1 ? "Tambah Member" : "Edit Member"
     parent: Overlay.overlay
     anchors.centerIn: parent
     width: 400
-    property string memberKode: ""
+    property int memberKode: -1
     property string memberNamaDepan: ""
     property string memberNamaBelakang: ""
     property date memberTanggalLahir: new Date()

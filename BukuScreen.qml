@@ -47,7 +47,7 @@ Page {
         BukuList {
             listModel: listModel
             onAddClicked: {
-                editDialog.bukuKode = ""
+                editDialog.bukuKode = -1
                 editDialog.bukuJudul = ""
                 editDialog.bukuPenulis = ""
                 editDialog.bukuJumlahBuku = 0
@@ -58,7 +58,7 @@ Page {
             }
             onCurrentItemDataChanged: {
                 if (currentItemData == null) {
-                    detailModel.kode = ""
+                    detailModel.kode = -1
                     bukuDetailFrame.bukuJudul = ""
                     bukuDetailFrame.bukuPenulis = ""
                     bukuDetailFrame.bukuTahunTerbit = 0
@@ -99,7 +99,7 @@ Page {
             kategoriModel: bukuKategoriModel
             penerbitModel: bukuPenerbitModel
             onAccepted: {
-                if (bukuKode == "")
+                if (bukuKode == -1)
                     listModel.addNew(
                         bukuJudul,
                         bukuPenulis,

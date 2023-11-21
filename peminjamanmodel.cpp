@@ -63,18 +63,16 @@ void PeminjamanModel::refresh()
     QSqlQuery query;
 
     if (!query.exec("SELECT "
-                    "   Peminjaman.kd_peminjaman,"
+                    "   Detail_Peminjaman.kd_detail_peminjaman,"
                     "   Member.nama_depan_member,"
                     "   Member.nama_belakang_member,"
-                    "   Peminjaman.kd_member,"
-                    "   Peminjaman.tanggal_peminjaman,"
-                    "   Peminjaman.lama_peminjaman,"
-                    "   Pengembalian.tanggal_pengembalian "
-                    "FROM Peminjaman "
+                    "   Detail_Peminjaman.kd_member,"
+                    "   Detail_Peminjaman.tanggal_peminjaman,"
+                    "   Detail_Peminjaman.lama_peminjaman,"
+                    "   Detail_Peminjaman.tanggal_pengembalian "
+                    "FROM Detail_Peminjaman "
                     "JOIN Member"
-                    "   ON Member.kd_member = Peminjaman.kd_member "
-                    "LEFT JOIN Pengembalian "
-                    "   ON Pengembalian.kd_peminjaman = Peminjaman.kd_peminjaman"))
+                    "   ON Member.kd_member = Detail_Peminjaman.kd_member"))
         qFatal() << "Cannot query Peminjaman " << query.lastError().text();
 
     setQuery(std::move(query));
@@ -83,32 +81,20 @@ void PeminjamanModel::refresh()
         qFatal() << "Cannot move Peminjaman query " << lastError().text();
 }
 
-QString PeminjamanModel::add(QString kodeMember,QDate tanggal, int lama)
+int PeminjamanModel::add(int kodeMember,QDate tanggal, int lama)
 {
     QSqlQuery query;
-    if (!query.exec("SELECT MAX(CAST(kd_peminjaman AS UNSIGNED)) FROM Peminjaman"))
-        qFatal() << "Cannot query max Peminjaman kode " << query.lastError().text();
-
-    int maxKode = -1;
-    if (query.next()) {
-        maxKode = query.value(0).toInt();
-    }
-
-    QString kode = QString::number(maxKode + 1).rightJustified(4, '0');
-    query.prepare("INSERT INTO Peminjaman ("
-                  " kd_peminjaman,"
+    query.prepare("INSERT INTO Detail_Peminjaman ("
                   " kd_member,"
                   " id_user,"
                   " tanggal_peminjaman, "
                   " lama_peminjaman "
                   ") VALUES ("
-                  " :kode,"
                   " :member,"
                   " :user,"
                   " :tanggal,"
                   " :lama"
                   ")");
-    query.bindValue(":kode", kode);
     query.bindValue(":user", UserManager::getInstance()->loggedUserId());
     query.bindValue(":member", kodeMember);
     query.bindValue(":tanggal", tanggal);
@@ -119,18 +105,18 @@ QString PeminjamanModel::add(QString kodeMember,QDate tanggal, int lama)
 
     refresh();
 
-    return kode;
+    return query.lastInsertId().toInt();
 }
 
-void PeminjamanModel::update(QString kode, QString kodeMember, QDate tanggal, int lama)
+void PeminjamanModel::update(int kode, int kodeMember, QDate tanggal, int lama)
 {
     QSqlQuery query;
-    query.prepare("UPDATE Peminjaman SET "
+    query.prepare("UPDATE Detail_Peminjaman SET "
                   " kd_member = :member, "
                   " tanggal_peminjaman = :tanggal, "
                   " lama_peminjaman = :lama "
                   "WHERE "
-                  " kd_peminjaman = :kode"
+                  " kd_detail_peminjaman = :kode"
                   );
     query.bindValue(":kode", kode);
     query.bindValue(":member", kodeMember);
@@ -143,11 +129,11 @@ void PeminjamanModel::update(QString kode, QString kodeMember, QDate tanggal, in
     refresh();
 }
 
-void PeminjamanModel::remove(QString kode)
+void PeminjamanModel::remove(int kode)
 {
     QSqlQuery query;
-    query.prepare("DELETE FROM Peminjaman "
-                  "WHERE kd_peminjaman = :kode");
+    query.prepare("DELETE FROM Detail_Peminjaman "
+                  "WHERE kd_detail_peminjaman = :kode");
     query.bindValue(":kode", kode);
 
     if (!query.exec())
@@ -156,29 +142,14 @@ void PeminjamanModel::remove(QString kode)
     refresh();
 }
 
-void PeminjamanModel::tandaiDikembalikan(QString kode, QDate tanggal, int denda)
+void PeminjamanModel::tandaiDikembalikan(int kode, QDate tanggal, int denda)
 {
-    QString kodePengembalian = SQLHelper::generateId("Peminjaman", "kd_peminjaman", "");
-
     QSqlQuery query;
-    query.prepare("INSERT INTO Pengembalian("
-                  " kd_pengembalian,"
-                  " kd_peminjaman,"
-                  " id_user,"
-                  " tanggal_pengembalian,"
-                  " denda"
-                  ") VALUES ("
-                  " :pengembalian,"
-                  " :peminjaman,"
-                  " :user,"
-                  " :tanggal,"
-                  " :denda"
-                  ")");
-    query.bindValue(":pengembalian", kodePengembalian);
-    query.bindValue(":user", UserManager::getInstance()->loggedUserId());
-    query.bindValue(":peminjaman", kode);
-    query.bindValue(":tanggal", tanggal);
-    query.bindValue(":denda", denda);
+    query.prepare("UPDATE Detail_Peminjaman "
+                  "SET tanggal_pengembalian = :pengembalian "
+                  "WHERE kd_detail_peminjaman = :kode");
+    query.bindValue(":kode", kode);
+    query.bindValue(":pengembalian", tanggal);
 
     if (!query.exec())
         qFatal() << "Cannot add Pengembalian " << query.lastError().text();
@@ -186,10 +157,12 @@ void PeminjamanModel::tandaiDikembalikan(QString kode, QDate tanggal, int denda)
     refresh();
 }
 
-void PeminjamanModel::tandaiBelumDikembalikan(QString kode)
+void PeminjamanModel::tandaiBelumDikembalikan(int kode)
 {
     QSqlQuery query;
-    query.prepare("DELETE FROM Pengembalian WHERE kd_peminjaman = :kode");
+    query.prepare("UPDATE Detail_Peminjaman "
+                  "SET tanggal_pengembalian = NULL "
+                  "WHERE kd_detail_peminjaman = :kode");
     query.bindValue(":kode", kode);
 
     if (!query.exec())

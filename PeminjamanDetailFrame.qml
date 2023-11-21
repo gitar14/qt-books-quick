@@ -4,8 +4,8 @@ import QtQuick.Controls
 import Kelompok7.Perpus
 
 BaseDetailFrame {
-    property string peminjamanKode: ""
-    property string peminjamanMemberKode: ""
+    property int peminjamanKode: -1
+    property int peminjamanMemberKode: -1
     property string peminjamanMemberNama: ""
     property date peminjamanTanggal: new Date()
     property int peminjamanLama: 0
@@ -22,7 +22,7 @@ BaseDetailFrame {
     GridLayout {
         anchors.fill: parent
         columnSpacing: 16
-        visible: peminjamanKode !=""
+        visible: peminjamanKode != -1
         columns: 2
 
         Text {

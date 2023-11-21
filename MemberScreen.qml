@@ -31,7 +31,7 @@ Page {
         MemberList {
            listModel: memberModel
            onAddClicked:  {
-               editMemberDialog.memberKode = ""
+               editMemberDialog.memberKode = -1
                editMemberDialog.memberNamaDepan = ""
                editMemberDialog.memberNamaBelakang = ""
                editMemberDialog.memberTanggalLahir = new Date()
@@ -39,7 +39,7 @@ Page {
            }
            onCurrentItemDataChanged: {
                if(currentItemData==null){
-                   memberDetailFrame.memberKode = ""
+                   memberDetailFrame.memberKode = -1
                    memberDetailFrame.memberNamaDepan = ""
                    memberDetailFrame.memberNamaBelakang = ""
                    memberDetailFrame.memberTanggalLahir = ""
@@ -67,7 +67,7 @@ Page {
         MemberEditDialog{
             id: editMemberDialog
             onAccepted:{
-                if(memberKode=="")
+                if(memberKode == -1)
                 memberModel.add(memberNamaDepan, memberNamaBelakang, memberTanggalLahir)
                 else memberModel.edit(memberKode,memberNamaDepan, memberNamaBelakang, memberTanggalLahir)
             }

@@ -32,12 +32,12 @@ void PeminjamanBukuModel::refresh()
 {
     QSqlQuery query;
     query.prepare("SELECT"
-                  " Peminjaman_buku.kd_buku,"
+                  " Peminjaman.kd_buku,"
                   " Buku.judul "
-                  "FROM Peminjaman_buku "
+                  "FROM Peminjaman "
                   "LEFT JOIN Buku"
-                  " ON Buku.kd_buku = Peminjaman_buku.kd_buku "
-                  "WHERE Peminjaman_buku.kd_peminjaman = :kode");
+                  " ON Buku.kd_buku = Peminjaman.kd_buku "
+                  "WHERE Peminjaman.kd_detail_peminjaman = :kode");
     query.bindValue(":kode", mKodePeminjaman);
     if (!query.exec())
         qFatal() << "Cannot query PeminjamanBukuModel " << query.lastError().text();
@@ -52,36 +52,36 @@ QHash<int, QByteArray> PeminjamanBukuModel::roleNames() const
     return BasePeminjamanBukuModel::getRoleNames();
 }
 
-void PeminjamanBukuModel::internalUpdateAll(QString kodePeminjaman, QAbstractItemModel *model)
+void PeminjamanBukuModel::internalUpdateAll(int kodePeminjaman, QAbstractItemModel *model)
 {
     QSqlQuery query;
     const int count = model->rowCount();
     for (int i = 0; i < count; i++){
-        query.prepare("INSERT INTO Peminjaman_buku("
-                      " kd_peminjaman,"
+        query.prepare("INSERT INTO Peminjaman("
+                      " kd_detail_peminjaman,"
                       " kd_buku"
                       ") VALUES ("
                       " :peminjaman,"
                       " :buku"
                       ") ON CONFLICT ("
-                      " kd_peminjaman,"
+                      " kd_detail_peminjaman,"
                       " kd_buku"
                       ") DO NOTHING");
         QModelIndex index = model->index(i, 0);
         query.bindValue(":peminjaman", kodePeminjaman);
-        query.bindValue(":buku", model->data(index, BasePeminjamanBukuModel::KodeBukuRole).toString());
+        query.bindValue(":buku", model->data(index, BasePeminjamanBukuModel::KodeBukuRole).toInt());
 
         if (!query.exec())
             qFatal() << "Cannot upsert Peminjaman_buku " << query.lastError().text();
     }
 }
 
-QString PeminjamanBukuModel::kodePeminjaman() const
+int PeminjamanBukuModel::kodePeminjaman() const
 {
     return mKodePeminjaman;
 }
 
-void PeminjamanBukuModel::setKodePeminjaman(const QString &newKodePeminjaman)
+void PeminjamanBukuModel::setKodePeminjaman(const int &newKodePeminjaman)
 {
     if (mKodePeminjaman == newKodePeminjaman)
         return;
@@ -111,9 +111,9 @@ void PeminjamanBukuModel::updateAll(QAbstractItemModel *model)
 
     QSqlQuery query;
     query.prepare(QStringLiteral("DELETE FROM"
-                                 " Peminjaman_buku "
+                                 " Peminjaman "
                                  "WHERE "
-                                 " kd_peminjaman = :peminjaman AND"
+                                 " kd_detail_peminjaman = :peminjaman AND"
                                  " kd_buku NOT IN (%1)")
                       .arg(queryIdBinds.keys().join(",")));
 
@@ -134,7 +134,7 @@ void PeminjamanBukuModel::updateAll(QAbstractItemModel *model)
     refresh();
 }
 
-void PeminjamanBukuModel::addAll(QString kodePengadaan, QAbstractItemModel *model)
+void PeminjamanBukuModel::addAll(int kodePengadaan, QAbstractItemModel *model)
 {
     QSqlDatabase db = QSqlDatabase::database();
     if (!db.transaction())

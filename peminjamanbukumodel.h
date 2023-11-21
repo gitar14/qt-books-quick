@@ -9,7 +9,7 @@
 class PeminjamanBukuModel : public QSqlQueryModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString kodePeminjaman READ kodePeminjaman WRITE setKodePeminjaman NOTIFY kodePeminjamanChanged)
+    Q_PROPERTY(int kodePeminjaman READ kodePeminjaman WRITE setKodePeminjaman NOTIFY kodePeminjamanChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     QML_ELEMENT
 public:
@@ -18,11 +18,11 @@ public:
     QVariant data(const QModelIndex &item, int role) const;
 
     void refresh();
-    QString kodePeminjaman() const;
-    void setKodePeminjaman(const QString &newKodePeminjaman);
+    int kodePeminjaman() const;
+    void setKodePeminjaman(const int &newKodePeminjaman);
 
     Q_INVOKABLE void updateAll(QAbstractItemModel* model);
-    Q_INVOKABLE void addAll(QString kodePengadaan, QAbstractItemModel* model);
+    Q_INVOKABLE void addAll(int kodePengadaan, QAbstractItemModel* model);
     Q_INVOKABLE void removeAll();
     int count() const;
 
@@ -33,9 +33,9 @@ signals:
 protected:
     QHash<int, QByteArray> roleNames() const override;
 private:
-    QString mKodePeminjaman;
+    int mKodePeminjaman;
 
-    void internalUpdateAll(QString kodePeminjaman, QAbstractItemModel*model);
+    void internalUpdateAll(int kodePeminjaman, QAbstractItemModel*model);
 };
 
 #endif // PEMINJAMANBUKUMODEL_H

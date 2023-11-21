@@ -12,7 +12,7 @@ Dialog {
 
     modal: true
 
-    property string kategoriKode: ""
+    property int kategoriKode: -1
     property string kategoriJenis: ""
 
     title: kategoriKode == "" ? "Kategori Baru" : "Edit Kategori"

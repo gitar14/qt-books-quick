@@ -32,9 +32,9 @@ int EditablePeminjamanBukuModel::rowCount(const QModelIndex &parent) const
     return mItemList.length();
 }
 
-void EditablePeminjamanBukuModel::append(QString kodeBuku)
+void EditablePeminjamanBukuModel::append(int kodeBuku)
 {
-    if (kodeBuku == "") {
+    if (kodeBuku == -1) {
         qCritical() << "Cannot append blank kode buku into EditablePeminjamanBukuModel";
         return;
     }
@@ -69,9 +69,9 @@ QHash<int, QByteArray> EditablePeminjamanBukuModel::roleNames() const
     return BasePeminjamanBukuModel::getRoleNames();
 }
 
-QStringList EditablePeminjamanBukuModel::getKodeBukuList()
+QList<int> EditablePeminjamanBukuModel::getKodeBukuList()
 {
-    QStringList list;
+    QList<int> list;
     QListIterator<Item> it(mItemList);
     while (it.hasNext()){
         list.append(it.next().kodeBuku);
@@ -114,7 +114,7 @@ void EditablePeminjamanBukuModel::populateFrom(QAbstractItemModel *model)
     for (int i = 0; i < count; i++){
         Item item;
         QModelIndex index = model->index(i, 0);
-        item.kodeBuku = model->data(index, BasePeminjamanBukuModel::KodeBukuRole).toString();
+        item.kodeBuku = model->data(index, BasePeminjamanBukuModel::KodeBukuRole).toInt();
         item.judulBuku = model->data(index, BasePeminjamanBukuModel::JudulBukuRole).toString();
         mItemList.push_back(item);
     }
@@ -130,7 +130,7 @@ void EditablePeminjamanBukuModel::refresh()
                           " COUNT (kd_buku) > 0 "
                           "FROM Buku ";
     QHash<QString, QVariant> binds;
-    QStringList kodeList = getKodeBukuList();
+    QList<int> kodeList = getKodeBukuList();
 
     if (kodeList.length() > 0) {
         queryString += QStringLiteral(" WHERE kd_buku NOT IN(%1)").arg(

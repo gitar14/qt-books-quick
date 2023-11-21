@@ -40,13 +40,13 @@ void PengadaanBukuModel::refresh()
 {
     QSqlQuery query;
     query.prepare("SELECT "
-                  " Pengadaan_buku.kd_buku,"
-                  " Pengadaan_buku.jumlah_pengadaan_buku,"
+                  " Pengadaan.kd_buku,"
+                  " Pengadaan.jumlah_pengadaan_buku,"
                   " Buku.judul "
-                  "FROM Pengadaan_buku "
+                  "FROM Pengadaan "
                   "LEFT JOIN Buku"
-                  " ON Buku.kd_buku = Pengadaan_buku.kd_buku "
-                  "WHERE Pengadaan_buku.kd_pengadaan = :kode");
+                  " ON Buku.kd_buku = Pengadaan.kd_buku "
+                  "WHERE Pengadaan.kd_detail_pengadaan = :kode");
     query.bindValue(":kode", mKodePengadaan);
     if (!query.exec())
         qFatal() << "Cannot select Pengadaan_buku " << query.lastError().text();
@@ -59,12 +59,12 @@ void PengadaanBukuModel::refresh()
     emit countChanged();
 }
 
-QString PengadaanBukuModel::kodePengadaan() const
+int PengadaanBukuModel::kodePengadaan() const
 {
     return mKodePengadaan;
 }
 
-void PengadaanBukuModel::setKodePengadaan(const QString &newKodePengadaan)
+void PengadaanBukuModel::setKodePengadaan(const int &newKodePengadaan)
 {
     if (mKodePengadaan == newKodePengadaan)
         return;
@@ -94,9 +94,9 @@ void PengadaanBukuModel::updateAll(QAbstractItemModel *model)
 
     QSqlQuery query;
     query.prepare(QStringLiteral("DELETE FROM"
-                                 "  Pengadaan_buku "
+                                 "  Pengadaan "
                                  "WHERE "
-                                 " kd_pengadaan = :pengadaan AND"
+                                 " kd_detail_pengadaan = :pengadaan AND"
                                  " kd_buku NOT IN (%1)")
                       .arg(queryIdBinds.keys().join(",")));
 
@@ -117,7 +117,7 @@ void PengadaanBukuModel::updateAll(QAbstractItemModel *model)
     refresh();
 }
 
-void PengadaanBukuModel::addAll(QString kodePengadaan, QAbstractItemModel *model)
+void PengadaanBukuModel::addAll(int kodePengadaan, QAbstractItemModel *model)
 {
     QSqlDatabase db = QSqlDatabase::database();
     if (!db.transaction())
@@ -133,8 +133,8 @@ void PengadaanBukuModel::removeAll()
 {
     QSqlQuery query;
     query.prepare("DELETE FROM"
-                  " Pengadaan_buku "
-                  "WHERE kd_pengadaan = :kode");
+                  " Pengadaan "
+                  "WHERE kd_detail_pengadaan = :kode");
     query.bindValue(":kode", mKodePengadaan);
     if (!query.exec())
         qFatal() << "Cannot delete Pengadaan buku " << query.lastError().text();
@@ -142,13 +142,13 @@ void PengadaanBukuModel::removeAll()
     refresh();
 }
 
-void PengadaanBukuModel::internalUpdateAll(QString kodePengadaan, QAbstractItemModel *model)
+void PengadaanBukuModel::internalUpdateAll(int kodePengadaan, QAbstractItemModel *model)
 {
     QSqlQuery query;
     const int count = model->rowCount();
     for (int i = 0; i < count; i++) {
-        query.prepare("INSERT INTO Pengadaan_buku("
-                      " kd_pengadaan,"
+        query.prepare("INSERT INTO Pengadaan("
+                      " kd_detail_pengadaan,"
                       " kd_buku,"
                       " jumlah_pengadaan_buku"
                       ") VALUES ("
@@ -156,17 +156,17 @@ void PengadaanBukuModel::internalUpdateAll(QString kodePengadaan, QAbstractItemM
                       " :buku,"
                       " :jumlah"
                       ") ON CONFLICT ("
-                      " kd_pengadaan,"
+                      " kd_detail_pengadaan,"
                       " kd_buku"
                       ") DO UPDATE SET "
                       " jumlah_pengadaan_buku = :jumlah");
         QModelIndex index = model->index(i, 0);
         query.bindValue(":pengadaan", kodePengadaan);
-        query.bindValue(":buku", model->data(index, BasePengadaanBukuModel::KodeBukuRole).toString());
+        query.bindValue(":buku", model->data(index, BasePengadaanBukuModel::KodeBukuRole).toInt());
         query.bindValue(":jumlah", model->data(index, BasePengadaanBukuModel::JumlahRole).toInt());
 
         if (!query.exec())
-            qFatal() << "Cannot upsert Pengadaan_buku " << query.lastError().text();
+            qFatal() << "Cannot upsert Pengadaan_buku " << query.lastError().text() << query.lastQuery() ;
     }
 }
 

@@ -52,9 +52,9 @@ QVariant BookListModel::data(const QModelIndex &item, int role) const
     return data(index(item.row(), columnIndex), Qt::DisplayRole);
 }
 
-QString BookListModel::getKodeByIndex(int index)
+int BookListModel::getKodeByIndex(int index)
 {
-    return record(index).field(0).value().toString();
+    return record(index).field(0).value().toInt();
 }
 
 void BookListModel::refresh()
@@ -80,7 +80,7 @@ void BookListModel::refresh()
                           "   Buku.judul,"
                           "   Buku.penulis,"
                           "   Buku.tahun_terbit,"
-                          "   Kategori.jenis,"
+                          "   Kategori.nama_kategori,"
                           "   Penerbit.nama_penerbit "
                           "FROM Buku"
                           "   JOIN Kategori ON"
@@ -103,7 +103,7 @@ void BookListModel::refresh()
     emit countChanged();
 }
 
-void BookListModel::addNew(QString judul, QString penulis, int jumlahBuku, int tahunTerbit, QString kodeKategori, QString kodePenerbit)
+void BookListModel::addNew(QString judul, QString penulis, int jumlahBuku, int tahunTerbit, int kodeKategori, int kodePenerbit)
 {
     QSqlQuery query;
     if (!query.exec("SELECT MAX(CAST(kd_buku AS UNSIGNED)) FROM Buku"))
@@ -118,7 +118,6 @@ void BookListModel::addNew(QString judul, QString penulis, int jumlahBuku, int t
                   " kd_buku,"
                   " judul,"
                   " penulis,"
-                  " jumlah_buku,"
                   " tahun_terbit,"
                   " kd_kategori,"
                   " kd_penerbit"
@@ -126,7 +125,6 @@ void BookListModel::addNew(QString judul, QString penulis, int jumlahBuku, int t
                   " :kode,"
                   " :judul,"
                   " :penulis,"
-                  " :jumlah,"
                   " :tahun_terbit,"
                   " :kategori,"
                   " :penerbit"
@@ -135,7 +133,6 @@ void BookListModel::addNew(QString judul, QString penulis, int jumlahBuku, int t
     query.bindValue(":kode", QString::number(maxId + 1).rightJustified(4, '0'));
     query.bindValue(":judul", judul);
     query.bindValue(":penulis", penulis);
-    query.bindValue(":jumlah", jumlahBuku);
     query.bindValue(":tahun_terbit", tahunTerbit);
     query.bindValue(":kategori", kodeKategori);
     query.bindValue(":penerbit", kodePenerbit);
@@ -146,13 +143,13 @@ void BookListModel::addNew(QString judul, QString penulis, int jumlahBuku, int t
     refresh();
 }
 
-void BookListModel::edit(QString kode, QString judul, QString penulis, int jumlahBuku, int tahunTerbit, QString kodeKategori, QString kodePenerbit)
+void BookListModel::edit(int kode, QString judul, QString penulis, int jumlahBuku, int tahunTerbit, int kodeKategori, int kodePenerbit)
 {
     QSqlQuery query;
     query.prepare("UPDATE Buku SET "
                   "judul = :judul,"
                   "penulis = :penulis,"
-                  "jumlah_buku = :jumlah,"
+                  "jumlah_hilang = :jumlah,"
                   "tahun_terbit = :tahun_terbit,"
                   "kd_kategori = :kategori,"
                   "kd_penerbit = :penerbit "
@@ -171,7 +168,7 @@ void BookListModel::edit(QString kode, QString judul, QString penulis, int jumla
     refresh();
 }
 
-void BookListModel::remove(QString kode)
+void BookListModel::remove(int kode)
 {
     QSqlQuery query;
 
@@ -183,7 +180,7 @@ void BookListModel::remove(QString kode)
     refresh();
 }
 
-void BookListModel::setIgnoredKodeList(QStringList ignoredIdList)
+void BookListModel::setIgnoredKodeList(QList<int> ignoredIdList)
 {
     mIgnoredKodeList = ignoredIdList;
     refresh();
