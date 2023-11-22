@@ -21,6 +21,7 @@
 #include "usermodel.h"
 #include "peminjamanmodel.h"
 #include "peminjamanbukumodel.h"
+#include "texthighlighter.h"
 
 #define PACKAGE "Kelompok7.Perpus"
 
@@ -45,6 +46,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<SettingsModel>(PACKAGE, 1, 0, "SettingsModel");
     qmlRegisterSingletonInstance(PACKAGE, 1, 0, "ConnectionManager", ConnectionManager::getInstance());
     qmlRegisterSingletonInstance(PACKAGE, 1, 0, "UserManager", UserManager::getInstance());
+    qmlRegisterSingletonInstance(PACKAGE, 1, 0, "TextHighlighter", TextHighlighter::getInstance());
 
     QQuickStyle::setStyle("Material");
 

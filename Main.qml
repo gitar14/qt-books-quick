@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Controls.Material
 import Kelompok7.Perpus
 
 ApplicationWindow {
@@ -12,6 +13,7 @@ ApplicationWindow {
     property int sidebarWidth: 250
 
     Component.onCompleted: {
+        TextHighlighter.setHighlightColor(Material.shade(Material.accent, Material.Shade500));
         if (!ConnectionManager.connectByRemembered()) {
             mainStackView.push("ConnectionScreen.qml");
         }

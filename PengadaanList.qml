@@ -37,8 +37,9 @@ Item {
 
             contentItem: Label {
                 id: pengadaanListItemContent
-                text: model.sumber
+                text: TextHighlighter.highlightText(model.sumber, listModel.textQuery)
                 verticalAlignment: Qt.AlignVCenter
+                textFormat: Label.StyledText
             }
         }
     }

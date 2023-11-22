@@ -67,6 +67,7 @@ Item {
                 }
             }
             model: listModel
+            highlightedText: listModel.textQuery
         }
     }
 

@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import Kelompok7.Perpus
 
 Item {
     Layout.fillHeight: true
@@ -8,7 +9,7 @@ Item {
 
     signal addClicked()
     property var currentItemData
-    property var listModel
+    property MemberModel listModel
 
     AppGridView {
         id: memberGridView
@@ -46,11 +47,12 @@ Item {
 
                 Label {
                     Layout.fillWidth: true
-                    text: model.name
+                    text: TextHighlighter.highlightText(model.name, listModel.textQuery)
                     horizontalAlignment: Qt.AlignHCenter
                     wrapMode: Label.Wrap
                     maximumLineCount: 2
                     elide: Text.ElideRight
+                    textFormat: Label.StyledText
                 }
                 Label {
                     Layout.fillWidth: true

@@ -1,8 +1,10 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import Kelompok7.Perpus
 
 ListView {
+    property string highlightedText: ""
     id: bukuListView
     spacing: 8
 
@@ -22,7 +24,8 @@ ListView {
             padding: 16
 
             Text {
-                text: model.judul
+                text: TextHighlighter.highlightText(model.judul, highlightedText)
+                textFormat: Text.StyledText
             }
 
             Text {

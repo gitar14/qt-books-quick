@@ -27,6 +27,7 @@ Dialog {
             Layout.fillHeight: true
             Layout.fillWidth: true
             model: listModel
+            highlightedText: listModel.textQuery
         }
     }
 }

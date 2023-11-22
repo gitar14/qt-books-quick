@@ -1,13 +1,14 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import Kelompok7.Perpus
 
 Item {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
     property var currentItemData
-    property var listModel
+    property KategoriModel listModel
     signal addClicked()
 
     AppGridView {
@@ -46,7 +47,8 @@ Item {
                 }
 
                 Label {
-                    text: model.jenis
+                    text: TextHighlighter.highlightText(model.jenis, listModel.textQuery)
+                    textFormat: Label.StyledText
                     Layout.alignment: Qt.AlignHCenter
                 }
             }
