@@ -8,7 +8,9 @@ BaseDetailFrame {
     property string bukuPenulis: ""
     property string bukuKategori: ""
     property string bukuPenerbit: ""
-    property int bukuJumlahBuku: 0
+    property int bukuJumlahPengadaan: 0
+    property int bukuJumlahHilang: 0
+    property int bukuJumlahDipinjam: 0
     property int bukuTahunTerbit: 0
 
     signal editClicked()
@@ -21,44 +23,44 @@ BaseDetailFrame {
         columnSpacing: 16
         visible: bukuKode != -1
 
-        Text {
+        Label {
             Layout.columnSpan: 2
             text: "Detail Buku"
             font.pixelSize: 24
         }
 
-        Text {
+        Label {
             text: "Kode"
         }
 
-        Text {
+        Label {
             Layout.fillWidth: true
             text: bukuKode
         }
 
-        Text {
+        Label {
             text: "Judul"
         }
 
-        Text {
+        Label {
             Layout.fillWidth: true
             text: bukuJudul
         }
 
-        Text {
+        Label {
             text: "Penulis"
         }
 
-        Text {
+        Label {
             Layout.fillWidth: true
             text: bukuPenulis
         }
 
-        Text {
+        Label {
             text: "Kategori"
         }
 
-        Text {
+        Label {
             Layout.fillWidth: true
             text: bukuKategori
         }
@@ -72,20 +74,56 @@ BaseDetailFrame {
             Layout.fillWidth: true
         }
 
-        Text {
-            text: "Jumlah Buku"
+        Label {
+            text: "Jumlah Pengadaan"
         }
 
-        Text {
+        Label {
             Layout.fillWidth: true
-            text: bukuJumlahBuku
+            text: bukuJumlahPengadaan
         }
 
-        Text {
+        Label {
+            text: "Jumlah Hilang"
+        }
+
+        Label {
+           Layout.fillWidth: true
+           text: bukuJumlahHilang
+        }
+
+        Label {
+            text: "Jumlah Tidak Hilang"
+        }
+
+        Label {
+            Layout.fillWidth: true
+            text: bukuJumlahPengadaan - bukuJumlahHilang
+        }
+
+        Label {
+            text: "Jumlah Dipinjam"
+        }
+
+        Label {
+            Layout.fillWidth: true
+            text: bukuJumlahDipinjam
+        }
+
+        Label {
+            text: "Jumlah Tersedia"
+        }
+
+        Label {
+            Layout.fillWidth: true
+            text: bukuJumlahPengadaan - bukuJumlahHilang - bukuJumlahDipinjam
+        }
+
+        Label {
             text: "Tahun Terbit"
         }
 
-        Text {
+        Label {
             Layout.fillWidth: true
             text: bukuTahunTerbit
         }

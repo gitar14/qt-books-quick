@@ -91,7 +91,9 @@ Page {
             }
             onDeleteClicked: listModel.remove(bukuKode)
             bukuKode: detailModel.kode
-            bukuJumlahBuku: detailModel.jumlahBuku
+            bukuJumlahPengadaan: detailModel.jumlahPengadaan
+            bukuJumlahHilang: detailModel.jumlahHilang
+            bukuJumlahDipinjam: detailModel.jumlahDipinjam
         }
 
         BukuEditDialog {
