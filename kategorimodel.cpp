@@ -39,7 +39,7 @@ void KategoriModel::refresh()
                           "   nama_kategori "
                           "FROM Kategori";
     if (mTextQuery.length() > 0) {
-        queryString.append(" WHERE jenis LIKE :text_query");
+        queryString.append(" WHERE nama_kategori LIKE :text_query");
         bindMaps[":text_query"] = "%" + mTextQuery + "%";
     }
 
