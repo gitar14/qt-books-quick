@@ -57,7 +57,7 @@ void BookListDetailModel::setKode(const int &id)
                   "FROM Peminjaman "
                   "INNER JOIN Detail_Peminjaman "
                   " ON Detail_Peminjaman.kd_detail_peminjaman = Peminjaman.kd_detail_peminjaman "
-                  "WHERE Peminjaman.kd_buku = :kode AND Detail_Peminjaman.tanggal_pengembalian = NULL");
+                  "WHERE Peminjaman.kd_buku = :kode AND Detail_Peminjaman.tanggal_pengembalian IS NULL");
     query.bindValue(":kode", mKode);
 
     if (!query.exec())
