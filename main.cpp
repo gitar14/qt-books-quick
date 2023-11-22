@@ -5,9 +5,11 @@
 #include <QDir>
 
 #include "kategorimodel.h"
+#include "kategorifiltermodel.h"
 #include "booklistmodel.h"
 #include "booklistdetailmodel.h"
 #include "penerbitmodel.h"
+#include "penerbitfiltermodel.h"
 #include "pengadaanbukumodel.h"
 #include "editablepengadaanbukumodel.h"
 #include "pengadaanmodel.h"
@@ -29,7 +31,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<BookListModel>(PACKAGE, 1, 0, "BookListModel");
     qmlRegisterType<BookListDetailModel>(PACKAGE, 1, 0, "BookListDetailModel");
     qmlRegisterType<KategoriModel>(PACKAGE, 1, 0, "KategoriModel");
+    qmlRegisterType<KategoriFilterModel>(PACKAGE, 1, 0, "KategoriFilterModel");
     qmlRegisterType<PenerbitModel>(PACKAGE, 1, 0, "PenerbitModel");
+    qmlRegisterType<PenerbitFilterModel>(PACKAGE, 1, 0, "PenerbitFilterModel");
     qmlRegisterType<PengadaanBukuModel>(PACKAGE, 1, 0, "PengadaanBukuModel");
     qmlRegisterType<EditablePengadaanBukuModel>(PACKAGE, 1, 0, "EditablePengadaanBukuModel");
     qmlRegisterType<PengadaanModel>(PACKAGE, 1, 0, "PengadaanModel");

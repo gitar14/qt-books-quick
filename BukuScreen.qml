@@ -41,11 +41,23 @@ Page {
         id: bukuPenerbitModel
     }
 
+    KategoriFilterModel {
+        id: bukuKategoriFilterModel
+        sourceModel: bukuKategoriModel
+    }
+
+    PenerbitFilterModel {
+        id: bukuPenerbitFilterModel
+        sourceModel: bukuPenerbitModel
+    }
+
     RowLayout {
         anchors.fill: parent
 
         BukuList {
             listModel: listModel
+            kategoriFilterModel: bukuKategoriFilterModel
+            penerbitFilterModel: bukuPenerbitFilterModel
             onAddClicked: {
                 editDialog.bukuKode = -1
                 editDialog.bukuJudul = ""

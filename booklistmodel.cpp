@@ -73,6 +73,16 @@ void BookListModel::refresh()
         filterBinds[":text_query"] = "%" + mTextQuery + "%";
     }
 
+    if (mKategoriFilter != -1) {
+        filterList.append("Buku.kd_kategori = :kategori");
+        filterBinds[":kategori"] = mKategoriFilter;
+    }
+
+    if (mPenerbitFilter != -1) {
+        filterList.append("Buku.kd_penerbit = :penerbit");
+        filterBinds[":penerbit"] = mPenerbitFilter;
+    }
+
     QSqlQuery query;
 
     QString queryString = "SELECT"
@@ -204,5 +214,33 @@ void BookListModel::setTextQuery(const QString &newQuery)
     mTextQuery = newQuery;
     emit queryChanged();
 
+    refresh();
+}
+
+int BookListModel::kategoriFilter() const
+{
+    return mKategoriFilter;
+}
+
+void BookListModel::setKategoriFilter(int newKategoriFilter)
+{
+    if (mKategoriFilter == newKategoriFilter)
+        return;
+    mKategoriFilter = newKategoriFilter;
+    emit kategoriFilterChanged();
+    refresh();
+}
+
+int BookListModel::penerbitFilter() const
+{
+    return mPenerbitFilter;
+}
+
+void BookListModel::setPenerbitFilter(int newPenerbitFilter)
+{
+    if (mPenerbitFilter == newPenerbitFilter)
+        return;
+    mPenerbitFilter = newPenerbitFilter;
+    emit penerbitFilterChanged();
     refresh();
 }

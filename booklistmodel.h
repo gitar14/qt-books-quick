@@ -9,6 +9,8 @@ class BookListModel : public QSqlQueryModel
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(QString textQuery READ textQuery WRITE setTextQuery NOTIFY queryChanged)
+    Q_PROPERTY(int kategoriFilter READ kategoriFilter WRITE setKategoriFilter NOTIFY kategoriFilterChanged)
+    Q_PROPERTY(int penerbitFilter READ penerbitFilter WRITE setPenerbitFilter NOTIFY penerbitFilterChanged)
     QML_ELEMENT
 public:
     enum Role {
@@ -50,14 +52,26 @@ public:
     QString textQuery() const;
     void setTextQuery(const QString &newQuery);
 
+    int kategoriFilter() const;
+    void setKategoriFilter(int newKategoriFilter);
+
+    int penerbitFilter() const;
+    void setPenerbitFilter(int newPenerbitFilter);
+
 signals:
     void countChanged();
 
     void queryChanged();
 
+    void kategoriFilterChanged();
+
+    void penerbitFilterChanged();
+
 private:
     QList<int> mIgnoredKodeList;
     QString mTextQuery;
+    int mKategoriFilter{-1};
+    int mPenerbitFilter{-1};
 };
 
 #endif // BOOKLISTMODEL_H
