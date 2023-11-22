@@ -113,17 +113,6 @@ void UserModel::remove(QString idUser)
     refresh();
 }
 
-int UserModel::getIndexByKode(QString idUser)
-{
-    int count = rowCount();
-    for (int i = 0; i < count; i++) {
-        if (data(index(i, 0), idUserRole).toString() == idUser) {
-            return i;
-        }
-    }
-    return -1;
-}
-
 QString UserModel::textQuery() const
 {
     return mTextQuery;

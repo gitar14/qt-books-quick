@@ -23,6 +23,7 @@ namespace SQLHelper {
     void clearDatabase(QSqlDatabase& db);
     QString generateId(const QString& table, const QString &primaryKey, const QString& prefix);
     QList<int> getModelDataIntList(const QAbstractItemModel* model, int role);
+    int getIndexByIntData(const QAbstractItemModel* model, int role, int value);
 }
 
 #endif // SQLHELPER_H

@@ -26,7 +26,6 @@ public:
     Q_INVOKABLE void addNew(QString idUser, QString namaDepan, QString namaBelakang, QString password);
     Q_INVOKABLE void edit(QString idUser, QString namaDepan, QString namaBelakang);
     Q_INVOKABLE void remove(QString idUser);
-    Q_INVOKABLE int getIndexByKode(QString idUser);
     QString textQuery() const;
     void setTextQuery(const QString &newTextQuery);
 signals:

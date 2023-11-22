@@ -127,12 +127,7 @@ void EditablePengadaanBukuModel::append(int kodeBuku, int jumlah)
 
 QList<int> EditablePengadaanBukuModel::getKodeBukuList()
 {
-    QList<int> list;
-    QListIterator<PengadaanBukuItem> it(mItemList);
-    while (it.hasNext()) {
-        list.append(it.next().kodeBuku);
-    }
-    return list;
+    return SQLHelper::getModelDataIntList(this, BasePengadaanBukuModel::KodeBukuRole);
 }
 
 void EditablePengadaanBukuModel::remove(int index)

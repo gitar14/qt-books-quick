@@ -74,12 +74,7 @@ QHash<int, QByteArray> EditablePeminjamanBukuModel::roleNames() const
 
 QList<int> EditablePeminjamanBukuModel::getKodeBukuList()
 {
-    QList<int> list;
-    QListIterator<Item> it(mItemList);
-    while (it.hasNext()){
-        list.append(it.next().kodeBuku);
-    }
-    return list;
+    return SQLHelper::getModelDataIntList(this, BasePeminjamanBukuModel::KodeBukuRole);
 }
 
 void EditablePeminjamanBukuModel::remove(int index)

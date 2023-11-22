@@ -91,12 +91,7 @@ void PenerbitModel::remove(int kode)
 
 int PenerbitModel::getIndexByKode(int kode)
 {
-    int count = rowCount();
-    for (int i=0;i<count;i++){
-        if(data(index(i,0), KodeRole).toInt()== kode)
-            return i;
-    }
-    return -1;
+    return SQLHelper::getIndexByIntData(this, KodeRole, kode);
 }
 
 void PenerbitModel::refresh()

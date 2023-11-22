@@ -19,7 +19,6 @@ public:
 
     QList<int> getKodeBukuList();
 
-
     Q_INVOKABLE void remove(int index);
     Q_INVOKABLE void clear();
     Q_INVOKABLE void append(int kodeBuku);

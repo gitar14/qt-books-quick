@@ -176,4 +176,13 @@ namespace SQLHelper {
         }
         return result;
     }
+
+    int getIndexByIntData(const QAbstractItemModel* model, int role, int value) {
+        const int count = model->rowCount();
+        for (int i = 0; i < count; i++) {
+            if (model->data(model->index(i, 0), role).toInt() == value)
+                return i;
+        }
+        return -1;
+    }
 }
