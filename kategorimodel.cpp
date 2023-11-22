@@ -17,18 +17,22 @@ QHash<int, QByteArray> KategoriModel::roleNames() const
 
 QVariant KategoriModel::data(const QModelIndex &item, int role) const
 {
-    QVariant value;
+    if (role < Qt::UserRole)
+        return QSqlQueryModel::data(item, role);
 
-    if (item.isValid()) {
-        if (role < Qt::UserRole) {
-            value = QSqlQueryModel::data(item, role);
-        } else {
-            int columnIdx = role - Qt::UserRole;
-            QModelIndex modelIndex = this->index(item.row(), columnIdx);
-            value = QSqlQueryModel::data(modelIndex, Qt::DisplayRole);
-        }
+    int columnIndex;
+    switch (role) {
+    case KodeRole:
+        columnIndex = 0;
+        break;
+    case JenisRole:
+        columnIndex = 1;
+        break;
+    default:
+        columnIndex = -1;
     }
-    return value;
+
+    return QSqlQueryModel::data(index(item.row(), columnIndex));
 }
 
 void KategoriModel::refresh()

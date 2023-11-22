@@ -1,6 +1,6 @@
 #include "peminjamanbukumodel.h"
 #include "basepeminjamanbukumodel.h"
-
+#include "sqlhelper.h"
 #include <QtSql>
 
 PeminjamanBukuModel::PeminjamanBukuModel(QObject *parent)
@@ -107,15 +107,7 @@ void PeminjamanBukuModel::updateAll(QAbstractItemModel *model)
 
     internalUpdateAll(mKodePeminjaman, model);
 
-    QHash<QString, QString> queryIdBinds;
-
-    const int count = model->rowCount();
-    for (int i =0; i < count;i++){
-        queryIdBinds[QStringLiteral(":ignored_%1").arg(i)] = model->data(
-            model->index(i, 0),
-            BasePeminjamanBukuModel::KodeBukuRole
-        ).toString();
-    }
+    QHash<QString, QVariant> queryBinds;
 
     QSqlQuery query;
     query.prepare(QStringLiteral("DELETE FROM"
@@ -123,15 +115,14 @@ void PeminjamanBukuModel::updateAll(QAbstractItemModel *model)
                                  "WHERE "
                                  " kd_detail_peminjaman = :peminjaman AND"
                                  " kd_buku NOT IN (%1)")
-                      .arg(queryIdBinds.keys().join(",")));
+                      .arg(SQLHelper::generateArrayBinds(
+                          ":ignored_buku",
+                          SQLHelper::getModelDataIntList(model, BasePeminjamanBukuModel::KodeBukuRole),
+                          queryBinds
+                          )));
 
     query.bindValue(":peminjaman", mKodePeminjaman);
-
-    QHashIterator<QString, QString> queryIdBindsInterator(queryIdBinds);
-    while (queryIdBindsInterator.hasNext()) {
-        queryIdBindsInterator.next();
-        query.bindValue(queryIdBindsInterator.key(), queryIdBindsInterator.value());
-    }
+    SQLHelper::applyBindMaps(query, queryBinds);
 
     if (!query.exec())
         qFatal() << "Deleting unused Peminjaman_buku fail " << query.lastError().text();
@@ -152,6 +143,8 @@ void PeminjamanBukuModel::addAll(int kodePengadaan, QAbstractItemModel *model)
 
     if (!db.commit())
         qFatal() << "Cannot commit transaction for addAll Peminjaman Buku" << db.lastError().text();
+
+    refresh();
 }
 
 void PeminjamanBukuModel::removeAll()

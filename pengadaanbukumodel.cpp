@@ -1,6 +1,6 @@
 #include "pengadaanbukumodel.h"
 #include "basepengadaanbukumodel.h"
-
+#include "sqlhelper.h"
 #include <QtSql>
 
 PengadaanBukuModel::PengadaanBukuModel(QObject *parent)
@@ -82,15 +82,7 @@ void PengadaanBukuModel::updateAll(QAbstractItemModel *model)
 
     internalUpdateAll(mKodePengadaan, model);
 
-    QHash<QString, QString> queryIdBinds;
-
-    const int count = model->rowCount();
-    for (int i = 0; i < count; i++) {
-        queryIdBinds[QStringLiteral(":ignored_%1").arg(i)] = model->data(
-            model->index(i, 0),
-            BasePengadaanBukuModel::KodeBukuRole
-        ).toString();
-    }
+    QHash<QString, QVariant> queryBinds;
 
     QSqlQuery query;
     query.prepare(QStringLiteral("DELETE FROM"
@@ -98,15 +90,14 @@ void PengadaanBukuModel::updateAll(QAbstractItemModel *model)
                                  "WHERE "
                                  " kd_detail_pengadaan = :pengadaan AND"
                                  " kd_buku NOT IN (%1)")
-                      .arg(queryIdBinds.keys().join(",")));
+                      .arg(SQLHelper::generateArrayBinds(
+                          ":ignored_kode",
+                          SQLHelper::getModelDataIntList(model, BasePengadaanBukuModel::KodeBukuRole),
+                          queryBinds
+                          )));
 
     query.bindValue(":pengadaan", mKodePengadaan);
-
-    QHashIterator<QString, QString> queryIdBindsIterator(queryIdBinds);
-    while (queryIdBindsIterator.hasNext()) {
-        queryIdBindsIterator.next();
-        query.bindValue(queryIdBindsIterator.key(), queryIdBindsIterator.value());
-    }
+    SQLHelper::applyBindMaps(query, queryBinds);
 
     if (!query.exec())
         qFatal() << "Deleting unused Pengadaan_buku fail " << query.lastError().text();
@@ -127,6 +118,8 @@ void PengadaanBukuModel::addAll(int kodePengadaan, QAbstractItemModel *model)
 
     if (!db.commit())
         qFatal() << "Cannot commit transaction for addAll Pengadaan buku " << db.lastError().text();
+
+    refresh();
 }
 
 void PengadaanBukuModel::removeAll()
@@ -168,6 +161,7 @@ void PengadaanBukuModel::internalUpdateAll(int kodePengadaan, QAbstractItemModel
         if (!query.exec())
             qFatal() << "Cannot upsert Pengadaan_buku " << query.lastError().text() << query.lastQuery() ;
     }
+
 }
 
 int PengadaanBukuModel::count() const

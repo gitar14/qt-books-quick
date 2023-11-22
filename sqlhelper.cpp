@@ -3,12 +3,15 @@
 #include <QHash>
 #include <QVariant>
 #include <QSqlError>
+#include <QAbstractItemModel>
 
 namespace SQLHelper {
     void applyBindMaps(QSqlQuery &query, const QHash<QString, QVariant> &binds)
     {
-        for (QHash<QString, QVariant>::const_iterator it = binds.begin(); it != binds.end(); it++) {
-            query.bindValue(it.key(), it.value());
+        QHashIterator<QString, QVariant> iterator(binds);
+        while (iterator.hasNext()) {
+            iterator.next();
+            query.bindValue(iterator.key(), iterator.value());
         }
     }
 
@@ -163,5 +166,14 @@ namespace SQLHelper {
         }
 
         return QString::number(maxKode + 1).rightJustified(4, '0');
+    }
+
+    QList<int> getModelDataIntList(const QAbstractItemModel* model, int role) {
+        QList<int> result;
+        const int count = model->rowCount();
+        for (int i = 0; i < count; i++) {
+            result.append(model->data(model->index(i, 0), role).toInt());
+        }
+        return result;
     }
 }

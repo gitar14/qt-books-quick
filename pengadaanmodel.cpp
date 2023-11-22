@@ -52,7 +52,6 @@ void PengadaanModel::refresh()
         queryString+= " WHERE sumber LIKE :textQuery";
         binds[":textQuery"]="%"+mTextQuery+"%";
     }
-    qInfo() << queryString;
     QSqlQuery query;
     query.prepare(queryString);
     SQLHelper::applyBindMaps(query,binds);

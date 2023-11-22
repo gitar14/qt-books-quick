@@ -15,7 +15,7 @@ Dialog {
     property int kategoriKode: -1
     property string kategoriJenis: ""
 
-    title: kategoriKode == "" ? "Kategori Baru" : "Edit Kategori"
+    title: kategoriKode == -1 ? "Kategori Baru" : "Edit Kategori"
 
     footer: DialogButtonBox {
         Button {

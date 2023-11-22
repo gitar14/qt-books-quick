@@ -80,7 +80,7 @@ Page {
         }
         onDeleteClicked: {
             pengadaanBukuModel.removeAll();
-            pengadaanModel.remove(pengadaanDetailFrame.detailKode);
+            pengadaanModel.remove(pengadaanDetailFrame.pengadaanKode);
         }
     }
 
