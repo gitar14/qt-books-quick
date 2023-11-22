@@ -7,6 +7,7 @@
 class PeminjamanModel : public QSqlQueryModel
 {
     Q_OBJECT
+    Q_PROPERTY(StatusFilter statusFilter READ statusFilter WRITE setStatusFilter NOTIFY statusFilterChanged)
     QML_ELEMENT
 public:
     enum Role {
@@ -20,6 +21,14 @@ public:
         SudahDikembalikanRole
     };
 
+    enum StatusFilter {
+        SemuaStatus = 0,
+        BelumDikembalikanStatus,
+        MelewatiTenggatStatus,
+        SudahDikembalikanStatus
+    };
+    Q_ENUM(StatusFilter)
+
     explicit PeminjamanModel (QObject *parent = nullptr);
 
     QHash<int, QByteArray> roleNames() const override;
@@ -31,6 +40,13 @@ public:
     Q_INVOKABLE void remove(int kode);
     Q_INVOKABLE void tandaiDikembalikan(int kode, QDate tanggal);
     Q_INVOKABLE void tandaiBelumDikembalikan(int kode);
+
+    StatusFilter statusFilter() const;
+    void setStatusFilter(StatusFilter newStatusFilter);
+signals:
+    void statusFilterChanged();
+private:
+    StatusFilter mStatusFilter{SudahDikembalikanStatus};
 };
 
 #endif // PEMINJAMANMODEL_H

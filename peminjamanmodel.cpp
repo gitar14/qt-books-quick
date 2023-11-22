@@ -60,19 +60,40 @@ QVariant PeminjamanModel::data(const QModelIndex &item, int role) const
 
 void PeminjamanModel::refresh()
 {
+    QString queryString = "SELECT "
+                          "   Detail_Peminjaman.kd_detail_peminjaman,"
+                          "   Member.nama_depan_member,"
+                          "   Member.nama_belakang_member,"
+                          "   Detail_Peminjaman.kd_member,"
+                          "   Detail_Peminjaman.tanggal_peminjaman,"
+                          "   Detail_Peminjaman.lama_peminjaman,"
+                          "   Detail_Peminjaman.tanggal_pengembalian "
+                          "FROM Detail_Peminjaman "
+                          "JOIN Member"
+                          "   ON Member.kd_member = Detail_Peminjaman.kd_member";
+
+    QStringList filterList;
+
+    switch (mStatusFilter) {
+    case MelewatiTenggatStatus:
+        filterList.append("DATE("
+                          " Detail_Peminjaman.tanggal_peminjaman, "
+                          " Detail_Peminjaman.lama_peminjaman || ' days'"
+                          ") < DATE('now')");
+    case BelumDikembalikanStatus:
+        filterList.append("Detail_Peminjaman.tanggal_pengembalian IS NULL");
+        break;
+    case SudahDikembalikanStatus:
+        filterList.append("Detail_Peminjaman.tanggal_pengembalian IS NOT NULL");
+        break;
+    }
+
+    if (filterList.length() > 0)
+        queryString.append(QStringLiteral(" WHERE %1").arg(filterList.join(" AND ")));
+
     QSqlQuery query;
 
-    if (!query.exec("SELECT "
-                    "   Detail_Peminjaman.kd_detail_peminjaman,"
-                    "   Member.nama_depan_member,"
-                    "   Member.nama_belakang_member,"
-                    "   Detail_Peminjaman.kd_member,"
-                    "   Detail_Peminjaman.tanggal_peminjaman,"
-                    "   Detail_Peminjaman.lama_peminjaman,"
-                    "   Detail_Peminjaman.tanggal_pengembalian "
-                    "FROM Detail_Peminjaman "
-                    "JOIN Member"
-                    "   ON Member.kd_member = Detail_Peminjaman.kd_member"))
+    if (!query.exec(queryString))
         qFatal() << "Cannot query Peminjaman " << query.lastError().text();
 
     setQuery(std::move(query));
@@ -168,5 +189,19 @@ void PeminjamanModel::tandaiBelumDikembalikan(int kode)
     if (!query.exec())
         qFatal() << "Cannot remove Pengembalian " << query.lastError().text();
 
+    refresh();
+}
+
+PeminjamanModel::StatusFilter PeminjamanModel::statusFilter() const
+{
+    return mStatusFilter;
+}
+
+void PeminjamanModel::setStatusFilter(StatusFilter newStatusFilter)
+{
+    if (mStatusFilter == newStatusFilter)
+        return;
+    mStatusFilter = newStatusFilter;
+    emit statusFilterChanged();
     refresh();
 }
