@@ -7,7 +7,7 @@ Dialog {
     property int bukuKode: -1
     property string bukuJudul: ""
     property string bukuPenulis: ""
-    property int bukuJumlahBuku: 0
+    property int bukuJumlahHilang: 0
     property int bukuTahunTerbit: 0
     property string bukuKodeKategori: ""
     property string bukuKodePenerbit: ""
@@ -138,13 +138,15 @@ Dialog {
             }
 
             Label {
-                text: "Jumlah Buku"
+                visible: bukuKode != -1
+                text: "Jumlah Hilang"
             }
 
             SpinBox {
+                visible: bukuKode != -1
                 Layout.fillWidth: true
-                value: bukuJumlahBuku
-                onValueChanged: bukuJumlahBuku = value
+                value: bukuJumlahHilang
+                onValueChanged: bukuJumlahHilang = value
                 editable: true
                 from: 0
                 to: 10000

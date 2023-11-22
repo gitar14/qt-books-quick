@@ -30,7 +30,6 @@ public:
     Q_INVOKABLE void addNew(
         QString judul,
         QString penulis,
-        int jumlahBuku,
         int tahunTerbit,
         int kodeKategori,
         int kodePenerbit

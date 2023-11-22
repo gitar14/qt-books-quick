@@ -50,7 +50,6 @@ Page {
                 editDialog.bukuKode = -1
                 editDialog.bukuJudul = ""
                 editDialog.bukuPenulis = ""
-                editDialog.bukuJumlahBuku = 0
                 editDialog.bukuTahunTerbit = 0
                 editDialog.bukuKodeKategori = ""
                 editDialog.bukuKodePenerbit = ""
@@ -83,7 +82,7 @@ Page {
                 editDialog.bukuKode = bukuKode
                 editDialog.bukuJudul = bukuJudul
                 editDialog.bukuPenulis = bukuPenulis
-                editDialog.bukuJumlahBuku = detailModel.jumlahBuku
+                editDialog.bukuJumlahHilang = detailModel.jumlahHilang
                 editDialog.bukuTahunTerbit = bukuTahunTerbit
                 editDialog.bukuKodeKategori = detailModel.kodeKategori
                 editDialog.bukuKodePenerbit = detailModel.kodePenerbit
@@ -105,7 +104,6 @@ Page {
                     listModel.addNew(
                         bukuJudul,
                         bukuPenulis,
-                        bukuJumlahBuku,
                         bukuTahunTerbit,
                         bukuKodeKategori,
                         bukuKodePenerbit
@@ -115,7 +113,7 @@ Page {
                         bukuKode,
                         bukuJudul,
                         bukuPenulis,
-                        bukuJumlahBuku,
+                        bukuJumlahHilang,
                         bukuTahunTerbit,
                         bukuKodeKategori,
                         bukuKodePenerbit

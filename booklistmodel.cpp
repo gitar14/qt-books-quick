@@ -103,7 +103,7 @@ void BookListModel::refresh()
     emit countChanged();
 }
 
-void BookListModel::addNew(QString judul, QString penulis, int jumlahBuku, int tahunTerbit, int kodeKategori, int kodePenerbit)
+void BookListModel::addNew(QString judul, QString penulis, int tahunTerbit, int kodeKategori, int kodePenerbit)
 {
     QSqlQuery query;
     if (!query.exec("SELECT MAX(CAST(kd_buku AS UNSIGNED)) FROM Buku"))
@@ -143,7 +143,7 @@ void BookListModel::addNew(QString judul, QString penulis, int jumlahBuku, int t
     refresh();
 }
 
-void BookListModel::edit(int kode, QString judul, QString penulis, int jumlahBuku, int tahunTerbit, int kodeKategori, int kodePenerbit)
+void BookListModel::edit(int kode, QString judul, QString penulis, int jumlahHilang, int tahunTerbit, int kodeKategori, int kodePenerbit)
 {
     QSqlQuery query;
     query.prepare("UPDATE Buku SET "
@@ -157,7 +157,7 @@ void BookListModel::edit(int kode, QString judul, QString penulis, int jumlahBuk
     query.bindValue(":kode", kode);
     query.bindValue(":judul", judul);
     query.bindValue(":penulis", penulis);
-    query.bindValue(":jumlah", jumlahBuku);
+    query.bindValue(":jumlah", jumlahHilang);
     query.bindValue(":tahun_terbit", tahunTerbit);
     query.bindValue(":kategori", kodeKategori);
     query.bindValue(":penerbit", kodePenerbit);
