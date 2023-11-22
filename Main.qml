@@ -3,8 +3,6 @@ import QtQuick.Controls
 import Kelompok7.Perpus
 
 ApplicationWindow {
-    property string currentView: "KategoriScreen.qml"
-
     width: 960
     height: 640
     visible: true

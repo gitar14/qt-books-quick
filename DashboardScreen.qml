@@ -6,6 +6,8 @@ import QtQuick.Layouts
 import Kelompok7.Perpus
 
 Item {
+    property string currentView: "BukuScreen.qml"
+
     Loader {
         anchors.left: parent.left
         anchors.top: parent.top
