@@ -37,7 +37,7 @@ Item {
 
             contentItem: Label {
                 id: pengadaanListItemContent
-                text: TextHighlighter.highlightText(model.sumber, listModel.textQuery)
+                text: TextHighlighter.highlightText(model.sumber, listModel.textQueryg)
                 verticalAlignment: Qt.AlignVCenter
                 textFormat: Label.StyledText
             }

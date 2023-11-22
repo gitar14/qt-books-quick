@@ -1,13 +1,14 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import Kelompok7.Perpus
 
 Item {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
     property var currentItemData
-    property var listModel
+    property UserModel listModel
     signal addClicked()
 
     AppGridView {
@@ -22,7 +23,7 @@ Item {
         }
 
         model: listModel
-        cellHeight: 100
+        cellHeight: 108
 
         delegate: CardDelegate {
             property var itemData: model
@@ -49,8 +50,13 @@ Item {
                 }
 
                 Label {
-                    text: model.name
-                    Layout.alignment: Qt.AlignHCenter
+                    text: TextHighlighter.highlightText(model.name, listModel.textQuery)
+                    Layout.fillWidth: true
+                    horizontalAlignment: Qt.AlignHCenter
+                    textFormat: Label.StyledText
+                    maximumLineCount: 2
+                    elide: Label.ElideRight
+                    wrapMode: Label.Wrap
                 }
             }
         }
