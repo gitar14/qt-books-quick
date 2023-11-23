@@ -19,7 +19,7 @@ Dialog {
     property string userPassword: ""
     property string userPasswordUlang: ""
 
-    title: userIsNew ? "Pegawai" : "Edit User"
+    title: userIsNew ? "Tambah Pegawai" : "Edit Pegawai"
 
     footer: DialogButtonBox {
         Button {
@@ -131,7 +131,7 @@ Dialog {
                 Layout.fillWidth: true
                 text: userPassword
                 onTextChanged: userPassword = text
-                maximumLength: 8
+                maximumLength: 72
             }
 
             Label {
@@ -141,34 +141,31 @@ Dialog {
             }
 
             Label{
-            text: "Password tidak boleh kosong"
-            color: Material.color(Material.Red)
-            visible: userIsNew && userPassword.length == 0
+                text: "Password tidak boleh kosong"
+                color: Material.color(Material.Red)
+                visible: userIsNew && userPassword.length == 0
             }
 
             Label {
+                visible: userIsNew
                 text: "Ulangi Password"
             }
 
 
             TextField {
+                visible: userIsNew
                 Layout.fillWidth: true
                 echoMode: TextInput.Password
                 id:userPasswordUlangTextfield
                 text: userPasswordUlang
                 onTextChanged: userPasswordUlang = text
-                maximumLength: 8
-            }
-
-            Label {
-                text: (userPasswordUlangTextfield.maximumLength - userPasswordUlangTextfield.length) + " tersisa"
-                Layout.alignment: Qt.AlignRight
+                maximumLength: 72
             }
 
             Label{
-            text: "Password harus sama"
-            color: Material.color(Material.Red)
-            visible: userIsNew && userPasswordUlang != userPassword
+                text: "Password harus sama"
+                color: Material.color(Material.Red)
+                visible: userIsNew && userPasswordUlang != userPassword
             }
         }
     }
