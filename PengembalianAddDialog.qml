@@ -5,6 +5,8 @@ import Kelompok7.Perpus
 
 Dialog {
     id: dialog
+    property int peminjamanKode: 0
+    property date pengembalianTenggat: new Date()
     property date pengembalianTanggal: new Date()
     required property EditablePeminjamanBukuModel peminjamanBukuModel
 
@@ -13,6 +15,14 @@ Dialog {
     width: 400
     contentHeight: pengembalianDialogLayout.height
     title: "Pengembalian"
+
+
+    PeminjamanDendaModel {
+        id: peminjamanDendaCalculator
+        dendaTambahanBukuList: peminjamanBukuModel.dendaList
+        tenggatPengembalian: pengembalianTenggat
+        tanggalPengembalian: pengembalianTanggal
+    }
 
     footer : RowLayout {
         Row {
@@ -24,7 +34,7 @@ Dialog {
             }
 
             Label {
-                text: peminjamanBukuModel.totalDenda
+                text: peminjamanDendaCalculator.totalDenda
                 font.pixelSize: 16
             }
         }
@@ -66,6 +76,15 @@ Dialog {
                 Layout.fillWidth: true
                 currentDate: pengembalianTanggal
                 onCurrentDateChanged: pengembalianTanggal = currentDate
+            }
+
+            Label {
+                text: "Denda Tenggat"
+            }
+
+            Label {
+                font.pixelSize: 16
+                text: peminjamanDendaCalculator.totalDendaTerlambat
             }
 
             Label {

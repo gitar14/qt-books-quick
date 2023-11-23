@@ -11,6 +11,7 @@ class PeminjamanBukuModel : public QSqlQueryModel
     Q_OBJECT
     Q_PROPERTY(int kodePeminjaman READ kodePeminjaman WRITE setKodePeminjaman NOTIFY kodePeminjamanChanged)
     Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_PROPERTY(QList<int> dendaList READ dendaList NOTIFY dendaListChanged)
     QML_ELEMENT
 public:
     explicit PeminjamanBukuModel(QObject *parent = nullptr);
@@ -27,9 +28,13 @@ public:
     Q_INVOKABLE void resetDenda();
     int count() const;
 
+    QList<int> dendaList() const;
+
 signals:
     void kodePeminjamanChanged();
     void countChanged();
+
+    void dendaListChanged();
 
 protected:
     QHash<int, QByteArray> roleNames() const override;

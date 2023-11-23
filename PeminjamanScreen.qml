@@ -71,6 +71,7 @@ Page {
                     peminjamanDetailFrame.peminjamanTanggalTenggat = currentItemData.tanggalTenggat
                     peminjamanDetailFrame.peminjamanTanggalPengembalian = currentItemData.tanggalPengembalian
                     peminjamanDetailFrame.peminjamanSudahDikembalikan = currentItemData.sudahDikembalikan
+                    peminjamanDetailFrame.peminjamanDendaPerHari = currentItemData.dendaPerHari
                 } else {
                     peminjamanDetailFrame.peminjamanKode = -1
                     peminjamanDetailFrame.peminjamanMemberKode = -1
@@ -80,6 +81,7 @@ Page {
                     peminjamanDetailFrame.peminjamanTanggalTenggat = new Date()
                     peminjamanDetailFrame.peminjamanTanggalPengembalian = new Date()
                     peminjamanDetailFrame.peminjamanSudahDikembalikan = false
+                    peminjamanDetailFrame.peminjamanDendaPerHari = 0
                 }
             }
         }
@@ -105,8 +107,8 @@ Page {
             peminjamanBukuModel: editablePeminjamanBukuModel
 
             onAccepted: {
-                peminjamanModel.tandaiDikembalikan(peminjamanDetailFrame.peminjamanKode, pengembalianTanggal)
                 peminjamanBukuModel.updateAll(editablePeminjamanBukuModel)
+                peminjamanModel.tandaiDikembalikan(peminjamanKode, pengembalianTanggal)
             }
         }
 
@@ -129,14 +131,16 @@ Page {
             }
 
             onTandaiDikembalikanClicked: {
+                dialogPengembalian.peminjamanKode = peminjamanKode
+                dialogPengembalian.pengembalianTenggat = peminjamanDetailFrame.peminjamanTanggalTenggat
                 dialogPengembalian.pengembalianTanggal = new Date()
                 editablePeminjamanBukuModel.populateFrom(peminjamanBukuModel)
                 dialogPengembalian.open()
             }
 
             onTandaiBelumDikembalikanClicked: {
-                peminjamanModel.tandaiBelumDikembalikan(peminjamanKode)
                 peminjamanBukuModel.resetDenda()
+                peminjamanModel.tandaiBelumDikembalikan(peminjamanKode)
             }
         }
     }

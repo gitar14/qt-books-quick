@@ -105,6 +105,7 @@ namespace SQLHelper {
                 "   tanggal_peminjaman DATE NOT NULL,"
                 "   lama_peminjaman INTEGER NOT NULL,"
                 "   tanggal_pengembalian DATE,"
+                "   denda_tenggat_perbuku INTEGER,"
                 "   FOREIGN KEY (kd_member)"
                 "       REFERENCES Member(kd_member),"
                 "   FOREIGN KEY (id_user)"
@@ -118,7 +119,7 @@ namespace SQLHelper {
                 "   kd_peminjaman INTEGER NOT NULL PRIMARY KEY %1,"
                 "   kd_detail_peminjaman INTEGER NOT NULL,"
                 "   kd_buku INTEGER NOT NULL,"
-                "   denda INTEGER,"
+                "   denda_tambahan INTEGER,"
                 "   UNIQUE (kd_detail_peminjaman, kd_buku),"
                 "   FOREIGN KEY (kd_buku)"
                 "       REFERENCES Buku(kd_buku),"
@@ -127,6 +128,12 @@ namespace SQLHelper {
                 ")"
                             ).arg(autoIncrement)))
             qFatal() << "Cannot create Peminjaman table " << query.lastError().text();
+
+        if (!query.exec("CREATE TABLE IF NOT EXISTS Pengaturan("
+                        "   pengaturan_key CHAR(20) NOT NULL PRIMARY KEY,"
+                        "   pengaturan_value JSON"
+                        ")"))
+            qFatal() << "Cannot create Pengaturan table " << query.lastError().text();
     }
 
     void clearDatabase(QSqlDatabase &db)
@@ -184,5 +191,46 @@ namespace SQLHelper {
                 return i;
         }
         return -1;
+    }
+
+#define DENDA_PERHARI_KEY "dendaPerHari"
+
+    void setPengaturan(QString key, QVariant value) {
+        QSqlQuery query;
+        query.prepare("INSERT INTO Pengaturan("
+                      " pengaturan_key,"
+                      " pengaturan_value"
+                      ") VALUES ("
+                      " :key,"
+                      " :value"
+                      ") ON CONFLICT("
+                      " pengaturan_key"
+                      ") DO UPDATE "
+                      "SET pengaturan_value = :value");
+        query.bindValue(":key", key);
+        query.bindValue(":value", value);
+        if (!query.exec())
+            qFatal() << "Cannot update Pengaturan " << query.lastError().text();
+    }
+
+    QVariant getPengaturan(QString key) {
+        QSqlQuery query;
+        query.prepare("SELECT pengaturan_value "
+                      "FROM Pengaturan "
+                      "WHERE pengaturan_key = :key");
+        query.bindValue(":key", key);
+
+        if (!query.exec())
+            qFatal() << "Cannot get pengaturan " << query.lastError().text();
+
+        return query.next() ? query.value(0) : QVariant();
+    }
+
+    void setDendaPerHari(int denda) {
+        setPengaturan(DENDA_PERHARI_KEY, denda);
+    }
+
+    int getDendaPerHari() {
+        return getPengaturan(DENDA_PERHARI_KEY).toInt();
     }
 }

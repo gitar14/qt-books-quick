@@ -37,7 +37,7 @@ void PeminjamanBukuModel::refresh()
     query.prepare("SELECT"
                   " Peminjaman.kd_buku,"
                   " Buku.judul,"
-                  " Peminjaman.denda "
+                  " Peminjaman.denda_tambahan "
                   "FROM Peminjaman "
                   "LEFT JOIN Buku"
                   " ON Buku.kd_buku = Peminjaman.kd_buku "
@@ -49,6 +49,8 @@ void PeminjamanBukuModel::refresh()
 
     if (lastError().isValid())
         qFatal() << "Cannot set query for PeminjamanBukuModel " << lastError().text();
+
+    emit dendaListChanged();
 }
 
 QHash<int, QByteArray> PeminjamanBukuModel::roleNames() const
@@ -64,7 +66,7 @@ void PeminjamanBukuModel::internalUpdateAll(int kodePeminjaman, QAbstractItemMod
         query.prepare("INSERT INTO Peminjaman("
                       " kd_detail_peminjaman,"
                       " kd_buku,"
-                      " denda"
+                      " denda_tambahan"
                       ") VALUES ("
                       " :peminjaman,"
                       " :buku,"
@@ -73,7 +75,7 @@ void PeminjamanBukuModel::internalUpdateAll(int kodePeminjaman, QAbstractItemMod
                       " kd_detail_peminjaman,"
                       " kd_buku"
                       ") DO UPDATE "
-                      " SET denda = :denda");
+                      " SET denda_tambahan = :denda");
         QModelIndex index = model->index(i, 0);
         query.bindValue(":peminjaman", kodePeminjaman);
         query.bindValue(":buku", model->data(index, BasePeminjamanBukuModel::KodeBukuRole).toInt());
@@ -164,11 +166,11 @@ void PeminjamanBukuModel::resetDenda()
 {
     QSqlQuery query;
     query.prepare("UPDATE Peminjaman "
-                  "SET denda = 0 "
+                  "SET denda_tambahan = 0 "
                   "WHERE kd_detail_peminjaman = :kode");
     query.bindValue(":kode", mKodePeminjaman);
     if (!query.exec())
-        qFatal() << "Cannot reset dendan for peminjaman" << query.lastError().text();
+        qFatal() << "Cannot reset denda for peminjaman" << query.lastError().text();
 
     refresh();
 }
@@ -176,4 +178,9 @@ void PeminjamanBukuModel::resetDenda()
 int PeminjamanBukuModel::count() const
 {
     return rowCount();
+}
+
+QList<int> PeminjamanBukuModel::dendaList() const
+{
+    return SQLHelper::getModelDataIntList(this, BasePeminjamanBukuModel::DendaRole);
 }

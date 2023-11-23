@@ -20,6 +20,7 @@ QHash<int, QByteArray> PeminjamanModel::roleNames() const
     names[TanggalTenggatRole] = "tanggalTenggat";
     names[TanggalPengembalianRole] = "tanggalPengembalian";
     names[SudahDikembalikanRole] = "sudahDikembalikan";
+    names[DendaPerHariRole] = "dendaPerHari";
     return names;
 }
 
@@ -51,6 +52,9 @@ QVariant PeminjamanModel::data(const QModelIndex &item, int role) const
         return QSqlQueryModel::data(index(item.row(), 6)).toDate();
     case SudahDikembalikanRole:
         return data(item, TanggalPengembalianRole).toDate().isValid();
+    case DendaPerHariRole:
+        return QSqlQueryModel::data(index(item.row(), 7)).toInt();
+        break;
     default:
         columnIndex = -1;
     }
@@ -67,7 +71,8 @@ void PeminjamanModel::refresh()
                           "   Detail_Peminjaman.kd_member,"
                           "   Detail_Peminjaman.tanggal_peminjaman,"
                           "   Detail_Peminjaman.lama_peminjaman,"
-                          "   Detail_Peminjaman.tanggal_pengembalian "
+                          "   Detail_Peminjaman.tanggal_pengembalian,"
+                          "   Detail_Peminjaman.denda_tenggat_perbuku "
                           "FROM Detail_Peminjaman "
                           "JOIN Member"
                           "   ON Member.kd_member = Detail_Peminjaman.kd_member";
@@ -167,10 +172,13 @@ void PeminjamanModel::tandaiDikembalikan(int kode, QDate tanggal)
 {
     QSqlQuery query;
     query.prepare("UPDATE Detail_Peminjaman "
-                  "SET tanggal_pengembalian = :pengembalian "
+                  "SET "
+                  " tanggal_pengembalian = :pengembalian,"
+                  " denda_tenggat_perbuku = :denda_terlambat "
                   "WHERE kd_detail_peminjaman = :kode");
     query.bindValue(":kode", kode);
     query.bindValue(":pengembalian", tanggal);
+    query.bindValue(":denda_terlambat", SQLHelper::getDendaPerHari());
 
     if (!query.exec())
         qFatal() << "Cannot add Pengembalian " << query.lastError().text();

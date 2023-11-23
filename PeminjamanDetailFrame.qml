@@ -12,12 +12,21 @@ BaseDetailFrame {
     property date peminjamanTanggalTenggat: new Date()
     property date peminjamanTanggalPengembalian: new Date()
     property bool peminjamanSudahDikembalikan: false
+    property int peminjamanDendaPerHari: 0
     required property PeminjamanBukuModel peminjamanBukuModel
 
     signal editClicked()
     signal deleteClicked()
     signal tandaiDikembalikanClicked()
     signal tandaiBelumDikembalikanClicked()
+
+    PeminjamanDendaModel {
+        id: peminjamanDendaCalculator
+        dendaTerlambatPerBuku: peminjamanDendaPerHari
+        dendaTambahanBukuList: peminjamanBukuModel.dendaList
+        tanggalPengembalian: peminjamanTanggalPengembalian
+        tenggatPengembalian: peminjamanTanggalTenggat
+    }
 
     GridLayout {
         anchors.fill: parent
@@ -85,6 +94,29 @@ BaseDetailFrame {
             Layout.fillWidth: true
             text: Qt.formatDate(peminjamanTanggalPengembalian, locale, locale.LongFormat)
         }
+
+        Label {
+            visible: peminjamanSudahDikembalikan
+            text: "Denda Keterlambatan"
+        }
+
+        Label {
+            visible: peminjamanSudahDikembalikan
+            text: peminjamanDendaCalculator.totalDendaTerlambat
+            Layout.fillWidth: true
+        }
+
+        Label {
+            visible: peminjamanSudahDikembalikan
+            text: "Total Denda"
+        }
+
+        Label {
+            visible: peminjamanSudahDikembalikan
+            text: peminjamanDendaCalculator.totalDenda
+            Layout.fillWidth: true
+        }
+
 
         ListView {
             Layout.columnSpan: 2

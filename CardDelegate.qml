@@ -7,15 +7,12 @@ ItemDelegate {
     id: control
     width: parent.width
 
-    background: Rectangle {
+    background: CardBackground {
         implicitHeight: control.Material.delegateHeight
 
         color: control.highlighted ?
                    control.Material.listHighlightColor
                  : "white"
-        radius: 16
-        border.width: 1
-        border.color: "#dedede"
 
         Ripple {
             width: parent.width

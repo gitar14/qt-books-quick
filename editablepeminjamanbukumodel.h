@@ -9,7 +9,7 @@ class EditablePeminjamanBukuModel : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(QList<int> kodeBukuList READ getKodeBukuList NOTIFY itemsChanged)
     Q_PROPERTY(bool isBukuAvailable READ isBukuAvailable NOTIFY itemsChanged)
-    Q_PROPERTY(int totalDenda READ totalDenda NOTIFY totalDendaChanged)
+    Q_PROPERTY(QList<int> dendaList READ dendaList NOTIFY dendaListChanged)
     QML_ELEMENT
 public:
     explicit EditablePeminjamanBukuModel(QObject *parent = nullptr);
@@ -28,11 +28,12 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
-    int totalDenda() const;
+    QList<int> dendaList() const;
 
 signals:
     void itemsChanged();
-    void totalDendaChanged();
+
+    void dendaListChanged();
 
 protected:
     QHash<int, QByteArray> roleNames() const override;

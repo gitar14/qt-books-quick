@@ -94,6 +94,9 @@ qt_add_qml_module(appqt-books-qml
     SOURCES kategorifiltermodel.h kategorifiltermodel.cpp
     SOURCES penerbitfiltermodel.h penerbitfiltermodel.cpp
     SOURCES texthighlighter.h texthighlighter.cpp
+    QML_FILES CardBackground.qml
+    SOURCES peminjamandendamodel.h peminjamandendamodel.cpp
+    SOURCES peminjamandendamodel.h peminjamandendamodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

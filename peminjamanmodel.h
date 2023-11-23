@@ -18,7 +18,8 @@ public:
         LamaRole,
         TanggalTenggatRole,
         TanggalPengembalianRole,
-        SudahDikembalikanRole
+        SudahDikembalikanRole,
+        DendaPerHariRole
     };
 
     enum StatusFilter {

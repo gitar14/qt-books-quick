@@ -89,7 +89,7 @@ void EditablePeminjamanBukuModel::remove(int index)
 
     refresh();
     emit itemsChanged();
-    emit totalDendaChanged();
+    emit dendaListChanged();
 }
 
 void EditablePeminjamanBukuModel::clear()
@@ -102,7 +102,7 @@ void EditablePeminjamanBukuModel::clear()
 
     refresh();
     emit itemsChanged();
-    emit totalDendaChanged();
+    emit dendaListChanged();
 }
 
 void EditablePeminjamanBukuModel::populateFrom(QAbstractItemModel *model)
@@ -123,7 +123,7 @@ void EditablePeminjamanBukuModel::populateFrom(QAbstractItemModel *model)
 
     refresh();
     emit itemsChanged();
-    emit totalDendaChanged();
+    emit dendaListChanged();
 }
 
 void EditablePeminjamanBukuModel::refresh()
@@ -170,7 +170,7 @@ bool EditablePeminjamanBukuModel::setData(const QModelIndex &index, const QVaria
     if (role == BasePeminjamanBukuModel::DendaRole) {
         item.denda = value.toInt();
         emit itemsChanged();
-        emit totalDendaChanged();
+        emit dendaListChanged();
         return true;
     }
 
@@ -182,11 +182,7 @@ Qt::ItemFlags EditablePeminjamanBukuModel::flags(const QModelIndex &index) const
     return Qt::ItemIsEditable;
 }
 
-int EditablePeminjamanBukuModel::totalDenda() const
+QList<int> EditablePeminjamanBukuModel::dendaList() const
 {
-    int total = 0;
-    for (int i = 0; i < mItemList.length(); i++) {
-        total += mItemList.at(i).denda;
-    }
-    return total;
+    return SQLHelper::getModelDataIntList(this, BasePeminjamanBukuModel::DendaRole);
 }

@@ -2,6 +2,7 @@
 #define BASEPEMINJAMANBUKUMODEL_H
 
 #include <Qt>
+#include <QDate>
 
 namespace BasePeminjamanBukuModel {
     enum Role {

@@ -27,6 +27,29 @@ Page {
         anchors.right: parent.right
         anchors.margins: 16
 
+        Control {
+            Layout.fillWidth: true
+            padding: 16
+
+            background: CardBackground {}
+            contentItem: RowLayout {
+                Label {
+                    Layout.fillWidth: true
+                    text: "Denda Keterlambatan Per Hari"
+                    font.weight: 500
+                }
+
+                SpinBox {
+                    Layout.minimumWidth: 200
+                    editable: true
+                    value: settingModel.dendaPerHari
+                    onValueChanged: settingModel.dendaPerHari = value
+                    from: 0
+                    to: 1000000
+                }
+            }
+        }
+
         CardDelegate {
             Layout.fillWidth: true
             text: "Bersihkan Konfigurasi Koneksi"
