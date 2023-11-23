@@ -105,7 +105,7 @@ namespace SQLHelper {
                 "   tanggal_peminjaman DATE NOT NULL,"
                 "   lama_peminjaman INTEGER NOT NULL,"
                 "   tanggal_pengembalian DATE,"
-                "   denda_tenggat_perbuku INTEGER,"
+                "   denda_terlambat_perbuku INTEGER,"
                 "   FOREIGN KEY (kd_member)"
                 "       REFERENCES Member(kd_member),"
                 "   FOREIGN KEY (id_user)"

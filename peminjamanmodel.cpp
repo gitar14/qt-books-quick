@@ -72,7 +72,7 @@ void PeminjamanModel::refresh()
                           "   Detail_Peminjaman.tanggal_peminjaman,"
                           "   Detail_Peminjaman.lama_peminjaman,"
                           "   Detail_Peminjaman.tanggal_pengembalian,"
-                          "   Detail_Peminjaman.denda_tenggat_perbuku "
+                          "   Detail_Peminjaman.denda_terlambat_perbuku "
                           "FROM Detail_Peminjaman "
                           "JOIN Member"
                           "   ON Member.kd_member = Detail_Peminjaman.kd_member";
@@ -174,7 +174,7 @@ void PeminjamanModel::tandaiDikembalikan(int kode, QDate tanggal)
     query.prepare("UPDATE Detail_Peminjaman "
                   "SET "
                   " tanggal_pengembalian = :pengembalian,"
-                  " denda_tenggat_perbuku = :denda_terlambat "
+                  " denda_terlambat_perbuku = :denda_terlambat "
                   "WHERE kd_detail_peminjaman = :kode");
     query.bindValue(":kode", kode);
     query.bindValue(":pengembalian", tanggal);
