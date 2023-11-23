@@ -176,10 +176,10 @@ namespace SQLHelper {
     }
 
     QList<int> getModelDataIntList(const QAbstractItemModel* model, int role) {
-        QList<int> result;
         const int count = model->rowCount();
+        QList<int> result(count);
         for (int i = 0; i < count; i++) {
-            result.append(model->data(model->index(i, 0), role).toInt());
+            result[i] = model->data(model->index(i, 0), role).toInt();
         }
         return result;
     }
