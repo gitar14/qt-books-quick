@@ -24,7 +24,7 @@ bool UserManager::hasAvailableUser()
 
 void UserManager::addUser(QString id, QString namaDepan, QString namaBelakang, UserRole role, QString password)
 {
-    QString passwordHash = QString::fromStdString(Botan::generate_bcrypt(password.toStdString(), Botan::system_rng()));
+    QString passwordHash = QString::fromStdString(Botan::generate_bcrypt(password.toStdString(), Botan::system_rng(), 10));
     QSqlQuery query;
 
     query.prepare("INSERT INTO User("
