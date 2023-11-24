@@ -1,5 +1,5 @@
 #include "penerbitfiltermodel.h"
-#include "penerbitmodel.h"
+#include "repository/list/penerbitmodel.h"
 
 PenerbitFilterModel::PenerbitFilterModel(QObject *parent)
     : BaseFilterModel{parent}

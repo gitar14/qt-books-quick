@@ -2,16 +2,17 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
+import Kelompok7.Perpus
 
-Dialog{
-    title: penerbitKode == -1 ? "Tambah Penerbit" : "Edit Penerbit"
+Dialog {
+    property PenerbitEditViewModel viewModel: PenerbitEditViewModel {}
+
+    title: viewModel.isNew ? "Tambah Penerbit" : "Edit Penerbit"
     parent: Overlay.overlay
     anchors.centerIn: parent
     width: 400
 
-    property int penerbitKode: -1
-    property string penerbitNama: ""
-    property string penerbitAlamat: ""
+    onAccepted: viewModel.submit()
 
     footer : DialogButtonBox {
         Button {
@@ -21,7 +22,7 @@ Dialog{
         }
         Button {
             text: "Simpan"
-            enabled: penerbitNama.length > 0 && penerbitAlamat.length > 0
+            enabled: viewModel.isValid
             DialogButtonBox.buttonRole: Dialog.AcceptRole
             flat: true
         }
@@ -32,23 +33,23 @@ Dialog{
         Label {
             text: "Nama"
         }
+
         TextField {
-            id: penerbitNamaTextField
-            text: editPenerbitDialog.penerbitNama
-            maximumLength: 25
+            text: viewModel.namaField.value
+            maximumLength: viewModel.namaField.maxLength
             Layout.fillWidth: true
-            onTextChanged: editPenerbitDialog.penerbitNama = text
+            onTextChanged: viewModel.namaField.value = text
         }
 
         Label {
             Layout.alignment: Qt.AlignRight
-            text: (penerbitNamaTextField.maximumLength - penerbitNama.length) + " tersisa"
+            text: viewModel.namaField.availableLength + " tersisa"
         }
 
         Label {
-            text: "Nama Tidak Boleh Kosong"
+            text: viewModel.namaField.errorText
             color: Material.color(Material.Red)
-            visible: penerbitNama.length == 0
+            visible: !viewModel.namaField.isValid
         }
 
         Label {
@@ -56,22 +57,21 @@ Dialog{
         }
 
         TextField {
-            id: penerbitAlamatTextField
-            text: editPenerbitDialog.penerbitAlamat
-            maximumLength: 30
+            text: viewModel.alamatField.value
+            maximumLength: viewModel.alamatField.maxLength
             Layout.fillWidth: true
-            onTextChanged: editPenerbitDialog.penerbitAlamat = text
+            onTextChanged: viewModel.alamatField.value = text;
         }
 
         Label {
             Layout.alignment: Qt.AlignRight
-            text: (penerbitAlamatTextField.maximumLength - penerbitAlamat.length) + " tersisa"
+            text: viewModel.alamatField.availableLength + " tersisa"
         }
 
         Label {
-            text: "Alamat Tidak Boleh Kosong"
+            text: viewModel.alamatField.errorText
             color: Material.color(Material.Red)
-            visible: penerbitAlamat.length == 0
+            visible: !viewModel.alamatField.isValid
         }
 
     }

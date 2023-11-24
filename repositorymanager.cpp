@@ -1,5 +1,6 @@
 #include "repositorymanager.h"
-#include "./repository/kategorirepository.h"
+#include "repository/kategorirepository.h"
+#include "repository/penerbitrepository.h"
 
 RepositoryManager::RepositoryManager()
 {
@@ -18,4 +19,12 @@ KategoriRepository *RepositoryManager::getKategori()
         mKategori = new KategoriRepository();
     }
     return mKategori;
+}
+
+PenerbitRepository *RepositoryManager::getPenerbit()
+{
+    if (mPenerbit == nullptr) {
+        mPenerbit = new PenerbitRepository();
+    }
+    return mPenerbit;
 }

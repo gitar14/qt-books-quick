@@ -1,19 +1,17 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import Kelompok7.Perpus
 
 BaseDetailFrame {
-    property int penerbitKode: -1
-    property string penerbitNama: ""
-    property string penerbitAlamat: ""
-
+    property PenerbitViewModel currentViewModel
     signal editClicked()
     signal deleteClicked()
 
     GridLayout{
         anchors.fill: parent
         columns: 2
-        visible: penerbitKode != -1
+        visible: currentViewModel.hasSelectedItem
         columnSpacing: 16
 
         Text {
@@ -28,7 +26,7 @@ BaseDetailFrame {
 
         Label{
             Layout.fillWidth: true
-            text: penerbitKode
+            text: currentViewModel.selectedKode
         }
 
         Label{
@@ -37,7 +35,7 @@ BaseDetailFrame {
 
         Label{
             Layout.fillWidth: true
-            text: penerbitNama
+            text: currentViewModel.selectedName
         }
 
         Label{
@@ -46,7 +44,7 @@ BaseDetailFrame {
 
         Label{
             Layout.fillWidth: true
-            text: penerbitAlamat
+            text: currentViewModel.selectedAlamat
         }
 
         Item{
@@ -69,6 +67,6 @@ BaseDetailFrame {
     }
     Label {
         text: "Tidak Ada Data"
-        visible: penerbitKode == -1
+        visible: !currentViewModel.hasSelectedItem
     }
 }

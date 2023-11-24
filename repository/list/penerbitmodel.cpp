@@ -40,60 +40,6 @@ QVariant PenerbitModel::data(const QModelIndex &item, int role) const
     return QSqlQueryModel::data(index(item.row(), columnIndex), Qt::DisplayRole);
 }
 
-void PenerbitModel::add(QString nama, QString alamat)
-{
-    QSqlQuery query;
-    query.prepare("INSERT INTO Penerbit("
-                  " nama_penerbit,"
-                  " alamat_penerbit"
-                  ") VALUES ("
-                  " :nama,"
-                  " :alamat"
-                  ")");
-
-    query.bindValue(":nama", nama);
-    query.bindValue(":alamat", alamat);
-
-    if (!query.exec())
-        qFatal() << "Cannot add Penerbit " << query.lastError().text();
-
-    refresh();
-}
-
-void PenerbitModel::edit(int kode, QString nama, QString alamat)
-{
-    QSqlQuery query;
-    query.prepare("UPDATE Penerbit SET"
-                  " nama_penerbit = :nama,"
-                  " alamat_penerbit = :alamat "
-                  "WHERE kd_penerbit = :kode");
-    query.bindValue(":nama",nama);
-    query.bindValue(":alamat",alamat);
-    query.bindValue(":kode",kode);
-
-    if(!query.exec())
-        qFatal()<< "Cannot edit Penerbit" << query.lastError().text();
-
-    refresh();
-}
-
-void PenerbitModel::remove(int kode)
-{
-    QSqlQuery query;
-    query.prepare("DELETE from Penerbit where kd_penerbit = :kode");
-    query.bindValue(":kode",kode);
-
-    if(!query.exec())
-        qFatal()<< "Cannot delete Penerbit" << query.lastError().text();
-
-    refresh();
-}
-
-int PenerbitModel::getIndexByKode(int kode)
-{
-    return SQLHelper::getIndexByIntData(this, KodeRole, kode);
-}
-
 void PenerbitModel::refresh()
 {
     QHash<QString,QVariant>binds;
@@ -116,16 +62,10 @@ void PenerbitModel::refresh()
     setQuery(std::move(query));
 }
 
-QString PenerbitModel::textQuery() const
-{
-    return mTextQuery;
-}
-
 void PenerbitModel::setTextQuery(const QString &newTextQuary)
 {
     if (mTextQuery == newTextQuary)
         return;
     mTextQuery = newTextQuary;
-    emit textQueryChanged();
     refresh();
 }

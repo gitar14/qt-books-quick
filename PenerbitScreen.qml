@@ -19,59 +19,42 @@ Page {
             }
 
             SearchField{
-                text: penerbitModel.textQuery
-               onTextChanged: penerbitModel.textQuery = text
+                text: viewModel.textQuery
+               onTextChanged: viewModel.textQuery = text
             }
         }
     }
-    PenerbitModel {
-        id: penerbitModel
+
+    PenerbitViewModel {
+        id: viewModel
     }
 
     RowLayout {
         anchors.fill: parent
 
         PenerbitList {
-            listModel: penerbitModel
+            currentViewModel: viewModel
             onAddClicked: {
-                editPenerbitDialog.penerbitKode = -1
-                editPenerbitDialog.penerbitNama = ""
-                editPenerbitDialog.penerbitAlamat = ""
+                editPenerbitDialog.viewModel.configure()
                 editPenerbitDialog.open()
-            }
-            onCurrentItemDataChanged: {
-                if (currentItemData == null) {
-                    penerbitDetailFrame.penerbitKode = -1
-                    penerbitDetailFrame.penerbitNama = ""
-                    penerbitDetailFrame.penerbitAlamat = ""
-                } else {
-                    penerbitDetailFrame.penerbitKode = currentItemData.kode
-                    penerbitDetailFrame.penerbitNama = currentItemData.name
-                    penerbitDetailFrame.penerbitAlamat = currentItemData.alamat
-                }
             }
         }
 
 
         PenerbitDetailFrame {
-            id: penerbitDetailFrame
+            currentViewModel: viewModel
             onEditClicked: {
-                editPenerbitDialog.penerbitKode = penerbitKode
-                editPenerbitDialog.penerbitNama = penerbitNama
-                editPenerbitDialog.penerbitAlamat = penerbitAlamat
+                editPenerbitDialog.viewModel.configure(
+                            viewModel.selectedKode,
+                            viewModel.selectedName,
+                            viewModel.selectedAlamat)
                 editPenerbitDialog.open()
             }
-            onDeleteClicked: penerbitModel.remove(penerbitKode)
+            onDeleteClicked: viewModel.removeSelected()
         }
 
         PenerbitEditDialog {
             id: editPenerbitDialog
-
-            onAccepted: {
-                if(penerbitKode == -1)
-                    penerbitModel.add(penerbitNama, penerbitAlamat)
-                else penerbitModel.edit(penerbitKode, penerbitNama, penerbitAlamat)
-            }
         }
     }
 }

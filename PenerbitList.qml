@@ -8,21 +8,14 @@ Item  {
     Layout.fillWidth: true
 
     signal addClicked()
-    property PenerbitModel listModel
+    property PenerbitViewModel currentViewModel
     property var currentItemData
 
     AppGridView {
         id: penerbitGridView
-        model : listModel
+        model: currentViewModel.listModel
 
-        onCurrentItemChanged: {
-            if(currentItem == null){
-                currentItemData = null;
-            }
-            else{
-                currentItemData = currentItem.itemData;
-            }
-        }
+        onCurrentIndexChanged: currentViewModel.setSelectedIndex(currentIndex)
         cellHeight: 125
 
         delegate: CardDelegate {
@@ -46,7 +39,7 @@ Item  {
                 }
 
                 Label {
-                    text: TextHighlighter.highlightText(model.name, listModel.textQuery)
+                    text: TextHighlighter.highlightText(model.name, currentViewModel.textQuery)
                     Layout.alignment: Qt.AlignHCenter
                     textFormat: Label.StyledText
                 }

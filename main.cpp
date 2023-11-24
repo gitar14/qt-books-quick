@@ -9,7 +9,8 @@
 #include "kategorifiltermodel.h"
 #include "booklistmodel.h"
 #include "booklistdetailmodel.h"
-#include "penerbitmodel.h"
+#include "penerbitviewmodel.h"
+#include "penerbiteditviewmodel.h"
 #include "penerbitfiltermodel.h"
 #include "pengadaanbukumodel.h"
 #include "editablepengadaanbukumodel.h"
@@ -36,7 +37,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<KategoriViewModel>(PACKAGE, 1, 0, "KategoriViewModel");
     qmlRegisterType<KategoriEditViewModel>(PACKAGE, 1, 0, "KategoriEditViewModel");
     qmlRegisterType<KategoriFilterModel>(PACKAGE, 1, 0, "KategoriFilterModel");
-    qmlRegisterType<PenerbitModel>(PACKAGE, 1, 0, "PenerbitModel");
+    qmlRegisterType<PenerbitViewModel>(PACKAGE, 1, 0, "PenerbitViewModel");
+    qmlRegisterType<PenerbitEditViewModel>(PACKAGE, 1, 0, "PenerbitEditViewModel");
     qmlRegisterType<PenerbitFilterModel>(PACKAGE, 1, 0, "PenerbitFilterModel");
     qmlRegisterType<PengadaanBukuModel>(PACKAGE, 1, 0, "PengadaanBukuModel");
     qmlRegisterType<EditablePengadaanBukuModel>(PACKAGE, 1, 0, "EditablePengadaanBukuModel");

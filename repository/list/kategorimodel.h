@@ -2,7 +2,6 @@
 #define KATEGORIMODEL_H
 
 #include <QtSql>
-#include <QQmlEngine>
 
 class KategoriModel : public QSqlQueryModel
 {
