@@ -24,6 +24,7 @@
 #include "peminjamanmodel.h"
 #include "peminjamanbukumodel.h"
 #include "peminjamandendamodel.h"
+#include "textfielddata.h"
 #include "texthighlighter.h"
 
 #define PACKAGE "Kelompok7.Perpus"
@@ -50,6 +51,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<PeminjamanBukuModel>(PACKAGE, 1, 0, "PeminjamanBukuModel");
     qmlRegisterType<PeminjamanDendaModel>(PACKAGE, 1, 0, "PeminjamanDendaModel");
     qmlRegisterType<SettingsModel>(PACKAGE, 1, 0, "SettingsModel");
+    qmlRegisterType<TextFieldData>(PACKAGE, 1, 0, "TextFieldData");
     qmlRegisterSingletonInstance(PACKAGE, 1, 0, "ConnectionManager", ConnectionManager::getInstance());
     qmlRegisterSingletonInstance(PACKAGE, 1, 0, "UserManager", UserManager::getInstance());
     qmlRegisterSingletonInstance(PACKAGE, 1, 0, "TextHighlighter", TextHighlighter::getInstance());

@@ -2,6 +2,7 @@
 #define TEXTFIELDDATA_H
 
 #include <QObject>
+#include <QQmlEngine>
 
 class TextFieldData : public QObject
 {
@@ -12,6 +13,7 @@ class TextFieldData : public QObject
     Q_PROPERTY(int maxLength READ maxLength WRITE setMaxLength NOTIFY maxLengthChanged)
     Q_PROPERTY(int availableLength READ availableLength NOTIFY availableLengthChanged)
     Q_PROPERTY(bool isValid READ isValid NOTIFY isValidChanged)
+    QML_ELEMENT
 public:
     explicit TextFieldData(QObject *parent = nullptr);
 

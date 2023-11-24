@@ -106,6 +106,7 @@ qt_add_qml_module(appqt-books-qml
     SOURCES penerbitviewmodel.h penerbitviewmodel.cpp
     SOURCES textfielddata.h textfielddata.cpp
     SOURCES penerbiteditviewmodel.h penerbiteditviewmodel.cpp
+    QML_FILES BaseTextField.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

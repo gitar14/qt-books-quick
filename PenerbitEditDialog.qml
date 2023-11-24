@@ -30,49 +30,12 @@ Dialog {
     ColumnLayout {
         anchors.fill: parent
 
-        Label {
-            text: "Nama"
+        BaseTextField {
+            field: viewModel.namaField
         }
 
-        TextField {
-            text: viewModel.namaField.value
-            maximumLength: viewModel.namaField.maxLength
-            Layout.fillWidth: true
-            onTextChanged: viewModel.namaField.value = text
+        BaseTextField {
+            field: viewModel.alamatField
         }
-
-        Label {
-            Layout.alignment: Qt.AlignRight
-            text: viewModel.namaField.availableLength + " tersisa"
-        }
-
-        Label {
-            text: viewModel.namaField.errorText
-            color: Material.color(Material.Red)
-            visible: !viewModel.namaField.isValid
-        }
-
-        Label {
-            text : "Alamat"
-        }
-
-        TextField {
-            text: viewModel.alamatField.value
-            maximumLength: viewModel.alamatField.maxLength
-            Layout.fillWidth: true
-            onTextChanged: viewModel.alamatField.value = text;
-        }
-
-        Label {
-            Layout.alignment: Qt.AlignRight
-            text: viewModel.alamatField.availableLength + " tersisa"
-        }
-
-        Label {
-            text: viewModel.alamatField.errorText
-            color: Material.color(Material.Red)
-            visible: !viewModel.alamatField.isValid
-        }
-
     }
 }
