@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import Kelompok7.Perpus
 
 Dialog {
     parent: Overlay.overlay
@@ -12,10 +13,9 @@ Dialog {
 
     modal: true
 
-    property int kategoriKode: -1
-    property string kategoriJenis: ""
+    property KategoriEditViewModel viewModel: KategoriEditViewModel {}
 
-    title: kategoriKode == -1 ? "Kategori Baru" : "Edit Kategori"
+    title: viewModel.kode == -1 ? "Kategori Baru" : "Edit Kategori"
 
     footer: DialogButtonBox {
         Button {
@@ -25,11 +25,13 @@ Dialog {
         }
         Button {
             text: "Simpan"
-            enabled: kategoriJenis.length > 0
+            enabled: viewModel.nama.length > 0
             DialogButtonBox.buttonRole: Dialog.AcceptRole
             flat: true
         }
     }
+
+    onAccepted: viewModel.submit()
 
     ColumnLayout {
         spacing: 8
@@ -40,22 +42,21 @@ Dialog {
         }
 
         TextField {
-            id: kategoriTextField
             Layout.fillWidth: true
-            text: kategoriJenis
-            onTextChanged: kategoriJenis = text
-            maximumLength: 25
+            text: viewModel.nama
+            onTextChanged: viewModel.nama = text
+            maximumLength: viewModel.namaMaxLength
         }
 
         Label {
             Layout.alignment: Qt.AlignRight
-            text: (kategoriTextField.maximumLength - kategoriJenis.length) + " tersisa"
+            text: viewModel.namaAvailableLength + " tersisa"
         }
 
         Label {
             color: Material.color(Material.Red)
-            text: "Nama tidak boleh kosong"
-            visible: kategoriJenis.length == 0
+            text: viewModel.namaError
+            visible: text.length > 0
         }
     }
 }

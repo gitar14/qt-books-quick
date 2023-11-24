@@ -4,7 +4,8 @@
 #include <QtSql>
 #include <QDir>
 
-#include "kategorimodel.h"
+#include "kategoriviewmodel.h"
+#include "kategorieditviewmodel.h"
 #include "kategorifiltermodel.h"
 #include "booklistmodel.h"
 #include "booklistdetailmodel.h"
@@ -32,7 +33,8 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<BookListModel>(PACKAGE, 1, 0, "BookListModel");
     qmlRegisterType<BookListDetailModel>(PACKAGE, 1, 0, "BookListDetailModel");
-    qmlRegisterType<KategoriModel>(PACKAGE, 1, 0, "KategoriModel");
+    qmlRegisterType<KategoriViewModel>(PACKAGE, 1, 0, "KategoriViewModel");
+    qmlRegisterType<KategoriEditViewModel>(PACKAGE, 1, 0, "KategoriEditViewModel");
     qmlRegisterType<KategoriFilterModel>(PACKAGE, 1, 0, "KategoriFilterModel");
     qmlRegisterType<PenerbitModel>(PACKAGE, 1, 0, "PenerbitModel");
     qmlRegisterType<PenerbitFilterModel>(PACKAGE, 1, 0, "PenerbitFilterModel");

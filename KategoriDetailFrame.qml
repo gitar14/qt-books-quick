@@ -1,11 +1,10 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import Kelompok7.Perpus
 
 BaseDetailFrame {
-    property int kategoriKode: -1
-    property string kategoriJenis: ""
-
+    property KategoriViewModel currentViewModel
     signal editClicked()
     signal deleteClicked()
 
@@ -13,7 +12,7 @@ BaseDetailFrame {
         anchors.fill: parent
         columns: 2
         columnSpacing: 16
-        visible: kategoriKode != -1
+        visible: currentViewModel.hasSelectedItem
 
         Text {
             Layout.columnSpan: 2
@@ -27,7 +26,7 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: kategoriKode
+            text: currentViewModel.selectedKode
         }
 
         Label {
@@ -36,7 +35,7 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: kategoriJenis
+            text: currentViewModel.selectedName
         }
 
         Rectangle {
@@ -61,8 +60,7 @@ BaseDetailFrame {
 
     Label {
         anchors.fill: parent
-        visible: kategoriKode == -1
-
+        visible: !currentViewModel.hasSelectedItem
         text: "Tidak ada kategori yang terpilih"
     }
 }

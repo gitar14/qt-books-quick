@@ -7,26 +7,17 @@ Item {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    property var currentItemData
-    property KategoriModel listModel
+    property int selectedIndex: -1
+    property KategoriViewModel currentViewModel
     signal addClicked()
 
     AppGridView {
         id: kategoriGrid
-
-        onCurrentItemChanged: {
-            if (currentItem == null) {
-                currentItemData = null
-            } else {
-                currentItemData = currentItem.itemData
-            }
-        }
-
-        model: listModel
+        onCurrentIndexChanged: selectedIndex = currentIndex
+        model: currentViewModel.listModel
         cellHeight: 100
 
         delegate: CardDelegate {
-            property var itemData: model
             width: GridView.view.cellWidth - 8
             height: GridView.view.cellHeight - 8
             highlighted: GridView.isCurrentItem
@@ -47,7 +38,7 @@ Item {
                 }
 
                 Label {
-                    text: TextHighlighter.highlightText(model.jenis, listModel.textQuery)
+                    text: TextHighlighter.highlightText(model.jenis, currentViewModel.textQuery)
                     textFormat: Label.StyledText
                     Layout.alignment: Qt.AlignHCenter
                 }

@@ -1,5 +1,5 @@
 #include "kategorifiltermodel.h"
-#include "kategorimodel.h"
+#include "repository/list/kategorimodel.h"
 
 KategoriFilterModel::KategoriFilterModel(QObject *parent)
     : BaseFilterModel{parent}

@@ -20,7 +20,7 @@ qt_add_qml_module(appqt-books-qml
     URI qt-books-qml
     VERSION 1.0
     QML_FILES Main.qml
-    SOURCES kategorimodel.h kategorimodel.cpp
+    SOURCES repository/list/kategorimodel.h repository/list/kategorimodel.cpp
     QML_FILES KategoriScreen.qml
     SOURCES booklistmodel.h booklistmodel.cpp
     QML_FILES BukuScreen.qml
@@ -97,6 +97,10 @@ qt_add_qml_module(appqt-books-qml
     QML_FILES CardBackground.qml
     SOURCES peminjamandendamodel.h peminjamandendamodel.cpp
     SOURCES peminjamandendamodel.h peminjamandendamodel.cpp
+    SOURCES kategoriviewmodel.h kategoriviewmodel.cpp
+    SOURCES kategorieditviewmodel.h kategorieditviewmodel.cpp
+    SOURCES repository/kategorirepository.h repository/kategorirepository.cpp
+    SOURCES repositorymanager.h repositorymanager.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

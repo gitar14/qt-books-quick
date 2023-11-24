@@ -20,61 +20,43 @@ Page {
             }
 
             SearchField {
-                text: kategoriModel.textQuery
-                onTextChanged: kategoriModel.textQuery = text
+                text: viewModel.textQuery
+                onTextChanged: viewModel.textQuery = text
             }
         }
     }
 
-
-    KategoriModel {
-        id: kategoriModel
+    KategoriViewModel {
+        id: viewModel
     }
 
     RowLayout {
         anchors.fill: parent
 
         KategoriList {
-            listModel: kategoriModel
+            currentViewModel: viewModel
             onAddClicked: {
-                kategoriEditDialog.kategoriKode = -1
-                kategoriEditDialog.kategoriJenis = ""
+                kategoriEditDialog.viewModel.kode = -1
+                kategoriEditDialog.viewModel.nama = ""
                 kategoriEditDialog.open()
             }
-
-            onCurrentItemDataChanged: {
-                if (currentItemData == null) {
-                    kategoriDetailFrame.kategoriKode = -1
-                    kategoriDetailFrame.kategoriJenis = ""
-                } else {
-                    kategoriDetailFrame.kategoriKode = currentItemData.kode
-                    kategoriDetailFrame.kategoriJenis = currentItemData.jenis
-                }
-            }
+            onSelectedIndexChanged: viewModel.setSelectedIndex(selectedIndex)
         }
 
         KategoriDetailFrame {
             id: kategoriDetailFrame
             onEditClicked: {
-                kategoriEditDialog.kategoriKode = kategoriKode
-                kategoriEditDialog.kategoriJenis = kategoriJenis
+                kategoriEditDialog.viewModel.kode = viewModel.selectedKode
+                kategoriEditDialog.viewModel.nama = viewModel.selectedName
                 kategoriEditDialog.open()
             }
-            onDeleteClicked: kategoriModel.remove(kategoriKode)
+            onDeleteClicked: viewModel.removeSelected()
+            currentViewModel: viewModel
         }
 
 
         KategoriEditDialog{
             id: kategoriEditDialog
-
-            onAccepted: {
-                if (kategoriKode == -1)
-                    kategoriModel.addNew(kategoriJenis)
-                else kategoriModel.edit(
-                         kategoriKode,
-                         kategoriJenis
-                    )
-            }
         }
     }
 }

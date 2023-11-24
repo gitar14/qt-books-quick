@@ -1,4 +1,4 @@
-#include "kategorimodel.h"
+#include "repository/list/kategorimodel.h"
 #include "sqlhelper.h"
 
 KategoriModel::KategoriModel(QObject *parent)
@@ -62,69 +62,10 @@ void KategoriModel::refresh()
     }
 }
 
-void KategoriModel::addNew(QString jenis)
-{
-    QSqlQuery query;
-    query.prepare("INSERT INTO Kategori("
-               "   nama_kategori"
-               ") VALUES ("
-               "   :kategori"
-               ")");
-
-    query.bindValue(":kategori", jenis);
-
-    if (!query.exec())
-        qFatal() << "Cannot add Kategori " << query.lastError().text();
-
-    refresh();
-}
-
-void KategoriModel::edit(int kode, QString jenis)
-{
-    QSqlQuery query;
-
-    query.prepare("UPDATE Kategori SET "
-                  " nama_kategori = :kategori "
-                  "WHERE kd_kategori = :kode");
-
-    query.bindValue(":kode", kode);
-    query.bindValue(":kategori", jenis);
-
-    if (!query.exec())
-        qFatal() << "Cannot edit Kategori " << query.lastError().text();
-
-    refresh();
-}
-
-void KategoriModel::remove(int kode)
-{
-    QSqlQuery query;
-
-    query.prepare("DELETE FROM Kategori WHERE kd_kategori = :kode");
-
-    query.bindValue(":kode", kode);
-
-    if (!query.exec())
-        qFatal() << "Cannot remove Kategori " << query.lastError().text();
-
-    refresh();
-}
-
-int KategoriModel::getIndexByKode(int kode)
-{
-    return SQLHelper::getIndexByIntData(this, KodeRole, kode);
-}
-
-QString KategoriModel::textQuery() const
-{
-    return mTextQuery;
-}
-
 void KategoriModel::setTextQuery(const QString &newTextQuery)
 {
     if (mTextQuery == newTextQuery)
         return;
     mTextQuery = newTextQuery;
     refresh();
-    emit textQueryChanged();
 }
