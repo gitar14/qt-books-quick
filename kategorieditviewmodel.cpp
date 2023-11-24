@@ -3,9 +3,17 @@
 #include "repositorymanager.h"
 
 KategoriEditViewModel::KategoriEditViewModel(QObject *parent)
-    : QObject{parent}
+    : QObject{parent}, mNamaField{new TextFieldData(this)}
 {
+    mNamaField->setName("Nama");
+    mNamaField->setMaxLength(25);
+    connect(mNamaField, SIGNAL(isValidChanged()), this, SIGNAL(isValidChanged()));
+}
 
+void KategoriEditViewModel::configure(int kode, QString nama)
+{
+    setKode(kode);
+    mNamaField->setValue(nama);
 }
 
 int KategoriEditViewModel::kode() const
@@ -21,41 +29,27 @@ void KategoriEditViewModel::setKode(int newKode)
     emit kodeChanged();
 }
 
-QString KategoriEditViewModel::nama() const
-{
-    return mNama;
-}
-
-void KategoriEditViewModel::setNama(const QString &newNama)
-{
-    if (mNama == newNama)
-        return;
-    mNama = newNama;
-    emit namaChanged();
-}
-
-int KategoriEditViewModel::namaMaxlength() const
-{
-    return 25;
-}
-
-int KategoriEditViewModel::namaAvailableLength() const
-{
-    return namaMaxlength() - mNama.length();
-}
-
-QString KategoriEditViewModel::namaError() const
-{
-    if (mNama.length() == 0) return "Nama tidak boleh kosong";
-    return "";
-}
-
 void KategoriEditViewModel::submit()
 {
     KategoriRepository* repository = RepositoryManager::getInstance()->getKategori();
     if (mKode == -1) {
-        repository->addNew(mNama);
+        repository->addNew(mNamaField->value());
     }  else {
-        repository->edit(mKode, mNama);
+        repository->edit(mKode, mNamaField->value());
     }
+}
+
+TextFieldData *KategoriEditViewModel::namaField() const
+{
+    return mNamaField;
+}
+
+bool KategoriEditViewModel::isValid() const
+{
+    return mNamaField->isValid();
+}
+
+bool KategoriEditViewModel::isNew() const
+{
+    return mKode == -1;
 }

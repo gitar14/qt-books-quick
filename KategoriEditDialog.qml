@@ -15,7 +15,7 @@ Dialog {
 
     property KategoriEditViewModel viewModel: KategoriEditViewModel {}
 
-    title: viewModel.kode == -1 ? "Kategori Baru" : "Edit Kategori"
+    title: viewModel.isNew ? "Kategori Baru" : "Edit Kategori"
 
     footer: DialogButtonBox {
         Button {
@@ -25,7 +25,7 @@ Dialog {
         }
         Button {
             text: "Simpan"
-            enabled: viewModel.nama.length > 0
+            enabled: viewModel.isValid
             DialogButtonBox.buttonRole: Dialog.AcceptRole
             flat: true
         }
@@ -37,26 +37,8 @@ Dialog {
         spacing: 8
         width: parent.width
 
-        Label {
-            text: "Nama"
-        }
-
-        TextField {
-            Layout.fillWidth: true
-            text: viewModel.nama
-            onTextChanged: viewModel.nama = text
-            maximumLength: viewModel.namaMaxLength
-        }
-
-        Label {
-            Layout.alignment: Qt.AlignRight
-            text: viewModel.namaAvailableLength + " tersisa"
-        }
-
-        Label {
-            color: Material.color(Material.Red)
-            text: viewModel.namaError
-            visible: text.length > 0
+        BaseTextField {
+            field: viewModel.namaField
         }
     }
 }

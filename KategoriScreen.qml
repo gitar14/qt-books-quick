@@ -36,8 +36,7 @@ Page {
         KategoriList {
             currentViewModel: viewModel
             onAddClicked: {
-                kategoriEditDialog.viewModel.kode = -1
-                kategoriEditDialog.viewModel.nama = ""
+                kategoriEditDialog.viewModel.configure()
                 kategoriEditDialog.open()
             }
             onSelectedIndexChanged: viewModel.setSelectedIndex(selectedIndex)
@@ -46,8 +45,9 @@ Page {
         KategoriDetailFrame {
             id: kategoriDetailFrame
             onEditClicked: {
-                kategoriEditDialog.viewModel.kode = viewModel.selectedKode
-                kategoriEditDialog.viewModel.nama = viewModel.selectedName
+                kategoriEditDialog.viewModel.configure(
+                            viewModel.selectedKode,
+                            viewModel.selectedName)
                 kategoriEditDialog.open()
             }
             onDeleteClicked: viewModel.removeSelected()

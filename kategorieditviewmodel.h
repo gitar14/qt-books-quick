@@ -3,40 +3,38 @@
 
 #include <QObject>
 #include <QQmlEngine>
+#include "textfielddata.h"
 
 class KategoriEditViewModel : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int kode READ kode WRITE setKode NOTIFY kodeChanged)
-    Q_PROPERTY(QString nama READ nama WRITE setNama NOTIFY namaChanged)
-    Q_PROPERTY(int namaMaxLength READ namaMaxlength CONSTANT)
-    Q_PROPERTY(int namaAvailableLength READ namaAvailableLength NOTIFY namaChanged)
-    Q_PROPERTY(QString namaError READ namaError NOTIFY namaChanged)
+    Q_PROPERTY(bool isNew READ isNew NOTIFY kodeChanged)
+    Q_PROPERTY(TextFieldData* namaField READ namaField CONSTANT)
+    Q_PROPERTY(bool isValid READ isValid NOTIFY isValidChanged)
     QML_ELEMENT
 public:
     explicit KategoriEditViewModel(QObject *parent = nullptr);
 
+    Q_INVOKABLE void configure(int kode = -1, QString nama = "");
 
     int kode() const;
     void setKode(int newKode);
 
-    QString nama() const;
-    void setNama(const QString &newNama);
-
-    int namaMaxlength() const;
-    int namaAvailableLength() const;
-    QString namaError() const;
-
     Q_INVOKABLE void submit();
 
-signals:
+    TextFieldData *namaField() const;
 
+    bool isValid() const;
+    bool isNew() const;
+
+signals:
     void kodeChanged();
-    void namaChanged();
+    void isValidChanged();
 
 private:
     int mKode;
-    QString mNama;
+    TextFieldData* mNamaField;
 };
 
 #endif // KATEGORIEDITVIEWMODEL_H
