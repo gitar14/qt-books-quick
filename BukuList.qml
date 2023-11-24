@@ -7,10 +7,7 @@ Item {
     Layout.fillHeight: true
     Layout.fillWidth: true
 
-    property BookListModel listModel
-    property KategoriFilterModel kategoriFilterModel
-    property PenerbitFilterModel penerbitFilterModel
-    property var currentItemData
+    property BukuViewModel currentViewModel
 
     signal addClicked()
 
@@ -32,23 +29,23 @@ Item {
             }
 
             ComboBox {
-                model: kategoriFilterModel
+                model: currentViewModel.kategoriFilterModel
                 valueRole: "kode"
                 textRole: "jenis"
                 editable: true
                 currentIndex: 0
-                onCurrentValueChanged: listModel.kategoriFilter = currentValue
+                onCurrentValueChanged: currentViewModel.kategoriFilter = currentValue
                 Layout.fillWidth: true
                 Layout.maximumWidth: 200
             }
 
             ComboBox {
-                model: penerbitFilterModel
+                model: currentViewModel.penerbitFilterModel
                 valueRole: "kode"
                 textRole: "name"
                 editable: true
                 currentIndex: 0
-                onCurrentValueChanged: listModel.penerbitFilter = currentValue
+                onCurrentValueChanged: currentViewModel.penerbitFilter = currentValue
                 Layout.fillWidth: true
                 Layout.maximumWidth: 200
             }
@@ -58,16 +55,9 @@ Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
             id: listView
-            onCurrentItemChanged: {
-                if (currentItem == null){
-                    currentItemData = null
-                }
-                else {
-                    currentItemData = currentItem.itemData
-                }
-            }
-            model: listModel
-            highlightedText: listModel.textQuery
+            onCurrentIndexChanged: currentViewModel.setSelectedIndex(currentIndex)
+            model: currentViewModel.listModel
+            highlightedText: currentViewModel.textQuery
         }
     }
 

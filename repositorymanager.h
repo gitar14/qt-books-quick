@@ -3,6 +3,9 @@
 
 class KategoriRepository;
 class PenerbitRepository;
+class BukuRepository;
+class PengadaanRepository;
+class PeminjamanRepository;
 
 class RepositoryManager
 {
@@ -11,11 +14,17 @@ private:
 
     KategoriRepository* mKategori = nullptr;
     PenerbitRepository* mPenerbit = nullptr;
+    BukuRepository* mBuku = nullptr;
+    PengadaanRepository* mPengadaan = nullptr;
+    PeminjamanRepository* mPeminjaman = nullptr;
 public:
     static RepositoryManager *getInstance();
 
     KategoriRepository* getKategori();
     PenerbitRepository* getPenerbit();
+    BukuRepository* getBuku();
+    PengadaanRepository* getPengadaan();
+    PeminjamanRepository* getPeminjaman();
 };
 
 #endif // REPOSITORYMANAGER_H

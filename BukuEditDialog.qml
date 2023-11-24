@@ -2,17 +2,11 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
+import Kelompok7.Perpus
 
 Dialog {
-    property int bukuKode: -1
-    property string bukuJudul: ""
-    property string bukuPenulis: ""
-    property int bukuJumlahHilang: 0
-    property int bukuTahunTerbit: 0
-    property string bukuKodeKategori: ""
-    property string bukuKodePenerbit: ""
-    property var kategoriModel
-    property var penerbitModel
+    property BukuEditViewModel viewModel: BukuEditViewModel {
+    }
 
     footer : DialogButtonBox {
         Button {
@@ -22,12 +16,13 @@ Dialog {
         }
         Button {
             text: "Simpan"
-            enabled: bukuJudul.length > 0 && bukuPenulis.length > 0 && bukuKodeKategori > 0 && bukuKodePenerbit > 0
-
+            enabled: viewModel.isValid
             DialogButtonBox.buttonRole: Dialog.AcceptRole
             flat: true
         }
     }
+
+    onAccepted: viewModel.submit()
 
 
     parent: Overlay.overlay
@@ -38,7 +33,7 @@ Dialog {
     contentHeight: editDialogColumn.height
 
     modal: true
-    title: bukuKode == -1 ? "Tambah Buku" : "Edit Buku"
+    title: viewModel.isNew ? "Tambah Buku" : "Edit Buku"
 
     Flickable {
         id: editDialogFlickable
@@ -51,102 +46,36 @@ Dialog {
             spacing: 8
             width: parent.width
 
-            Label {
-                text: "Judul"
+            BaseTextField {
+                field: viewModel.judulField
             }
 
-            TextField {
-                id: bukuJudulTextField
-                Layout.fillWidth: true
-                maximumLength: 25
-                text: bukuJudul
-                onTextChanged: bukuJudul = text
+            BaseTextField {
+                field: viewModel.penulisField
             }
 
-            Label {
-                Layout.alignment: Qt.AlignRight
-                text: (bukuJudulTextField.maximumLength - bukuJudul.length) + " tersisa"
+            BaseComboField {
+                field: viewModel.kategoriField
+                selectionModel: viewModel.kategoriListModel
+                displayRole: "jenis"
             }
 
-            Label {
-                text: "Judul Tidak Boleh Kosong"
-                color: Material.color(Material.Red)
-                visible: bukuJudul.length == 0
+            BaseComboField {
+                field: viewModel.penerbitField
+                selectionModel: viewModel.penerbitListModel
+                displayRole: "name"
             }
 
             Label {
-                text: "Penulis"
-            }
-
-            TextField {
-                id: bukuPenulisTextField
-                Layout.fillWidth: true
-                maximumLength: 25
-                text: bukuPenulis
-                onTextChanged: bukuPenulis = text
-            }
-
-            Label {
-                Layout.alignment: Qt.AlignRight
-                text: (bukuPenulisTextField.maximumLength - bukuPenulis.length) + " tersisa"
-            }
-
-            Label {
-                text: "Penulis Tidak Boleh Kosong"
-                color: Material.color(Material.Red)
-                visible: bukuPenulis.length == 0
-            }
-
-            Label {
-                text: "Kategori"
-            }
-
-            ComboBox {
-                Layout.fillWidth: true
-                model: kategoriModel
-                valueRole: "kode"
-                textRole: "jenis"
-                editable: true
-                currentIndex: kategoriModel.getIndexByKode(bukuKodeKategori)
-                onCurrentValueChanged: bukuKodeKategori = currentValue
-            }
-
-            Label {
-                text: "Kategori Tidak Boleh Kosong"
-                color: Material.color(Material.Red)
-                visible: bukuKodeKategori.length == 0
-            }
-
-            Label{
-                text: "Penerbit"
-            }
-
-            ComboBox{
-                Layout.fillWidth: true
-                model: penerbitModel
-                valueRole: "kode"
-                textRole: "name"
-                editable: true
-                currentIndex: penerbitModel.getIndexByKode(bukuKodePenerbit)
-                onCurrentValueChanged: bukuKodePenerbit = currentValue
-            }
-
-            Label {
-                text: "Penerbit Tidak Boleh Kosong"
-                color: Material.color(Material.Red)
-                visible: bukuKodePenerbit.length == 0
-            }
-
-            Label {
-                visible: bukuKode != -1
+                visible: !viewModel.isNew
                 text: "Jumlah Hilang"
             }
 
             SpinBox {
-                visible: bukuKode != -1
+                visible: !viewModel.isNew
                 Layout.fillWidth: true
-                value: bukuJumlahHilang
-                onValueChanged: bukuJumlahHilang = value
+                value: viewModel.jumlahHilang
+                onValueChanged: viewModel.jumlahHilang = value
                 editable: true
                 from: 0
                 to: 10000
@@ -158,8 +87,8 @@ Dialog {
 
             SpinBox {
                 Layout.fillWidth: true
-                value: bukuTahunTerbit
-                onValueChanged: bukuTahunTerbit = value
+                value: viewModel.tahunTerbit
+                onValueChanged: viewModel.tahunTerbit = value
                 editable: true
                 from: 0
                 to: 10000

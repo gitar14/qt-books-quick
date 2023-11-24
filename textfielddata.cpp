@@ -1,7 +1,7 @@
 #include "textfielddata.h"
 
 TextFieldData::TextFieldData(QObject *parent)
-    : QObject{parent}
+    : BaseFieldData{parent}
 {
 
 }
@@ -25,7 +25,7 @@ void TextFieldData::setValue(const QString &newValue)
 
 QString TextFieldData::errorText() const
 {
-    if (mValue.length() == 0) return QStringLiteral("%1 tidak boleh kosong").arg(mName);
+    if (mValue.length() == 0) return QStringLiteral("%1 tidak boleh kosong").arg(name());
     return "";
 }
 
@@ -47,24 +47,4 @@ void TextFieldData::setMaxLength(int newMaxLength)
 int TextFieldData::availableLength() const
 {
     return mMaxLength - mValue.length();
-}
-
-QString TextFieldData::name() const
-{
-    return mName;
-}
-
-void TextFieldData::setName(const QString &newName)
-{
-    if (mName == newName)
-        return;
-    mName = newName;
-
-    emit nameChanged();
-    emit errorTextChanged();
-}
-
-bool TextFieldData::isValid() const
-{
-    return errorText().length() == 0;
 }

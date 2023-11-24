@@ -1,17 +1,10 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import Kelompok7.Perpus
 
 BaseDetailFrame {
-    property int bukuKode: -1
-    property string bukuJudul: ""
-    property string bukuPenulis: ""
-    property string bukuKategori: ""
-    property string bukuPenerbit: ""
-    property int bukuJumlahPengadaan: 0
-    property int bukuJumlahHilang: 0
-    property int bukuJumlahDipinjam: 0
-    property int bukuTahunTerbit: 0
+    property BukuViewModel currentViewModel
 
     signal editClicked()
     signal deleteClicked()
@@ -21,7 +14,7 @@ BaseDetailFrame {
         anchors.fill: parent
         columns: 2
         columnSpacing: 16
-        visible: bukuKode != -1
+        visible: currentViewModel.hasSelectedItem
 
         Label {
             Layout.columnSpan: 2
@@ -35,7 +28,7 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: bukuKode
+            text: currentViewModel.selectedData.kode
         }
 
         Label {
@@ -44,7 +37,7 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: bukuJudul
+            text: currentViewModel.selectedData.judul
         }
 
         Label {
@@ -53,7 +46,7 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: bukuPenulis
+            text: currentViewModel.selectedData.penulis
         }
 
         Label {
@@ -62,7 +55,7 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: bukuKategori
+            text: currentViewModel.selectedData.namaKategori
         }
 
         Label {
@@ -70,7 +63,7 @@ BaseDetailFrame {
         }
 
         Label{
-            text: bukuPenerbit
+            text: currentViewModel.selectedData.namaPenerbit
             Layout.fillWidth: true
         }
 
@@ -80,7 +73,7 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: bukuJumlahPengadaan
+            text: currentViewModel.selectedJumlahPengadaan
         }
 
         Label {
@@ -89,7 +82,7 @@ BaseDetailFrame {
 
         Label {
            Layout.fillWidth: true
-           text: bukuJumlahHilang
+           text: currentViewModel.selectedData.jumlahHilang
         }
 
         Label {
@@ -98,7 +91,7 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: bukuJumlahPengadaan - bukuJumlahHilang
+            text: currentViewModel.selectedJumlahPengadaan - currentViewModel.selectedData.jumlahHilang
         }
 
         Label {
@@ -107,7 +100,7 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: bukuJumlahDipinjam
+            text: currentViewModel.selectedJumlahDipinjam
         }
 
         Label {
@@ -116,7 +109,7 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: bukuJumlahPengadaan - bukuJumlahHilang - bukuJumlahDipinjam
+            text: currentViewModel.selectedJumlahPengadaan - currentViewModel.selectedData.jumlahHilang - currentViewModel.selectedJumlahDipinjam
         }
 
         Label {
@@ -125,7 +118,7 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: bukuTahunTerbit
+            text: currentViewModel.selectedData.tahunTerbit
         }
 
 
@@ -152,6 +145,6 @@ BaseDetailFrame {
 
     Label {
         text: "Tidak Ada Data Buku"
-        visible: bukuKode == -1
+        visible: !currentViewModel.hasSelectedItem
     }
 }

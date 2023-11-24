@@ -41,28 +41,6 @@ void BookListDetailModel::setKode(const int &id)
         mKodePenerbit = -1;
     }
 
-    query.prepare("SELECT "
-                  "SUM(jumlah_pengadaan_buku) "
-                  "FROM Pengadaan "
-                  "WHERE kd_buku = :kode");
-    query.bindValue(":kode", mKode);
-
-    if (!query.exec())
-        qFatal() << "Cannot get jumlah pengadaan" << query.lastError().text();
-
-    mJumlahPengadaan = query.next() ? query.value(0).toInt() : 0;
-
-    query.prepare("SELECT "
-                  "COUNT(Peminjaman.kd_peminjaman) "
-                  "FROM Peminjaman "
-                  "INNER JOIN Detail_Peminjaman "
-                  " ON Detail_Peminjaman.kd_detail_peminjaman = Peminjaman.kd_detail_peminjaman "
-                  "WHERE Peminjaman.kd_buku = :kode AND Detail_Peminjaman.tanggal_pengembalian IS NULL");
-    query.bindValue(":kode", mKode);
-
-    if (!query.exec())
-        qFatal() << "Cannot get jumlah dipinjam" << query.lastError().text() << query.lastError().nativeErrorCode();
-
     mJumlahDipinjam = query.next() ? query.value(0).toInt() : 0;
 
     emit kodeChanged();
