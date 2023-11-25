@@ -10,24 +10,24 @@ Dialog {
     modal: true
     standardButtons: Dialog.Ok | Dialog.Cancel
 
-    property BookListModel listModel
-    property int selectedIndex: bukuListView.currentIndex
+    property BukuPilihViewModel viewModel: BukuPilihViewModel {}
 
     ColumnLayout {
         anchors.fill: parent
 
         TextField {
             Layout.fillWidth: true
-            text: listModel.textQuery
-            onTextChanged: listModel.textQuery = text
+//            text: listModel.textQuery
+//            onTextChanged: listModel.textQuery = text
         }
 
         BukuListView {
             id: bukuListView
             Layout.fillHeight: true
             Layout.fillWidth: true
-            model: listModel
-            highlightedText: listModel.textQuery
+            model: viewModel.list
+            onCurrentIndexChanged: viewModel.setSelectedIndex(currentIndex)
+//            highlightedText: listModel.textQuery
         }
     }
 }

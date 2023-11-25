@@ -54,6 +54,7 @@ class BukuRepository : public QObject
 public:
     explicit BukuRepository(QObject *parent = nullptr);
 
+    QList<BukuData*> getList(QList<int> ignoredKode, QString textQuery, int kategoriFilter, int penerbitFiter);
     BukuListModel* createListModel();
     BukuData *getBukuData(int kode);
     void addNew(
@@ -73,6 +74,7 @@ public:
         int kodePenerbit
         );
     void remove(int kode);
+    bool isBookAvailable(QList<int> ignoredKode);
 signals:
     void dataChanged();
 };

@@ -19,84 +19,41 @@ Page {
             }
 
             SearchField {
-                text: pengadaanModel.textQuery
-                onTextChanged: pengadaanModel.textQuery = text
+                text: viewModel.textQuery
+                onTextChanged: viewModel.textQuery = text
             }
         }
     }
-    PengadaanBukuModel {
-        id: pengadaanBukuModel
-        kodePengadaan: pengadaanDetailFrame.pengadaanKode
-    }
 
-    EditablePengadaanBukuModel {
-        id: editablePengadaanBukuModel
-
-        onItemsChanged: pengadaanBukuListModel.setIgnoredKodeList(kodeBukuList)
-    }
-
-    PengadaanModel {
-        id: pengadaanModel
-    }
-
-    BookListModel {
-        id: pengadaanBukuListModel
+    PengadaanViewModel {
+        id: viewModel
     }
 
     RowLayout{
         anchors.fill: parent
 
-    PengadaanList {
-        listModel: pengadaanModel
-        onAddClicked: {
-            editPengadaanDialog.pengadaanKode = -1
-            editPengadaanDialog.pengadaanSumber = ""
-            editPengadaanDialog.pengadaanTanggal = new Date ()
-            editablePengadaanBukuModel.clear();
-            editPengadaanDialog.open()
-        }
-        onCurrentItemDataChanged: {
-            if (currentItemData != null) {
-                pengadaanDetailFrame.pengadaanKode = currentItemData.kode
-                pengadaanDetailFrame.pengadaanSumber = currentItemData.sumber
-                PengadaanDetailFrame.pengadaanTanggal = currentItemData.tanggal
-            } else {
-                pengadaanDetailFrame.pengadaanKode = -1
-                pengadaanDetailFrame.pengadaanSumber = ""
-                PengadaanDetailFrame.pengadaanTanggal = new Date ()
+        PengadaanList {
+            currentViewModel: viewModel
+            onAddClicked: {
+                editPengadaanDialog.viewModel.configure()
+                editPengadaanDialog.open()
             }
         }
-    }
 
     PengadaanDetailFrame {
         id: pengadaanDetailFrame
-        pengadaanBukuModel: pengadaanBukuModel
+        currentViewModel: viewModel
         onEditClicked: {
-            editPengadaanDialog.pengadaanKode = pengadaanKode
-            editPengadaanDialog.pengadaanSumber = pengadaanSumber
-            editPengadaanDialog.pengadaanTanggal = pengadaanTanggal
-            editablePengadaanBukuModel.populateFrom(pengadaanBukuModel);
+            editPengadaanDialog.viewModel.configure(viewModel.selectedData.kode)
             editPengadaanDialog.open();
         }
         onDeleteClicked: {
-            pengadaanBukuModel.removeAll();
-            pengadaanModel.remove(pengadaanDetailFrame.pengadaanKode);
+            viewModel.removeSelectedItem()
         }
     }
 
     PengadaanEditDialog {
         id: editPengadaanDialog
-        pengadaanBukuModel: editablePengadaanBukuModel
-        bukuModel: pengadaanBukuListModel
-        onAccepted: {
-            if (pengadaanKode == -1) {
-                pengadaanKode = pengadaanModel.add(pengadaanSumber, pengadaanTanggal);
-                pengadaanBukuModel.addAll(pengadaanKode, editablePengadaanBukuModel);
-            } else {
-                pengadaanModel.update(pengadaanKode, pengadaanSumber, pengadaanTanggal);
-                pengadaanBukuModel.updateAll(editablePengadaanBukuModel);
-            }
-        }
     }
     }
 }

@@ -6,13 +6,13 @@
 
 #include "kategoriviewmodel.h"
 #include "kategorieditviewmodel.h"
+#include "bukupilihviewmodel.h"
 #include "bukuviewmodel.h"
 #include "bukueditviewmodel.h"
 #include "penerbitviewmodel.h"
 #include "penerbiteditviewmodel.h"
-#include "pengadaanbukumodel.h"
-#include "editablepengadaanbukumodel.h"
-#include "pengadaanmodel.h"
+#include "pengadaanviewmodel.h"
+#include "pengadaaneditviewmodel.h"
 #include "membermodel.h"
 #include "editablepeminjamanbukumodel.h"
 #include "connectionmanager.h"
@@ -32,15 +32,15 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
+    qmlRegisterType<BukuPilihViewModel>(PACKAGE, 1, 0, "BukuPilihViewModel");
     qmlRegisterType<BukuViewModel>(PACKAGE, 1, 0, "BukuViewModel");
     qmlRegisterType<BukuEditViewModel>(PACKAGE, 1, 0, "BukuEditViewModel");
     qmlRegisterType<KategoriViewModel>(PACKAGE, 1, 0, "KategoriViewModel");
     qmlRegisterType<KategoriEditViewModel>(PACKAGE, 1, 0, "KategoriEditViewModel");
     qmlRegisterType<PenerbitViewModel>(PACKAGE, 1, 0, "PenerbitViewModel");
     qmlRegisterType<PenerbitEditViewModel>(PACKAGE, 1, 0, "PenerbitEditViewModel");
-    qmlRegisterType<PengadaanBukuModel>(PACKAGE, 1, 0, "PengadaanBukuModel");
-    qmlRegisterType<EditablePengadaanBukuModel>(PACKAGE, 1, 0, "EditablePengadaanBukuModel");
-    qmlRegisterType<PengadaanModel>(PACKAGE, 1, 0, "PengadaanModel");
+    qmlRegisterType<PengadaanViewModel>(PACKAGE, 1, 0, "PengadaanViewModel");
+    qmlRegisterType<PengadaanEditViewModel>(PACKAGE, 1, 0, "PengadaanEditViewModel");
     qmlRegisterType<MemberModel>(PACKAGE, 1, 0, "MemberModel");
     qmlRegisterType<EditablePeminjamanBukuModel>(PACKAGE, 1, 0, "EditablePeminjamanBukuModel");
     qmlRegisterType<UserModel>(PACKAGE,1,0,"UserModel");

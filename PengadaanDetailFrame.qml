@@ -4,10 +4,7 @@ import QtQuick.Controls
 import Kelompok7.Perpus
 
 BaseDetailFrame {
-    property int pengadaanKode: -1
-    property string pengadaanSumber: ""
-    property date pengadaanTanggal: new Date()
-    required property PengadaanBukuModel pengadaanBukuModel
+    property PengadaanViewModel currentViewModel
 
     signal editClicked()
     signal deleteClicked()
@@ -15,7 +12,7 @@ BaseDetailFrame {
     GridLayout {
         anchors.fill: parent
         columnSpacing: 16
-        visible: pengadaanKode != -1
+        visible: currentViewModel.hasSelectedItem
         columns: 2
 
         Text {
@@ -29,7 +26,7 @@ BaseDetailFrame {
         }
 
         Label {
-            text: pengadaanKode
+            text: currentViewModel.selectedData.kode
             Layout.fillWidth: true
         }
 
@@ -38,7 +35,7 @@ BaseDetailFrame {
         }
 
         Label {
-            text: pengadaanSumber
+            text: currentViewModel.selectedData.sumber
             Layout.fillWidth: true
         }
 
@@ -47,12 +44,12 @@ BaseDetailFrame {
         }
 
         Label{
-            text: Qt.formatDate(pengadaanTanggal, locale, locale.LongFormat)
+            text: Qt.formatDate(currentViewModel.selectedData.tanggalPengadaan, locale, locale.LongFormat)
             Layout.fillWidth: true
         }
 
         Label {
-            text: pengadaanBukuModel.count > 0 ?  "Buku" : "Buku kosong"
+            text: currentViewModel.selectedBukuList.count > 0 ?  "Buku" : "Buku kosong"
             Layout.columnSpan: 2
             Layout.alignment: Qt.AlignHCenter
 
@@ -62,7 +59,7 @@ BaseDetailFrame {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.columnSpan: 2
-            model: pengadaanBukuModel
+            model: currentViewModel.selectedBukuList
             spacing: 8
 
             delegate: Pane {
@@ -77,10 +74,10 @@ BaseDetailFrame {
 
                 contentItem: ColumnLayout {
                     Label {
-                        text: model.judulBuku
+                        text: modelData.judul
                     }
                     Label {
-                        text: model.jumlah
+                        text: modelData.jumlah
                     }
                 }
             }
@@ -104,7 +101,7 @@ BaseDetailFrame {
     }
 
     Label {
-        visible: pengadaanKode == -1
+        visible: !currentViewModel.hasSelectedItem
         text: "Tidak ada item yang terpilih"
     }
 }

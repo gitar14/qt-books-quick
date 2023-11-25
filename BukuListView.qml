@@ -10,13 +10,11 @@ ListView {
 
     delegate: CardDelegate {
         property var listView: ListView.view
-        property var itemData: model
         width: ListView.view.width
         height: bukuColumn.height
         padding: 16
         highlighted: ListView.isCurrentItem
         onClicked: bukuListView.currentIndex = index
-
 
         Column {
             id: bukuColumn
@@ -24,16 +22,16 @@ ListView {
             padding: 16
 
             Text {
-                text: TextHighlighter.highlightText(model.judul, highlightedText)
+                text: TextHighlighter.highlightText(modelData.judul, highlightedText)
                 textFormat: Text.StyledText
             }
 
             Text {
-                text: model.penulis
+                text: modelData.penulis
             }
 
             Text {
-                text: model.kategori
+                text: modelData.namaKategori
             }
         }
     }

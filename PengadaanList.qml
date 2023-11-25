@@ -4,11 +4,9 @@ import QtQuick.Layouts
 import Kelompok7.Perpus
 
 Item {
+    property PengadaanViewModel currentViewModel
     Layout.fillWidth: true
     Layout.fillHeight: true
-
-    property var currentItemData
-    required property PengadaanModel listModel
 
     signal addClicked()
 
@@ -16,20 +14,12 @@ Item {
         id: pengadaanListView
         anchors.fill: parent
         anchors.margins: 16
-        model: listModel
+        model: currentViewModel.list
+        onCurrentIndexChanged: currentViewModel.setSelectedIndex(currentIndex)
         spacing: 8
-
-        onCurrentItemChanged: {
-            if (currentItem != null) {
-                currentItemData = currentItem.itemData
-            } else {
-                currentItemData = null
-            }
-        }
 
         delegate: CardDelegate {
             id: pengadaanListItem
-            property var itemData: model
             highlighted: ListView.isCurrentItem
             width: ListView.view.width
             onClicked: pengadaanListView.currentIndex = index
@@ -37,7 +27,7 @@ Item {
 
             contentItem: Label {
                 id: pengadaanListItemContent
-                text: TextHighlighter.highlightText(model.sumber, listModel.textQueryg)
+                text: TextHighlighter.highlightText(modelData.sumber, currentViewModel.textQuery)
                 verticalAlignment: Qt.AlignVCenter
                 textFormat: Label.StyledText
             }

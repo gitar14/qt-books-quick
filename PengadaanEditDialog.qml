@@ -5,11 +5,13 @@ import QtQuick.Controls.Material
 import Kelompok7.Perpus
 
 Dialog {
-    property int pengadaanKode: -1
-    property string pengadaanSumber: ""
-    property date pengadaanTanggal: new Date ()
-    required property EditablePengadaanBukuModel pengadaanBukuModel
-    required property BookListModel bukuModel
+    id: dialog
+    property PengadaanEditViewModel viewModel: PengadaanEditViewModel {
+
+    }
+    onAccepted: {
+        viewModel.submit()
+    }
 
     footer : DialogButtonBox {
         Button {
@@ -19,7 +21,7 @@ Dialog {
         }
         Button {
             text: "Simpan"
-            enabled: pengadaanSumber.length > 0
+            enabled: viewModel.isValid
             DialogButtonBox.buttonRole: Dialog.AcceptRole
             flat: true
         }
@@ -37,13 +39,9 @@ Dialog {
     BukuPilihDialog {
         id: tambahPengadaanBukuDialog
         title: "Tambah Buku ke Pengadaan"
-        listModel: bukuModel
 
         onAccepted: {
-            pengadaanBukuModel.append(
-                bukuModel.getKodeByIndex(selectedIndex),
-                0
-            )
+            dialog.viewModel.appendBuku(viewModel.selectedKode)
         }
     }
 
@@ -56,42 +54,25 @@ Dialog {
             id: editPengadaanDialogLayout
             width: parent.width
 
-            Label {
-                text: "Sumber"
-            }
-            TextField {
-                id: pengadaanSumberTextField
-                Layout.fillWidth: true
-                maximumLength: 25
-                text: pengadaanSumber
-                onTextChanged: pengadaanSumber = text
-            }
-
-            Label {
-                Layout.alignment: Qt.AlignRight
-                text: (pengadaanSumberTextField.maximumLength - pengadaanSumber.length) + " tersisa"
-            }
-
-            Label {
-                text: "Sumber Tidak Boleh Kosong"
-                color: Material.color(Material.Red)
-                visible: pengadaanSumber.length == 0
+            BaseTextField {
+                field: viewModel.sumberField
             }
 
             Label {
                 text : "Tanggal"
             }
             DateField {
-                currentDate: editPengadaanDialog.pengadaanTanggal
+                currentDate: viewModel.tanggal
                 id: tanggalTextField
                 Layout.fillWidth: true
-                onCurrentDateChanged: editPengadaanDialog.pengadaanTanggal = currentDate
+                onCurrentDateChanged: viewModel.tanggal = currentDate
             }
+
             Label {
                 text: "Buku"
             }
             Repeater {
-                model: pengadaanBukuModel
+                model: viewModel.bukuList
 
                 delegate: Frame {
                     Layout.fillWidth: true
@@ -101,7 +82,7 @@ Dialog {
                         anchors.fill: parent
 
                         Label {
-                            text: model.judulBuku
+                            text: modelData.judul
                         }
 
                         Label {
@@ -112,25 +93,28 @@ Dialog {
                             editable: true
                             from: 0
                             to: 10000
-                            value: model.jumlah
+                            value: modelData.jumlah
                             Layout.fillWidth: true
-                            onValueChanged: model.jumlah = value
+                            onValueChanged: modelData.jumlah = value
                         }
 
                         Button {
                             text: "Hapus"
                             Layout.fillWidth: true
-                            onClicked: pengadaanBukuModel.remove(index)
+                            onClicked: viewModel.removeBuku(index)
                         }
                     }
 
                 }
             }
             Button {
-                enabled: pengadaanBukuModel.isBukuAvailable
+                enabled: viewModel.isBukuAvailable
                 text: enabled ? "Tambah Buku" : "Tidak Ada Buku Tersedia"
                 Layout.fillWidth: true
-                onClicked: tambahPengadaanBukuDialog.open()
+                onClicked: {
+                    tambahPengadaanBukuDialog.viewModel.ignoredKode = viewModel.kodeBukuList
+                    tambahPengadaanBukuDialog.open()
+                }
             }
         }
     }
