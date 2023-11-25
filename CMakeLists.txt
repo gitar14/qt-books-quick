@@ -22,7 +22,7 @@ qt_add_qml_module(appqt-books-qml
     QML_FILES Main.qml
     SOURCES repository/list/kategorimodel.h repository/list/kategorimodel.cpp
     QML_FILES KategoriScreen.qml
-    SOURCES repository/list/bukulistmodel.h repository/list/bukulistmodel.cpp
+    SOURCES
     QML_FILES BukuScreen.qml
     QML_FILES PenerbitScreen.qml
     SOURCES repository/list/penerbitmodel.h repository/list/penerbitmodel.cpp

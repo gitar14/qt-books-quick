@@ -56,7 +56,7 @@ Item {
             Layout.fillWidth: true
             id: listView
             onCurrentIndexChanged: currentViewModel.setSelectedIndex(currentIndex)
-            model: currentViewModel.listModel
+            model: currentViewModel.list
             highlightedText: currentViewModel.textQuery
         }
     }

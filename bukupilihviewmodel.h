@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QQmlEngine>
+#include "kategorifiltermodel.h"
+#include "penerbitfiltermodel.h"
 #include "repository/bukurepository.h"
 
 class BukuPilihViewModel : public QObject
@@ -12,12 +14,19 @@ class BukuPilihViewModel : public QObject
     Q_PROPERTY(QList<int> ignoredKode READ ignoredKode WRITE setIgnoredKode NOTIFY ignoredKodeChanged FINAL)
     Q_PROPERTY(int selectedKode READ selectedKode NOTIFY selectedKodeChanged FINAL)
     Q_PROPERTY(bool hasSelectedItem READ hasSelectedItem NOTIFY hasSelectedItemChanged)
+    Q_PROPERTY(QString textQuery READ textQuery WRITE setTextQuery NOTIFY textQueryChanged)
+    Q_PROPERTY(int kategoriFilter READ kategoriFilter WRITE setKategoriFilter NOTIFY kategoriFilterChanged)
+    Q_PROPERTY(int penerbitFilter READ penerbitFilter WRITE setPenerbitFilter NOTIFY penerbitFilterChanged)
+    Q_PROPERTY(KategoriFilterModel* kategoriFilterModel READ kategoriFilterModel CONSTANT)
+    Q_PROPERTY(PenerbitFilterModel* penerbitFilterModel READ penerbitFilterModel CONSTANT)
     QML_ELEMENT
 public:
     explicit BukuPilihViewModel(QObject *parent = nullptr);
 
     QList<BukuData *> list() const;
-    void setList(const QList<BukuData *> &newList);
+
+    KategoriFilterModel *kategoriFilterModel() const;
+    PenerbitFilterModel *penerbitFilterModel() const;
 
     QList<int> ignoredKode() const;
     void setIgnoredKode(const QList<int> &newIgnoredKode);
@@ -28,6 +37,15 @@ public:
 
     int selectedKode() const;
 
+    QString textQuery() const;
+    void setTextQuery(const QString &newTextQuery);
+
+    int kategoriFilter() const;
+    void setKategoriFilter(int newKategoriFilter);
+
+    int penerbitFilter() const;
+    void setPenerbitFilter(int newPenerbitFilter);
+
 public slots:
     void refresh();
 
@@ -36,15 +54,25 @@ signals:
     void ignoredKodeChanged();
     void hasSelectedItemChanged();
     void selectedKodeChanged();
+    void textQueryChanged();
+    void kategoriFilterChanged();
+    void penerbitFilterChanged();
+
+protected:
+    BukuRepository* mRepository;
+    virtual void refreshSelectedItem();
 
 private:
-    BukuRepository* mRepository;
     QList<BukuData*> mList;
     QList<int> mIgnoredKode;
     int mSelectedIndex;
-
-    void refreshSelectedItem();
     int mSelectedKode;
+
+    QString mTextQuery;
+    int mKategoriFilter;
+    KategoriFilterModel* mKategoriFilterModel;
+    int mPenerbitFilter;
+    PenerbitFilterModel* mPenerbitFilterModel;
 };
 
 #endif // BUKUPILIHVIEWMODEL_H

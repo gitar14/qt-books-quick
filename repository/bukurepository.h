@@ -2,7 +2,6 @@
 #define BUKUREPOSITORY_H
 
 #include <QObject>
-#include "list/bukulistmodel.h"
 
 class BukuData: public QObject
 {
@@ -55,7 +54,6 @@ public:
     explicit BukuRepository(QObject *parent = nullptr);
 
     QList<BukuData*> getList(QList<int> ignoredKode, QString textQuery, int kategoriFilter, int penerbitFiter);
-    BukuListModel* createListModel();
     BukuData *getBukuData(int kode);
     void addNew(
         QString judul,

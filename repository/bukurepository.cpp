@@ -148,13 +148,6 @@ QList<BukuData *> BukuRepository::getList(QList<int> ignoredKode, QString textQu
     return result;
 }
 
-BukuListModel *BukuRepository::createListModel()
-{
-    BukuListModel* model = new BukuListModel();
-    connect(this, SIGNAL(dataChanged()), model, SLOT(refresh()));
-    return model;
-}
-
 BukuData* BukuRepository::getBukuData(int kode)
 {
     QSqlQuery query;
