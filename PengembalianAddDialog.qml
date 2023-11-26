@@ -5,10 +5,7 @@ import Kelompok7.Perpus
 
 Dialog {
     id: dialog
-    property int peminjamanKode: 0
-    property date pengembalianTenggat: new Date()
-    property date pengembalianTanggal: new Date()
-    required property EditablePeminjamanBukuModel peminjamanBukuModel
+    property PengembalianViewModel viewModel: PengembalianViewModel {}
 
     parent: Overlay.overlay
     anchors.centerIn: parent
@@ -16,12 +13,8 @@ Dialog {
     contentHeight: pengembalianDialogLayout.height
     title: "Pengembalian"
 
-
-    PeminjamanDendaModel {
-        id: peminjamanDendaCalculator
-        dendaTambahanBukuList: peminjamanBukuModel.dendaList
-        tenggatPengembalian: pengembalianTenggat
-        tanggalPengembalian: pengembalianTanggal
+    onAccepted: {
+        viewModel.submit()
     }
 
     footer : RowLayout {
@@ -34,7 +27,7 @@ Dialog {
             }
 
             Label {
-                text: peminjamanDendaCalculator.totalDenda
+                text: viewModel.denda.totalDenda
                 font.pixelSize: 16
             }
         }
@@ -74,8 +67,8 @@ Dialog {
 
             DateField {
                 Layout.fillWidth: true
-                currentDate: pengembalianTanggal
-                onCurrentDateChanged: pengembalianTanggal = currentDate
+                currentDate: viewModel.tanggalPengembalian
+                onCurrentDateChanged: viewModel.tanggalPengembalian = currentDate
             }
 
             Label {
@@ -84,7 +77,7 @@ Dialog {
 
             Label {
                 font.pixelSize: 16
-                text: peminjamanDendaCalculator.totalDendaTerlambat
+                text: viewModel.denda.totalDendaTerlambat
             }
 
             Label {
@@ -92,7 +85,7 @@ Dialog {
             }
 
             Repeater {
-                model: peminjamanBukuModel
+                model: viewModel.bukuList
 
                 delegate: Frame {
                     Layout.fillWidth: true
@@ -102,7 +95,7 @@ Dialog {
                         anchors.fill: parent
 
                         Label {
-                            text: model.judulBuku
+                            text: modelData.judul
                         }
 
                         Label {
@@ -111,8 +104,8 @@ Dialog {
 
                         SpinBox {
                             Layout.fillWidth: true
-                            value: model.denda
-                            onValueChanged: model.denda = value
+                            value: modelData.denda
+                            onValueChanged: modelData.denda = value
                             from: 0
                             to: 1000000
                             editable: true

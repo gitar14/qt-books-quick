@@ -59,11 +59,11 @@ qt_add_qml_module(appqt-books-qml
     QML_FILES PeminjamanDetailFrame.qml
     SOURCES sqlhelper.h
     SOURCES sqlhelper.cpp
-    SOURCES basepeminjamanbukumodel.h
-    SOURCES basepeminjamanbukumodel.cpp
-    SOURCES editablepeminjamanbukumodel.h editablepeminjamanbukumodel.cpp
-    SOURCES peminjamanbukumodel.h peminjamanbukumodel.cpp
-    SOURCES peminjamanmodel.h peminjamanmodel.cpp
+    SOURCES
+    SOURCES
+    SOURCES
+    SOURCES
+    SOURCES
     RESOURCES resources.qrc
     QML_FILES SearchField.qml
     QML_FILES CardDelegate.qml
@@ -92,8 +92,7 @@ qt_add_qml_module(appqt-books-qml
     SOURCES penerbitfiltermodel.h penerbitfiltermodel.cpp
     SOURCES texthighlighter.h texthighlighter.cpp
     QML_FILES CardBackground.qml
-    SOURCES peminjamandendamodel.h peminjamandendamodel.cpp
-    SOURCES peminjamandendamodel.h peminjamandendamodel.cpp
+    SOURCES peminjamandendacalculator.h peminjamandendacalculator.cpp
     SOURCES kategoriviewmodel.h kategoriviewmodel.cpp
     SOURCES kategorieditviewmodel.h kategorieditviewmodel.cpp
     SOURCES repository/kategorirepository.h repository/kategorirepository.cpp
@@ -116,6 +115,10 @@ qt_add_qml_module(appqt-books-qml
     SOURCES pengadaanviewmodel.h pengadaanviewmodel.cpp
     SOURCES pengadaaneditviewmodel.h pengadaaneditviewmodel.cpp
     SOURCES bukupilihviewmodel.h bukupilihviewmodel.cpp
+    SOURCES peminjamanviewmodel.h peminjamanviewmodel.cpp
+    SOURCES peminjamaneditviewmodel.h peminjamaneditviewmodel.cpp
+    SOURCES pengembalianviewmodel.h pengembalianviewmodel.cpp
+    SOURCES pengembalianviewmodel.h pengembalianviewmodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

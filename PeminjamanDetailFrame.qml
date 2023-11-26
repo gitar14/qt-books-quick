@@ -4,34 +4,17 @@ import QtQuick.Controls
 import Kelompok7.Perpus
 
 BaseDetailFrame {
-    property int peminjamanKode: -1
-    property int peminjamanMemberKode: -1
-    property string peminjamanMemberNama: ""
-    property date peminjamanTanggal: new Date()
-    property int peminjamanLama: 0
-    property date peminjamanTanggalTenggat: new Date()
-    property date peminjamanTanggalPengembalian: new Date()
-    property bool peminjamanSudahDikembalikan: false
-    property int peminjamanDendaPerHari: 0
-    required property PeminjamanBukuModel peminjamanBukuModel
+    property PeminjamanViewModel currentViewModel
 
     signal editClicked()
     signal deleteClicked()
     signal tandaiDikembalikanClicked()
     signal tandaiBelumDikembalikanClicked()
 
-    PeminjamanDendaModel {
-        id: peminjamanDendaCalculator
-        dendaTerlambatPerBuku: peminjamanDendaPerHari
-        dendaTambahanBukuList: peminjamanBukuModel.dendaList
-        tanggalPengembalian: peminjamanTanggalPengembalian
-        tenggatPengembalian: peminjamanTanggalTenggat
-    }
-
     GridLayout {
         anchors.fill: parent
         columnSpacing: 16
-        visible: peminjamanKode != -1
+        visible: currentViewModel.hasSelectedItem
         columns: 2
 
         Text {
@@ -45,7 +28,7 @@ BaseDetailFrame {
         }
 
         Label{
-            text: peminjamanMemberNama
+            text: currentViewModel.selectedData.namaMember
             Layout.fillWidth: true
         }
         Label{
@@ -53,7 +36,7 @@ BaseDetailFrame {
         }
 
         Label{
-            text: Qt.formatDate(peminjamanTanggal, locale, locale.LongFormat)
+            text: Qt.formatDate(currentViewModel.selectedData.tanggalPeminjaman, locale, locale.LongFormat)
             Layout.fillWidth: true
         }
 
@@ -62,7 +45,7 @@ BaseDetailFrame {
         }
 
         Label{
-            text: peminjamanLama + " hari"
+            text: currentViewModel.selectedData.lamaPeminjaman + " hari"
             Layout.fillWidth: true
         }
 
@@ -71,7 +54,7 @@ BaseDetailFrame {
         }
 
         Label {
-            text: Qt.formatDate(peminjamanTanggalTenggat, locale, locale.LongFormat)
+            text: Qt.formatDate(currentViewModel.selectedData.tenggatPengembalian, locale, locale.LongFormat)
             Layout.fillWidth: true
         }
 
@@ -81,39 +64,39 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: peminjamanSudahDikembalikan ? "Sudah Dikembalikan" : "Belum Dikembalikan"
+            text: currentViewModel.selectedData.sudahDikembalikan ? "Sudah Dikembalikan" : "Belum Dikembalikan"
         }
 
         Label {
-            visible: peminjamanSudahDikembalikan
+            visible: currentViewModel.selectedData.sudahDikembalikan
             text: "Tanggal Pengembalian"
         }
 
         Label {
-            visible: peminjamanSudahDikembalikan
+            visible: currentViewModel.selectedData.sudahDikembalikan
             Layout.fillWidth: true
-            text: Qt.formatDate(peminjamanTanggalPengembalian, locale, locale.LongFormat)
+            text: Qt.formatDate(currentViewModel.selectedData.tanggalPengembalian, locale, locale.LongFormat)
         }
 
         Label {
-            visible: peminjamanSudahDikembalikan
+            visible: currentViewModel.selectedData.sudahDikembalikan
             text: "Denda Keterlambatan"
         }
 
         Label {
-            visible: peminjamanSudahDikembalikan
-            text: peminjamanDendaCalculator.totalDendaTerlambat
+            visible: currentViewModel.selectedData.sudahDikembalikan
+            text: currentViewModel.selectedDenda.totalDendaTerlambat
             Layout.fillWidth: true
         }
 
         Label {
-            visible: peminjamanSudahDikembalikan
+            visible: currentViewModel.selectedData.sudahDikembalikan
             text: "Total Denda"
         }
 
         Label {
-            visible: peminjamanSudahDikembalikan
-            text: peminjamanDendaCalculator.totalDenda
+            visible: currentViewModel.selectedData.sudahDikembalikan
+            text: currentViewModel.selectedDenda.totalDenda
             Layout.fillWidth: true
         }
 
@@ -122,7 +105,7 @@ BaseDetailFrame {
             Layout.columnSpan: 2
             Layout.fillHeight: true
             Layout.fillWidth: true
-            model: peminjamanBukuModel
+            model: currentViewModel.selectedBukuList
             spacing: 8
 
             delegate: Pane {
@@ -137,26 +120,26 @@ BaseDetailFrame {
 
                 contentItem: Column {
                     Label {
-                        text: model.judulBuku
+                        text: modelData.judul
                     }
 
                     Label {
-                        visible: model.denda
-                        text: "Denda: " + model.denda
+                        visible: modelData.denda
+                        text: "Denda: " + modelData.denda
                     }
                 }
             }
         }
 
         Button {
-            visible: !peminjamanSudahDikembalikan
+            visible: !currentViewModel.selectedData.sudahDikembalikan
             text: "Tandai Dikembalikan"
             onClicked: tandaiDikembalikanClicked()
             Layout.columnSpan: 2
         }
 
         Button {
-            visible: peminjamanSudahDikembalikan
+            visible: currentViewModel.selectedData.sudahDikembalikan
             text: "Tandai Belum Dikembalikan"
             onClicked: tandaiBelumDikembalikanClicked()
             Layout.columnSpan: 2

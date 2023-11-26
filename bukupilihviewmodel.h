@@ -69,9 +69,9 @@ private:
     int mSelectedKode;
 
     QString mTextQuery;
-    int mKategoriFilter;
+    int mKategoriFilter{-1};
     KategoriFilterModel* mKategoriFilterModel;
-    int mPenerbitFilter;
+    int mPenerbitFilter{-1};
     PenerbitFilterModel* mPenerbitFilterModel;
 };
 

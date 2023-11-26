@@ -4,13 +4,8 @@ import QtQuick.Layouts
 import Kelompok7.Perpus
 
 Dialog {
-    property int peminjamanKode: -1
-    property int peminjamanMemberKode: -1
-    property string peminjamanMemberNama: ""
-    property int peminjamanLama: 0
-    property date peminjamanTanggal: new Date ()
-    required property EditablePeminjamanBukuModel peminjamanBukuModel
-    required property BookListModel bukuModel
+    id: dialog
+    property PeminjamanEditViewModel viewModel: PeminjamanEditViewModel {}
     required property MemberModel memberModel
 
     parent: Overlay.overlay
@@ -23,16 +18,17 @@ Dialog {
     width: 400
     contentHeight: editPeminjamanDialogLayout.height
 
+    onAccepted: {
+        viewModel.submit()
+    }
+
     BukuPilihDialog {
         id: tambahPeminjamanBukuDialog
         title: "Tambah Buku ke Peminjaman"
-        listModel: bukuModel
 
         onAccepted: {
-            peminjamanBukuModel.append(
-                bukuModel.getKodeByIndex(selectedIndex)
-                )
-            }
+            dialog.viewModel.appendBuku(viewModel.selectedKode)
+        }
     }
 
     MemberPilihDialog {
@@ -40,8 +36,8 @@ Dialog {
         listModel: memberModel
 
         onAccepted: {
-            peminjamanMemberKode = currentItemData.kode
-            peminjamanMemberNama = currentItemData.name
+            dialog.viewModel.kodeMember = currentItemData.kode
+            dialog.viewModel.namaMember = currentItemData.name
         }
     }
 
@@ -62,7 +58,7 @@ Dialog {
                 Layout.fillWidth: true
 
                 TextField {
-                    text: peminjamanMemberNama
+                    text: viewModel.namaMember
                     readOnly: true
                     Layout.fillWidth: true
                 }
@@ -77,10 +73,10 @@ Dialog {
                 text: "Tanggal Peminjaman"
             }
             DateField {
-                currentDate: editPeminjamanDialog.peminjamanTanggal
+                currentDate: viewModel.tanggalPeminjaman
                 id: tanggalPeminjamanTextField
                 Layout.fillWidth: true
-                onCurrentDateChanged: editPeminjamanDialog.peminjamanTanggal = currentDate
+                onCurrentDateChanged: viewModel.tanggalPeminjaman = currentDate
             }
 
             Label {
@@ -90,16 +86,16 @@ Dialog {
                 editable: true
                 from: 0
                 to: 1000
-                value: peminjamanLama
+                value: viewModel.lamaPeminjaman
                 Layout.fillWidth:true
-                onValueChanged: peminjamanLama = value
+                onValueChanged: viewModel.lamaPeminjaman = value
             }
 
             Label {
                 text: "Buku"
             }
             Repeater {
-                model: peminjamanBukuModel
+                model: viewModel.bukuList
 
                 delegate: Frame {
                     Layout.fillWidth: true
@@ -109,23 +105,26 @@ Dialog {
                         anchors.fill: parent
 
                         Label {
-                            text: model.judulBuku
+                            text: modelData.judul
                         }
 
                         Button {
                             text: "Hapus"
                             Layout.fillWidth: true
-                            onClicked: peminjamanBukuModel.remove(index)
+                            onClicked: viewModel.removeBuku(index)
                         }
                     }
                 }
             }
 
             Button {
-                visible: peminjamanBukuModel.isBukuAvailable
+                visible: viewModel.isBukuAvailable
                 text: "Tambah Buku"
                 Layout.fillWidth: true
-                onClicked: tambahPeminjamanBukuDialog.open()
+                onClicked: {
+                    tambahPeminjamanBukuDialog.viewModel.ignoredKode = viewModel.kodeBukuList
+                    tambahPeminjamanBukuDialog.open()
+                }
             }
         }
     }

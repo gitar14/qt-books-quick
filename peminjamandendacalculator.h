@@ -1,11 +1,11 @@
-#ifndef PEMINJAMANDENDAMODEL_H
-#define PEMINJAMANDENDAMODEL_H
+#ifndef PEMINJAMANDENDACALCULATOR_H
+#define PEMINJAMANDENDACALCULATOR_H
 
 #include <QObject>
 #include <QQmlEngine>
-#include <QAbstractItemModel>
+#include "repository/peminjamanrepository.h"
 
-class PeminjamanDendaModel : public QObject
+class PeminjamanDendaCalculator : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QDate tenggatPengembalian
@@ -16,14 +16,11 @@ class PeminjamanDendaModel : public QObject
                READ tanggalPengembalian
                WRITE setTanggalPengembalian
                NOTIFY tanggalPengembalianChanged)
+    Q_PROPERTY(QList<PeminjamanBukuData *> bukuList READ bukuList WRITE setBukuList NOTIFY bukuListChanged FINAL)
     Q_PROPERTY(int dendaTerlambatPerBuku
                READ dendaTerlambatPerBuku
                WRITE setDendaTerlambatPerBuku
                NOTIFY dendaTerlambatPerBukuChanged)
-    Q_PROPERTY(QList<int> dendaTambahanBukuList
-               READ dendaTambahanBukuList
-               WRITE setDendaTambahanBukuList
-               NOTIFY dendaTambahanBukuListChanged)
     Q_PROPERTY(int totalDendaTerlambat
                READ totalDendaTerlambat
                NOTIFY totalDendaTerlambatChanged)
@@ -32,10 +29,7 @@ class PeminjamanDendaModel : public QObject
                NOTIFY totalDendaChanged)
     QML_ELEMENT
 public:
-    explicit PeminjamanDendaModel(QObject *parent = nullptr);
-
-    QList<int> dendaTambahanBukuList() const;
-    void setDendaTambahanBukuList(const QList<int> &newDendaTambahanBukuList);
+    explicit PeminjamanDendaCalculator(QObject *parent = nullptr);
 
     int dendaTerlambatPerBuku() const;
     void setDendaTerlambatPerBuku(int newDendaTenggatPerBuku);
@@ -50,6 +44,9 @@ public:
 
     int totalDenda() const;
 
+    QList<PeminjamanBukuData *> bukuList() const;
+    void setBukuList(const QList<PeminjamanBukuData *> &newBukuList);
+
 signals:
     void dendaTambahanBukuListChanged();
     void dendaTerlambatPerBukuChanged();
@@ -58,15 +55,18 @@ signals:
     void totalDendaTerlambatChanged();
     void totalDendaChanged();
 
+    void bukuListChanged();
+
+private slots:
+    void calculateDenda();
+
 private:
-    QList<int> mDendaTambahanBukuList;
-    int mDendaTerlambatPerBuku;
+    QList<PeminjamanBukuData*> mBukuList;
     QDate mTenggatPengembalian;
     QDate mTanggalPengembalian;
+    int mDendaTerlambatPerBuku;
     int mTotalDendaTerlambat;
-
-    void calculateDenda();
     int mTotalDenda;
 };
 
-#endif // PEMINJAMANDENDAMODEL_H
+#endif // PEMINJAMANDENDACALCULATOR_H

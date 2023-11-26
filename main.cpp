@@ -14,14 +14,13 @@
 #include "pengadaanviewmodel.h"
 #include "pengadaaneditviewmodel.h"
 #include "membermodel.h"
-#include "editablepeminjamanbukumodel.h"
 #include "connectionmanager.h"
 #include "settingsmodel.h"
 #include "usermanager.h"
 #include "usermodel.h"
-#include "peminjamanmodel.h"
-#include "peminjamanbukumodel.h"
-#include "peminjamandendamodel.h"
+#include "peminjamaneditviewmodel.h"
+#include "peminjamanviewmodel.h"
+#include "pengembalianviewmodel.h"
 #include "textfielddata.h"
 #include "combofielddata.h"
 #include "texthighlighter.h"
@@ -42,11 +41,10 @@ int main(int argc, char *argv[])
     qmlRegisterType<PengadaanViewModel>(PACKAGE, 1, 0, "PengadaanViewModel");
     qmlRegisterType<PengadaanEditViewModel>(PACKAGE, 1, 0, "PengadaanEditViewModel");
     qmlRegisterType<MemberModel>(PACKAGE, 1, 0, "MemberModel");
-    qmlRegisterType<EditablePeminjamanBukuModel>(PACKAGE, 1, 0, "EditablePeminjamanBukuModel");
     qmlRegisterType<UserModel>(PACKAGE,1,0,"UserModel");
-    qmlRegisterType<PeminjamanModel>(PACKAGE, 1, 0, "PeminjamanModel");
-    qmlRegisterType<PeminjamanBukuModel>(PACKAGE, 1, 0, "PeminjamanBukuModel");
-    qmlRegisterType<PeminjamanDendaModel>(PACKAGE, 1, 0, "PeminjamanDendaModel");
+    qmlRegisterType<PeminjamanViewModel>(PACKAGE, 1, 0, "PeminjamanViewModel");
+    qmlRegisterType<PeminjamanEditViewModel>(PACKAGE, 1, 0, "PeminjamanEditViewModel");
+    qmlRegisterType<PengembalianViewModel>(PACKAGE, 1, 0, "PengembalianViewModel");
     qmlRegisterType<SettingsModel>(PACKAGE, 1, 0, "SettingsModel");
     qmlRegisterType<TextFieldData>(PACKAGE, 1, 0, "TextFieldData");
     qmlRegisterType<ComboFieldData>(PACKAGE, 1, 0, "ComboFieldData");
