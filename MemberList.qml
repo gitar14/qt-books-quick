@@ -9,22 +9,13 @@ Item {
 
     signal addClicked()
     property var currentItemData
-    property MemberModel listModel
+    property MemberViewModel currentViewModel
 
     AppGridView {
         id: memberGridView
-        model: listModel
+        model: currentViewModel.list
 
-        onCurrentItemChanged: {
-             if(currentItem==null){
-                 currentItemData=null
-
-                }
-             else {
-                 currentItemData=currentItem.itemData
-
-                }
-        }
+        onCurrentIndexChanged: currentViewModel.setSelectedIndex(currentIndex)
 
         delegate: CardDelegate {
             property var itemData: model
@@ -47,7 +38,7 @@ Item {
 
                 Label {
                     Layout.fillWidth: true
-                    text: TextHighlighter.highlightText(model.name, listModel.textQuery)
+                    text: TextHighlighter.highlightText(modelData.namaDepan + " " + modelData.namaBelakang, currentViewModel.textQuery)
                     horizontalAlignment: Qt.AlignHCenter
                     wrapMode: Label.Wrap
                     maximumLineCount: 2
@@ -56,7 +47,7 @@ Item {
                 }
                 Label {
                     Layout.fillWidth: true
-                    text: model.tanggalLahir
+                    text: Qt.formatDate(modelData.tanggalLahir, locale, locale.LongFormat)
                     horizontalAlignment: Qt.AlignHCenter
                     wrapMode: Text.Wrap
                 }

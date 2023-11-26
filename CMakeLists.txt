@@ -33,7 +33,7 @@ qt_add_qml_module(appqt-books-qml
     SOURCES
     SOURCES
     QML_FILES MemberScreen.qml
-    SOURCES membermodel.h membermodel.cpp
+    SOURCES
     QML_FILES PeminjamanList.qml
     QML_FILES FloatingActionButton.qml
     QML_FILES PenerbitEditDialog.qml
@@ -119,6 +119,9 @@ qt_add_qml_module(appqt-books-qml
     SOURCES peminjamaneditviewmodel.h peminjamaneditviewmodel.cpp
     SOURCES pengembalianviewmodel.h pengembalianviewmodel.cpp
     SOURCES pengembalianviewmodel.h pengembalianviewmodel.cpp
+    SOURCES repository/memberrepository.h repository/memberrepository.cpp
+    SOURCES memberviewmodel.h memberviewmodel.cpp
+    SOURCES membereditviewmodel.h membereditviewmodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

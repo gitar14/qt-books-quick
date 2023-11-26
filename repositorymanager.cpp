@@ -4,6 +4,8 @@
 #include "repository/penerbitrepository.h"
 #include "repository/pengadaanrepository.h"
 #include "repository/peminjamanrepository.h"
+#include "repository/memberrepository.h"
+#include <QDebug>
 
 RepositoryManager::RepositoryManager()
 {
@@ -54,4 +56,12 @@ PeminjamanRepository *RepositoryManager::getPeminjaman()
         mPeminjaman = new PeminjamanRepository();
     }
     return mPeminjaman;
+}
+
+MemberRepository *RepositoryManager::getMember()
+{
+    if (mMember == nullptr) {
+        mMember = new MemberRepository();
+    }
+    return mMember;
 }

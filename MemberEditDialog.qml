@@ -2,16 +2,16 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
+import Kelompok7.Perpus
 
 Dialog{
-    title: memberKode == -1 ? "Tambah Member" : "Edit Member"
+    title: viewModel.isNew ? "Tambah Member" : "Edit Member"
     parent: Overlay.overlay
     anchors.centerIn: parent
     width: 400
-    property int memberKode: -1
-    property string memberNamaDepan: ""
-    property string memberNamaBelakang: ""
-    property date memberTanggalLahir: new Date()
+    property MemberEditViewModel viewModel: MemberEditViewModel {}
+
+    onAccepted: viewModel.submit()
 
     footer : DialogButtonBox {
         Button {
@@ -21,7 +21,7 @@ Dialog{
         }
         Button {
             text: "Simpan"
-            enabled: memberNamaDepan.length > 0 && memberNamaBelakang.length > 0
+            enabled: viewModel.isValid
             DialogButtonBox.buttonRole: Dialog.AcceptRole
             flat: true
         }
@@ -30,56 +30,22 @@ Dialog{
     ColumnLayout {
         anchors.fill: parent
 
-        Label {
-            text: "Nama Depan"
-        }
-        TextField {
-            id: memberNamaDepanTextField
-            text: editMemberDialog.memberNamaDepan
-            maximumLength: 25
-            Layout.fillWidth: true
-            onTextChanged: editMemberDialog.memberNamaDepan = text
+        BaseTextField {
+            field: viewModel.namaDepanField
         }
 
-        Label {
-            Layout.alignment: Qt.AlignRight
-            text: (memberNamaDepanTextField.maximumLength - memberNamaDepan.length) + " tersisa"
+        BaseTextField {
+            field: viewModel.namaBelakangField
         }
 
-        Label {
-            text: "Nama Depan Tidak Boleh Kosong"
-            color: Material.color(Material.Red)
-            visible: memberNamaDepan.length == 0
-        }
-        Label {
-            text: "Nama Belakang"
-        }
-        TextField {
-            id: memberNamaBelakangTextField
-            text: editMemberDialog.memberNamaBelakang
-            maximumLength: 25
-            Layout.fillWidth: true
-            onTextChanged: editMemberDialog.memberNamaBelakang = text
-        }
-
-        Label {
-            Layout.alignment: Qt.AlignRight
-            text: (memberNamaBelakangTextField.maximumLength - memberNamaBelakang.length) + " tersisa"
-        }
-
-        Label {
-            text: "Nama Belakang Tidak Boleh Kosong"
-            color: Material.color(Material.Red)
-            visible: memberNamaBelakang.length == 0
-        }
         Label {
             text : "Tanggal Lahir"
         }
         DateField {
-            currentDate: editMemberDialog.memberTanggalLahir
+            currentDate: viewModel.tanggalLahir
             id: tanggalLahirTextField
             Layout.fillWidth: true
-            onCurrentDateChanged: editMemberDialog.memberTanggalLahir = currentDate
+            onCurrentDateChanged: viewModel.tanggalLahir = currentDate
         }
     }
 }

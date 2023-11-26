@@ -17,60 +17,37 @@ Page {
             }
 
             SearchField {
-                text: memberModel.textQuery
-                onTextChanged: memberModel.textQuery = text
+                text: viewModel.textQuery
+                onTextChanged: viewModel.textQuery = text
             }
         }
     }
-    MemberModel {
-         id: memberModel
+
+    MemberViewModel {
+         id: viewModel
     }
 
     RowLayout {
         anchors.fill: parent
         MemberList {
-           listModel: memberModel
+           currentViewModel: viewModel
            onAddClicked:  {
-               editMemberDialog.memberKode = -1
-               editMemberDialog.memberNamaDepan = ""
-               editMemberDialog.memberNamaBelakang = ""
-               editMemberDialog.memberTanggalLahir = new Date()
+               editMemberDialog.viewModel.configure()
                editMemberDialog.open()
-           }
-           onCurrentItemDataChanged: {
-               if(currentItemData==null){
-                   memberDetailFrame.memberKode = -1
-                   memberDetailFrame.memberNamaDepan = ""
-                   memberDetailFrame.memberNamaBelakang = ""
-                   memberDetailFrame.memberTanggalLahir = ""
-               }else{
-                   memberDetailFrame.memberKode = currentItemData.kode
-                   memberDetailFrame.memberNamaDepan = currentItemData.namaDepan
-                   memberDetailFrame.memberNamaBelakang = currentItemData.namaBelakang
-                   memberDetailFrame.memberTanggalLahir = currentItemData.tanggalLahir
-               }
            }
         }
 
         MemberDetailFrame{
-            id: memberDetailFrame
+            currentViewModel: viewModel
             onEditClicked: {
-                editMemberDialog.memberKode = memberKode
-                editMemberDialog.memberNamaDepan = memberNamaDepan
-                editMemberDialog.memberNamaBelakang = memberNamaBelakang
-                editMemberDialog.memberTanggalLahir = memberTanggalLahir
+                editMemberDialog.viewModel.configure(viewModel.selectedData.kode)
                 editMemberDialog.open()
             }
-            onDeleteClicked: memberModel.remove(memberKode)
+            onDeleteClicked: viewModel.removeSelectedItem()
         }
 
         MemberEditDialog{
             id: editMemberDialog
-            onAccepted:{
-                if(memberKode == -1)
-                memberModel.add(memberNamaDepan, memberNamaBelakang, memberTanggalLahir)
-                else memberModel.edit(memberKode,memberNamaDepan, memberNamaBelakang, memberTanggalLahir)
-            }
         }
     }
 }
