@@ -10,7 +10,7 @@ class PeminjamanEditViewModel : public QObject
     Q_OBJECT
     Q_PROPERTY(bool isNew READ isNew NOTIFY isNewChanged)
     Q_PROPERTY(int kodeMember READ kodeMember WRITE setKodeMember NOTIFY kodeMemberChanged FINAL)
-    Q_PROPERTY(QString namaMember READ namaMember WRITE setNamaMember NOTIFY namaMemberChanged FINAL)
+    Q_PROPERTY(QString namaMember READ namaMember NOTIFY namaMemberChanged FINAL)
     Q_PROPERTY(QDate tanggalPeminjaman READ tanggalPeminjaman WRITE setTanggalPeminjaman NOTIFY tanggalPeminjamanChanged FINAL)
     Q_PROPERTY(int lamaPeminjaman READ lamaPeminjaman WRITE setLamaPeminjaman NOTIFY lamaPeminjamanChanged FINAL)
     Q_PROPERTY(QList<PeminjamanBukuData *> bukuList READ bukuList NOTIFY bukuListChanged FINAL)
@@ -26,7 +26,6 @@ public:
     int kodeMember() const;
     void setKodeMember(int newKodeMember);
     QString namaMember() const;
-    void setNamaMember(const QString &newNamaMember);
     QDate tanggalPeminjaman() const;
     void setTanggalPeminjaman(const QDate &newTanggalPeminjaman);
     int lamaPeminjaman() const;

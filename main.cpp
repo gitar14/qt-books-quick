@@ -13,6 +13,7 @@
 #include "penerbiteditviewmodel.h"
 #include "pengadaanviewmodel.h"
 #include "pengadaaneditviewmodel.h"
+#include "memberpilihviewmodel.h"
 #include "memberviewmodel.h"
 #include "membereditviewmodel.h"
 #include "connectionmanager.h"
@@ -41,6 +42,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<PenerbitEditViewModel>(PACKAGE, 1, 0, "PenerbitEditViewModel");
     qmlRegisterType<PengadaanViewModel>(PACKAGE, 1, 0, "PengadaanViewModel");
     qmlRegisterType<PengadaanEditViewModel>(PACKAGE, 1, 0, "PengadaanEditViewModel");
+    qmlRegisterType<MemberPilihViewModel>(PACKAGE, 1, 0, "MemberPilihViewModel");
     qmlRegisterType<MemberViewModel>(PACKAGE, 1, 0, "MemberViewModel");
     qmlRegisterType<MemberEditViewModel>(PACKAGE, 1, 0, "MemberEditViewModel");
     qmlRegisterType<UserModel>(PACKAGE,1,0,"UserModel");

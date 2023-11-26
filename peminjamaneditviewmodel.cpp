@@ -1,6 +1,7 @@
 #include "peminjamaneditviewmodel.h"
 #include "repository/bukurepository.h"
 #include "repositorymanager.h"
+#include "repository/memberrepository.h"
 
 PeminjamanEditViewModel::PeminjamanEditViewModel(QObject *parent)
     : QObject{parent}, mRepository{RepositoryManager::getInstance()->getPeminjaman()}
@@ -42,19 +43,17 @@ void PeminjamanEditViewModel::setKodeMember(int newKodeMember)
         return;
     mKodeMember = newKodeMember;
     emit kodeMemberChanged();
+
+    MemberData* data = RepositoryManager::getInstance()->getMember()->get(mKodeMember);
+    mNamaMember = data->namaDepan() + " " + data->namaBelakang();
+    delete data;
+
+    emit namaMemberChanged();
 }
 
 QString PeminjamanEditViewModel::namaMember() const
 {
     return mNamaMember;
-}
-
-void PeminjamanEditViewModel::setNamaMember(const QString &newNamaMember)
-{
-    if (mNamaMember == newNamaMember)
-        return;
-    mNamaMember = newNamaMember;
-    emit namaMemberChanged();
 }
 
 QDate PeminjamanEditViewModel::tanggalPeminjaman() const

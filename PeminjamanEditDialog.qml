@@ -6,7 +6,6 @@ import Kelompok7.Perpus
 Dialog {
     id: dialog
     property PeminjamanEditViewModel viewModel: PeminjamanEditViewModel {}
-    required property MemberModel memberModel
 
     parent: Overlay.overlay
     anchors.centerIn: parent
@@ -33,11 +32,9 @@ Dialog {
 
     MemberPilihDialog {
         id: memberPilihDialog
-        listModel: memberModel
 
         onAccepted: {
-            dialog.viewModel.kodeMember = currentItemData.kode
-            dialog.viewModel.namaMember = currentItemData.name
+            dialog.viewModel.kodeMember = viewModel.selectedKode
         }
     }
 

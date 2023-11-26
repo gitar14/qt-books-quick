@@ -29,10 +29,6 @@ Page {
         id: viewModel
     }
 
-    MemberModel {
-        id: memberModel
-    }
-
     RowLayout {
         anchors.fill: parent
 
@@ -46,7 +42,6 @@ Page {
 
         PeminjamanEditDialog{
             id: editPeminjamanDialog
-            memberModel: memberModel
         }
 
         PengembalianAddDialog {

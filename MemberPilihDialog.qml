@@ -10,8 +10,7 @@ Dialog {
     standardButtons: Dialog.Ok | Dialog.Cancel
     width: 400
 
-    required property MemberModel listModel
-    property var currentItemData
+    property MemberViewModel viewModel: MemberViewModel {}
 
     ColumnLayout {
         anchors.fill: parent
@@ -24,18 +23,14 @@ Dialog {
             id: memberListView
             Layout.fillHeight: true
             Layout.fillWidth: true
-
-            model: listModel
-
-            onCurrentItemChanged: {
-                currentItemData = currentItem == null ? null : currentItem.itemData
-            }
+            onCurrentIndexChanged: viewModel.setSelectedIndex(currentIndex)
+            model: viewModel.list
 
             delegate: CardDelegate {
                 property var itemData: model
                 highlighted: ListView.isCurrentItem
                 onClicked: memberListView.currentIndex = index
-                text: model.name
+                text: modelData.namaDepan + " " + modelData.namaBelakang
             }
         }
     }
