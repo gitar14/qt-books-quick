@@ -18,7 +18,7 @@
 #include "memberviewmodel.h"
 #include "membereditviewmodel.h"
 #include "connectionmanager.h"
-#include "settingsmodel.h"
+#include "settingviewmodel.h"
 #include "usermanager.h"
 #include "userbuatadminviewmodel.h"
 #include "userpegawaiviewmodel.h"
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<PeminjamanViewModel>(PACKAGE, 1, 0, "PeminjamanViewModel");
     qmlRegisterType<PeminjamanEditViewModel>(PACKAGE, 1, 0, "PeminjamanEditViewModel");
     qmlRegisterType<PengembalianViewModel>(PACKAGE, 1, 0, "PengembalianViewModel");
-    qmlRegisterType<SettingsModel>(PACKAGE, 1, 0, "SettingsModel");
+    qmlRegisterType<SettingViewModel>(PACKAGE, 1, 0, "SettingViewModel");
     qmlRegisterType<TextFieldData>(PACKAGE, 1, 0, "TextFieldData");
     qmlRegisterType<ComboFieldData>(PACKAGE, 1, 0, "ComboFieldData");
     qmlRegisterSingletonInstance(PACKAGE, 1, 0, "ConnectionManager", ConnectionManager::getInstance());

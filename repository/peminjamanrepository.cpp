@@ -256,7 +256,7 @@ void PeminjamanRepository::remove(int kode)
     emit dataChanged();
 }
 
-void PeminjamanRepository::tandaiDikembalikan(int kode, QDate tanggal)
+void PeminjamanRepository::tandaiDikembalikan(int kode, QDate tanggal, int dendaTerlambatPerBukuHari)
 {
     QSqlQuery query;
     query.prepare("UPDATE Detail_Peminjaman "
@@ -266,7 +266,7 @@ void PeminjamanRepository::tandaiDikembalikan(int kode, QDate tanggal)
                   "WHERE kd_detail_peminjaman = :kode");
     query.bindValue(":kode", kode);
     query.bindValue(":pengembalian", tanggal);
-    query.bindValue(":denda_terlambat", SQLHelper::getDendaPerHari());
+    query.bindValue(":denda_terlambat", dendaTerlambatPerBukuHari);
 
     if (!query.exec())
         qFatal() << "Cannot add Pengembalian " << query.lastError().text();

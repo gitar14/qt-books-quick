@@ -87,7 +87,7 @@ public:
     int add(int kodeMember, QDate tanggal, int lama);
     void update(int kode, int kodeMember, QDate tanggal, int lama);
     void remove(int kode);
-    void tandaiDikembalikan(int kode, QDate tanggal);
+    void tandaiDikembalikan(int kode, QDate tanggal, int dendaTerlambatPerBukuHari);
     void tandaiBelumDikembalikan(int kode);
 
     QList<PeminjamanBukuData*> getBukuList(int kode);

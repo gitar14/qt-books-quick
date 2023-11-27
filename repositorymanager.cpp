@@ -6,6 +6,7 @@
 #include "repository/peminjamanrepository.h"
 #include "repository/memberrepository.h"
 #include "repository/userrepository.h"
+#include "repository/settingrepository.h"
 #include <QDebug>
 
 RepositoryManager::RepositoryManager()
@@ -73,4 +74,12 @@ UserRepository *RepositoryManager::getUser()
         mUser = new UserRepository();
     }
     return mUser;
+}
+
+SettingRepository *RepositoryManager::getSetting()
+{
+    if (mSetting == nullptr) {
+        mSetting = new SettingRepository();
+    }
+    return mSetting;
 }

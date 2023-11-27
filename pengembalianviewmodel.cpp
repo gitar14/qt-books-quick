@@ -1,5 +1,6 @@
 #include "pengembalianviewmodel.h"
 #include "repositorymanager.h"
+#include "repository/settingrepository.h"
 
 PengembalianViewModel::PengembalianViewModel(QObject *parent)
     : QObject{parent},
@@ -23,6 +24,8 @@ void PengembalianViewModel::configure(int kode)
     qDeleteAll(prevList.begin(), prevList.end());
 
     setTanggalPengembalian(QDate::currentDate());
+
+    mDenda->setDendaTerlambatPerBuku(RepositoryManager::getInstance()->getSetting()->getDendaPerHari());
 
     emit bukuListChanged();
 }
@@ -53,6 +56,6 @@ PeminjamanDendaCalculator *PengembalianViewModel::denda() const
 
 void PengembalianViewModel::submit()
 {
-    mRepository->tandaiDikembalikan(mKode, tanggalPengembalian());
+    mRepository->tandaiDikembalikan(mKode, tanggalPengembalian(), mDenda->dendaTerlambatPerBuku());
     mRepository->updateAllBuku(mKode, mBukuList);
 }

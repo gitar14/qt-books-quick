@@ -1,17 +1,18 @@
-#ifndef SETTINGSMODEL_H
-#define SETTINGSMODEL_H
+#ifndef SETTINGVIEWMODEL_H
+#define SETTINGVIEWMODEL_H
 
 #include <QObject>
 #include <QQmlEngine>
+#include "repository/settingrepository.h"
 
-class SettingsModel : public QObject
+class SettingViewModel : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int dendaPerHari READ dendaPerHari WRITE setDendaPerHari NOTIFY dendaPerHariChanged)
     QML_ELEMENT
 public:
-    explicit SettingsModel(QObject *parent = nullptr);
-    ~SettingsModel();
+    explicit SettingViewModel(QObject *parent = nullptr);
+    ~SettingViewModel();
 
     Q_INVOKABLE void clearDatabase();
     int dendaPerHari() const;
@@ -21,7 +22,8 @@ signals:
 
     void dendaPerHariChanged();
 private:
+    SettingRepository* mRepository;
     int mDendaPerHari;
 };
 
-#endif // SETTINGSMODEL_H
+#endif // SETTINGVIEWMODEL_H

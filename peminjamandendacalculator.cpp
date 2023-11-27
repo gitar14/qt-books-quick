@@ -2,7 +2,7 @@
 #include "sqlhelper.h"
 
 PeminjamanDendaCalculator::PeminjamanDendaCalculator(QObject *parent)
-    : QObject{parent}, mDendaTerlambatPerBuku{SQLHelper::getDendaPerHari()}
+    : QObject{parent}
 {
 }
 
