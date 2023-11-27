@@ -1,4 +1,4 @@
-#include "kategorifiltermodel.h"
+#include "basefiltermodel.h".h"
 
 BaseFilterModel::BaseFilterModel(QObject *parent)
     : QAbstractProxyModel{parent}

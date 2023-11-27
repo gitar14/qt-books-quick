@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QQmlEngine>
-#include "kategorifiltermodel.h"
+#include "repository/kategorirepository.h"
 #include "penerbitfiltermodel.h"
 #include "repository/bukurepository.h"
 
@@ -17,7 +17,7 @@ class BukuPilihViewModel : public QObject
     Q_PROPERTY(QString textQuery READ textQuery WRITE setTextQuery NOTIFY textQueryChanged)
     Q_PROPERTY(int kategoriFilter READ kategoriFilter WRITE setKategoriFilter NOTIFY kategoriFilterChanged)
     Q_PROPERTY(int penerbitFilter READ penerbitFilter WRITE setPenerbitFilter NOTIFY penerbitFilterChanged)
-    Q_PROPERTY(KategoriFilterModel* kategoriFilterModel READ kategoriFilterModel CONSTANT)
+        Q_PROPERTY(QList<KategoriData *> kategoriFilterList READ kategoriFilterList NOTIFY kategoriFilterListChanged FINAL)
     Q_PROPERTY(PenerbitFilterModel* penerbitFilterModel READ penerbitFilterModel CONSTANT)
     QML_ELEMENT
 public:
@@ -25,7 +25,6 @@ public:
 
     QList<BukuData *> list() const;
 
-    KategoriFilterModel *kategoriFilterModel() const;
     PenerbitFilterModel *penerbitFilterModel() const;
 
     QList<int> ignoredKode() const;
@@ -46,6 +45,8 @@ public:
     int penerbitFilter() const;
     void setPenerbitFilter(int newPenerbitFilter);
 
+    QList<KategoriData *> kategoriFilterList() const;
+
 public slots:
     void refresh();
 
@@ -57,6 +58,8 @@ signals:
     void textQueryChanged();
     void kategoriFilterChanged();
     void penerbitFilterChanged();
+
+    void kategoriFilterListChanged();
 
 protected:
     BukuRepository* mRepository;
@@ -70,7 +73,7 @@ private:
 
     QString mTextQuery;
     int mKategoriFilter{-1};
-    KategoriFilterModel* mKategoriFilterModel;
+    QList<KategoriData*> mKategoriFilterList;
     int mPenerbitFilter{-1};
     PenerbitFilterModel* mPenerbitFilterModel;
 };

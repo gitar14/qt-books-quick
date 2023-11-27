@@ -3,16 +3,12 @@
 #include "repositorymanager.h"
 
 KategoriViewModel::KategoriViewModel(QObject *parent)
-    : QObject{parent}, mListModel{RepositoryManager::getInstance()->getKategori()->createListModel()}
+    : QObject{parent}, mRepository{RepositoryManager::getInstance()->getKategori()}
 {
-    mListModel->setParent(this);
-    connect(mListModel, SIGNAL(modelReset()), this, SLOT(refreshSelectedItem()));
+    refresh();
+    connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));
 }
 
-KategoriModel *KategoriViewModel::listModel() const
-{
-    return mListModel;
-}
 
 void KategoriViewModel::setSelectedIndex(int index)
 {
@@ -20,15 +16,6 @@ void KategoriViewModel::setSelectedIndex(int index)
     refreshSelectedItem();
 }
 
-int KategoriViewModel::selectedKode() const
-{
-    return mSelectedKode;
-}
-
-QString KategoriViewModel::selectedName() const
-{
-    return mSelectedName;
-}
 
 QString KategoriViewModel::textQuery() const
 {
@@ -40,31 +27,44 @@ void KategoriViewModel::setTextQuery(const QString &newTextQuery)
     if (mTextQuery == newTextQuery)
         return;
     mTextQuery = newTextQuery;
-    listModel()->setTextQuery(newTextQuery);
     emit textQueryChanged();
+    refresh();
 }
 
 void KategoriViewModel::removeSelected()
 {
-    RepositoryManager::getInstance()->getKategori()->remove(mSelectedKode);
+    mRepository->remove(mSelectedData->kode());
 }
 
 void KategoriViewModel::refreshSelectedItem()
 {
-    QModelIndex modelIndex = listModel()->index(mSelectedIndex, 0);
-    QVariant kodeVariant = listModel()->data(modelIndex, KategoriModel::KodeRole);
-    if (!kodeVariant.isNull()) {
-        mSelectedKode = kodeVariant.toInt();
-        mSelectedName = listModel()->data(modelIndex, KategoriModel::JenisRole).toString();
-    } else {
-        mSelectedKode = -1;
-        mSelectedName = "";
-    }
-    emit selectedKodeChanged();
-    emit selectedNameChanged();
+    if (mSelectedIndex < 0 || mSelectedIndex >= mList.length())
+        mSelectedData = new KategoriData();
+    else mSelectedData = mRepository->get(mList.at(mSelectedIndex)->kode());
+
+    emit selectedDataChanged();
+    emit hasSelectedItemChanged();
+}
+
+QList<KategoriData *> KategoriViewModel::list() const
+{
+    return mList;
 }
 
 bool KategoriViewModel::hasSelectedItem() const
 {
-    return mSelectedKode != -1;
+    return mSelectedData->kode() != -1;
+}
+
+KategoriData *KategoriViewModel::selectedData() const
+{
+    return mSelectedData;
+}
+
+void KategoriViewModel::refresh()
+{
+    mList = mRepository->getAll(mTextQuery);
+
+    emit listChanged();
+    refreshSelectedItem();
 }

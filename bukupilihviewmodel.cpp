@@ -5,14 +5,12 @@
 
 BukuPilihViewModel::BukuPilihViewModel(QObject *parent)
     : QObject{parent},
-    mKategoriFilterModel{new KategoriFilterModel(this)},
     mPenerbitFilterModel{new PenerbitFilterModel(this)}
 {
     RepositoryManager* repositoryManager = RepositoryManager::getInstance();
 
-    KategoriModel* kategoriModel = repositoryManager->getKategori()->createListModel();
-    kategoriModel->setParent(this);
-    mKategoriFilterModel->setSourceModel(kategoriModel);
+    mKategoriFilterList = repositoryManager->getKategori()->getAll("");
+    mKategoriFilterList.prepend(new KategoriData(-1, "Semua"));
 
     PenerbitModel* penerbitModel = repositoryManager->getPenerbit()->createListModel();
     penerbitModel->setParent(this);
@@ -26,11 +24,6 @@ BukuPilihViewModel::BukuPilihViewModel(QObject *parent)
 QList<BukuData *> BukuPilihViewModel::list() const
 {
     return mList;
-}
-
-KategoriFilterModel *BukuPilihViewModel::kategoriFilterModel() const
-{
-    return mKategoriFilterModel;
 }
 
 PenerbitFilterModel *BukuPilihViewModel::penerbitFilterModel() const
@@ -73,6 +66,11 @@ void BukuPilihViewModel::refreshSelectedItem()
     else mSelectedKode = mList.at(mSelectedIndex)->kode();
     emit selectedKodeChanged();
     emit hasSelectedItemChanged();
+}
+
+QList<KategoriData *> BukuPilihViewModel::kategoriFilterList() const
+{
+    return mKategoriFilterList;
 }
 
 bool BukuPilihViewModel::hasSelectedItem() const

@@ -21,9 +21,6 @@ BukuEditViewModel::BukuEditViewModel(QObject *parent)
 
     RepositoryManager* manager = RepositoryManager::getInstance();
 
-    mKategoriListModel = manager->getKategori()->createListModel();
-    mKategoriListModel->setParent(this);
-
     mPenerbitListModel = manager->getPenerbit()->createListModel();
     mPenerbitListModel->setParent(this);
 
@@ -44,7 +41,15 @@ void BukuEditViewModel::configure(int kode)
     mJumlahHilang = data->jumlahHilang();
     mTahunTerbit = data->tahunTerbit();
 
-    mKategoriField->setIndex(SQLHelper::getIndexByIntData(mKategoriListModel, KategoriModel::KodeRole, data->kodeKategori()));
+    mKategoriList = RepositoryManager::getInstance()->getKategori()->getAll("");
+
+    for (int i = 0; i < mKategoriList.length(); i++) {
+        if (mKategoriList.at(i)->kode() == data->kodeKategori()) {
+            mKategoriField->setIndex(i);
+            break;
+        }
+    }
+
     mPenerbitField->setIndex(SQLHelper::getIndexByIntData(mPenerbitListModel, PenerbitModel::KodeRole, data->kodePenebit()));
 
     emit jumlahHilangChanged();
@@ -90,11 +95,6 @@ void BukuEditViewModel::setTahunTerbit(int newTahunTerbit)
     emit tahunTerbitChanged();
 }
 
-KategoriModel *BukuEditViewModel::kategoriListModel() const
-{
-    return mKategoriListModel;
-}
-
 PenerbitModel *BukuEditViewModel::penerbitListModel() const
 {
     return mPenerbitListModel;
@@ -123,9 +123,7 @@ bool BukuEditViewModel::isValid() const
 void BukuEditViewModel::submit()
 {
     BukuRepository* repository = RepositoryManager::getInstance()->getBuku();
-    int kodeKategori = mKategoriListModel->data(
-        mKategoriListModel->index(mKategoriField->index(), 0),
-        KategoriModel::KodeRole).toInt();
+    int kodeKategori = mKategoriList.at(mKategoriField->index())->kode();
     int kodePenerbit = mPenerbitListModel->data(
         mPenerbitListModel->index(mPenerbitField->index(), 0),
         PenerbitModel::KodeRole).toInt();
@@ -133,4 +131,9 @@ void BukuEditViewModel::submit()
         repository->addNew(mJudulField->value(), mPenulisField->value(), mTahunTerbit, kodeKategori, kodePenerbit);
     else
         repository->edit(mKode, mJudulField->value(), mPenulisField->value(), mJumlahHilang, mTahunTerbit, kodeKategori, kodePenerbit);
+}
+
+QList<KategoriData *> BukuEditViewModel::kategoriList() const
+{
+    return mKategoriList;
 }

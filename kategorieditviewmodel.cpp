@@ -1,32 +1,23 @@
 #include "kategorieditviewmodel.h"
-#include "repository/kategorirepository.h"
 #include "repositorymanager.h"
 
 KategoriEditViewModel::KategoriEditViewModel(QObject *parent)
-    : QObject{parent}, mNamaField{new TextFieldData(this)}
+    : QObject{parent},
+    mRepository{RepositoryManager::getInstance()->getKategori()},
+    mNamaField{new TextFieldData(this)}
 {
     mNamaField->setName("Nama");
     mNamaField->setMaxLength(25);
     connect(mNamaField, SIGNAL(isValidChanged()), this, SIGNAL(isValidChanged()));
 }
 
-void KategoriEditViewModel::configure(int kode, QString nama)
+void KategoriEditViewModel::configure(int kode)
 {
-    setKode(kode);
-    mNamaField->setValue(nama);
-}
+    KategoriData* data = mRepository->get(kode);
+    mKode = data->kode();
+    mNamaField->setValue(data->nama());
 
-int KategoriEditViewModel::kode() const
-{
-    return mKode;
-}
-
-void KategoriEditViewModel::setKode(int newKode)
-{
-    if (mKode == newKode)
-        return;
-    mKode = newKode;
-    emit kodeChanged();
+    emit isNewChanged();
 }
 
 void KategoriEditViewModel::submit()

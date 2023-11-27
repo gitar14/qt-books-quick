@@ -4,7 +4,7 @@
 #include <QObject>
 #include "textfielddata.h"
 #include "combofielddata.h"
-#include "repository/list/kategorimodel.h"
+#include "repository/kategorirepository.h"
 #include "repository/list/penerbitmodel.h"
 
 class BukuEditViewModel : public QObject
@@ -17,7 +17,7 @@ class BukuEditViewModel : public QObject
     Q_PROPERTY(int tahunTerbit READ tahunTerbit WRITE setTahunTerbit NOTIFY tahunTerbitChanged)
     Q_PROPERTY(ComboFieldData* kategoriField READ kategoriField CONSTANT)
     Q_PROPERTY(ComboFieldData* penerbitField READ penerbitField CONSTANT)
-    Q_PROPERTY(KategoriModel* kategoriListModel READ kategoriListModel CONSTANT)
+    Q_PROPERTY(QList<KategoriData *> kategoriList READ kategoriList NOTIFY kategoriListChanged FINAL)
     Q_PROPERTY(PenerbitModel* penerbitListModel READ penerbitListModel CONSTANT)
     Q_PROPERTY(bool isValid READ isValid NOTIFY isValidChanged)
 public:
@@ -35,7 +35,6 @@ public:
     int tahunTerbit() const;
     void setTahunTerbit(int newTahunTerbit);
 
-    KategoriModel *kategoriListModel() const;
     PenerbitModel *penerbitListModel() const;
 
     bool isNew() const;
@@ -47,12 +46,15 @@ public:
 
     Q_INVOKABLE void submit();
 
+    QList<KategoriData *> kategoriList() const;
+    void setKategoriList(const QList<KategoriData *> &newKategoriList);
+
 signals:
     void jumlahHilangChanged();
     void tahunTerbitChanged();
     void isNewChanged();
-
     void isValidChanged();
+    void kategoriListChanged();
 
 private:
     int mKode;
@@ -63,9 +65,8 @@ private:
 
     ComboFieldData* mKategoriField;
     ComboFieldData* mPenerbitField;
-    KategoriModel* mKategoriListModel;
+    QList<KategoriData*> mKategoriList;
     PenerbitModel* mPenerbitListModel;
-    bool m_isValid;
 };
 
 #endif // BUKUEDITVIEWMODEL_H

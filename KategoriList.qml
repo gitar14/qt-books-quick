@@ -13,8 +13,8 @@ Item {
 
     AppGridView {
         id: kategoriGrid
-        onCurrentIndexChanged: selectedIndex = currentIndex
-        model: currentViewModel.listModel
+        onCurrentIndexChanged: currentViewModel.setSelectedIndex(currentIndex)
+        model: currentViewModel.list
         cellHeight: 100
 
         delegate: CardDelegate {
@@ -38,7 +38,7 @@ Item {
                 }
 
                 Label {
-                    text: TextHighlighter.highlightText(model.jenis, currentViewModel.textQuery)
+                    text: TextHighlighter.highlightText(modelData.nama, currentViewModel.textQuery)
                     textFormat: Label.StyledText
                     Layout.alignment: Qt.AlignHCenter
                 }

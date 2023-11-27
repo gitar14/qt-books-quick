@@ -39,15 +39,12 @@ Page {
                 kategoriEditDialog.viewModel.configure()
                 kategoriEditDialog.open()
             }
-            onSelectedIndexChanged: viewModel.setSelectedIndex(selectedIndex)
         }
 
         KategoriDetailFrame {
             id: kategoriDetailFrame
             onEditClicked: {
-                kategoriEditDialog.viewModel.configure(
-                            viewModel.selectedKode,
-                            viewModel.selectedName)
+                kategoriEditDialog.viewModel.configure(viewModel.selectedData.kode)
                 kategoriEditDialog.open()
             }
             onDeleteClicked: viewModel.removeSelected()

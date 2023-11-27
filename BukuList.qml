@@ -29,9 +29,9 @@ Item {
             }
 
             ComboBox {
-                model: currentViewModel.kategoriFilterModel
+                model: currentViewModel.kategoriFilterList
                 valueRole: "kode"
-                textRole: "jenis"
+                textRole: "nama"
                 editable: true
                 currentIndex: 0
                 onCurrentValueChanged: currentViewModel.kategoriFilter = currentValue
