@@ -21,9 +21,6 @@ namespace SQLHelper {
     void applyBindMaps(QSqlQuery& query, const QHash<QString, QVariant>& binds);
     void initializeDatabase(QSqlDatabase& db);
     void clearDatabase(QSqlDatabase& db);
-    QString generateId(const QString& table, const QString &primaryKey, const QString& prefix);
-    QList<int> getModelDataIntList(const QAbstractItemModel* model, int role);
-    int getIndexByIntData(const QAbstractItemModel* model, int role, int value);
 }
 
 #endif // SQLHELPER_H

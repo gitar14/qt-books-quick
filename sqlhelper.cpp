@@ -159,37 +159,4 @@ namespace SQLHelper {
             }
         }
     }
-
-    QString generateId(const QString &table, const QString &primaryKey, const QString &prefix) {
-        QSqlQuery query;
-        if (!query.exec(QStringLiteral(
-                            "SELECT MAX(CAST(%1 AS UNSIGNED)) FROM %2"
-                            ).arg(primaryKey, table)))
-            qFatal() << "Cannot query max " << table << " kode " << query.lastError().text();
-
-        int maxKode = -1;
-        if (query.next()) {
-            maxKode = query.value(0).toInt();
-        }
-
-        return QString::number(maxKode + 1).rightJustified(4, '0');
-    }
-
-    QList<int> getModelDataIntList(const QAbstractItemModel* model, int role) {
-        const int count = model->rowCount();
-        QList<int> result(count);
-        for (int i = 0; i < count; i++) {
-            result[i] = model->data(model->index(i, 0), role).toInt();
-        }
-        return result;
-    }
-
-    int getIndexByIntData(const QAbstractItemModel* model, int role, int value) {
-        const int count = model->rowCount();
-        for (int i = 0; i < count; i++) {
-            if (model->data(model->index(i, 0), role).toInt() == value)
-                return i;
-        }
-        return -1;
-    }
 }
