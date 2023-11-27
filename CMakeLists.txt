@@ -92,46 +92,43 @@ qt_add_qml_module(appqt-books-qml
     SOURCES
     SOURCES texthighlighter.h texthighlighter.cpp
     QML_FILES CardBackground.qml
-    SOURCES peminjamandendacalculator.h peminjamandendacalculator.cpp
-    SOURCES kategoriviewmodel.h kategoriviewmodel.cpp
-    SOURCES kategorieditviewmodel.h kategorieditviewmodel.cpp
+    SOURCES peminjaman/peminjamandendacalculator.h peminjaman/peminjamandendacalculator.cpp
+    SOURCES kategori/kategoriviewmodel.h kategori/kategoriviewmodel.cpp
+    SOURCES kategori/kategorieditviewmodel.h kategori/kategorieditviewmodel.cpp
     SOURCES repository/kategorirepository.h repository/kategorirepository.cpp
     SOURCES repositorymanager.h repositorymanager.cpp
     SOURCES repository/penerbitrepository.h repository/penerbitrepository.cpp
     SOURCES repository/penerbitrepository.h repository/penerbitrepository.cpp
-    SOURCES penerbitviewmodel.h penerbitviewmodel.cpp
+    SOURCES penerbit/penerbitviewmodel.h penerbit/penerbitviewmodel.cpp
     SOURCES textfielddata.h textfielddata.cpp
-    SOURCES penerbiteditviewmodel.h penerbiteditviewmodel.cpp
+    SOURCES penerbit/penerbiteditviewmodel.h penerbit/penerbiteditviewmodel.cpp
     QML_FILES BaseTextField.qml
-    SOURCES bukuviewmodel.h bukuviewmodel.cpp
+    SOURCES buku/bukuviewmodel.h buku/bukuviewmodel.cpp
     SOURCES repository/bukurepository.h repository/bukurepository.cpp
     SOURCES repository/peminjamanrepository.h repository/peminjamanrepository.cpp
     SOURCES repository/pengadaanrepository.h repository/pengadaanrepository.cpp
-    SOURCES bukueditviewmodel.h bukueditviewmodel.cpp
-    SOURCES bukueditviewmodel.h bukueditviewmodel.cpp
+    SOURCES buku/bukueditviewmodel.h buku/bukueditviewmodel.cpp
     SOURCES basefielddata.h basefielddata.cpp
     SOURCES combofielddata.h combofielddata.cpp
     QML_FILES BaseComboField.qml
-    SOURCES pengadaanviewmodel.h pengadaanviewmodel.cpp
-    SOURCES pengadaaneditviewmodel.h pengadaaneditviewmodel.cpp
-    SOURCES bukupilihviewmodel.h bukupilihviewmodel.cpp
-    SOURCES peminjamanviewmodel.h peminjamanviewmodel.cpp
-    SOURCES peminjamaneditviewmodel.h peminjamaneditviewmodel.cpp
-    SOURCES pengembalianviewmodel.h pengembalianviewmodel.cpp
-    SOURCES pengembalianviewmodel.h pengembalianviewmodel.cpp
+    SOURCES pengadaan/pengadaanviewmodel.h pengadaan/pengadaanviewmodel.cpp
+    SOURCES pengadaan/pengadaaneditviewmodel.h pengadaan/pengadaaneditviewmodel.cpp
+    SOURCES buku/bukupilihviewmodel.h buku/bukupilihviewmodel.cpp
+    SOURCES peminjaman/peminjamanviewmodel.h peminjaman/peminjamanviewmodel.cpp
+    SOURCES peminjaman/peminjamaneditviewmodel.h peminjaman/peminjamaneditviewmodel.cpp
+    SOURCES peminjaman/pengembalianviewmodel.h peminjaman/pengembalianviewmodel.cpp
     SOURCES repository/memberrepository.h repository/memberrepository.cpp
-    SOURCES memberviewmodel.h memberviewmodel.cpp
-    SOURCES membereditviewmodel.h membereditviewmodel.cpp
-    SOURCES memberpilihviewmodel.h memberpilihviewmodel.cpp
+    SOURCES member/memberviewmodel.h member/memberviewmodel.cpp
+    SOURCES member/membereditviewmodel.h member/membereditviewmodel.cpp
+    SOURCES member/memberpilihviewmodel.h member/memberpilihviewmodel.cpp
     SOURCES repository/userrepository.h repository/userrepository.cpp
     SOURCES usecase/userusecase.h
     SOURCES usecase/userusecase.cpp
-    SOURCES userbuatadminviewmodel.h userbuatadminviewmodel.cpp
-    SOURCES userloginviewmodel.h userloginviewmodel.cpp
-    SOURCES userpegawaiviewmodel.h userpegawaiviewmodel.cpp
-    SOURCES userpegawaiviewmodel.h userpegawaiviewmodel.cpp
-    SOURCES userbaseeditviewmodel.h userbaseeditviewmodel.cpp
-    SOURCES userpegawaieditviewmodel.h userpegawaieditviewmodel.cpp
+    SOURCES user/userbuatadminviewmodel.h user/userbuatadminviewmodel.cpp
+    SOURCES user/userloginviewmodel.h user/userloginviewmodel.cpp
+    SOURCES user/userpegawaiviewmodel.h user/userpegawaiviewmodel.cpp
+    SOURCES user/userbaseeditviewmodel.h user/userbaseeditviewmodel.cpp
+    SOURCES user/userpegawaieditviewmodel.h user/userpegawaieditviewmodel.cpp
     SOURCES repository/settingrepository.h repository/settingrepository.cpp
     SOURCES repository/configurationrepository.h repository/configurationrepository.cpp
 )
@@ -147,7 +144,15 @@ set_target_properties(appqt-books-qml PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-target_include_directories(appqt-books-qml PRIVATE ${BOTAN_INCLUDE_DIRS})
+target_include_directories(appqt-books-qml PRIVATE
+    ${BOTAN_INCLUDE_DIRS}
+    "${CMAKE_CURRENT_SOURCE_DIR}/buku"
+    "${CMAKE_CURRENT_SOURCE_DIR}/kategori"
+    "${CMAKE_CURRENT_SOURCE_DIR}/member"
+    "${CMAKE_CURRENT_SOURCE_DIR}/peminjaman"
+    "${CMAKE_CURRENT_SOURCE_DIR}/penerbit"
+    "${CMAKE_CURRENT_SOURCE_DIR}/pengadaan"
+    "${CMAKE_CURRENT_SOURCE_DIR}/user")
 target_link_libraries(appqt-books-qml
     PRIVATE Qt6::Quick Qt6::Sql Qt6::QuickControls2 ${BOTAN_LIBRARY}
 )
