@@ -124,6 +124,13 @@ void PeminjamanViewModel::tandaiBelumDikembalikanSelected()
     mRepository->resetDendaBuku(mSelectedData->kode());
 }
 
+void PeminjamanViewModel::removeSelectedItem()
+{
+    int kode = mSelectedData->kode();
+    mRepository->remove(kode);
+    mRepository->removeAllBuku(kode);
+}
+
 QList<PeminjamanBukuData *> PeminjamanViewModel::selectedBukuList() const
 {
     return mSelectedBukuList;

@@ -57,6 +57,8 @@ public:
 
     Q_INVOKABLE void tandaiBelumDikembalikanSelected();
 
+    Q_INVOKABLE void removeSelectedItem();
+
 public slots:
     void refresh();
 

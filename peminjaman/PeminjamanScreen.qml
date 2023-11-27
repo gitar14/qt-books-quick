@@ -58,8 +58,7 @@ Page {
             }
 
             onDeleteClicked: {
-                peminjamanBukuModel.removeAll();
-                peminjamanModel.remove(peminjamanKode);
+                viewModel.removeSelectedItem()
             }
 
             onTandaiDikembalikanClicked: {
