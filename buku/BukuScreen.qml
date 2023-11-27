@@ -48,7 +48,7 @@ Page {
                 editDialog.viewModel.configure(viewModel.selectedData.kode)
                 editDialog.open()
             }
-            onDeleteClicked: listModel.remove(bukuKode)
+            onDeleteClicked: viewModel.removeSelected()
         }
 
         BukuEditDialog {

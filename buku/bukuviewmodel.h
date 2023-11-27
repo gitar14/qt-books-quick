@@ -19,6 +19,8 @@ public:
     int selectedJumlahPengadaan() const;
     int selectedJumlahDipinjam() const;
 
+    Q_INVOKABLE void removeSelected();
+
 signals:
     void selectedDataChanged();
     void selectedJumlahPengadaanChanged();

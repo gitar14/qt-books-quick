@@ -26,6 +26,11 @@ int BukuViewModel::selectedJumlahDipinjam() const
     return mSelectedJumlahDipinjam;
 }
 
+void BukuViewModel::removeSelected()
+{
+    mRepository->remove(selectedKode());
+}
+
 void BukuViewModel::refreshSelectedItem()
 {
     BukuPilihViewModel::refreshSelectedItem();
