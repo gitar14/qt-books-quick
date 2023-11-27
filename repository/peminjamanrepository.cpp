@@ -209,7 +209,7 @@ int PeminjamanRepository::add(int kodeMember, QDate tanggal, int lama)
                   " :tanggal,"
                   " :lama"
                   ")");
-    query.bindValue(":user", UserManager::getInstance()->loggedUserId());
+    query.bindValue(":user", UserManager::getInstance()->loggedUser()->id());
     query.bindValue(":member", kodeMember);
     query.bindValue(":tanggal", tanggal);
     query.bindValue(":lama", lama);

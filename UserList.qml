@@ -7,26 +7,16 @@ Item {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    property var currentItemData
-    property UserModel listModel
+    property UserPegawaiViewModel currentViewModel
     signal addClicked()
 
     AppGridView {
         id: userGrid
-
-        onCurrentItemChanged: {
-            if (currentItem == null) {
-                currentItemData = null
-            } else {
-                currentItemData = currentItem.itemData
-            }
-        }
-
-        model: listModel
+        onCurrentIndexChanged: currentViewModel.setSelectedIndex(currentIndex)
+        model: currentViewModel.list
         cellHeight: 108
 
         delegate: CardDelegate {
-            property var itemData: model
             width: GridView.view.itemWidth
             height: GridView.view.itemHeight
             highlighted: GridView.isCurrentItem
@@ -50,7 +40,8 @@ Item {
                 }
 
                 Label {
-                    text: TextHighlighter.highlightText(model.name, listModel.textQuery)
+                    text: TextHighlighter.highlightText(modelData.namaDepan + " " + modelData.namaBelakang,
+                                                        currentViewModel.textQuery)
                     Layout.fillWidth: true
                     horizontalAlignment: Qt.AlignHCenter
                     textFormat: Label.StyledText

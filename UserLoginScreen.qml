@@ -5,16 +5,10 @@ import QtQuick.Layouts
 import Kelompok7.Perpus
 
 Item {
-    property string userId: ""
-    property string userPassword: ""
-    property string lastError: ""
+    signal loggedIn()
 
-    Connections {
-        target: UserManager
-
-        function onLoginFailed(reason) {
-            lastError = reason
-        }
+    UserLoginViewModel {
+        id: viewModel
     }
 
     Frame {
@@ -29,49 +23,35 @@ Item {
                 font.pixelSize: 20
             }
 
-            Label {
-                text: "ID"
-            }
-
-            TextField {
-                Layout.fillWidth: true
+            BaseTextField {
+                field: viewModel.idField
                 validator: RegularExpressionValidator {
                     regularExpression: /(?:\d|\w)*/
                 }
-                maximumLength: 15
-
-                text: userId
-                onTextChanged: userId = text
             }
 
-            Label {
-                text: "Password"
-            }
-
-            TextField {
-                Layout.fillWidth: true
+            BaseTextField {
+                field: viewModel.passwordField
                 echoMode: TextInput.Password
 
-                text: userPassword
-                onTextChanged: userPassword = text
             }
 
             Label {
-                text: lastError
+                text: viewModel.errorText
                 color: Material.color(Material.Red, Material.Shade500)
-                visible: lastError.length > 0
+                visible: text.length > 0
             }
 
             Button {
                 Layout.alignment: Qt.AlignRight
                 text: "Login"
                 highlighted: true
-                enabled: userId.length > 0 &&
-                         userPassword.length > 0
+                enabled: viewModel.isValid
 
-                onClicked: UserManager.login(
-                               userId,
-                               userPassword);
+                onClicked: {
+                    if (viewModel.login())
+                        loggedIn()
+                }
             }
         }
     }

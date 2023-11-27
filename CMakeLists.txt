@@ -79,8 +79,8 @@ qt_add_qml_module(appqt-books-qml
     QML_FILES UserBuatAdminScreen.qml
     SOURCES usermanager.h usermanager.cpp
     QML_FILES UserLoginScreen.qml
-    SOURCES usermodel.cpp
-    SOURCES usermodel.h
+    SOURCES
+    SOURCES
     QML_FILES UserScreen.qml
     QML_FILES UserList.qml
     QML_FILES UserEditDialog.qml
@@ -123,6 +123,15 @@ qt_add_qml_module(appqt-books-qml
     SOURCES memberviewmodel.h memberviewmodel.cpp
     SOURCES membereditviewmodel.h membereditviewmodel.cpp
     SOURCES memberpilihviewmodel.h memberpilihviewmodel.cpp
+    SOURCES repository/userrepository.h repository/userrepository.cpp
+    SOURCES usecase/userusecase.h
+    SOURCES usecase/userusecase.cpp
+    SOURCES userbuatadminviewmodel.h userbuatadminviewmodel.cpp
+    SOURCES userloginviewmodel.h userloginviewmodel.cpp
+    SOURCES userpegawaiviewmodel.h userpegawaiviewmodel.cpp
+    SOURCES userpegawaiviewmodel.h userpegawaiviewmodel.cpp
+    SOURCES userbaseeditviewmodel.h userbaseeditviewmodel.cpp
+    SOURCES userpegawaieditviewmodel.h userpegawaieditviewmodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

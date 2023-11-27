@@ -20,7 +20,6 @@ public:
 
 signals:
     void selectedDataChanged();
-
 private slots:
     void refreshSelectedData();
 

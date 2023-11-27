@@ -3,7 +3,7 @@
 TextFieldData::TextFieldData(QObject *parent)
     : BaseFieldData{parent}
 {
-
+    connect(this, SIGNAL(errorTextChanged()), this, SIGNAL(isValidChanged()));
 }
 
 QString TextFieldData::value() const
@@ -20,12 +20,13 @@ void TextFieldData::setValue(const QString &newValue)
     emit valueChanged();
     emit errorTextChanged();
     emit availableLengthChanged();
-    emit isValidChanged();
 }
 
 QString TextFieldData::errorText() const
 {
     if (mValue.length() == 0) return QStringLiteral("%1 tidak boleh kosong").arg(name());
+    if (mReferenceField != nullptr && mReferenceField->value() != mValue)
+        return QStringLiteral("%1 harus sama dengan %2").arg(name(), mReferenceField->name());
     return "";
 }
 
@@ -47,4 +48,23 @@ void TextFieldData::setMaxLength(int newMaxLength)
 int TextFieldData::availableLength() const
 {
     return mMaxLength - mValue.length();
+}
+
+TextFieldData *TextFieldData::referenceField() const
+{
+    return mReferenceField;
+}
+
+void TextFieldData::setReferenceField(TextFieldData *newReferenceField)
+{
+    if (mReferenceField == newReferenceField)
+        return;
+    if (mReferenceField != nullptr)
+        disconnect(mReferenceField, SIGNAL(valueChanged()), this, SIGNAL(errorTextChanged()));
+
+    mReferenceField = newReferenceField;
+    connect(mReferenceField, SIGNAL(valueChanged()), this, SIGNAL(errorTextChanged()));
+
+    emit referenceFieldChanged();
+    emit errorTextChanged();
 }

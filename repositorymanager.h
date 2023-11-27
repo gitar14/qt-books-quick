@@ -7,6 +7,7 @@ class BukuRepository;
 class PengadaanRepository;
 class PeminjamanRepository;
 class MemberRepository;
+class UserRepository;
 
 class RepositoryManager
 {
@@ -19,6 +20,7 @@ private:
     PengadaanRepository* mPengadaan = nullptr;
     PeminjamanRepository* mPeminjaman = nullptr;
     MemberRepository* mMember = nullptr;
+    UserRepository* mUser = nullptr;
 public:
     static RepositoryManager *getInstance();
 
@@ -28,6 +30,7 @@ public:
     PengadaanRepository* getPengadaan();
     PeminjamanRepository* getPeminjaman();
     MemberRepository* getMember();
+    UserRepository* getUser();
 };
 
 #endif // REPOSITORYMANAGER_H

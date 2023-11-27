@@ -4,103 +4,67 @@ import QtQuick.Layouts
 import Kelompok7.Perpus
 
 Item {
-    property string userId: ""
-    property string userNamaDepan: ""
-    property string userNamaBelakang: ""
-    property string userPassword: ""
-    property string userPasswordUlang: ""
+    signal userCreated()
+
+    UserBuatAdminViewModel {
+        id: viewModel
+    }
 
     Frame {
         anchors.centerIn: parent
         width: 384
+        height: Math.min(parent.height - 64, columnLayout.height)
 
-        ColumnLayout {
+        Flickable {
+            contentHeight: columnLayout.height
+            clip: true
             anchors.fill: parent
-            Label {
-                text: "Buat Akun Admin"
-                Layout.alignment: Qt.AlignHCenter
-                font.pixelSize: 20
-            }
 
-            Label {
-                text: "ID"
-            }
+            ColumnLayout {
+                id: columnLayout
+                width: parent.width
 
-            TextField {
-                Layout.fillWidth: true
-                validator: RegularExpressionValidator {
-                    regularExpression: /(?:\d|\w)*/
+                Label {
+                    text: "Buat Akun Admin"
+                    Layout.alignment: Qt.AlignHCenter
+                    font.pixelSize: 20
                 }
-                maximumLength: 15
 
-                text: userId
-                onTextChanged: userId = text
-            }
+                BaseTextField {
+                    field: viewModel.idField
+                    validator: RegularExpressionValidator {
+                        regularExpression: /(?:\d|\w)*/
+                    }
+                }
 
-            Label {
-                text: "Nama Depan"
-            }
+                BaseTextField {
+                    field: viewModel.namaDepanField
+                }
 
-            TextField {
-                Layout.fillWidth: true
-                maximumLength: 25
+                BaseTextField {
+                    field: viewModel.namaBelakakngField
+                }
 
-                text:  userNamaDepan
-                onTextChanged: userNamaDepan = text
-            }
+                BaseTextField {
+                    field: viewModel.password
+                    echoMode: TextInput.Password
+                }
 
-            Label {
-                text: "Nama Belakang"
-            }
+                BaseTextField {
+                    field: viewModel.passwordUlang
+                    echoMode: TextInput.Password
+                }
 
-            TextField {
-                Layout.fillWidth: true
-                maximumLength: 25
-
-                text: userNamaBelakang
-                onTextChanged: userNamaBelakang = text
-            }
-
-            Label {
-                text: "Password"
-            }
-
-            TextField {
-                Layout.fillWidth: true
-                echoMode: TextInput.Password
-
-                text: userPassword
-                onTextChanged: userPassword = text
-            }
-
-            Label {
-                text: "Ulangi Password"
-            }
-
-
-            TextField {
-                Layout.fillWidth: true
-                echoMode: TextInput.Password
-                text: userPasswordUlang
-                onTextChanged: userPasswordUlang = text
-            }
-
-            Button {
-                Layout.alignment: Qt.AlignRight
-                text: "Buat Akun"
-                highlighted: true
-                enabled: userId.length > 0 &&
-                         userNamaDepan.length > 0 &&
-                         userNamaBelakang.length > 0 &&
-                         userPassword.length > 0 &&
-                         userPassword == userPasswordUlang
-
-                onClicked: UserManager.addUser(
-                               userId,
-                               userNamaDepan,
-                               userNamaBelakang,
-                               UserManager.AdminRole,
-                               userPassword);
+                Button {
+                    Layout.alignment: Qt.AlignRight
+                    text: "Buat Akun"
+                    highlighted: true
+                    enabled: viewModel.isValid
+                    onClicked: {
+                        viewModel.submit()
+                        userCreated()
+                    }
+                }
             }
         }
     }

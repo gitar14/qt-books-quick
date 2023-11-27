@@ -52,7 +52,7 @@ Item {
 
                     Label {
                         Layout.fillWidth: true
-                        text: UserManager.loggedUserName
+                        text: UserManager.loggedUser.namaDepan + " " + UserManager.loggedUser.namaBelakang
                     }
 
                 }
@@ -66,7 +66,7 @@ Item {
 
                     model: ListModel {
                         Component.onCompleted: {
-                            if (UserManager.loggedUserRole != UserManager.AdminRole) {
+                            if (UserManager.loggedUser.role != 0) {
                                 remove(count - 2)
                             }
                         }

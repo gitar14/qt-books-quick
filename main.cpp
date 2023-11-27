@@ -4,6 +4,7 @@
 #include <QtSql>
 #include <QDir>
 
+#include "userloginviewmodel.h"
 #include "kategoriviewmodel.h"
 #include "kategorieditviewmodel.h"
 #include "bukupilihviewmodel.h"
@@ -19,7 +20,9 @@
 #include "connectionmanager.h"
 #include "settingsmodel.h"
 #include "usermanager.h"
-#include "usermodel.h"
+#include "userbuatadminviewmodel.h"
+#include "userpegawaiviewmodel.h"
+#include "userpegawaieditviewmodel.h"
 #include "peminjamaneditviewmodel.h"
 #include "peminjamanviewmodel.h"
 #include "pengembalianviewmodel.h"
@@ -45,7 +48,10 @@ int main(int argc, char *argv[])
     qmlRegisterType<MemberPilihViewModel>(PACKAGE, 1, 0, "MemberPilihViewModel");
     qmlRegisterType<MemberViewModel>(PACKAGE, 1, 0, "MemberViewModel");
     qmlRegisterType<MemberEditViewModel>(PACKAGE, 1, 0, "MemberEditViewModel");
-    qmlRegisterType<UserModel>(PACKAGE,1,0,"UserModel");
+    qmlRegisterType<UserPegawaiViewModel>(PACKAGE,1,0, "UserPegawaiViewModel");
+    qmlRegisterType<UserPegawaiEditViewModel>(PACKAGE,1,0, "UserPegawaiEditViewModel");
+    qmlRegisterType<UserBuatAdminViewModel>(PACKAGE,1,0,"UserBuatAdminViewModel");
+    qmlRegisterType<UserLoginViewModel>(PACKAGE, 1, 0, "UserLoginViewModel");
     qmlRegisterType<PeminjamanViewModel>(PACKAGE, 1, 0, "PeminjamanViewModel");
     qmlRegisterType<PeminjamanEditViewModel>(PACKAGE, 1, 0, "PeminjamanEditViewModel");
     qmlRegisterType<PengembalianViewModel>(PACKAGE, 1, 0, "PengembalianViewModel");

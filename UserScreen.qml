@@ -20,52 +20,33 @@ Page {
             }
 
             SearchField {
-                text: userModel.textQuery
-                onTextChanged: userModel.textQuery = text
+                text: viewModel.textQuery
+                onTextChanged: viewModel.textQuery = text
             }
         }
     }
 
 
-    UserModel {
-        id: userModel
+    UserPegawaiViewModel {
+        id: viewModel
     }
 
     RowLayout {
         anchors.fill: parent
 
         UserList {
-            listModel: userModel
+            currentViewModel: viewModel
             onAddClicked: {
-                userEditDialog.useridUser = ""
-                userEditDialog.userNamaDepan = ""
-                userEditDialog.userNamaBelakang = ""
-                userEditDialog.userPassword = ""
-                userEditDialog.userIsNew = true
+                userEditDialog.viewModel.configure()
                 userEditDialog.open()
-            }
-
-            onCurrentItemDataChanged: {
-                if (currentItemData == null) {
-                    userDetailFrame.useridUser = ""
-                    userDetailFrame.userNamaDepan = ""
-                    userDetailFrame.userNamaBelakang = ""
-                } else {
-                    userDetailFrame.useridUser = currentItemData.idUser
-                    userDetailFrame.userNamaDepan = currentItemData.namaDepan
-                    userDetailFrame.userNamaBelakang = currentItemData.namaBelakang
-                }
             }
         }
 
         UserDetailFrame {
+            currentViewModel: viewModel
             id: userDetailFrame
             onEditClicked: {
-                userEditDialog.useridUser = useridUser
-                userEditDialog.userNamaDepan = userNamaDepan
-                userEditDialog.userNamaBelakang = userNamaBelakang
-                userEditDialog.userPassword = ""
-                userEditDialog.userIsNew = false
+                userEditDialog.viewModel.configure(viewModel.selectedData.id)
                 userEditDialog.open()
             }
             onDeleteClicked: userModel.remove(useridUser)
@@ -74,16 +55,6 @@ Page {
 
         UserEditDialog{
             id: userEditDialog
-
-            onAccepted: {
-                if (userIsNew)
-                    userModel.addNew(useridUser, userNamaDepan, userNamaBelakang, userPassword)
-                else userModel.edit(
-                         useridUser,
-                         userNamaDepan,
-                         userNamaBelakang
-                    )
-            }
         }
     }
 }

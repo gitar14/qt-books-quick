@@ -11,6 +11,7 @@ class TextFieldData : public BaseFieldData
     Q_PROPERTY(QString value READ value WRITE setValue NOTIFY valueChanged)
     Q_PROPERTY(int maxLength READ maxLength WRITE setMaxLength NOTIFY maxLengthChanged)
     Q_PROPERTY(int availableLength READ availableLength NOTIFY availableLengthChanged)
+        Q_PROPERTY(TextFieldData *referenceField READ referenceField WRITE setReferenceField NOTIFY referenceFieldChanged FINAL)
     QML_ELEMENT
 public:
     explicit TextFieldData(QObject *parent = nullptr);
@@ -25,15 +26,21 @@ public:
 
     int availableLength() const;
 
+    TextFieldData *referenceField() const;
+    void setReferenceField(TextFieldData *newReferenceField);
+
 signals:
     void valueChanged();
     void maxLengthChanged();
     void availableLengthChanged();
 
+    void referenceFieldChanged();
+
 private:
     QString mValue;
     int mMaxLength;
     int mAvailableLength;
+    TextFieldData* mReferenceField = nullptr;
 };
 
 #endif // TEXTFIELDDATA_H

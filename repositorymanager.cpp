@@ -5,6 +5,7 @@
 #include "repository/pengadaanrepository.h"
 #include "repository/peminjamanrepository.h"
 #include "repository/memberrepository.h"
+#include "repository/userrepository.h"
 #include <QDebug>
 
 RepositoryManager::RepositoryManager()
@@ -64,4 +65,12 @@ MemberRepository *RepositoryManager::getMember()
         mMember = new MemberRepository();
     }
     return mMember;
+}
+
+UserRepository *RepositoryManager::getUser()
+{
+    if (mUser == nullptr) {
+        mUser = new UserRepository();
+    }
+    return mUser;
 }

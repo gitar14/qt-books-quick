@@ -125,7 +125,7 @@ int PengadaanRepository::add(QString sumber, QDate tanggalPengadaan)
                   " :sumber,"
                   " :tanggalPengadaan"
                   ")");
-    query.bindValue(":user", UserManager::getInstance()->loggedUserId());
+    query.bindValue(":user", UserManager::getInstance()->loggedUser()->id());
     query.bindValue(":sumber", sumber);
     query.bindValue(":tanggalPengadaan", tanggalPengadaan);
 

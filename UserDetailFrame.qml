@@ -1,12 +1,10 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import Kelompok7.Perpus
 
 BaseDetailFrame {
-    property string useridUser: ""
-    property string userNamaDepan: ""
-    property string userNamaBelakang: ""
-
+    property UserPegawaiViewModel currentViewModel
     signal editClicked()
     signal deleteClicked()
 
@@ -14,7 +12,7 @@ BaseDetailFrame {
         anchors.fill: parent
         columns: 2
         columnSpacing: 16
-        visible: useridUser != ""
+        visible: currentViewModel.hasSelectedItem
 
         Label {
             text: "ID User"
@@ -22,7 +20,7 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: useridUser
+            text: currentViewModel.selectedData.id
         }
 
         Label {
@@ -31,7 +29,7 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: userNamaDepan
+            text: currentViewModel.selectedData.namaDepan
         }
 
         Label {
@@ -40,7 +38,7 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: userNamaBelakang
+            text: currentViewModel.selectedData.namaBelakang
         }
 
         Item {
@@ -65,7 +63,7 @@ BaseDetailFrame {
 
     Label {
         anchors.fill: parent
-        visible: useridUser == ""
+        visible: !currentViewModel.hasSelectedItem
 
         text: "Tidak ada user yang terpilih"
     }

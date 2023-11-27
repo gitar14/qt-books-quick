@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import Kelompok7.Perpus
 
 Dialog {
     parent: Overlay.overlay
@@ -12,14 +13,13 @@ Dialog {
 
     modal: true
 
-    property bool userIsNew: false
-    property string useridUser: ""
-    property string userNamaDepan: ""
-    property string userNamaBelakang: ""
-    property string userPassword: ""
-    property string userPasswordUlang: ""
+    property UserPegawaiEditViewModel viewModel: UserPegawaiEditViewModel {}
 
-    title: userIsNew ? "Tambah Pegawai" : "Edit Pegawai"
+    title: viewModel.isNew ? "Tambah Pegawai" : "Edit Pegawai"
+
+    onAccepted: {
+        viewModel.submit()
+    }
 
     footer: DialogButtonBox {
         Button {
@@ -29,8 +29,7 @@ Dialog {
         }
         Button {
             text: "Simpan"
-            enabled: userNamaDepan.length > 0 && userNamaBelakang.length > 0
-                     && ((userPassword.length > 0 && userPassword == userPasswordUlang) || !userIsNew) && useridUser.length > 0
+            enabled: viewModel.isValid
             DialogButtonBox.buttonRole: Dialog.AcceptRole
             flat: true
         }
@@ -50,122 +49,32 @@ Dialog {
             spacing: 8
             width: parent.width
 
-            Label {
-            text: "ID USER"
+            BaseTextField {
+                field: viewModel.idField
+                visible: viewModel.isNew
+                validator: RegularExpressionValidator {
+                    regularExpression: /(?:\d|\w)*/
+                }
             }
 
-            TextField {
-                id: useridUserTextField
-                Layout.fillWidth: true
-                text: useridUser
-                onTextChanged: useridUser = text
-                maximumLength: 25
-                readOnly: !userIsNew
+            BaseTextField {
+                field: viewModel.namaDepanField
             }
 
-            Label {
-                Layout.alignment: Qt.AlignRight
-                text: (useridUserTextField.maximumLength - useridUser.length) + " tersisa"
+            BaseTextField {
+                field: viewModel.namaBelakakngField
             }
 
-            Label {
-                color: Material.color(Material.Red)
-                text: "ID User tidak boleh kosong"
-                visible: useridUser.length == 0
-            }
-
-            Label {
-                text: "Nama Depan"
-            }
-
-            TextField {
-                id: userNamaDepanTextField
-                Layout.fillWidth: true
-                text: userNamaDepan
-                onTextChanged: userNamaDepan = text
-                maximumLength: 25
-            }
-
-            Label {
-                Layout.alignment: Qt.AlignRight
-                text: (userNamaDepanTextField.maximumLength - userNamaDepan.length) + " tersisa"
-            }
-
-            Label {
-                color: Material.color(Material.Red)
-                text: "Nama Depan tidak boleh kosong"
-                visible: userNamaDepan.length == 0
-            }
-
-            Label {
-                text: "Nama Belakang"
-            }
-
-            TextField {
-                id: userNamaBelakangTextField
-                Layout.fillWidth: true
-                text: userNamaBelakang
-                onTextChanged: userNamaBelakang = text
-                maximumLength: 25
-            }
-
-            Label {
-                Layout.alignment: Qt.AlignRight
-                text: (userNamaBelakangTextField.maximumLength - userNamaBelakang.length) + " tersisa"
-            }
-
-            Label {
-                color: Material.color(Material.Red)
-                text: "Nama Belakang tidak boleh kosong"
-                visible: userNamaBelakang.length == 0
-            }
-
-            Label {
-                visible: userIsNew
-                text: "Password"
-            }
-
-            TextField {
-                visible: userIsNew
-                id: userPasswordTextField
-                Layout.fillWidth: true
-                text: userPassword
-                onTextChanged: userPassword = text
-                maximumLength: 72
-            }
-
-            Label {
-                visible: userIsNew
-                Layout.alignment: Qt.AlignRight
-                text: (userPasswordTextField.maximumLength - userPassword.length) + " tersisa"
-            }
-
-            Label{
-                text: "Password tidak boleh kosong"
-                color: Material.color(Material.Red)
-                visible: userIsNew && userPassword.length == 0
-            }
-
-            Label {
-                visible: userIsNew
-                text: "Ulangi Password"
-            }
-
-
-            TextField {
-                visible: userIsNew
-                Layout.fillWidth: true
+            BaseTextField {
+                field: viewModel.password
                 echoMode: TextInput.Password
-                id:userPasswordUlangTextfield
-                text: userPasswordUlang
-                onTextChanged: userPasswordUlang = text
-                maximumLength: 72
+                visible: viewModel.isNew
             }
 
-            Label{
-                text: "Password harus sama"
-                color: Material.color(Material.Red)
-                visible: userIsNew && userPasswordUlang != userPassword
+            BaseTextField {
+                field: viewModel.passwordUlang
+                echoMode: TextInput.Password
+                visible: viewModel.isNew
             }
         }
     }

@@ -24,10 +24,9 @@ ApplicationWindow {
 
         function onConnected() {
             if (!UserManager.hasAvailableUser()) {
-                loginAfterUserAddedConnection.enabled = true
-                mainStackView.push("UserBuatAdminScreen.qml")
+                mainStackView.push(userBuatAdmin)
             } else {
-                mainStackView.push("UserLoginScreen.qml")
+                mainStackView.push(userLogin)
             }
         }
 
@@ -37,25 +36,26 @@ ApplicationWindow {
         }
     }
 
-    Connections {
-        target: UserManager
 
-        function onLoggedIn() {
-            mainStackView.push("DashboardScreen.qml")
+    Component {
+        id: userBuatAdmin
+
+        UserBuatAdminScreen {
+            onUserCreated: {
+                mainStackView.push(userLogin)
+            }
         }
     }
 
-    Connections {
-        id: loginAfterUserAddedConnection
-        enabled: false
-        target: UserManager
+    Component {
+        id: userLogin
 
-        function onUserAdded() {
-            mainStackView.push("UserLoginScreen.qml")
-            loginAfterUserAddedConnection.enabled = false
+        UserLoginScreen {
+            onLoggedIn: {
+                mainStackView.push("DashboardScreen.qml")
+            }
         }
     }
-
 
     StackView {
         id: mainStackView

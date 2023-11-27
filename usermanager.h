@@ -2,43 +2,30 @@
 #define USERMANAGER_H
 
 #include <QObject>
+#include "repository/userrepository.h"
 
 class UserManager : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString loggedUserId READ loggedUserId NOTIFY loggedUserChanged)
-    Q_PROPERTY(QString loggedUserName READ loggedUserName NOTIFY loggedUserChanged)
-    Q_PROPERTY(UserRole loggedUserRole READ loggedUserRole NOTIFY loggedUserChanged)
+    Q_PROPERTY(UserData *loggedUser READ loggedUser WRITE setLoggedUser NOTIFY loggedUserChanged FINAL)
 private:
     explicit UserManager(QObject *parent = nullptr);
 
 public:
-    enum UserRole {
-        AdminRole = 0,
-        PegawaiRole
-    };
-    Q_ENUM(UserRole)
 
     Q_INVOKABLE bool hasAvailableUser();
-    Q_INVOKABLE void addUser(QString id, QString namaDepan, QString namaBelakang, UserRole role, QString password);
-    Q_INVOKABLE void login(QString id, QString password);
 
     static UserManager* getInstance();
 
-    UserRole loggedUserRole() const;
-    QString loggedUserName() const;
-    QString loggedUserId() const;
-
-private:
-    UserRole mLoggedUserRole;
-    QString mLoggedUserName;
-    QString mLoggedUserId;
+    UserData *loggedUser() const;
+    void setLoggedUser(UserData *newLoggedUser);
 
 signals:
-    void userAdded();
-    void loggedIn();
-    void loginFailed(QString reason);
     void loggedUserChanged();
+
+private:
+    UserRepository* mRepository;
+    UserData* mLoggedUser;
 };
 
 #endif // USERMANAGER_H
