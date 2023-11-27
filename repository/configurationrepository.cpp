@@ -1,33 +1,11 @@
-#include "configurationmanager.h"
+#include "configurationrepository.h"
 #include <QStandardPaths>
 #include <QFile>
-#include <QJsonDocument>
-#include <QJsonParseError>
 #include <QDir>
-#include <QStack>
+#include <QJsonDocument>
 
-ConfigurationManager::~ConfigurationManager()
-{
-    save();
-}
-
-ConfigurationManager *ConfigurationManager::getInstance()
-{
-    static ConfigurationManager instance;
-    return &instance;
-}
-
-QVariant ConfigurationManager::get(QString key)
-{
-    return mData.value(key).toVariant();
-}
-
-void ConfigurationManager::set(QString key, QVariant value)
-{
-    mData[key] = QJsonValue::fromVariant(value);
-}
-
-ConfigurationManager::ConfigurationManager()
+ConfigurationRepository::ConfigurationRepository(QObject *parent)
+    : QObject{parent}
 {
     mConfigLocation = QStandardPaths::locate(QStandardPaths::AppDataLocation, "config.json");
 
@@ -38,7 +16,23 @@ ConfigurationManager::ConfigurationManager()
     load();
 }
 
-void ConfigurationManager::load()
+ConfigurationRepository::~ConfigurationRepository()
+{
+    save();
+}
+
+QVariant ConfigurationRepository::get(QString key)
+{
+    return mData.value(key).toVariant();
+}
+
+void ConfigurationRepository::set(QString key, QVariant value)
+{
+    mData[key] = QJsonValue::fromVariant(value);
+}
+
+
+void ConfigurationRepository::load()
 {
     QFile file(mConfigLocation);
     if (file.exists() && file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -62,7 +56,7 @@ void ConfigurationManager::load()
     }
 }
 
-void ConfigurationManager::save()
+void ConfigurationRepository::save()
 {
     QDir().mkdir(QFileInfo(mConfigLocation).dir().path());
 

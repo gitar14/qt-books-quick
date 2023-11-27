@@ -1,6 +1,7 @@
 #ifndef REPOSITORYMANAGER_H
 #define REPOSITORYMANAGER_H
 
+class ConfigurationRepository;
 class KategoriRepository;
 class PenerbitRepository;
 class BukuRepository;
@@ -15,6 +16,7 @@ class RepositoryManager
 private:
     RepositoryManager();
 
+    ConfigurationRepository* mConfiguration = nullptr;
     KategoriRepository* mKategori = nullptr;
     PenerbitRepository* mPenerbit = nullptr;
     BukuRepository* mBuku = nullptr;
@@ -26,6 +28,7 @@ private:
 public:
     static RepositoryManager *getInstance();
 
+    ConfigurationRepository* getConfiguration();
     KategoriRepository* getKategori();
     PenerbitRepository* getPenerbit();
     BukuRepository* getBuku();

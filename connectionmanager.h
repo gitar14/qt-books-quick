@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QVariantMap>
+#include "repository/configurationrepository.h"
 
 class ConnectionManager : public QObject
 {
@@ -37,6 +38,7 @@ private:
     explicit ConnectionManager(QObject *parent = nullptr);
     static ConnectionManager* mInstance;
 
+    ConfigurationRepository* mRepository;
     QVariantMap mConfig;
     QVariantMap mMySqlConfig;
 

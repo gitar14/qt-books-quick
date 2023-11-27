@@ -1,4 +1,5 @@
 #include "repositorymanager.h"
+#include "repository/configurationrepository.h"
 #include "repository/bukurepository.h"
 #include "repository/kategorirepository.h"
 #include "repository/penerbitrepository.h"
@@ -18,6 +19,14 @@ RepositoryManager* RepositoryManager::getInstance()
 {
     static RepositoryManager instance;
     return &instance;
+}
+
+ConfigurationRepository *RepositoryManager::getConfiguration()
+{
+    if (mConfiguration == nullptr) {
+        mConfiguration = new ConfigurationRepository();
+    }
+    return mConfiguration;
 }
 
 KategoriRepository *RepositoryManager::getKategori()
