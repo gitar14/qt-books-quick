@@ -72,7 +72,7 @@ private:
     PeminjamanRepository *mRepository;
     QList<ProcessedPeminjamanData*> mList;
     QString mTextQuery;
-    StatusFilter mStatusFilter;
+    StatusFilter mStatusFilter = BelumDikembalikanStatus;
     int mSelectedIndex;
     ProcessedPeminjamanData* mSelectedData;
     QList<PeminjamanBukuData*> mSelectedBukuList;
