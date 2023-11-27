@@ -51,7 +51,7 @@ public:
 
     QList<PengadaanData *> getList(QString textQuery);
     PengadaanData* get(int kode);
-    int add(QString sumber, QDate tanggalPengadaan);
+    int add(QString sumber, QString idUser, QDate tanggalPengadaan);
     void update(int kode, QString sumber);
     void remove(int kode);
     int getJumlahPengadaanBuku(int kodeBuku);

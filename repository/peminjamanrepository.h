@@ -84,7 +84,7 @@ public:
 
     QList<PeminjamanData*> getList(StatusFilter statusFilter);
     PeminjamanData* get(int kode);
-    int add(int kodeMember, QDate tanggal, int lama);
+    int add(int kodeMember, QString idUser, QDate tanggal, int lama);
     void update(int kode, int kodeMember, QDate tanggal, int lama);
     void remove(int kode);
     void tandaiDikembalikan(int kode, QDate tanggal, int dendaTerlambatPerBukuHari);

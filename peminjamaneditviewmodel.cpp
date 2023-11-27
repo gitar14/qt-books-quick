@@ -2,6 +2,8 @@
 #include "repository/bukurepository.h"
 #include "repositorymanager.h"
 #include "repository/memberrepository.h"
+#include "repository/userrepository.h"
+#include "usermanager.h"
 
 PeminjamanEditViewModel::PeminjamanEditViewModel(QObject *parent)
     : QObject{parent}, mRepository{RepositoryManager::getInstance()->getPeminjaman()}
@@ -120,7 +122,8 @@ void PeminjamanEditViewModel::submit()
 {
     int kode = mKode;
     if (kode == -1) {
-        kode = mRepository->add(mKodeMember, mTanggalPeminjaman, mLamaPeminjaman);
+        kode = mRepository->add(mKodeMember, UserManager::getInstance()->loggedUser()->id(),
+                                mTanggalPeminjaman, mLamaPeminjaman);
         mRepository->addAllBuku(kode, mBukuList);
     } else {
         mRepository->update(kode, mKodeMember, mTanggalPeminjaman, mLamaPeminjaman);

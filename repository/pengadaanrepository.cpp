@@ -1,6 +1,5 @@
 #include "pengadaanrepository.h"
 #include "sqlhelper.h"
-#include "usermanager.h"
 #include <QSqlQuery>
 #include <QSqlError>
 
@@ -113,7 +112,7 @@ PengadaanData *PengadaanRepository::get(int kode)
                         : new PengadaanData();
 }
 
-int PengadaanRepository::add(QString sumber, QDate tanggalPengadaan)
+int PengadaanRepository::add(QString sumber, QString idUser, QDate tanggalPengadaan)
 {
     QSqlQuery query;
     query.prepare("INSERT INTO Detail_Pengadaan("
@@ -125,7 +124,7 @@ int PengadaanRepository::add(QString sumber, QDate tanggalPengadaan)
                   " :sumber,"
                   " :tanggalPengadaan"
                   ")");
-    query.bindValue(":user", UserManager::getInstance()->loggedUser()->id());
+    query.bindValue(":user", idUser);
     query.bindValue(":sumber", sumber);
     query.bindValue(":tanggalPengadaan", tanggalPengadaan);
 

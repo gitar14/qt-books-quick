@@ -1,6 +1,8 @@
 #include "pengadaaneditviewmodel.h"
 #include "repositorymanager.h"
 #include "repository/bukurepository.h"
+#include "repository/userrepository.h"
+#include "usermanager.h"
 
 PengadaanEditViewModel::PengadaanEditViewModel(QObject *parent)
     : QObject{parent},
@@ -112,7 +114,8 @@ bool PengadaanEditViewModel::isValid() const
 void PengadaanEditViewModel::submit()
 {
     int newKode = mKode;
-    if (newKode == -1) newKode = mRepository->add(sumberField()->value(), mTanggal);
+    if (newKode == -1) newKode = mRepository->add(sumberField()->value(),
+                                   UserManager::getInstance()->loggedUser()->id(), mTanggal);
     else mRepository->update(newKode, sumberField()->value());
 
     mRepository->updateAllBuku(newKode, mBukuList);

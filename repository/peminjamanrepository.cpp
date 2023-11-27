@@ -1,5 +1,4 @@
 #include "peminjamanrepository.h"
-#include "usermanager.h"
 #include "sqlhelper.h"
 #include <QSqlQuery>
 #include <QSqlError>
@@ -195,7 +194,7 @@ PeminjamanData *PeminjamanRepository::get(int kode)
                ) : new PeminjamanData();
 }
 
-int PeminjamanRepository::add(int kodeMember, QDate tanggal, int lama)
+int PeminjamanRepository::add(int kodeMember, QString idUser, QDate tanggal, int lama)
 {
     QSqlQuery query;
     query.prepare("INSERT INTO Detail_Peminjaman ("
@@ -209,7 +208,7 @@ int PeminjamanRepository::add(int kodeMember, QDate tanggal, int lama)
                   " :tanggal,"
                   " :lama"
                   ")");
-    query.bindValue(":user", UserManager::getInstance()->loggedUser()->id());
+    query.bindValue(":user", idUser);
     query.bindValue(":member", kodeMember);
     query.bindValue(":tanggal", tanggal);
     query.bindValue(":lama", lama);
