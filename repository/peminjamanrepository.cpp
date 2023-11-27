@@ -199,7 +199,7 @@ int PeminjamanRepository::add(int kodeMember, QString idUser, QDate tanggal, int
     QSqlQuery query;
     query.prepare("INSERT INTO Detail_Peminjaman ("
                   " kd_member,"
-                  " id_user,"
+                  " id_user_peminjaman,"
                   " tanggal_peminjaman, "
                   " lama_peminjaman "
                   ") VALUES ("
@@ -255,17 +255,19 @@ void PeminjamanRepository::remove(int kode)
     emit dataChanged();
 }
 
-void PeminjamanRepository::tandaiDikembalikan(int kode, QDate tanggal, int dendaTerlambatPerBukuHari)
+void PeminjamanRepository::tandaiDikembalikan(int kode, QString idUser, QDate tanggal, int dendaTerlambatPerBukuHari)
 {
     QSqlQuery query;
     query.prepare("UPDATE Detail_Peminjaman "
                   "SET "
                   " tanggal_pengembalian = :pengembalian,"
+                  " id_user_pengembalian = :id_user,"
                   " denda_terlambat_perbuku = :denda_terlambat "
                   "WHERE kd_detail_peminjaman = :kode");
     query.bindValue(":kode", kode);
     query.bindValue(":pengembalian", tanggal);
     query.bindValue(":denda_terlambat", dendaTerlambatPerBukuHari);
+    query.bindValue(":id_user", idUser);
 
     if (!query.exec())
         qFatal() << "Cannot add Pengembalian " << query.lastError().text();
@@ -277,7 +279,10 @@ void PeminjamanRepository::tandaiBelumDikembalikan(int kode)
 {
     QSqlQuery query;
     query.prepare("UPDATE Detail_Peminjaman "
-                  "SET tanggal_pengembalian = NULL "
+                  "SET "
+                  " tanggal_pengembalian = NULL, "
+                  " id_user_pengembalian = NULL,"
+                  " denda_terlambat_perbuku = NULL "
                   "WHERE kd_detail_peminjaman = :kode");
     query.bindValue(":kode", kode);
 

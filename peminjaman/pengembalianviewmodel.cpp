@@ -1,6 +1,7 @@
 #include "pengembalianviewmodel.h"
 #include "repositorymanager.h"
 #include "repository/settingrepository.h"
+#include "usermanager.h"
 
 PengembalianViewModel::PengembalianViewModel(QObject *parent)
     : QObject{parent},
@@ -57,6 +58,7 @@ PeminjamanDendaCalculator *PengembalianViewModel::denda() const
 
 void PengembalianViewModel::submit()
 {
-    mRepository->tandaiDikembalikan(mKode, tanggalPengembalian(), mDenda->dendaTerlambatPerBuku());
+    mRepository->tandaiDikembalikan(mKode, UserManager::getInstance()->loggedUser()->id(),
+                                    tanggalPengembalian(), mDenda->dendaTerlambatPerBuku());
     mRepository->updateAllBuku(mKode, mBukuList);
 }

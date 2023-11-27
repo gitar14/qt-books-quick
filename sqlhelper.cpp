@@ -100,7 +100,8 @@ namespace SQLHelper {
         if (!query.exec(QStringLiteral(
                 "CREATE TABLE IF NOT EXISTS Detail_Peminjaman("
                 "   kd_detail_peminjaman INTEGER NOT NULL PRIMARY KEY %1,"
-                "   id_user VARCHAR(4) NOT NULL,"
+                "   id_user_peminjaman VARCHAR(15) NOT NULL,"
+                "   id_user_pengembalian VARCHAR(15),"
                 "   kd_member INTEGER NOT NULL,"
                 "   tanggal_peminjaman DATE NOT NULL,"
                 "   lama_peminjaman INTEGER NOT NULL,"
@@ -108,7 +109,9 @@ namespace SQLHelper {
                 "   denda_terlambat_perbuku INTEGER,"
                 "   FOREIGN KEY (kd_member)"
                 "       REFERENCES Member(kd_member),"
-                "   FOREIGN KEY (id_user)"
+                "   FOREIGN KEY (id_user_peminjaman)"
+                "       REFERENCES User(id_user),"
+                "   FOREIGN KEY (id_user_pengembalian)"
                 "       REFERENCES User(id_user)"
                 ")"
                             ).arg(autoIncrement)))
@@ -139,13 +142,13 @@ namespace SQLHelper {
     void clearDatabase(QSqlDatabase &db)
     {
         QStringList tableList{
-            "Pengembalian",
-            "Peminjaman_buku",
+            "Pengaturan",
             "Peminjaman",
-            "User",
+            "Detail_Peminjaman",
             "Member",
-            "Pengadaan_buku",
             "Pengadaan",
+            "Detail_Pengadaan",
+            "User",
             "Buku",
             "Penerbit",
             "Kategori"
