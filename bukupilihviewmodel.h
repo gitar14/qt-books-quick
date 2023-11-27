@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include "repository/kategorirepository.h"
-#include "penerbitfiltermodel.h"
+#include "repository/penerbitrepository.h"
 #include "repository/bukurepository.h"
 
 class BukuPilihViewModel : public QObject
@@ -17,15 +17,13 @@ class BukuPilihViewModel : public QObject
     Q_PROPERTY(QString textQuery READ textQuery WRITE setTextQuery NOTIFY textQueryChanged)
     Q_PROPERTY(int kategoriFilter READ kategoriFilter WRITE setKategoriFilter NOTIFY kategoriFilterChanged)
     Q_PROPERTY(int penerbitFilter READ penerbitFilter WRITE setPenerbitFilter NOTIFY penerbitFilterChanged)
-        Q_PROPERTY(QList<KategoriData *> kategoriFilterList READ kategoriFilterList NOTIFY kategoriFilterListChanged FINAL)
-    Q_PROPERTY(PenerbitFilterModel* penerbitFilterModel READ penerbitFilterModel CONSTANT)
+    Q_PROPERTY(QList<KategoriData *> kategoriFilterList READ kategoriFilterList NOTIFY kategoriFilterListChanged FINAL)
+    Q_PROPERTY(QList<PenerbitData *> penerbitFilterList READ penerbitFilterModel NOTIFY penerbitFilerListChanged)
     QML_ELEMENT
 public:
     explicit BukuPilihViewModel(QObject *parent = nullptr);
 
     QList<BukuData *> list() const;
-
-    PenerbitFilterModel *penerbitFilterModel() const;
 
     QList<int> ignoredKode() const;
     void setIgnoredKode(const QList<int> &newIgnoredKode);
@@ -46,6 +44,7 @@ public:
     void setPenerbitFilter(int newPenerbitFilter);
 
     QList<KategoriData *> kategoriFilterList() const;
+    QList<PenerbitData *> penerbitFilterModel() const;
 
 public slots:
     void refresh();
@@ -61,6 +60,8 @@ signals:
 
     void kategoriFilterListChanged();
 
+    void penerbitFilerListChanged();
+
 protected:
     BukuRepository* mRepository;
     virtual void refreshSelectedItem();
@@ -75,7 +76,7 @@ private:
     int mKategoriFilter{-1};
     QList<KategoriData*> mKategoriFilterList;
     int mPenerbitFilter{-1};
-    PenerbitFilterModel* mPenerbitFilterModel;
+    QList<PenerbitData*> mPenerbitFilterList;
 };
 
 #endif // BUKUPILIHVIEWMODEL_H

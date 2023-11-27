@@ -3,54 +3,22 @@
 #include "repositorymanager.h"
 
 PenerbitViewModel::PenerbitViewModel(QObject *parent)
-    : QObject{parent}, mListModel{RepositoryManager::getInstance()->getPenerbit()->createListModel()}
+    : QObject{parent},
+    mRepository{RepositoryManager::getInstance()->getPenerbit()}
 {
-    mListModel->setParent(this);
-    connect(mListModel, SIGNAL(modelReset()), this, SLOT(refreshSelectedItem()));
+    refresh();
+    connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));
 }
 
-PenerbitModel *PenerbitViewModel::listModel() const
-{
-    return mListModel;
-}
-
-int PenerbitViewModel::selectedKode() const
-{
-    return mSelectedKode;
-}
-
-bool PenerbitViewModel::hasSelectedItem() const
-{
-    return mSelectedKode != -1;
-}
-
-QString PenerbitViewModel::selectedName() const
-{
-    return mSelectedName;
-}
-
-QString PenerbitViewModel::selectedAlamat() const
-{
-    return mSelectedAlamat;
-}
 
 void PenerbitViewModel::refreshSelectedItem()
 {
-    QModelIndex index = mListModel->index(mSelectedIndex, 0);
-    QVariant kodeVar = mListModel->data(index, PenerbitModel::KodeRole);
-    if (!kodeVar.isNull()) {
-        mSelectedKode = kodeVar.toInt();
-        mSelectedName = mListModel->data(index, PenerbitModel::NamaRole).toString();
-        mSelectedAlamat = mListModel->data(index, PenerbitModel::AlamatRole).toString();
-    } else {
-        mSelectedKode = -1;
-        mSelectedName = "";
-        mSelectedAlamat = "";
-    }
+    if (mSelectedIndex < 0 || mSelectedIndex >= mList.count())
+        mSelectedData = new PenerbitData();
+    else mSelectedData = mRepository->get(mList.at(mSelectedIndex)->kode());
 
-    emit selectedKodeChanged();
-    emit selectedNameChanged();
-    emit selectedAlamatChanged();
+    emit selectedDataChanged();
+    emit hasSelectedItemChanged();
 }
 
 QString PenerbitViewModel::textQuery() const
@@ -63,7 +31,6 @@ void PenerbitViewModel::setTextQuery(const QString &newTextQuery)
     if (mTextQuery == newTextQuery)
         return;
     mTextQuery = newTextQuery;
-    mListModel->setTextQuery(mTextQuery);
     emit textQueryChanged();
 }
 
@@ -75,5 +42,28 @@ void PenerbitViewModel::setSelectedIndex(int index)
 
 void PenerbitViewModel::removeSelected()
 {
-    RepositoryManager::getInstance()->getPenerbit()->remove(mSelectedKode);
+    RepositoryManager::getInstance()->getPenerbit()->remove(mSelectedData->kode());
+}
+
+QList<PenerbitData *> PenerbitViewModel::list() const
+{
+    return mList;
+}
+
+PenerbitData *PenerbitViewModel::selectedData() const
+{
+    return mSelectedData;
+}
+
+bool PenerbitViewModel::hasSelectedItem() const
+{
+    return mSelectedData->kode() != -1;
+}
+
+void PenerbitViewModel::refresh()
+{
+    mList = mRepository->getAll(mTextQuery);
+    emit listChanged();
+
+    refreshSelectedItem();
 }

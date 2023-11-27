@@ -19,11 +19,6 @@ BukuEditViewModel::BukuEditViewModel(QObject *parent)
     mKategoriField->setName("Kategori");
     mPenerbitField->setName("Penerbit");
 
-    RepositoryManager* manager = RepositoryManager::getInstance();
-
-    mPenerbitListModel = manager->getPenerbit()->createListModel();
-    mPenerbitListModel->setParent(this);
-
     connect(mJudulField, SIGNAL(isValidChanged()), this, SIGNAL(isValidChanged()));
     connect(mPenulisField, SIGNAL(isValidChanged()), this, SIGNAL(isValidChanged()));
     connect(mKategoriField, SIGNAL(isValidChanged()), this, SIGNAL(isValidChanged()));
@@ -50,7 +45,14 @@ void BukuEditViewModel::configure(int kode)
         }
     }
 
-    mPenerbitField->setIndex(SQLHelper::getIndexByIntData(mPenerbitListModel, PenerbitModel::KodeRole, data->kodePenebit()));
+    mPenerbitList = RepositoryManager::getInstance()->getPenerbit()->getAll("");
+
+    for (int i = 0; i < mPenerbitList.length(); i++) {
+        if (mPenerbitList.at(i)->kode() == data->kodePenebit()) {
+            mPenerbitField->setIndex(i);
+            break;
+        }
+    }
 
     emit jumlahHilangChanged();
     emit tahunTerbitChanged();
@@ -95,11 +97,6 @@ void BukuEditViewModel::setTahunTerbit(int newTahunTerbit)
     emit tahunTerbitChanged();
 }
 
-PenerbitModel *BukuEditViewModel::penerbitListModel() const
-{
-    return mPenerbitListModel;
-}
-
 bool BukuEditViewModel::isNew() const
 {
     return mKode == -1;
@@ -124,9 +121,7 @@ void BukuEditViewModel::submit()
 {
     BukuRepository* repository = RepositoryManager::getInstance()->getBuku();
     int kodeKategori = mKategoriList.at(mKategoriField->index())->kode();
-    int kodePenerbit = mPenerbitListModel->data(
-        mPenerbitListModel->index(mPenerbitField->index(), 0),
-        PenerbitModel::KodeRole).toInt();
+    int kodePenerbit = mPenerbitList.at(mPenerbitField->index())->kode();
     if (mKode == -1)
         repository->addNew(mJudulField->value(), mPenulisField->value(), mTahunTerbit, kodeKategori, kodePenerbit);
     else
@@ -136,4 +131,9 @@ void BukuEditViewModel::submit()
 QList<KategoriData *> BukuEditViewModel::kategoriList() const
 {
     return mKategoriList;
+}
+
+QList<PenerbitData *> BukuEditViewModel::penerbitList() const
+{
+    return mPenerbitList;
 }

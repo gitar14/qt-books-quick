@@ -40,9 +40,9 @@ Item {
             }
 
             ComboBox {
-                model: currentViewModel.penerbitFilterModel
+                model: currentViewModel.penerbitFilterList
                 valueRole: "kode"
-                textRole: "name"
+                textRole: "nama"
                 editable: true
                 currentIndex: 0
                 onCurrentValueChanged: currentViewModel.penerbitFilter = currentValue

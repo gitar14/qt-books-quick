@@ -4,7 +4,6 @@
 #include "repository/bukurepository.h"
 #include "repository/pengadaanrepository.h"
 #include "repository/peminjamanrepository.h"
-#include "repository/list/penerbitmodel.h"
 
 BukuViewModel::BukuViewModel(QObject *parent)
     : BukuPilihViewModel{parent},

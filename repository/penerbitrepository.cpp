@@ -1,6 +1,29 @@
 #include "penerbitrepository.h"
+#include "sqlhelper.h"
 #include <QSqlQuery>
 #include <QSqlError>
+
+PenerbitData::PenerbitData(int kode, const QString &nama, const QString &alamat)
+    : QObject(),
+    mKode(kode),
+    mNama(nama),
+    mAlamat(alamat)
+{}
+
+int PenerbitData::kode() const
+{
+    return mKode;
+}
+
+QString PenerbitData::nama() const
+{
+    return mNama;
+}
+
+QString PenerbitData::alamat() const
+{
+    return mAlamat;
+}
 
 PenerbitRepository::PenerbitRepository(QObject *parent)
     : QObject{parent}
@@ -8,11 +31,51 @@ PenerbitRepository::PenerbitRepository(QObject *parent)
 
 }
 
-PenerbitModel *PenerbitRepository::createListModel()
+QList<PenerbitData *> PenerbitRepository::getAll(QString textQuery)
 {
-    PenerbitModel* result = new PenerbitModel();
-    connect(this, SIGNAL(dataChanged()), result, SLOT(refresh()));
+    QHash<QString,QVariant>binds;
+    QString queryString="SELECT "
+                          "   kd_penerbit,"
+                          "   nama_penerbit,"
+                          "   alamat_penerbit "
+                          "FROM Penerbit";
+    if (textQuery.length()){
+        queryString+= " WHERE nama_penerbit LIKE :textQuery";
+        binds[":textQuery"]="%"+textQuery+"%";
+
+    }
+    QSqlQuery query;
+    query.prepare(queryString);
+    SQLHelper::applyBindMaps(query,binds);
+    if (!query.exec())
+        qFatal() << "Cannot select from Penerbit " << query.lastError().text();
+
+    QList<PenerbitData*> result;
+
+    while (query.next()) {
+        result.append(new PenerbitData(query.value(0).toInt(), query.value(1).toString(),
+                                       query.value(2).toString()));
+    }
+
     return result;
+}
+
+PenerbitData *PenerbitRepository::get(int kode)
+{
+    QSqlQuery query;
+    query.prepare("SELECT "
+                  "   kd_penerbit,"
+                  "   nama_penerbit,"
+                  "   alamat_penerbit "
+                  "FROM Penerbit "
+                  "WHERE kd_penerbit = :kode");
+    query.bindValue(":kode", kode);
+
+    if (!query.exec())
+        qFatal() << "Cannot get Penerbit " << query.lastError().text();
+
+    return query.next() ? new PenerbitData(query.value(0).toInt(), query.value(1).toString(),
+                                           query.value(2).toString()) : new PenerbitData();
 }
 
 void PenerbitRepository::add(QString nama, QString alamat)

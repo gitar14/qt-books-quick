@@ -26,7 +26,7 @@ BaseDetailFrame {
 
         Label{
             Layout.fillWidth: true
-            text: currentViewModel.selectedKode
+            text: currentViewModel.selectedData.kode
         }
 
         Label{
@@ -35,7 +35,7 @@ BaseDetailFrame {
 
         Label{
             Layout.fillWidth: true
-            text: currentViewModel.selectedName
+            text: currentViewModel.selectedData.nama
         }
 
         Label{
@@ -44,7 +44,7 @@ BaseDetailFrame {
 
         Label{
             Layout.fillWidth: true
-            text: currentViewModel.selectedAlamat
+            text: currentViewModel.selectedData.alamat
         }
 
         Item{

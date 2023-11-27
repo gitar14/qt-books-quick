@@ -4,17 +4,15 @@
 #include "repository/penerbitrepository.h"
 
 BukuPilihViewModel::BukuPilihViewModel(QObject *parent)
-    : QObject{parent},
-    mPenerbitFilterModel{new PenerbitFilterModel(this)}
+    : QObject{parent}
 {
     RepositoryManager* repositoryManager = RepositoryManager::getInstance();
 
     mKategoriFilterList = repositoryManager->getKategori()->getAll("");
     mKategoriFilterList.prepend(new KategoriData(-1, "Semua"));
 
-    PenerbitModel* penerbitModel = repositoryManager->getPenerbit()->createListModel();
-    penerbitModel->setParent(this);
-    mPenerbitFilterModel->setSourceModel(penerbitModel);
+    mPenerbitFilterList = repositoryManager->getPenerbit()->getAll("");
+    mPenerbitFilterList.prepend(new PenerbitData(-1, "Semua", ""));
 
     mRepository = repositoryManager->getBuku(),
     connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));
@@ -24,11 +22,6 @@ BukuPilihViewModel::BukuPilihViewModel(QObject *parent)
 QList<BukuData *> BukuPilihViewModel::list() const
 {
     return mList;
-}
-
-PenerbitFilterModel *BukuPilihViewModel::penerbitFilterModel() const
-{
-    return mPenerbitFilterModel;
 }
 
 QList<int> BukuPilihViewModel::ignoredKode() const
@@ -64,6 +57,7 @@ void BukuPilihViewModel::refreshSelectedItem()
     if (mSelectedIndex < 0 || mSelectedIndex >= mList.length())
         mSelectedKode = -1;
     else mSelectedKode = mList.at(mSelectedIndex)->kode();
+
     emit selectedKodeChanged();
     emit hasSelectedItemChanged();
 }
@@ -123,4 +117,9 @@ void BukuPilihViewModel::setPenerbitFilter(int newPenerbitFilter)
     mPenerbitFilter = newPenerbitFilter;
     emit penerbitFilterChanged();
     refresh();
+}
+
+QList<PenerbitData *> BukuPilihViewModel::penerbitFilterModel() const
+{
+    return mPenerbitFilterList;
 }

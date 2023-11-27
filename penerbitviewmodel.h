@@ -3,27 +3,18 @@
 
 #include <QObject>
 #include <QQmlEngine>
-#include "repository/list/penerbitmodel.h"
+#include "repository/penerbitrepository.h"
 
 class PenerbitViewModel : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(PenerbitModel* listModel READ listModel CONSTANT)
-    Q_PROPERTY(int selectedKode READ selectedKode NOTIFY selectedKodeChanged)
-    Q_PROPERTY(bool hasSelectedItem READ hasSelectedItem NOTIFY selectedKodeChanged)
-    Q_PROPERTY(QString selectedName READ selectedName NOTIFY selectedNameChanged)
-    Q_PROPERTY(QString selectedAlamat READ selectedAlamat NOTIFY selectedAlamatChanged)
+    Q_PROPERTY(QList<PenerbitData*> list READ list NOTIFY listChanged FINAL)
+    Q_PROPERTY(PenerbitData* selectedData READ selectedData NOTIFY selectedDataChanged)
+    Q_PROPERTY(bool hasSelectedItem READ hasSelectedItem NOTIFY hasSelectedItemChanged)
     Q_PROPERTY(QString textQuery READ textQuery WRITE setTextQuery NOTIFY textQueryChanged)
     QML_ELEMENT
 public:
     explicit PenerbitViewModel(QObject *parent = nullptr);
-
-    PenerbitModel* listModel() const;
-
-    int selectedKode() const;
-    bool hasSelectedItem() const;
-    QString selectedName() const;
-    QString selectedAlamat() const;
 
     QString textQuery() const;
     void setTextQuery(const QString &newTextQuery);
@@ -31,22 +22,27 @@ public:
     Q_INVOKABLE void setSelectedIndex(int index);
     Q_INVOKABLE void removeSelected();
 
+    QList<PenerbitData *> list() const;
+    PenerbitData *selectedData() const;
+    bool hasSelectedItem() const;
+
 signals:
-    void selectedKodeChanged();
-    void selectedNameChanged();
-    void selectedAlamatChanged();
     void textQueryChanged();
+    void listChanged();
+    void selectedDataChanged();
+    void hasSelectedItemChanged();
 
 public slots:
-    void refreshSelectedItem();
+    void refresh();
 
 private:
-    PenerbitModel* mListModel;
+    PenerbitRepository* mRepository;
+    QList<PenerbitData*> mList;
     int mSelectedIndex;
-    int mSelectedKode;
-    QString mSelectedName;
-    QString mSelectedAlamat;
+    PenerbitData *mSelectedData = nullptr;
     QString mTextQuery;
+
+    void refreshSelectedItem();
 };
 
 #endif // PENERBITVIEWMODEL_H

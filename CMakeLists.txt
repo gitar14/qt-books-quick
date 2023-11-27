@@ -25,7 +25,7 @@ qt_add_qml_module(appqt-books-qml
     SOURCES
     QML_FILES BukuScreen.qml
     QML_FILES PenerbitScreen.qml
-    SOURCES repository/list/penerbitmodel.h repository/list/penerbitmodel.cpp
+    SOURCES
     SOURCES
     QML_FILES PengadaanScreen.qml
     SOURCES
@@ -87,9 +87,9 @@ qt_add_qml_module(appqt-books-qml
     QML_FILES UserDetailFrame.qml
     QML_FILES MemberPilihDialog.qml
     QML_FILES PengembalianAddDialog.qml
-    SOURCES basefiltermodel.h basefiltermodel.cpp
     SOURCES
-    SOURCES penerbitfiltermodel.h penerbitfiltermodel.cpp
+    SOURCES
+    SOURCES
     SOURCES texthighlighter.h texthighlighter.cpp
     QML_FILES CardBackground.qml
     SOURCES peminjamandendacalculator.h peminjamandendacalculator.cpp

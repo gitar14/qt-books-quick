@@ -1,9 +1,11 @@
 #include "penerbiteditviewmodel.h"
-#include "repository/penerbitrepository.h"
 #include "repositorymanager.h"
 
 PenerbitEditViewModel::PenerbitEditViewModel(QObject *parent)
-    : QObject{parent}, mNamaField{new TextFieldData(this)}, mAlamatField{new TextFieldData(this)}
+    : QObject{parent},
+    mRepository{RepositoryManager::getInstance()->getPenerbit()},
+    mNamaField{new TextFieldData(this)},
+    mAlamatField{new TextFieldData(this)}
 {
     mNamaField->setName("Nama");
     mNamaField->setMaxLength(25);
@@ -14,11 +16,17 @@ PenerbitEditViewModel::PenerbitEditViewModel(QObject *parent)
     connect(mAlamatField, SIGNAL(isValidChanged()), this, SIGNAL(isValidChanged()));
 }
 
-void PenerbitEditViewModel::configure(int kode, QString nama, QString alamat)
+void PenerbitEditViewModel::configure(int kode)
 {
-    setKode(kode);
-    mNamaField->setValue(nama);
-    mAlamatField->setValue(alamat);
+    PenerbitData* data = mRepository->get(kode);
+
+    mKode = data->kode();
+    mNamaField->setValue(data->nama());
+    mAlamatField->setValue(data->alamat());
+
+    delete data;
+
+    emit isNewChanged();
 }
 
 TextFieldData *PenerbitEditViewModel::namaField() const
@@ -29,19 +37,6 @@ TextFieldData *PenerbitEditViewModel::namaField() const
 TextFieldData *PenerbitEditViewModel::alamatField() const
 {
     return mAlamatField;
-}
-
-int PenerbitEditViewModel::kode() const
-{
-    return mKode;
-}
-
-void PenerbitEditViewModel::setKode(int newKode)
-{
-    if (mKode == newKode)
-        return;
-    mKode = newKode;
-    emit kodeChanged();
 }
 
 bool PenerbitEditViewModel::isValid() const

@@ -44,10 +44,7 @@ Page {
         PenerbitDetailFrame {
             currentViewModel: viewModel
             onEditClicked: {
-                editPenerbitDialog.viewModel.configure(
-                            viewModel.selectedKode,
-                            viewModel.selectedName,
-                            viewModel.selectedAlamat)
+                editPenerbitDialog.viewModel.configure(viewModel.selectedData.kode)
                 editPenerbitDialog.open()
             }
             onDeleteClicked: viewModel.removeSelected()

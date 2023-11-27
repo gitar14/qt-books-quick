@@ -13,13 +13,12 @@ Item  {
 
     AppGridView {
         id: penerbitGridView
-        model: currentViewModel.listModel
+        model: currentViewModel.list
 
         onCurrentIndexChanged: currentViewModel.setSelectedIndex(currentIndex)
         cellHeight: 125
 
         delegate: CardDelegate {
-            property var itemData: model
             width: GridView.view.cellWidth - 8
             height: GridView.view.cellHeight - 8
             padding: 16
@@ -39,12 +38,12 @@ Item  {
                 }
 
                 Label {
-                    text: TextHighlighter.highlightText(model.name, currentViewModel.textQuery)
+                    text: TextHighlighter.highlightText(modelData.nama, currentViewModel.textQuery)
                     Layout.alignment: Qt.AlignHCenter
                     textFormat: Label.StyledText
                 }
                 Label {
-                    text: model.alamat
+                    text: modelData.alamat
                     Layout.alignment: Qt.AlignHCenter
                 }
             }
