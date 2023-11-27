@@ -56,14 +56,14 @@ Dialog {
 
             BaseComboField {
                 field: viewModel.kategoriField
-                selectionModel: viewModel.kategoriListModel
-                displayRole: "jenis"
+                selectionModel: viewModel.kategoriList
+                displayRole: "nama"
             }
 
             BaseComboField {
                 field: viewModel.penerbitField
-                selectionModel: viewModel.penerbitListModel
-                displayRole: "name"
+                selectionModel: viewModel.penerbitList
+                displayRole: "nama"
             }
 
             Label {

@@ -37,22 +37,28 @@ void BukuEditViewModel::configure(int kode)
     mTahunTerbit = data->tahunTerbit();
 
     mKategoriList = RepositoryManager::getInstance()->getKategori()->getAll("");
+    emit kategoriListChanged();
 
+    int kategoriIndex = -1;
     for (int i = 0; i < mKategoriList.length(); i++) {
         if (mKategoriList.at(i)->kode() == data->kodeKategori()) {
-            mKategoriField->setIndex(i);
+            kategoriIndex = i;
             break;
         }
     }
+    mKategoriField->setIndex(kategoriIndex);
 
     mPenerbitList = RepositoryManager::getInstance()->getPenerbit()->getAll("");
+    emit penerbitListChanged();
 
+    int penerbitIndex = -1;
     for (int i = 0; i < mPenerbitList.length(); i++) {
         if (mPenerbitList.at(i)->kode() == data->kodePenebit()) {
-            mPenerbitField->setIndex(i);
+            penerbitIndex = i;
             break;
         }
     }
+    mPenerbitField->setIndex(penerbitIndex);
 
     emit jumlahHilangChanged();
     emit tahunTerbitChanged();

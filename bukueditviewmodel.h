@@ -18,7 +18,7 @@ class BukuEditViewModel : public QObject
     Q_PROPERTY(ComboFieldData* kategoriField READ kategoriField CONSTANT)
     Q_PROPERTY(ComboFieldData* penerbitField READ penerbitField CONSTANT)
     Q_PROPERTY(QList<KategoriData *> kategoriList READ kategoriList NOTIFY kategoriListChanged FINAL)
-    Q_PROPERTY(QList<PenerbitData*> penerbitList READ penerbitList NOTIFY penerbtitListChangedT)
+    Q_PROPERTY(QList<PenerbitData*> penerbitList READ penerbitList NOTIFY penerbitListChanged)
     Q_PROPERTY(bool isValid READ isValid NOTIFY isValidChanged)
 public:
     explicit BukuEditViewModel(QObject *parent = nullptr);
@@ -55,8 +55,7 @@ signals:
     void isNewChanged();
     void isValidChanged();
     void kategoriListChanged();
-
-    void penerbtitListChangedT();
+    void penerbitListChanged();
 
 private:
     int mKode;
