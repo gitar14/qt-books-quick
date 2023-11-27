@@ -2,7 +2,7 @@
 #define PENGADAANREPOSITORY_H
 
 #include <QObject>
-#include "list/pengadaanmodel.h"
+#include <QDate>
 
 class PengadaanData : public QObject {
     Q_OBJECT
