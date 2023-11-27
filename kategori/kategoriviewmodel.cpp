@@ -3,7 +3,9 @@
 #include "repositorymanager.h"
 
 KategoriViewModel::KategoriViewModel(QObject *parent)
-    : QObject{parent}, mRepository{RepositoryManager::getInstance()->getKategori()}
+    : QObject{parent},
+    mRepository{RepositoryManager::getInstance()->getKategori()},
+    mSelectedData{nullptr}
 {
     refresh();
     connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));
@@ -38,12 +40,17 @@ void KategoriViewModel::removeSelected()
 
 void KategoriViewModel::refreshSelectedItem()
 {
+    KategoriData* prevData = mSelectedData;
     if (mSelectedIndex < 0 || mSelectedIndex >= mList.length())
         mSelectedData = new KategoriData();
     else mSelectedData = mRepository->get(mList.at(mSelectedIndex)->kode());
+    mSelectedData->setParent(this);
 
     emit selectedDataChanged();
     emit hasSelectedItemChanged();
+
+    if (prevData != nullptr)
+        delete prevData;
 }
 
 QList<KategoriData *> KategoriViewModel::list() const
@@ -63,8 +70,11 @@ KategoriData *KategoriViewModel::selectedData() const
 
 void KategoriViewModel::refresh()
 {
+    QList<KategoriData*> prevList = mList;
     mList = mRepository->getAll(mTextQuery);
 
     emit listChanged();
     refreshSelectedItem();
+
+    qDeleteAll(prevList);
 }

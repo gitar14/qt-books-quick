@@ -19,6 +19,7 @@ class PeminjamanEditViewModel : public QObject
     QML_ELEMENT
 public:
     explicit PeminjamanEditViewModel(QObject *parent = nullptr);
+    ~PeminjamanEditViewModel();
 
     Q_INVOKABLE void configure(int kode = -1);
 

@@ -19,6 +19,7 @@ class PengadaanEditViewModel : public QObject
     QML_ELEMENT
 public:
     explicit PengadaanEditViewModel(QObject *parent = nullptr);
+    ~PengadaanEditViewModel();
 
     Q_INVOKABLE void configure(int kode = -1);
 

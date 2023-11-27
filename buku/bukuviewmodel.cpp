@@ -7,7 +7,7 @@
 
 BukuViewModel::BukuViewModel(QObject *parent)
     : BukuPilihViewModel{parent},
-    mSelectedData{new BukuData()}
+    mSelectedData{nullptr}
 {
 }
 
@@ -29,10 +29,9 @@ int BukuViewModel::selectedJumlahDipinjam() const
 void BukuViewModel::refreshSelectedItem()
 {
     BukuPilihViewModel::refreshSelectedItem();
-    mSelectedData->deleteLater();
-
     RepositoryManager* manager = RepositoryManager::getInstance();
 
+    BukuData* prevData = mSelectedData;
     if (selectedKode() != -1) {
         mSelectedData = mRepository->getBukuData(selectedKode());
         mSelectedJumlahPengadaan = manager->getPengadaan()->getJumlahPengadaanBuku(selectedKode());
@@ -47,4 +46,7 @@ void BukuViewModel::refreshSelectedItem()
     emit selectedDataChanged();
     emit selectedJumlahPengadaanChanged();
     emit selectedJumlahDipinjamChanged();
+
+    if (prevData != nullptr)
+        delete prevData;
 }

@@ -17,6 +17,8 @@ void KategoriEditViewModel::configure(int kode)
     mKode = data->kode();
     mNamaField->setValue(data->nama());
 
+    delete data;
+
     emit isNewChanged();
 }
 

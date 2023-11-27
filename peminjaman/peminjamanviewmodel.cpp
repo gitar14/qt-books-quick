@@ -34,7 +34,8 @@ bool ProcessedPeminjamanData::sudahDikembalikan() const
 PeminjamanViewModel::PeminjamanViewModel(QObject *parent)
     : QObject{parent},
     mRepository{RepositoryManager::getInstance()->getPeminjaman()},
-    mSelectedDenda{new PeminjamanDendaCalculator(this)}
+    mSelectedDenda{new PeminjamanDendaCalculator(this)},
+    mSelectedData{nullptr}
 {
     connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));
     refresh();
@@ -95,20 +96,21 @@ void PeminjamanViewModel::refresh()
         break;
     }
 
+    QList<ProcessedPeminjamanData*> prevList = mList;
     QList<PeminjamanData*> rawList = mRepository->getList(statusFilter);
 
-    qDeleteAll(mList.begin(), mList.end());
     mList.clear();
 
     for (int i = 0; i < rawList.length(); i++) {
         mList.append(new ProcessedPeminjamanData(rawList.at(i)));
     }
 
-    qDeleteAll(rawList.begin(), rawList.end());
-
     emit listChanged();
 
     refreshSelectedItem();
+
+    qDeleteAll(rawList.begin(), rawList.end());
+    qDeleteAll(prevList);
 }
 
 PeminjamanDendaCalculator *PeminjamanViewModel::selectedDenda() const
@@ -139,6 +141,8 @@ void PeminjamanViewModel::refreshSelectedItem()
     if (mSelectedIndex >= 0 && mSelectedIndex < mList.length())
         kode = mList.at(mSelectedIndex)->kode();
 
+    ProcessedPeminjamanData* prevData = mSelectedData;
+
     PeminjamanData* rawData = mRepository->get(kode);
     mSelectedData = new ProcessedPeminjamanData(rawData);
     delete rawData;
@@ -155,6 +159,9 @@ void PeminjamanViewModel::refreshSelectedItem()
     emit selectedDataChanged();
     emit hasSelectedItemChanged();
     emit selectedBukuListChanged();
+
+    if (prevData != nullptr)
+        delete prevData;
 }
 
 bool PeminjamanViewModel::hasSelectedItem() const

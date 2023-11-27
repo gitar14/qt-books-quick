@@ -22,6 +22,7 @@ class BukuPilihViewModel : public QObject
     QML_ELEMENT
 public:
     explicit BukuPilihViewModel(QObject *parent = nullptr);
+    ~BukuPilihViewModel();
 
     QList<BukuData *> list() const;
 

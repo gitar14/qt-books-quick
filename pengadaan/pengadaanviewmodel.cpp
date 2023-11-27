@@ -61,16 +61,19 @@ void PengadaanViewModel::refresh()
 
 void PengadaanViewModel::refreshSelectedItem()
 {
-
+    PengadaanData* prevData = mSelectedData;
     if (mSelectedIndex < 0 || mSelectedIndex >= mList.count())
         mSelectedData = new PengadaanData();
     else mSelectedData = mRepository->get(mList.at(mSelectedIndex)->kode());
+    mSelectedData->setParent(this);
 
     mSelectedBukuList = mRepository->getBukuList(mSelectedData->kode());
 
     emit selectedDataChanged();
     emit hasSelectedItemChanged();
     emit selectedBukuListChanged();
+
+    delete prevData;
 }
 
 bool PengadaanViewModel::hasSelectedItem() const

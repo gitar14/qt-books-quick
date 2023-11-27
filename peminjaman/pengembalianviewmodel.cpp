@@ -21,13 +21,14 @@ void PengembalianViewModel::configure(int kode)
     QList<PeminjamanBukuData*> prevList = mBukuList;
     mBukuList = mRepository->getBukuList(mKode);
     mDenda->setBukuList(mBukuList);
-    qDeleteAll(prevList.begin(), prevList.end());
 
     setTanggalPengembalian(QDate::currentDate());
 
     mDenda->setDendaTerlambatPerBuku(RepositoryManager::getInstance()->getSetting()->getDendaPerHari());
 
     emit bukuListChanged();
+
+    qDeleteAll(prevList.begin(), prevList.end());
 }
 
 QDate PengembalianViewModel::tanggalPengembalian() const

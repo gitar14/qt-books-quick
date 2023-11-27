@@ -41,6 +41,7 @@ bool UserLoginViewModel::login()
     if (userData->id().length() == 0) {
         mErrorText = "User tidak ada";
         emit errorTextChanged();
+        delete userData;
         return false;
     }
 

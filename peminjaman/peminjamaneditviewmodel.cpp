@@ -11,6 +11,11 @@ PeminjamanEditViewModel::PeminjamanEditViewModel(QObject *parent)
 
 }
 
+PeminjamanEditViewModel::~PeminjamanEditViewModel()
+{
+    qDeleteAll(mBukuList);
+}
+
 void PeminjamanEditViewModel::configure(int kode)
 {
     mKode = kode;
@@ -22,7 +27,7 @@ void PeminjamanEditViewModel::configure(int kode)
     mLamaPeminjaman = data->lamaPeminjaman();
     delete data;
 
-    qDeleteAll(mBukuList.begin(), mBukuList.end());
+    QList<PeminjamanBukuData*> prevList = mBukuList;
     mBukuList = mRepository->getBukuList(kode);
 
     emit kodeMemberChanged();
@@ -32,6 +37,8 @@ void PeminjamanEditViewModel::configure(int kode)
     emit bukuListChanged();
 
     refreshAvailableBuku();
+
+    qDeleteAll(prevList);
 }
 
 int PeminjamanEditViewModel::kodeMember() const

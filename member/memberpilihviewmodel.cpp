@@ -8,6 +8,11 @@ MemberPilihViewModel::MemberPilihViewModel(QObject *parent)
     refresh();
 }
 
+MemberPilihViewModel::~MemberPilihViewModel()
+{
+    qDeleteAll(mList);
+}
+
 QList<MemberData *> MemberPilihViewModel::list() const
 {
     return mList;
@@ -45,10 +50,13 @@ void MemberPilihViewModel::setSelectedIndex(int index)
 
 void MemberPilihViewModel::refresh()
 {
+    QList<MemberData*> prevList = mList;
     mList = mRepository->getAll(mTextQuery);
 
     emit listChanged();
     refreshSelectedItem();
+
+    qDeleteAll(prevList);
 }
 
 void MemberPilihViewModel::refreshSelectedItem()
@@ -56,6 +64,7 @@ void MemberPilihViewModel::refreshSelectedItem()
     if (mSelectedIndex < 0 || mSelectedIndex >= mList.count())
         mSelectedKode = -1;
     else mSelectedKode = mList.at(mSelectedIndex)->kode();
+
     emit selectedKodeChanged();
     emit hasSelectedItemChanged();
 

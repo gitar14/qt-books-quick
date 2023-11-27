@@ -16,6 +16,11 @@ PengadaanEditViewModel::PengadaanEditViewModel(QObject *parent)
     connect(mSumberField, SIGNAL(isValidChanged()), this, SIGNAL(isValidChanged()));
 }
 
+PengadaanEditViewModel::~PengadaanEditViewModel()
+{
+    qDeleteAll(mBukuList);
+}
+
 void PengadaanEditViewModel::configure(int kode)
 {
     mKode = kode;
@@ -25,12 +30,15 @@ void PengadaanEditViewModel::configure(int kode)
     if (!mTanggal.isValid()) mTanggal = QDate::currentDate();
     delete data;
 
+    QList<PengadaanBukuData*> prevList = mBukuList;
     mBukuList = mRepository->getBukuList(kode);
 
     refreshBukuAvailable();
 
     emit tanggalChanged();
     emit bukuListChanged();
+
+    qDeleteAll(prevList);
 }
 
 TextFieldData *PengadaanEditViewModel::sumberField() const
@@ -67,11 +75,13 @@ void PengadaanEditViewModel::appendBuku(int kode)
 
 void PengadaanEditViewModel::removeBuku(int index)
 {
-    delete mBukuList[index];
+    PengadaanBukuData* buku = mBukuList[index];
     mBukuList.remove(index);
 
     refreshBukuAvailable();
     emit bukuListChanged();
+
+    delete buku;
 }
 
 QList<int> PengadaanEditViewModel::kodeBukuList() const

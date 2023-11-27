@@ -22,6 +22,7 @@ class BukuEditViewModel : public QObject
     Q_PROPERTY(bool isValid READ isValid NOTIFY isValidChanged)
 public:
     explicit BukuEditViewModel(QObject *parent = nullptr);
+    ~BukuEditViewModel();
 
     Q_INVOKABLE void configure(int kode = -1);
 

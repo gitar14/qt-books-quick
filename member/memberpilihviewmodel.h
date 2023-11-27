@@ -15,6 +15,7 @@ class MemberPilihViewModel : public QObject
     QML_ELEMENT
 public:
     explicit MemberPilihViewModel(QObject *parent = nullptr);
+    ~MemberPilihViewModel();
 
     QList<MemberData *> list() const;
     int selectedKode() const;
