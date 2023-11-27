@@ -21,42 +21,42 @@ qt_add_qml_module(appqt-books-qml
     VERSION 1.0
     QML_FILES Main.qml
     SOURCES
-    QML_FILES KategoriScreen.qml
+    QML_FILES kategori/KategoriScreen.qml
     SOURCES
-    QML_FILES BukuScreen.qml
-    QML_FILES PenerbitScreen.qml
-    SOURCES
-    SOURCES
-    QML_FILES PengadaanScreen.qml
+    QML_FILES buku/BukuScreen.qml
+    QML_FILES penerbit/PenerbitScreen.qml
     SOURCES
     SOURCES
+    QML_FILES pengadaan/PengadaanScreen.qml
     SOURCES
     SOURCES
-    QML_FILES MemberScreen.qml
     SOURCES
-    QML_FILES PeminjamanList.qml
+    SOURCES
+    QML_FILES member/MemberScreen.qml
+    SOURCES
+    QML_FILES peminjaman/PeminjamanList.qml
     QML_FILES FloatingActionButton.qml
-    QML_FILES PenerbitEditDialog.qml
-    QML_FILES PenerbitDetailFrame.qml
-    QML_FILES PenerbitList.qml
-    QML_FILES KategoriEditDialog.qml
-    QML_FILES KategoriDetailFrame.qml
-    QML_FILES KategoriList.qml
-    QML_FILES MemberEditDialog.qml
-    QML_FILES MemberDetailFrame.qml
-    QML_FILES MemberList.qml
+    QML_FILES penerbit/PenerbitEditDialog.qml
+    QML_FILES penerbit/PenerbitDetailFrame.qml
+    QML_FILES penerbit/PenerbitList.qml
+    QML_FILES kategori/KategoriEditDialog.qml
+    QML_FILES kategori/KategoriDetailFrame.qml
+    QML_FILES kategori/KategoriList.qml
+    QML_FILES member/MemberEditDialog.qml
+    QML_FILES member/MemberDetailFrame.qml
+    QML_FILES member/MemberList.qml
     QML_FILES DateField.qml
-    QML_FILES BukuEditDialog.qml
-    QML_FILES BukuDetailFrame.qml
-    QML_FILES BukuList.qml
-    QML_FILES PengadaanEditDialog.qml
-    QML_FILES BukuPilihDialog.qml
-    QML_FILES PengadaanDetailFrame.qml
-    QML_FILES PengadaanList.qml
-    QML_FILES BukuListView.qml
-    QML_FILES PeminjamanScreen.qml
-    QML_FILES PeminjamanEditDialog.qml
-    QML_FILES PeminjamanDetailFrame.qml
+    QML_FILES buku/BukuEditDialog.qml
+    QML_FILES buku/BukuDetailFrame.qml
+    QML_FILES buku/BukuList.qml
+    QML_FILES pengadaan/PengadaanEditDialog.qml
+    QML_FILES buku/BukuPilihDialog.qml
+    QML_FILES pengadaan/PengadaanDetailFrame.qml
+    QML_FILES pengadaan/PengadaanList.qml
+    QML_FILES buku/BukuListView.qml
+    QML_FILES peminjaman/PeminjamanScreen.qml
+    QML_FILES peminjaman/PeminjamanEditDialog.qml
+    QML_FILES peminjaman/PeminjamanDetailFrame.qml
     SOURCES sqlhelper.h
     SOURCES sqlhelper.cpp
     SOURCES
@@ -76,17 +76,17 @@ qt_add_qml_module(appqt-books-qml
     SOURCES
     QML_FILES SettingsScreen.qml
     SOURCES settingviewmodel.h settingviewmodel.cpp
-    QML_FILES UserBuatAdminScreen.qml
+    QML_FILES user/UserBuatAdminScreen.qml
     SOURCES usermanager.h usermanager.cpp
-    QML_FILES UserLoginScreen.qml
+    QML_FILES user/UserLoginScreen.qml
     SOURCES
     SOURCES
-    QML_FILES UserScreen.qml
-    QML_FILES UserList.qml
-    QML_FILES UserEditDialog.qml
-    QML_FILES UserDetailFrame.qml
-    QML_FILES MemberPilihDialog.qml
-    QML_FILES PengembalianAddDialog.qml
+    QML_FILES user/UserScreen.qml
+    QML_FILES user/UserList.qml
+    QML_FILES user/UserEditDialog.qml
+    QML_FILES user/UserDetailFrame.qml
+    QML_FILES member/MemberPilihDialog.qml
+    QML_FILES peminjaman/PengembalianAddDialog.qml
     SOURCES
     SOURCES
     SOURCES

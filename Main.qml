@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import Kelompok7.Perpus
+import "./user"
 
 ApplicationWindow {
     width: 960
