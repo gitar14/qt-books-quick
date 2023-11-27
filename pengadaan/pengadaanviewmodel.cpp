@@ -83,5 +83,7 @@ bool PengadaanViewModel::hasSelectedItem() const
 
 void PengadaanViewModel::removeSelectedItem()
 {
-    mRepository->remove(mSelectedData->kode());
+    int kode = mSelectedData->kode();
+    mRepository->remove(kode);
+    mRepository->removeAllBuku(kode);
 }
