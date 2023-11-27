@@ -50,7 +50,7 @@ Page {
                 userEditDialog.viewModel.configure(viewModel.selectedData.id)
                 userEditDialog.open()
             }
-            onDeleteClicked: userModel.remove(useridUser)
+            onDeleteClicked: viewModel.removeSelected()
         }
 
 

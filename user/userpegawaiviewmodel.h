@@ -26,6 +26,8 @@ public:
 
     bool hasSelectedItem() const;
 
+    Q_INVOKABLE void removeSelected();
+
 signals:
     void listChanged();
     void textQueryChanged();

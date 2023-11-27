@@ -70,3 +70,8 @@ bool UserPegawaiViewModel::hasSelectedItem() const
 {
     return mSelectedData->id() != "";
 }
+
+void UserPegawaiViewModel::removeSelected()
+{
+    mRepository->remove(mSelectedData->id());
+}
