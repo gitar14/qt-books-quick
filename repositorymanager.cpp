@@ -10,7 +10,7 @@
 #include "repository/settingrepository.h"
 #include <QDebug>
 
-RepositoryManager::RepositoryManager()
+RepositoryManager::RepositoryManager() : QObject()
 {
 
 }
@@ -24,7 +24,7 @@ RepositoryManager* RepositoryManager::getInstance()
 ConfigurationRepository *RepositoryManager::getConfiguration()
 {
     if (mConfiguration == nullptr) {
-        mConfiguration = new ConfigurationRepository();
+        mConfiguration = new ConfigurationRepository(this);
     }
     return mConfiguration;
 }
@@ -32,7 +32,7 @@ ConfigurationRepository *RepositoryManager::getConfiguration()
 KategoriRepository *RepositoryManager::getKategori()
 {
     if (mKategori == nullptr) {
-        mKategori = new KategoriRepository();
+        mKategori = new KategoriRepository(this);
     }
     return mKategori;
 }
@@ -40,7 +40,7 @@ KategoriRepository *RepositoryManager::getKategori()
 PenerbitRepository *RepositoryManager::getPenerbit()
 {
     if (mPenerbit == nullptr) {
-        mPenerbit = new PenerbitRepository();
+        mPenerbit = new PenerbitRepository(this);
     }
     return mPenerbit;
 }
@@ -48,7 +48,7 @@ PenerbitRepository *RepositoryManager::getPenerbit()
 BukuRepository *RepositoryManager::getBuku()
 {
     if (mBuku == nullptr) {
-        mBuku = new BukuRepository();
+        mBuku = new BukuRepository(this);
     }
     return mBuku;
 }
@@ -56,7 +56,7 @@ BukuRepository *RepositoryManager::getBuku()
 PengadaanRepository *RepositoryManager::getPengadaan()
 {
     if (mPengadaan == nullptr) {
-        mPengadaan = new PengadaanRepository();
+        mPengadaan = new PengadaanRepository(this);
     }
     return mPengadaan;
 }
@@ -64,7 +64,7 @@ PengadaanRepository *RepositoryManager::getPengadaan()
 PeminjamanRepository *RepositoryManager::getPeminjaman()
 {
     if (mPeminjaman == nullptr) {
-        mPeminjaman = new PeminjamanRepository();
+        mPeminjaman = new PeminjamanRepository(this);
     }
     return mPeminjaman;
 }
@@ -72,7 +72,7 @@ PeminjamanRepository *RepositoryManager::getPeminjaman()
 MemberRepository *RepositoryManager::getMember()
 {
     if (mMember == nullptr) {
-        mMember = new MemberRepository();
+        mMember = new MemberRepository(this);
     }
     return mMember;
 }
@@ -80,7 +80,7 @@ MemberRepository *RepositoryManager::getMember()
 UserRepository *RepositoryManager::getUser()
 {
     if (mUser == nullptr) {
-        mUser = new UserRepository();
+        mUser = new UserRepository(this);
     }
     return mUser;
 }
@@ -88,7 +88,7 @@ UserRepository *RepositoryManager::getUser()
 SettingRepository *RepositoryManager::getSetting()
 {
     if (mSetting == nullptr) {
-        mSetting = new SettingRepository();
+        mSetting = new SettingRepository(this);
     }
     return mSetting;
 }

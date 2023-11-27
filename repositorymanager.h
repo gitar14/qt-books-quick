@@ -1,6 +1,8 @@
 #ifndef REPOSITORYMANAGER_H
 #define REPOSITORYMANAGER_H
 
+#include <QObject>
+
 class ConfigurationRepository;
 class KategoriRepository;
 class PenerbitRepository;
@@ -11,8 +13,9 @@ class MemberRepository;
 class UserRepository;
 class SettingRepository;
 
-class RepositoryManager
+class RepositoryManager : QObject
 {
+    Q_OBJECT
 private:
     RepositoryManager();
 
