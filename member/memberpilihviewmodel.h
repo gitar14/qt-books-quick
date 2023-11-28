@@ -31,7 +31,7 @@ signals:
     void hasSelectedItemChanged();
     void textQueryChanged();
 
-private slots:
+public slots:
     void refresh();
 
 protected:

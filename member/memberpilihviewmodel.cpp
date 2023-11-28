@@ -5,7 +5,6 @@ MemberPilihViewModel::MemberPilihViewModel(QObject *parent)
     : QObject{parent}, mRepository{RepositoryManager::getInstance()->getMember()}
 {
     connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));
-    refresh();
 }
 
 MemberPilihViewModel::~MemberPilihViewModel()

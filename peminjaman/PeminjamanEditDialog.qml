@@ -64,7 +64,10 @@ Dialog {
                 }
 
                 Button {
-                    onClicked: memberPilihDialog.open()
+                    onClicked: {
+                        memberPilihDialog.viewModel.refresh()
+                        memberPilihDialog.open()
+                    }
                     text: "Ganti"
                 }
             }

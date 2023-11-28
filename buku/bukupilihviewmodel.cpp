@@ -16,7 +16,6 @@ BukuPilihViewModel::BukuPilihViewModel(QObject *parent)
 
     mRepository = repositoryManager->getBuku(),
     connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));
-    refresh();
 }
 
 BukuPilihViewModel::~BukuPilihViewModel()

@@ -65,7 +65,6 @@ signals:
 
 protected:
     BukuRepository* mRepository;
-    virtual void refreshSelectedItem();
 
 private:
     QList<BukuData*> mList;
@@ -78,6 +77,8 @@ private:
     QList<KategoriData*> mKategoriFilterList;
     int mPenerbitFilter{-1};
     QList<PenerbitData*> mPenerbitFilterList;
+
+    void refreshSelectedItem();
 };
 
 #endif // BUKUPILIHVIEWMODEL_H

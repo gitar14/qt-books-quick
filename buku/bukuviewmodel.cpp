@@ -9,6 +9,8 @@ BukuViewModel::BukuViewModel(QObject *parent)
     : BukuPilihViewModel{parent},
     mSelectedData{nullptr}
 {
+    connect(this, SIGNAL(selectedKodeChanged()), this, SLOT(refreshSelectedData()));
+    refresh();
 }
 
 BukuData *BukuViewModel::selectedData() const
@@ -31,9 +33,8 @@ void BukuViewModel::removeSelected()
     mRepository->remove(selectedKode());
 }
 
-void BukuViewModel::refreshSelectedItem()
+void BukuViewModel::refreshSelectedData()
 {
-    BukuPilihViewModel::refreshSelectedItem();
     RepositoryManager* manager = RepositoryManager::getInstance();
 
     BukuData* prevData = mSelectedData;

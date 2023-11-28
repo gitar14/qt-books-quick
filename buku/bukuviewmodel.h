@@ -26,8 +26,9 @@ signals:
     void selectedJumlahPengadaanChanged();
     void selectedJumlahDipinjamChanged();
 
-protected:
-    void refreshSelectedItem() override;
+private slots:
+    void refreshSelectedData();
+
 private:
     BukuData* mSelectedData;
     int mSelectedJumlahPengadaan;
