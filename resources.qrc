@@ -9,5 +9,8 @@
         <file>icons/assignment-ind-black.svg</file>
         <file>icons/user-black.svg</file>
         <file>icons/buku-black.svg</file>
+        <file>icons/arrow-down.svg</file>
+        <file>icons/chevron-left.svg</file>
+        <file>icons/chevron-right.svg</file>
     </qresource>
 </RCC>

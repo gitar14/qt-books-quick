@@ -33,10 +33,22 @@ ColumnLayout {
             verticalPadding: 8
 
             onClosed: {
+                if (yearView)
+                    toggleYearView()
                 controlListView.highlightMoveDuration = 0
                 controlListView.currentIndex = controlListView.snapIndex
-                controlListView.highlightMoveDuration = -1
+                controlListView.highlightMoveDuration = controlListView.maxMoveDuration
             }
+
+            function toggleYearView() {
+                controlPopup.yearView = !controlPopup.yearView
+                if (!controlPopup.yearView) {
+                    controlYearList.currentIndex = 0
+                    controlYearList.currentIndex = controlYearList.snapIndex
+                }
+            }
+
+            property bool yearView: false
 
             contentItem: ColumnLayout {
                 clip: true
@@ -51,21 +63,53 @@ ColumnLayout {
 
                     RoundButton {
                         Material.background: "transparent"
-                        text: "<"
+                        icon.source: "qrc:/icons/chevron-left.svg"
+                        icon.width: 24
+                        icon.height: 24
                         onClicked: controlListView.decrementCurrentIndex()
                     }
 
-                    Label {
+                    Item {
                         Layout.fillWidth: true
-                        text: combo.locale.monthName(controlCalendarModel.monthAt(controlListView.currentIndex)) +
-                            " " +
-                            controlCalendarModel.yearAt(controlListView.currentIndex)
-                        horizontalAlignment: Qt.AlignHCenter
+                    }
+
+                    RowLayout {
+                        Label {
+                            Layout.alignment: Qt.AlignVCenter
+                            text: combo.locale.monthName(controlCalendarModel.monthAt(controlListView.currentIndex)) +
+                                " " +
+                                controlCalendarModel.yearAt(controlListView.currentIndex)
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: controlPopup.toggleYearView()
+                            }
+                        }
+
+                        Image {
+                            source: "qrc:/icons/arrow-down.svg"
+                            width: 24
+                            height: 24
+                            sourceSize.width: 24
+                            sourceSize.height: 24
+                            fillMode: Image.PreserveAspectFit
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: controlPopup.toggleYearView()
+                            }
+                        }
+                    }
+
+                    Item {
+                        Layout.fillWidth: true
                     }
 
                     RoundButton {
                         Material.background: "transparent"
-                        text: ">"
+                        icon.source: "qrc:/icons/chevron-right.svg"
+                        icon.width: 24
+                        icon.height: 24
                         onClicked: controlListView.incrementCurrentIndex()
                     }
                 }
@@ -73,6 +117,8 @@ ColumnLayout {
                 ListView {
                     id: controlListView
 
+                    property int maxMoveDuration: 500
+                    visible: !controlPopup.yearView
                     width: 300
                     height: 200
                     snapMode: ListView.SnapOneItem
@@ -80,8 +126,9 @@ ColumnLayout {
                     highlightRangeMode: ListView.StrictlyEnforceRange
                     clip: true
                     model: controlCalendarModel
+                    highlightMoveDuration: maxMoveDuration
 
-                    property var snapIndex: controlCalendarModel.indexOf(currentDate)
+                    property int snapIndex: controlCalendarModel.indexOf(currentDate)
 
                     onSnapIndexChanged: {
                         currentIndex = snapIndex
@@ -125,6 +172,51 @@ ColumnLayout {
                             }
                         }
                     }
+                }
+
+                ListView {
+                    id: controlYearList
+                    visible: controlPopup.yearView
+                    width: 300
+                    height: 200
+                    model: 3000
+                    highlightRangeMode: ListView.ApplyRange
+                    highlightMoveDuration: 0
+                    clip: true
+
+                    property int snapIndex: controlCalendarModel.yearAt(controlListView.currentIndex)
+                    onSnapIndexChanged: currentIndex = snapIndex
+
+
+                    delegate: Rectangle {
+                        width: ListView.view.width
+                        height: yearDelegateLabel.height + 32
+                        id: yearDelegate
+                        radius: 16
+                        color: ListView.isCurrentItem ? Material.shade(combo.Material.accent, Material.Shade100) :
+                        "transparent"
+
+                        MouseArea {
+                            anchors.fill: parent
+
+                            onClicked: {
+                                controlListView.highlightMoveDuration = 0
+                                controlListView.currentIndex = controlCalendarModel.indexOf(
+                                            index,
+                                            controlCalendarModel.monthAt(controlListView.currentIndex)
+                                            )
+                                controlPopup.yearView = false
+                                controlListView.highlightMoveDuration = controlListView.maxMoveDuration
+                            }
+                        }
+
+                        Label {
+                            anchors.centerIn: parent
+                            id: yearDelegateLabel
+                            text: index
+                        }
+                    }
+
                 }
 
                 Button {
