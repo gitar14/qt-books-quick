@@ -67,6 +67,21 @@ int PeminjamanData::dendaTerlambatPerBuku() const
     return mDendaTerlambatPerBuku;
 }
 
+QString PeminjamanData::namaMember() const
+{
+    return mNamaDepanMember + " " + mNamaBelakangMember;
+}
+
+QDate PeminjamanData::tenggatPengembalian() const
+{
+    return mTanggalPeminjaman.addDays(mLamaPeminjaman);
+}
+
+bool PeminjamanData::sudahDikembalikan() const
+{
+    return mTanggalPengembalian.isValid();
+}
+
 PeminjamanBukuData::PeminjamanBukuData(int kodeBuku, QString judul, int denda)
     : QObject(), mKodeBuku{kodeBuku}, mJudul{judul}, mDenda{denda}
 {
@@ -94,6 +109,69 @@ void PeminjamanBukuData::setDenda(int newDenda)
         return;
     mDenda = newDenda;
     emit dendaChanged();
+}
+
+PeminjamanDetailData::PeminjamanDetailData(int kode,
+                                           int kodeMember,
+                                           const QString &namaDepanMember,
+                                           const QString &namaBelakangMember,
+                                           const QDate &tanggalPeminjaman,
+                                           int lamaPeminjaman,
+                                           const QDate &tanggalPengembalian,
+                                           int dendaTerlambatPerBuku,
+                                           const QString &peminjamanUserId,
+                                           const QString &peminjamanUserNamaDepan,
+                                           const QString &peminjamanUserNamaBelakang,
+                                           const QString &pengembalianUserId,
+                                           const QString &pengembalianUserNamaDepan,
+                                           const QString &pengembalianUserNamaBelakang)
+    : PeminjamanData(kode, kodeMember, namaDepanMember, namaBelakangMember, tanggalPeminjaman, lamaPeminjaman, tanggalPengembalian, dendaTerlambatPerBuku),
+    mPeminjamanUserId(peminjamanUserId),
+    mPeminjamanUserNamaDepan(peminjamanUserNamaDepan),
+    mPeminjamanUserNamaBelakang(peminjamanUserNamaBelakang),
+    mPengembalianUserId(pengembalianUserId),
+    mPengembalianUserNamaDepan(pengembalianUserNamaDepan),
+    mPengembalianUserNamaBelakang(pengembalianUserNamaBelakang)
+{}
+
+QString PeminjamanDetailData::peminjamanUserId() const
+{
+    return mPeminjamanUserId;
+}
+
+QString PeminjamanDetailData::peminjamanUserNamaDepan() const
+{
+    return mPeminjamanUserNamaDepan;
+}
+
+QString PeminjamanDetailData::peminjamanUserNamaBelakang() const
+{
+    return mPeminjamanUserNamaBelakang;
+}
+
+QString PeminjamanDetailData::pengembalianUserId() const
+{
+    return mPengembalianUserId;
+}
+
+QString PeminjamanDetailData::pengembalianUserNamaDepan() const
+{
+    return mPengembalianUserNamaDepan;
+}
+
+QString PeminjamanDetailData::pengembalianUserNamaBelakang() const
+{
+    return mPengembalianUserNamaBelakang;
+}
+
+QString PeminjamanDetailData::peminjamanUserNama() const
+{
+    return mPeminjamanUserNamaDepan + " " + mPeminjamanUserNamaBelakang;
+}
+
+QString PeminjamanDetailData::pengembalianUserNama() const
+{
+    return mPengembalianUserNamaDepan + " " + mPengembalianUserNamaBelakang;
 }
 
 
@@ -161,7 +239,7 @@ QList<PeminjamanData *> PeminjamanRepository::getList(StatusFilter statusFilter)
     return result;
 }
 
-PeminjamanData *PeminjamanRepository::get(int kode)
+PeminjamanDetailData *PeminjamanRepository::get(int kode)
 {
     QSqlQuery query;
     query.prepare("SELECT "
@@ -172,26 +250,42 @@ PeminjamanData *PeminjamanRepository::get(int kode)
                   "   Detail_Peminjaman.tanggal_peminjaman,"
                   "   Detail_Peminjaman.lama_peminjaman,"
                   "   Detail_Peminjaman.tanggal_pengembalian,"
-                  "   Detail_Peminjaman.denda_terlambat_perbuku "
+                  "   Detail_Peminjaman.denda_terlambat_perbuku,"
+                  "   UserPeminjaman.id_user,"
+                  "   UserPeminjaman.nama_depan_user,"
+                  "   UserPeminjaman.nama_belakang_user,"
+                  "   UserPengembalian.id_user,"
+                  "   UserPengembalian.nama_depan_user,"
+                  "   UserPengembalian.nama_belakang_user "
                   "FROM Detail_Peminjaman "
                   "JOIN Member"
                   "   ON Member.kd_member = Detail_Peminjaman.kd_member "
+                  "JOIN User UserPeminjaman"
+                  "   ON UserPeminjaman.id_user = Detail_Peminjaman.id_user_peminjaman "
+                  "LEFT JOIN User UserPengembalian"
+                  "   ON UserPengembalian.id_user = Detail_Peminjaman.id_user_pengembalian "
                   "WHERE Detail_Peminjaman.kd_detail_peminjaman = :kode");
     query.bindValue(":kode", kode);
 
     if (!query.exec())
         qFatal() << "Cannot get data for peminjaman " << query.lastError().text();
 
-    return query.next() ? new PeminjamanData(
-        query.value(0).toInt(),
-        query.value(1).toInt(),
-        query.value(2).toString(),
-        query.value(3).toString(),
-        query.value(4).toDate(),
-        query.value(5).toInt(),
-        query.value(6).toDate(),
-        query.value(7).toInt()
-               ) : new PeminjamanData();
+    return query.next() ? new PeminjamanDetailData(
+               query.value(0).toInt(),
+               query.value(1).toInt(),
+               query.value(2).toString(),
+               query.value(3).toString(),
+               query.value(4).toDate(),
+               query.value(5).toInt(),
+               query.value(6).toDate(),
+               query.value(7).toInt(),
+               query.value(8).toString(),
+               query.value(9).toString(),
+               query.value(10).toString(),
+               query.value(11).toString(),
+               query.value(12).toString(),
+               query.value(13).toString()
+               ) : new PeminjamanDetailData();
 }
 
 int PeminjamanRepository::add(int kodeMember, QString idUser, QDate tanggal, int lama)

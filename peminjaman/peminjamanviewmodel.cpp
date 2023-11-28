@@ -1,36 +1,6 @@
 #include "peminjamanviewmodel.h"
 #include "repositorymanager.h"
 
-ProcessedPeminjamanData::ProcessedPeminjamanData(
-    const PeminjamanData* rawData
-    )
-    : PeminjamanData(
-        rawData->kode(),
-        rawData->kodeMember(),
-        rawData->namaDepanMember(),
-        rawData->namaBelakangMember(),
-        rawData->tanggalPeminjaman(),
-        rawData->lamaPeminjaman(),
-        rawData->tanggalPengembalian(),
-        rawData->dendaTerlambatPerBuku())
-{}
-
-
-QString ProcessedPeminjamanData::namaMember() const
-{
-    return namaDepanMember() + " " + namaBelakangMember();
-}
-
-QDate ProcessedPeminjamanData::tenggatPengembalian() const
-{
-    return tanggalPeminjaman().addDays(lamaPeminjaman());
-}
-
-bool ProcessedPeminjamanData::sudahDikembalikan() const
-{
-    return tanggalPengembalian().isValid();
-}
-
 PeminjamanViewModel::PeminjamanViewModel(QObject *parent)
     : QObject{parent},
     mRepository{RepositoryManager::getInstance()->getPeminjaman()},
@@ -41,7 +11,7 @@ PeminjamanViewModel::PeminjamanViewModel(QObject *parent)
     refresh();
 }
 
-QList<ProcessedPeminjamanData *> PeminjamanViewModel::list() const
+QList<PeminjamanData *> PeminjamanViewModel::list() const
 {
     return mList;
 }
@@ -96,20 +66,13 @@ void PeminjamanViewModel::refresh()
         break;
     }
 
-    QList<ProcessedPeminjamanData*> prevList = mList;
-    QList<PeminjamanData*> rawList = mRepository->getList(statusFilter);
-
-    mList.clear();
-
-    for (int i = 0; i < rawList.length(); i++) {
-        mList.append(new ProcessedPeminjamanData(rawList.at(i)));
-    }
+    QList<PeminjamanData*> prevList = mList;
+    mList = mRepository->getList(statusFilter);
 
     emit listChanged();
 
     refreshSelectedItem();
 
-    qDeleteAll(rawList.begin(), rawList.end());
     qDeleteAll(prevList);
 }
 
@@ -136,7 +99,7 @@ QList<PeminjamanBukuData *> PeminjamanViewModel::selectedBukuList() const
     return mSelectedBukuList;
 }
 
-ProcessedPeminjamanData *PeminjamanViewModel::selectedData() const
+PeminjamanDetailData *PeminjamanViewModel::selectedData() const
 {
     return mSelectedData;
 }
@@ -148,11 +111,9 @@ void PeminjamanViewModel::refreshSelectedItem()
     if (mSelectedIndex >= 0 && mSelectedIndex < mList.length())
         kode = mList.at(mSelectedIndex)->kode();
 
-    ProcessedPeminjamanData* prevData = mSelectedData;
+    PeminjamanDetailData* prevData = mSelectedData;
 
-    PeminjamanData* rawData = mRepository->get(kode);
-    mSelectedData = new ProcessedPeminjamanData(rawData);
-    delete rawData;
+    mSelectedData = mRepository->get(kode);
 
     mSelectedDenda->setDendaTerlambatPerBuku(mSelectedData->dendaTerlambatPerBuku());
     mSelectedDenda->setTenggatPengembalian(mSelectedData->tenggatPengembalian());

@@ -14,6 +14,9 @@ class PeminjamanData : public QObject {
     Q_PROPERTY(int lamaPeminjaman READ lamaPeminjaman CONSTANT FINAL)
     Q_PROPERTY(QDate tanggalPengembalian READ tanggalPengembalian CONSTANT FINAL)
     Q_PROPERTY(int dendaTerlambatPerBuku READ dendaTerlambatPerBuku CONSTANT FINAL)
+    Q_PROPERTY(QString namaMember READ namaMember CONSTANT)
+    Q_PROPERTY(QDate tenggatPengembalian READ tenggatPengembalian CONSTANT)
+    Q_PROPERTY(bool sudahDikembalikan READ sudahDikembalikan CONSTANT)
 public:
     PeminjamanData(
         int kode = -1,
@@ -35,6 +38,10 @@ public:
     QDate tanggalPengembalian() const;
     int dendaTerlambatPerBuku() const;
 
+    QString namaMember() const;
+    QDate tenggatPengembalian() const;
+    bool sudahDikembalikan() const;
+
 private:
     int mKode;
     int mKodeMember;
@@ -44,6 +51,50 @@ private:
     int mLamaPeminjaman;
     QDate mTanggalPengembalian;
     int mDendaTerlambatPerBuku;
+};
+
+class PeminjamanDetailData : public PeminjamanData {
+    Q_OBJECT
+    Q_PROPERTY(QString peminjamanUserId READ peminjamanUserId CONSTANT FINAL)
+    Q_PROPERTY(QString peminjamanUserNamaDepan READ peminjamanUserNamaDepan CONSTANT FINAL)
+    Q_PROPERTY(QString peminjamanUserNamaBelakang READ peminjamanUserNamaBelakang CONSTANT FINAL)
+    Q_PROPERTY(QString pengembalianUserId READ pengembalianUserId CONSTANT FINAL)
+    Q_PROPERTY(QString pengembalianUserNamaDepan READ pengembalianUserNamaDepan CONSTANT FINAL)
+    Q_PROPERTY(QString pengembalianUserNamaBelakang READ pengembalianUserNamaBelakang CONSTANT FINAL)
+    Q_PROPERTY(QString peminjamanUserNama READ peminjamanUserNama CONSTANT FINAL)
+    Q_PROPERTY(QString pengembalianUserNama READ pengembalianUserNama CONSTANT FINAL)
+public:
+    PeminjamanDetailData(int kode = -1,
+                         int kodeMember = -1,
+                         const QString &namaDepanMember = "",
+                         const QString &namaBelakangMember = "",
+                         const QDate &tanggalPeminjaman = QDate(),
+                         int lamaPeminjaman = 0,
+                         const QDate &tanggalPengembalian = QDate(),
+                         int dendaTerlambatPerBuku = 0,
+                         const QString &peminjamanUserId = "",
+                         const QString &peminjamanUserNamaDepan = "",
+                         const QString &peminjamanUserNamaBelakang = "",
+                         const QString &pengembalianUserId = "",
+                         const QString &pengembalianUserNamaDepan = "",
+                         const QString &pengembalianUserNamaBelakang = "");
+
+    QString peminjamanUserId() const;
+    QString peminjamanUserNamaDepan() const;
+    QString peminjamanUserNamaBelakang() const;
+    QString pengembalianUserId() const;
+    QString pengembalianUserNamaDepan() const;
+    QString pengembalianUserNamaBelakang() const;
+
+    QString peminjamanUserNama() const;
+    QString pengembalianUserNama() const;
+private:
+    QString mPeminjamanUserId;
+    QString mPeminjamanUserNamaDepan;
+    QString mPeminjamanUserNamaBelakang;
+    QString mPengembalianUserId;
+    QString mPengembalianUserNamaDepan;
+    QString mPengembalianUserNamaBelakang;
 };
 
 class PeminjamanBukuData : public QObject {
@@ -83,7 +134,7 @@ public:
     };
 
     QList<PeminjamanData*> getList(StatusFilter statusFilter);
-    PeminjamanData* get(int kode);
+    PeminjamanDetailData* get(int kode);
     int add(int kodeMember, QString idUser, QDate tanggal, int lama);
     void update(int kode, int kodeMember, QDate tanggal, int lama);
     void remove(int kode);

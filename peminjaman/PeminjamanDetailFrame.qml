@@ -32,6 +32,27 @@ BaseDetailFrame {
             text: currentViewModel.selectedData.namaMember
             Layout.fillWidth: true
         }
+
+        Label {
+            text: "Pengawas Peminjaman"
+        }
+
+        Label {
+            text: currentViewModel.selectedData.peminjamanUserNama
+            Layout.fillWidth: true
+        }
+
+        Label {
+            visible: currentViewModel.selectedData.sudahDikembalikan
+            text: "Pengawas Pengembalian"
+        }
+
+        Label {
+            visible: currentViewModel.selectedData.sudahDikembalikan
+            text: currentViewModel.selectedData.pengembalianUserNama
+            Layout.fillWidth: true
+        }
+
         Label{
             text: "Tanggal"
         }

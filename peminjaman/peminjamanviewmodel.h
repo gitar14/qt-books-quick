@@ -6,26 +6,13 @@
 #include "repository/peminjamanrepository.h"
 #include "peminjamandendacalculator.h"
 
-class ProcessedPeminjamanData : public PeminjamanData {
-    Q_OBJECT
-    Q_PROPERTY(QString namaMember READ namaMember CONSTANT)
-    Q_PROPERTY(QDate tenggatPengembalian READ tenggatPengembalian CONSTANT)
-    Q_PROPERTY(bool sudahDikembalikan READ sudahDikembalikan CONSTANT)
-
-public:
-    ProcessedPeminjamanData(const PeminjamanData *rawData);
-    QString namaMember() const;
-    QDate tenggatPengembalian() const;
-    bool sudahDikembalikan() const;
-};
-
 class PeminjamanViewModel : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QList<ProcessedPeminjamanData *> list READ list MEMBER mList NOTIFY listChanged FINAL)
+    Q_PROPERTY(QList<PeminjamanData *> list READ list NOTIFY listChanged FINAL)
     Q_PROPERTY(QString textQuery READ textQuery WRITE setTextQuery NOTIFY textQueryChanged FINAL)
     Q_PROPERTY(StatusFilter statusFilter READ statusFilter WRITE setStatusFilter NOTIFY statusFilterChanged FINAL)
-    Q_PROPERTY(ProcessedPeminjamanData *selectedData READ selectedData NOTIFY selectedDataChanged FINAL)
+    Q_PROPERTY(PeminjamanDetailData *selectedData READ selectedData NOTIFY selectedDataChanged FINAL)
     Q_PROPERTY(bool hasSelectedItem READ hasSelectedItem NOTIFY hasSelectedItemChanged)
     Q_PROPERTY(QList<PeminjamanBukuData *> selectedBukuList READ selectedBukuList NOTIFY selectedBukuListChanged FINAL)
     Q_PROPERTY(PeminjamanDendaCalculator *selectedDenda READ selectedDenda CONSTANT FINAL)
@@ -41,12 +28,12 @@ public:
     };
     Q_ENUM(StatusFilter)
 
-    QList<ProcessedPeminjamanData *> list() const;
+    QList<PeminjamanData *> list() const;
     QString textQuery() const;
     void setTextQuery(const QString &newTextQuery);
     StatusFilter statusFilter() const;
     void setStatusFilter(StatusFilter newStatusFilter);
-    ProcessedPeminjamanData *selectedData() const;
+    PeminjamanDetailData *selectedData() const;
     bool hasSelectedItem() const;
 
     Q_INVOKABLE void setSelectedIndex(int index);
@@ -72,11 +59,11 @@ signals:
 
 private:
     PeminjamanRepository *mRepository;
-    QList<ProcessedPeminjamanData*> mList;
+    QList<PeminjamanData*> mList;
     QString mTextQuery;
     StatusFilter mStatusFilter = BelumDikembalikanStatus;
     int mSelectedIndex;
-    ProcessedPeminjamanData* mSelectedData;
+    PeminjamanDetailData* mSelectedData;
     QList<PeminjamanBukuData*> mSelectedBukuList;
     PeminjamanDendaCalculator* mSelectedDenda;
 
