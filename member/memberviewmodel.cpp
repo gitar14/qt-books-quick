@@ -4,7 +4,7 @@ MemberViewModel::MemberViewModel(QObject *parent)
     : MemberPilihViewModel{parent}, mSelectedData{nullptr}
 {
     connect(this, SIGNAL(selectedKodeChanged()), this, SLOT(refreshSelectedData()));
-    refresh();
+    init();
 }
 
 

@@ -65,7 +65,7 @@ Dialog {
 
                 Button {
                     onClicked: {
-                        memberPilihDialog.viewModel.refresh()
+                        memberPilihDialog.viewModel.init()
                         memberPilihDialog.open()
                     }
                     text: "Ganti"
@@ -122,6 +122,7 @@ Dialog {
                 text: "Tambah Buku"
                 Layout.fillWidth: true
                 onClicked: {
+                    tambahPeminjamanBukuDialog.viewModel.init()
                     tambahPeminjamanBukuDialog.viewModel.ignoredKode = viewModel.kodeBukuList
                     tambahPeminjamanBukuDialog.open()
                 }

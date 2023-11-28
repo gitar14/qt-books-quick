@@ -47,6 +47,8 @@ public:
     QList<KategoriData *> kategoriFilterList() const;
     QList<PenerbitData *> penerbitFilterModel() const;
 
+    Q_INVOKABLE void init();
+
 public slots:
     void refresh();
 
@@ -71,6 +73,7 @@ private:
     QList<int> mIgnoredKode;
     int mSelectedIndex;
     int mSelectedKode;
+    bool mIsIntialized = false;
 
     QString mTextQuery;
     int mKategoriFilter{-1};

@@ -131,3 +131,11 @@ QList<PenerbitData *> BukuPilihViewModel::penerbitFilterModel() const
 {
     return mPenerbitFilterList;
 }
+
+void BukuPilihViewModel::init()
+{
+    if (!mIsIntialized) {
+        mIsIntialized = true;
+        refresh();
+    }
+}

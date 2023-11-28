@@ -25,6 +25,8 @@ public:
 
     Q_INVOKABLE void setSelectedIndex(int index);
 
+    Q_INVOKABLE void init();
+
 signals:
     void listChanged();
     void selectedKodeChanged();
@@ -38,6 +40,7 @@ protected:
     MemberRepository* mRepository;
 
 private:
+    bool mIsInitialized = false;
     QList<MemberData*> mList;
     int mSelectedIndex;
     int mSelectedKode;

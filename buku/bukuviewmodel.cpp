@@ -10,7 +10,7 @@ BukuViewModel::BukuViewModel(QObject *parent)
     mSelectedData{nullptr}
 {
     connect(this, SIGNAL(selectedKodeChanged()), this, SLOT(refreshSelectedData()));
-    refresh();
+    init();
 }
 
 BukuData *BukuViewModel::selectedData() const

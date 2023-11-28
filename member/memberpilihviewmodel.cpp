@@ -47,6 +47,14 @@ void MemberPilihViewModel::setSelectedIndex(int index)
     refreshSelectedItem();
 }
 
+void MemberPilihViewModel::init()
+{
+    if (!mIsInitialized) {
+        mIsInitialized = true;
+        refresh();
+    }
+}
+
 void MemberPilihViewModel::refresh()
 {
     QList<MemberData*> prevList = mList;

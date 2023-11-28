@@ -111,6 +111,7 @@ Dialog {
                 text: enabled ? "Tambah Buku" : "Tidak Ada Buku Tersedia"
                 Layout.fillWidth: true
                 onClicked: {
+                    tambahPengadaanBukuDialog.viewModel.init()
                     tambahPengadaanBukuDialog.viewModel.ignoredKode = viewModel.kodeBukuList
                     tambahPengadaanBukuDialog.open()
                 }
