@@ -57,6 +57,15 @@ BaseDetailFrame {
         text:  Qt.formatDate(currentViewModel.selectedData.tanggalLahir, locale, locale.LongFormat)
         }
 
+        Label {
+            text: "Umur"
+        }
+
+        Label {
+            Layout.fillWidth: true
+            text: currentViewModel.selectedData.umur + " tahun"
+        }
+
         Item{
         Layout.columnSpan: 2
         Layout.fillHeight: true

@@ -38,3 +38,15 @@ QString MemberData::nama() const
 {
     return mNamaDepan + " " + mNamaBelakang;
 }
+
+int MemberData::umur() const
+{
+    QDate now = QDate::currentDate();
+    int age = now.year() - mTanggalLahir.year();
+    if (now.month() < mTanggalLahir.month())
+        age--;
+    else if (now.month() == mTanggalLahir.month() && now.day() < mTanggalLahir.day())
+        age--;
+
+    return age;
+}
