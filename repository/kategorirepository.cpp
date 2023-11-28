@@ -3,23 +3,6 @@
 #include <QSqlQuery>
 #include <QSqlError>
 
-KategoriData::KategoriData(int kode, const QString &nama) :
-    QObject(),
-    mKode(kode),
-    mNama(nama)
-{}
-
-
-int KategoriData::kode() const
-{
-    return mKode;
-}
-
-QString KategoriData::nama() const
-{
-    return mNama;
-}
-
 KategoriRepository::KategoriRepository(QObject *parent) : QObject(parent)
 {
 

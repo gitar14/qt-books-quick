@@ -131,6 +131,20 @@ qt_add_qml_module(appqt-books-qml
     SOURCES user/userpegawaieditviewmodel.h user/userpegawaieditviewmodel.cpp
     SOURCES repository/settingrepository.h repository/settingrepository.cpp
     SOURCES repository/configurationrepository.h repository/configurationrepository.cpp
+    SOURCES entity/peminjaman.h
+    SOURCES entity/peminjaman.cpp
+    SOURCES entity/buku.h
+    SOURCES entity/buku.cpp
+    SOURCES entity/kategori.h
+    SOURCES entity/kategori.cpp
+    SOURCES entity/member.h
+    SOURCES entity/member.cpp
+    SOURCES entity/penerbit.h
+    SOURCES entity/penerbit.cpp
+    SOURCES entity/pengadaan.h
+    SOURCES entity/pengadaan.cpp
+    SOURCES entity/user.h
+    SOURCES entity/user.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
