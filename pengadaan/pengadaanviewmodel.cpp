@@ -4,7 +4,7 @@
 PengadaanViewModel::PengadaanViewModel(QObject *parent)
     : QObject{parent},
     mRepository{RepositoryManager::getInstance()->getPengadaan()},
-    mSelectedData{new PengadaanData()}
+    mSelectedData{new PengadaanDetailData()}
 {
     refresh();
     connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));
@@ -40,7 +40,7 @@ void PengadaanViewModel::setSelectedIndex(int newSelectedIndex)
     refreshSelectedItem();
 }
 
-PengadaanData *PengadaanViewModel::selectedData() const
+PengadaanDetailData *PengadaanViewModel::selectedData() const
 {
     return mSelectedData;
 }
@@ -61,9 +61,9 @@ void PengadaanViewModel::refresh()
 
 void PengadaanViewModel::refreshSelectedItem()
 {
-    PengadaanData* prevData = mSelectedData;
+    PengadaanDetailData* prevData = mSelectedData;
     if (mSelectedIndex < 0 || mSelectedIndex >= mList.count())
-        mSelectedData = new PengadaanData();
+        mSelectedData = new PengadaanDetailData();
     else mSelectedData = mRepository->get(mList.at(mSelectedIndex)->kode());
     mSelectedData->setParent(this);
 

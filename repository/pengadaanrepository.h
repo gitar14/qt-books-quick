@@ -12,7 +12,7 @@ public:
     explicit PengadaanRepository(QObject *parent = nullptr);
 
     QList<PengadaanData *> getList(QString textQuery);
-    PengadaanData* get(int kode);
+    PengadaanDetailData* get(int kode);
     int add(QString sumber, QString idUser, QDate tanggalPengadaan);
     void update(int kode, QString sumber);
     void remove(int kode);

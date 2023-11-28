@@ -43,22 +43,32 @@ QList<PengadaanData *> PengadaanRepository::getList(QString textQuery)
     return list;
 }
 
-PengadaanData *PengadaanRepository::get(int kode)
+PengadaanDetailData *PengadaanRepository::get(int kode)
 {
     QSqlQuery query;
     query.prepare("SELECT "
                   "   kd_detail_pengadaan,"
                   "   sumber,"
-                  "   tanggal_pengadaan "
+                  "   tanggal_pengadaan,"
+                  "   User.id_user,"
+                  "   User.nama_depan_user,"
+                  "   User.nama_belakang_user "
                   "FROM Detail_Pengadaan "
+                  "JOIN User ON User.id_user = Detail_Pengadaan.id_user "
                   "WHERE kd_detail_pengadaan = :kode");
     query.bindValue(":kode", kode);
 
     if (!query.exec())
         qFatal() << "Cannot get pengadaan data " << query.lastError().text();
 
-    return query.next() ? new PengadaanData(query.value(0).toInt(), query.value(1).toString(), query.value(2).toDate())
-                        : new PengadaanData();
+    return query.next() ? new PengadaanDetailData(
+               query.value(0).toInt(),
+               query.value(1).toString(),
+               query.value(2).toDate(),
+               query.value(3).toString(),
+               query.value(4).toString(),
+               query.value(5).toString()
+               ) : new PengadaanDetailData();
 }
 
 int PengadaanRepository::add(QString sumber, QString idUser, QDate tanggalPengadaan)

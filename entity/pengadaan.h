@@ -21,6 +21,33 @@ private:
     QDate mTanggalPengadaan;
 };
 
+class PengadaanDetailData : public PengadaanData {
+    Q_OBJECT
+    Q_PROPERTY(QString userId READ userId CONSTANT FINAL)
+    Q_PROPERTY(QString userNamaDepan READ userNamaDepan CONSTANT FINAL)
+    Q_PROPERTY(QString userNamaBelakang READ userNamaBelakang CONSTANT FINAL)
+    Q_PROPERTY(QString userNama READ userNama CONSTANT FINAL)
+public:
+    PengadaanDetailData(
+        int kode = -1,
+        const QString &sumber = "",
+        const QDate &tanggalPengadaan = QDate(),
+        QString userId = "",
+        const QString &userNamaDepan = "",
+        const QString &userNamaBelakang = "");
+
+    QString userId() const;
+    QString userNamaDepan() const;
+    QString userNamaBelakang() const;
+
+    QString userNama() const;
+
+private:
+    QString mUserId;
+    QString mUserNamaDepan;
+    QString mUserNamaBelakang;
+};
+
 class PengadaanBukuData : public QObject {
     Q_OBJECT
     Q_PROPERTY(int kodeBuku READ kodeBuku CONSTANT)

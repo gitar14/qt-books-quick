@@ -32,6 +32,15 @@ BaseDetailFrame {
         }
 
         Label {
+            text: "Pennambah"
+        }
+
+        Label {
+            text: currentViewModel.selectedData.userNama
+            Layout.fillWidth: true
+        }
+
+        Label {
             text: "Sumber"
         }
 
