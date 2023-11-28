@@ -57,8 +57,8 @@ qt_add_qml_module(appqt-books-qml
     QML_FILES peminjaman/PeminjamanScreen.qml
     QML_FILES peminjaman/PeminjamanEditDialog.qml
     QML_FILES peminjaman/PeminjamanDetailFrame.qml
-    SOURCES sqlhelper.h
-    SOURCES sqlhelper.cpp
+    SOURCES repository/sqlhelper.h
+    SOURCES repository/sqlhelper.cpp
     SOURCES
     SOURCES
     SOURCES

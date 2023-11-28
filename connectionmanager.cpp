@@ -3,7 +3,7 @@
 #include <QSqlError>
 #include <QStandardPaths>
 #include <QDir>
-#include "sqlhelper.h"
+#include "repository/sqlhelper.h"
 #include "repositorymanager.h"
 
 #define CONFIG_ROOT "connection"

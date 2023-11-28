@@ -1,5 +1,4 @@
 #include "peminjamandendacalculator.h"
-#include "sqlhelper.h"
 
 PeminjamanDendaCalculator::PeminjamanDendaCalculator(QObject *parent)
     : QObject{parent}

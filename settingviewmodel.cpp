@@ -1,7 +1,6 @@
 #include "settingviewmodel.h"
-#include "sqlhelper.h"
+#include "repository/sqlhelper.h"
 #include <QSqlDatabase>
-#include "sqlhelper.h"
 #include "repositorymanager.h"
 
 SettingViewModel::SettingViewModel(QObject *parent)

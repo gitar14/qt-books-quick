@@ -3,7 +3,6 @@
 #include "repository/kategorirepository.h"
 #include "repository/penerbitrepository.h"
 #include "repository/bukurepository.h"
-#include "sqlhelper.h"
 
 BukuEditViewModel::BukuEditViewModel(QObject *parent)
     : QObject{parent},
