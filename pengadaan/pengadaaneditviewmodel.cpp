@@ -123,9 +123,13 @@ bool PengadaanEditViewModel::isValid() const
 void PengadaanEditViewModel::submit()
 {
     int newKode = mKode;
-    if (newKode == -1) newKode = mRepository->add(sumberField()->value(),
+    if (newKode == -1) {
+        newKode = mRepository->add(sumberField()->value(),
                                    UserManager::getInstance()->loggedUser()->id(), mTanggal);
-    else mRepository->update(newKode, sumberField()->value());
-
-    mRepository->updateAllBuku(newKode, mBukuList);
+        mRepository->addAllBuku(newKode, mBukuList);
+    }
+    else {
+        mRepository->update(newKode, sumberField()->value());
+        mRepository->updateAllBuku(newKode, mBukuList);
+    }
 }

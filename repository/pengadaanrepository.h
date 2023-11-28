@@ -24,6 +24,8 @@ public:
     void removeAllBuku(int kode);
 private:
     void interalUpdateAllBuku(int kode, QList<PengadaanBukuData*> list);
+
+    static const QStringList bukuCandidateKey;
 signals:
     void dataChanged();
 };

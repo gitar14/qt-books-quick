@@ -29,6 +29,8 @@ signals:
     void dataChanged();
 private:
     void internalUpdateAllBuku(int kode, QList<PeminjamanBukuData*> bukuList);
+
+    static const QStringList bukuCandidateKey;
 };
 
 #endif // PEMINJAMANREPOSITORY_H

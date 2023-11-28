@@ -15,10 +15,14 @@ namespace SQLHelper {
         }
     }
 
+    bool isSQLite(const QSqlDatabase& db) {
+        return db.driverName() == "QSQLITE";
+    }
+
     void initializeDatabase(QSqlDatabase &db)
     {
         QSqlQuery query(db);
-        const QString autoIncrement = db.driverName() == "QSQLITE" ? "AUTOINCREMENT" : "AUTO_INCREMENT";
+        const QString autoIncrement = isSQLite(db)  ? "AUTOINCREMENT" : "AUTO_INCREMENT";
         if (!query.exec(QStringLiteral(
                 "CREATE TABLE IF NOT EXISTS Kategori("
                 "   kd_kategori INTEGER NOT NULL PRIMARY KEY %1,"
@@ -162,4 +166,14 @@ namespace SQLHelper {
             }
         }
     }
+
+    QString createUpsertQuery(const QSqlDatabase &db, const QString &insertQuery, const QString &updateQuery, const QStringList &candidateKey)
+    {
+        if (isSQLite(db))
+            return QStringLiteral("INSERT INTO %1 ON CONFLICT(%2) DO UPDATE SET %3")
+                .arg(insertQuery, candidateKey.join(","), updateQuery);
+
+        return QStringLiteral("INSERT INTO %1 ON DUPLICATE KEY UPDATE %2").arg(insertQuery, updateQuery);
+    }
+
 }

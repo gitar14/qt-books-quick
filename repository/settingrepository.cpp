@@ -1,6 +1,8 @@
 #include "settingrepository.h"
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QJsonValue>
+#include "sqlhelper.h"
 
 SettingRepository::SettingRepository(QObject *parent)
     : QObject{parent}
@@ -20,21 +22,26 @@ int SettingRepository::getDendaPerHari()
     return get(DENDA_PERHARI_KEY).toInt();
 }
 
+const QStringList SettingRepository::tableCandidateKey = {"pengaturan_key"};
+
 void SettingRepository::set(QString key, QVariant value)
 {
-    QSqlQuery query;
-    query.prepare("INSERT INTO Pengaturan("
-                  " pengaturan_key,"
-                  " pengaturan_value"
-                  ") VALUES ("
-                  " :key,"
-                  " :value"
-                  ") ON CONFLICT("
-                  " pengaturan_key"
-                  ") DO UPDATE "
-                  "SET pengaturan_value = :value");
+    QSqlDatabase db;
+    QSqlQuery query(db);
+    query.prepare(SQLHelper::createUpsertQuery(
+        db,
+        "Pengaturan("
+        " pengaturan_key,"
+        " pengaturan_value"
+        ") VALUES ("
+        " :key,"
+        " :value"
+        ")",
+        "pengaturan_value = :value",
+        tableCandidateKey
+        ));
     query.bindValue(":key", key);
-    query.bindValue(":value", value);
+    query.bindValue(":value", value.toString());
     if (!query.exec())
         qFatal() << "Cannot update Pengaturan " << query.lastError().text();
 }

@@ -186,6 +186,7 @@ void PengadaanRepository::updateAllBuku(int kode, QList<PengadaanBukuData *> lis
         ignoredDelete[i] = list.at(i)->kodeBuku();
     }
 
+    // TODO: Not work when bukuList is empty
     QSqlQuery query;
     query.prepare(QStringLiteral("DELETE FROM"
                                  "  Pengadaan "
@@ -237,24 +238,28 @@ void PengadaanRepository::removeAllBuku(int kode)
     emit dataChanged();
 }
 
+const QStringList PengadaanRepository::bukuCandidateKey = {"kd_detail_pengadaan", "kd_buku"};
+
 void PengadaanRepository::interalUpdateAllBuku(int kode, QList<PengadaanBukuData *> list)
 {
-    QSqlQuery query;
+    QSqlDatabase db;
+    QSqlQuery query(db);
     for (int i = 0; i < list.count(); i++) {
         const PengadaanBukuData* data = list.at(i);
-        query.prepare("INSERT INTO Pengadaan("
-                      " kd_detail_pengadaan,"
-                      " kd_buku,"
-                      " jumlah_pengadaan_buku"
-                      ") VALUES ("
-                      " :pengadaan,"
-                      " :buku,"
-                      " :jumlah"
-                      ") ON CONFLICT ("
-                      " kd_detail_pengadaan,"
-                      " kd_buku"
-                      ") DO UPDATE SET "
-                      " jumlah_pengadaan_buku = :jumlah");
+        query.prepare(SQLHelper::createUpsertQuery(
+            db,
+            "Pengadaan("
+            " kd_detail_pengadaan,"
+            " kd_buku,"
+            " jumlah_pengadaan_buku"
+            ") VALUES ("
+            " :pengadaan,"
+            " :buku,"
+            " :jumlah"
+            ")",
+            "jumlah_pengadaan_buku = :jumlah",
+            bukuCandidateKey
+            ));
         query.bindValue(":pengadaan", kode);
         query.bindValue(":buku", data->kodeBuku());
         query.bindValue(":jumlah", data->jumlah());

@@ -21,6 +21,16 @@ namespace SQLHelper {
     void applyBindMaps(QSqlQuery& query, const QHash<QString, QVariant>& binds);
     void initializeDatabase(QSqlDatabase& db);
     void clearDatabase(QSqlDatabase& db);
+
+    /**
+     * @brief createUpsertQuery Create upsert query
+     * @param db
+     * @param insertQuery Insert query tanpa INSERT INTO
+     * @param updateQuery Update query tanpa UPDATE SET
+     * @param candidateKey Kunci yang menentukan keunikan (hanya untuk SQLite)
+     * @return Query untuk upsert
+     */
+    QString createUpsertQuery(const QSqlDatabase &db, const QString& insertQuery, const QString& updateQuery, const QStringList& candidateKey);
 }
 
 #endif // SQLHELPER_H

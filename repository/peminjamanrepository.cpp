@@ -272,6 +272,8 @@ void PeminjamanRepository::updateAllBuku(int kode, QList<PeminjamanBukuData *> b
         ignoredBuku[i] = bukuList.at(i)->kodeBuku();
     }
 
+    //TODO: Not work when buku list is empty
+
     QSqlQuery query;
     query.prepare(QStringLiteral("DELETE FROM"
                                  " Peminjaman "
@@ -339,24 +341,28 @@ int PeminjamanRepository::getJumlahBukuDipinjam(int kodeBuku)
     return query.next() ? query.value(0).toInt() : 0;
 }
 
+const QStringList PeminjamanRepository::bukuCandidateKey = {"kd_detail_peminjaman", "kd_buku"};
+
 void PeminjamanRepository::internalUpdateAllBuku(int kode, QList<PeminjamanBukuData *> bukuList)
 {
-    QSqlQuery query;
+    QSqlDatabase db;
+    QSqlQuery query(db);
     const int count = bukuList.count();
     for (int i = 0; i < count; i++){
-        query.prepare("INSERT INTO Peminjaman("
-                      " kd_detail_peminjaman,"
-                      " kd_buku,"
-                      " denda_tambahan"
-                      ") VALUES ("
-                      " :peminjaman,"
-                      " :buku,"
-                      " :denda"
-                      ") ON CONFLICT ("
-                      " kd_detail_peminjaman,"
-                      " kd_buku"
-                      ") DO UPDATE "
-                      " SET denda_tambahan = :denda");
+        query.prepare(SQLHelper::createUpsertQuery(
+            db,
+            "Peminjaman("
+            " kd_detail_peminjaman,"
+            " kd_buku,"
+            " denda_tambahan"
+            ") VALUES ("
+            " :peminjaman,"
+            " :buku,"
+            " :denda"
+            ")",
+            "denda_tambahan = :denda",
+            bukuCandidateKey
+            ));
         PeminjamanBukuData* buku = bukuList.at(i);
         query.bindValue(":peminjaman", kode);
         query.bindValue(":buku", buku->kodeBuku());

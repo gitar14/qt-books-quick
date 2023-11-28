@@ -16,6 +16,8 @@ signals:
 private:
     void set(QString key, QVariant value);
     QVariant get(QString key);
+
+    static const QStringList tableCandidateKey;
 };
 
 #endif // SETTINGREPOSITORY_H
