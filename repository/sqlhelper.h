@@ -19,6 +19,7 @@ namespace SQLHelper {
     }
 
     void applyBindMaps(QSqlQuery& query, const QHash<QString, QVariant>& binds);
+    bool isSQLite(const QSqlDatabase& db);
     void initializeDatabase(QSqlDatabase& db);
     void clearDatabase(QSqlDatabase& db);
     void configureMySqlConnection(QSqlDatabase& db);

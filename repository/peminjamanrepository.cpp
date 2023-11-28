@@ -11,6 +11,7 @@ PeminjamanRepository::PeminjamanRepository(QObject *parent)
 
 QList<PeminjamanData *> PeminjamanRepository::getList(PeminjamanData::StatusFilter statusFilter)
 {
+    QSqlDatabase db;
     QString queryString = "SELECT "
                           "   Detail_Peminjaman.kd_detail_peminjaman,"
                           "   Detail_Peminjaman.kd_member,"
@@ -28,10 +29,16 @@ QList<PeminjamanData *> PeminjamanRepository::getList(PeminjamanData::StatusFilt
 
     switch (statusFilter) {
     case PeminjamanData::MelewatiTenggatStatus:
-        filterList.append("DATE("
-                          " Detail_Peminjaman.tanggal_peminjaman, "
-                          " Detail_Peminjaman.lama_peminjaman || ' days'"
-                          ") < DATE('now')");
+        if (SQLHelper::isSQLite(db))
+            filterList.append("DATE("
+                              " Detail_Peminjaman.tanggal_peminjaman, "
+                              " Detail_Peminjaman.lama_peminjaman || ' days'"
+                              ") < DATE('now')");
+        else
+            filterList.append("DATE_ADD("
+                              " Detail_Peminjaman.tanggal_peminjaman, "
+                              " INTERVAL Detail_Peminjaman.lama_peminjaman DAY"
+                              ") < CURDATE()");
     case PeminjamanData::BelumDikembalikanStatus:
         filterList.append("Detail_Peminjaman.tanggal_pengembalian IS NULL");
         break;
@@ -43,7 +50,7 @@ QList<PeminjamanData *> PeminjamanRepository::getList(PeminjamanData::StatusFilt
     if (filterList.length() > 0)
         queryString.append(QStringLiteral(" WHERE %1").arg(filterList.join(" AND ")));
 
-    QSqlQuery query;
+    QSqlQuery query(db);
 
     if (!query.exec(queryString))
         qFatal() << "Cannot query Peminjaman " << query.lastError().text();
