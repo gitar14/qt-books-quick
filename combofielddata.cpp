@@ -8,7 +8,7 @@ ComboFieldData::ComboFieldData(QObject *parent)
 
 QString ComboFieldData::errorText() const
 {
-    if (mIndex == -1) return QStringLiteral("%1 tidak boleh kosong").arg(name());
+    if (mIndex == -1) return "tidak boleh kosong";
     return "";
 }
 

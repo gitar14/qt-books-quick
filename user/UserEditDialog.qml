@@ -50,7 +50,8 @@ Dialog {
             spacing: 8
             width: parent.width
 
-            BaseTextField {
+            AppTextField {
+                title: "ID"
                 field: viewModel.idField
                 visible: viewModel.isNew
                 validator: RegularExpressionValidator {
@@ -58,21 +59,25 @@ Dialog {
                 }
             }
 
-            BaseTextField {
+            AppTextField {
+                title: "Nama Depan"
                 field: viewModel.namaDepanField
             }
 
-            BaseTextField {
+            AppTextField {
+                title: "Nama Belakang"
                 field: viewModel.namaBelakakngField
             }
 
-            BaseTextField {
+            AppTextField {
+                title: "Password"
                 field: viewModel.password
                 echoMode: TextInput.Password
                 visible: viewModel.isNew
             }
 
-            BaseTextField {
+            AppTextField {
+                title: "Password Ulang"
                 field: viewModel.passwordUlang
                 echoMode: TextInput.Password
                 visible: viewModel.isNew

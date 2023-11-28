@@ -6,6 +6,7 @@ import Kelompok7.Perpus
 import "../"
 
 Dialog{
+    id: dialog
     title: viewModel.isNew ? "Tambah Member" : "Edit Member"
     parent: Overlay.overlay
     anchors.centerIn: parent
@@ -31,21 +32,20 @@ Dialog{
     ColumnLayout {
         anchors.fill: parent
 
-        BaseTextField {
+        AppTextField {
+            title: "Nama Depan"
             field: viewModel.namaDepanField
         }
 
-        BaseTextField {
+        AppTextField {
+            title: "Nama Belakang"
             field: viewModel.namaBelakangField
         }
 
-        Label {
-            text : "Tanggal Lahir"
-        }
         DateField {
+            title: "Tanggal Lahir"
             currentDate: viewModel.tanggalLahir
             id: tanggalLahirTextField
-            Layout.fillWidth: true
             onCurrentDateChanged: viewModel.tanggalLahir = currentDate
         }
     }

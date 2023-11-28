@@ -10,19 +10,10 @@ UserBaseEditViewModel::UserBaseEditViewModel(QObject *parent)
     mPassword{new TextFieldData(this)},
     mPasswordUlang{new TextFieldData(this)}
 {
-    mIdField->setName("ID");
     mIdField->setMaxLength(15);
-
-    mNamaDepanField->setName("Nama Depan");
     mNamaDepanField->setMaxLength(25);
-
-    mNamaBelakakngField->setName("Nama Belakang");
     mNamaBelakakngField->setMaxLength(25);
-
-    mPassword->setName("Password");
     mPassword->setMaxLength(72);
-
-    mPasswordUlang->setName("Password Ulang");
     mPasswordUlang->setMaxLength(72);
     mPasswordUlang->setReferenceField(mPassword);
 

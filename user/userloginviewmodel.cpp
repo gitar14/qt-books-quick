@@ -9,10 +9,7 @@ UserLoginViewModel::UserLoginViewModel(QObject *parent)
     mPasswordField{new TextFieldData(this)},
     mRepository{RepositoryManager::getInstance()->getUser()}
 {
-    mIdField->setName("ID");
     mIdField->setMaxLength(10);
-
-    mPasswordField->setName("Password");
     mPasswordField->setMaxLength(72);
 
     connect(mIdField, SIGNAL(isValidChanged()), this, SIGNAL(isValidChanged()));

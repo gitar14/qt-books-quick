@@ -69,20 +69,17 @@ Dialog {
                 }
             }
 
-            Label {
-                text: "Tanggal Peminjaman"
-            }
             DateField {
+                title: "Tanggal Peminjaman"
                 currentDate: viewModel.tanggalPeminjaman
                 id: tanggalPeminjamanTextField
                 Layout.fillWidth: true
                 onCurrentDateChanged: viewModel.tanggalPeminjaman = currentDate
             }
 
-            Label {
-                text: "Lama Peminjaman"
-            }
-            SpinBox {
+            AppSpinField {
+                title: "Lama"
+                suffix: "hari"
                 editable: true
                 from: 0
                 to: 1000

@@ -19,14 +19,13 @@ void TextFieldData::setValue(const QString &newValue)
 
     emit valueChanged();
     emit errorTextChanged();
-    emit availableLengthChanged();
 }
 
 QString TextFieldData::errorText() const
 {
-    if (mValue.length() == 0) return QStringLiteral("%1 tidak boleh kosong").arg(name());
+    if (mValue.length() == 0) return "tidak boleh kosong";
     if (mReferenceField != nullptr && mReferenceField->value() != mValue)
-        return QStringLiteral("%1 harus sama dengan %2").arg(name(), mReferenceField->name());
+        return "harus sama";
     return "";
 }
 
@@ -42,12 +41,6 @@ void TextFieldData::setMaxLength(int newMaxLength)
     mMaxLength = newMaxLength;
 
     emit maxLengthChanged();
-    emit availableLengthChanged();
-}
-
-int TextFieldData::availableLength() const
-{
-    return mMaxLength - mValue.length();
 }
 
 TextFieldData *TextFieldData::referenceField() const

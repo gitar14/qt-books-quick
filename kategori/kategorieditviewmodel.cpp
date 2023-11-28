@@ -6,7 +6,6 @@ KategoriEditViewModel::KategoriEditViewModel(QObject *parent)
     mRepository{RepositoryManager::getInstance()->getKategori()},
     mNamaField{new TextFieldData(this)}
 {
-    mNamaField->setName("Nama");
     mNamaField->setMaxLength(25);
     connect(mNamaField, SIGNAL(isValidChanged()), this, SIGNAL(isValidChanged()));
 }

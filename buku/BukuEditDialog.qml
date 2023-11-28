@@ -47,34 +47,33 @@ Dialog {
             spacing: 8
             width: parent.width
 
-            BaseTextField {
+            AppTextField {
+                title: "Judul"
                 field: viewModel.judulField
             }
 
-            BaseTextField {
+            AppTextField {
+                title: "Penulis"
                 field: viewModel.penulisField
             }
 
-            BaseComboField {
+            AppComboField {
+                title: "Kategori"
                 field: viewModel.kategoriField
                 selectionModel: viewModel.kategoriList
                 displayRole: "nama"
             }
 
-            BaseComboField {
+            AppComboField {
+                title: "Penerbit"
                 field: viewModel.penerbitField
                 selectionModel: viewModel.penerbitList
                 displayRole: "nama"
             }
 
-            Label {
+            AppSpinField {
+                title: "Jumlah Hilang"
                 visible: !viewModel.isNew
-                text: "Jumlah Hilang"
-            }
-
-            SpinBox {
-                visible: !viewModel.isNew
-                Layout.fillWidth: true
                 value: viewModel.jumlahHilang
                 onValueChanged: viewModel.jumlahHilang = value
                 editable: true
@@ -82,12 +81,8 @@ Dialog {
                 to: 10000
             }
 
-            Label {
-                text: "Tahun Terbit"
-            }
-
-            SpinBox {
-                Layout.fillWidth: true
+            AppSpinField {
+                title: "Tahun Terbit"
                 value: viewModel.tahunTerbit
                 onValueChanged: viewModel.tahunTerbit = value
                 editable: true

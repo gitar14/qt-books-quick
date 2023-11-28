@@ -11,12 +11,8 @@ BukuEditViewModel::BukuEditViewModel(QObject *parent)
     mKategoriField{new ComboFieldData(this)},
     mPenerbitField{new ComboFieldData(this)}
 {
-    mJudulField->setName("Judul");
     mJudulField->setMaxLength(25);
-    mPenulisField->setName("Penulis");
     mPenulisField->setMaxLength(25);
-    mKategoriField->setName("Kategori");
-    mPenerbitField->setName("Penerbit");
 
     connect(mJudulField, SIGNAL(isValidChanged()), this, SIGNAL(isValidChanged()));
     connect(mPenulisField, SIGNAL(isValidChanged()), this, SIGNAL(isValidChanged()));

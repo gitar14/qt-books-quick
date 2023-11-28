@@ -5,11 +5,13 @@ import Kelompok7.Perpus
 
 ColumnLayout {
     property TextFieldData field;
+    property string title
+    property bool showAvailableCount: true
     property alias validator: textField.validator
     property alias echoMode: textField.echoMode
 
     Label {
-        text : field.name
+        text: title
     }
 
     TextField {
@@ -21,12 +23,13 @@ ColumnLayout {
     }
 
     Label {
+        visible: showAvailableCount
         Layout.alignment: Qt.AlignRight
-        text: field.availableLength + " tersisa"
+        text: (field.maxLength - field.value.length) + " tersisa"
     }
 
     Label {
-        text: field.errorText
+        text: title + " " + field.errorText
         color: Material.color(Material.Red)
         visible: !field.isValid
     }

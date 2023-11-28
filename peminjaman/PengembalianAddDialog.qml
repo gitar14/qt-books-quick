@@ -62,11 +62,8 @@ Dialog {
             id: pengembalianDialogLayout
             width: parent.width
 
-            Label {
-                text: "Tanggal Pengembalian"
-            }
-
             DateField {
+                title: "Tanggal Pengembalian"
                 Layout.fillWidth: true
                 currentDate: viewModel.tanggalPengembalian
                 onCurrentDateChanged: viewModel.tanggalPengembalian = currentDate
@@ -99,12 +96,8 @@ Dialog {
                             text: modelData.judul
                         }
 
-                        Label {
-                            text: "Denda"
-                        }
-
-                        SpinBox {
-                            Layout.fillWidth: true
+                        AppSpinField {
+                            title: "Denda"
                             value: modelData.denda
                             onValueChanged: modelData.denda = value
                             from: 0

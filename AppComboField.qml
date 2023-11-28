@@ -5,11 +5,12 @@ import Kelompok7.Perpus
 
 ColumnLayout {
     property ComboFieldData field
+    property string title
     property var selectionModel
     property string displayRole
 
     Label {
-        text : field.name
+        text: title
     }
 
     ComboBox {

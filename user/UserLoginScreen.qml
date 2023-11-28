@@ -24,14 +24,18 @@ Item {
                 font.pixelSize: 20
             }
 
-            BaseTextField {
+            AppTextField {
+                title: "ID"
+                showAvailableCount: false
                 field: viewModel.idField
                 validator: RegularExpressionValidator {
                     regularExpression: /(?:\d|\w)*/
                 }
             }
 
-            BaseTextField {
+            AppTextField {
+                title: "Password"
+                showAvailableCount: false
                 field: viewModel.passwordField
                 echoMode: TextInput.Password
 

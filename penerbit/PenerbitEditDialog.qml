@@ -31,11 +31,13 @@ Dialog {
     ColumnLayout {
         anchors.fill: parent
 
-        BaseTextField {
+        AppTextField {
+            title: "Nama"
             field: viewModel.namaField
         }
 
-        BaseTextField {
+        AppTextField {
+            title: "Alamat"
             field: viewModel.alamatField
         }
     }

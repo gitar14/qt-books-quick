@@ -31,27 +31,32 @@ Item {
                     font.pixelSize: 20
                 }
 
-                BaseTextField {
+                AppTextField {
+                    title: "ID"
                     field: viewModel.idField
                     validator: RegularExpressionValidator {
                         regularExpression: /(?:\d|\w)*/
                     }
                 }
 
-                BaseTextField {
+                AppTextField {
+                    title: "Nama Depan"
                     field: viewModel.namaDepanField
                 }
 
-                BaseTextField {
+                AppTextField {
+                    title: "Nama Belakang"
                     field: viewModel.namaBelakakngField
                 }
 
-                BaseTextField {
+                AppTextField {
+                    title: "Password"
                     field: viewModel.password
                     echoMode: TextInput.Password
                 }
 
-                BaseTextField {
+                AppTextField {
+                    title: "Password Ulang"
                     field: viewModel.passwordUlang
                     echoMode: TextInput.Password
                 }

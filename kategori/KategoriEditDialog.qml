@@ -38,7 +38,8 @@ Dialog {
         spacing: 8
         width: parent.width
 
-        BaseTextField {
+        AppTextField {
+            title: "Nama"
             field: viewModel.namaField
         }
     }

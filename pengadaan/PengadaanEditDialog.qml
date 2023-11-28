@@ -56,14 +56,13 @@ Dialog {
             id: editPengadaanDialogLayout
             width: parent.width
 
-            BaseTextField {
+            AppTextField {
+                title: "Sumber"
                 field: viewModel.sumberField
             }
 
-            Label {
-                text : "Tanggal"
-            }
-            DateField {
+            DateField {            
+                title : "Tanggal"
                 currentDate: viewModel.tanggal
                 id: tanggalTextField
                 Layout.fillWidth: true
@@ -73,6 +72,7 @@ Dialog {
             Label {
                 text: "Buku"
             }
+
             Repeater {
                 model: viewModel.bukuList
 
@@ -87,11 +87,8 @@ Dialog {
                             text: modelData.judul
                         }
 
-                        Label {
-                            text: "Jumlah"
-                        }
-
-                        SpinBox {
+                        AppSpinField {
+                            title: "Jumlah"
                             editable: true
                             from: 0
                             to: 10000

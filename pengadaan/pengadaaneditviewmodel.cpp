@@ -10,7 +10,6 @@ PengadaanEditViewModel::PengadaanEditViewModel(QObject *parent)
     mSumberField{new TextFieldData(this)},
     mKode{-1}
 {
-    mSumberField->setName("Sumber");
     mSumberField->setMaxLength(25);
 
     connect(mSumberField, SIGNAL(isValidChanged()), this, SIGNAL(isValidChanged()));

@@ -7,9 +7,7 @@ PenerbitEditViewModel::PenerbitEditViewModel(QObject *parent)
     mNamaField{new TextFieldData(this)},
     mAlamatField{new TextFieldData(this)}
 {
-    mNamaField->setName("Nama");
     mNamaField->setMaxLength(25);
-    mAlamatField->setName("Alamat");
     mAlamatField->setMaxLength(30);
 
     connect(mNamaField, SIGNAL(isValidChanged()), this, SIGNAL(isValidChanged()));

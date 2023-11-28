@@ -7,9 +7,7 @@ MemberEditViewModel::MemberEditViewModel(QObject *parent)
     mNamaBelakangField{new TextFieldData(this)},
     mRepository{RepositoryManager::getInstance()->getMember()}
 {
-    mNamaDepanField->setName("Nama Depan");
     mNamaDepanField->setMaxLength(25);
-    mNamaBelakangField->setName("Nama Belakang");
     mNamaBelakangField->setMaxLength(25);
 
     connect(mNamaDepanField, SIGNAL(isValidChanged()), this, SIGNAL(isValidChanged()));
