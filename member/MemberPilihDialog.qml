@@ -31,7 +31,7 @@ Dialog {
                 property var itemData: model
                 highlighted: ListView.isCurrentItem
                 onClicked: memberListView.currentIndex = index
-                text: modelData.namaDepan + " " + modelData.namaBelakang
+                text: modelData.nama
             }
         }
     }

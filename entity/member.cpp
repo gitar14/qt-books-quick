@@ -33,3 +33,8 @@ QDate MemberData::tanggalLahir() const
 {
     return mTanggalLahir;
 }
+
+QString MemberData::nama() const
+{
+    return mNamaDepan + " " + mNamaBelakang;
+}

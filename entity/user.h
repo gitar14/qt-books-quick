@@ -9,6 +9,7 @@ class UserData : public QObject {
     Q_PROPERTY(QString namaDepan READ namaDepan CONSTANT FINAL)
     Q_PROPERTY(QString namaBelakang READ namaBelakang CONSTANT FINAL)
     Q_PROPERTY(UserRole role READ role CONSTANT FINAL)
+    Q_PROPERTY(QString nama READ nama CONSTANT FINAL)
 public:
     enum UserRole {
         AdminRole = 0,
@@ -24,6 +25,8 @@ public:
     QString namaDepan() const;
     QString namaBelakang() const;
     UserRole role() const;
+
+    QString nama() const;
 
 private:
     QString mId;

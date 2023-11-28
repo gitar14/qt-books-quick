@@ -52,7 +52,7 @@ Item {
 
                     Label {
                         Layout.fillWidth: true
-                        text: UserManager.loggedUser.namaDepan + " " + UserManager.loggedUser.namaBelakang
+                        text: UserManager.loggedUser.nama
                     }
 
                 }

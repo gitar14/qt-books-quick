@@ -39,7 +39,7 @@ Item {
 
                 Label {
                     Layout.fillWidth: true
-                    text: TextHighlighter.highlightText(modelData.namaDepan + " " + modelData.namaBelakang, currentViewModel.textQuery)
+                    text: TextHighlighter.highlightText(modelData.nama, currentViewModel.textQuery)
                     horizontalAlignment: Qt.AlignHCenter
                     wrapMode: Label.Wrap
                     maximumLineCount: 2

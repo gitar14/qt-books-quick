@@ -41,7 +41,7 @@ Item {
                 }
 
                 Label {
-                    text: TextHighlighter.highlightText(modelData.namaDepan + " " + modelData.namaBelakang,
+                    text: TextHighlighter.highlightText(modelData.nama,
                                                         currentViewModel.textQuery)
                     Layout.fillWidth: true
                     horizontalAlignment: Qt.AlignHCenter

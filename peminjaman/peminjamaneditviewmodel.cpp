@@ -21,7 +21,7 @@ void PeminjamanEditViewModel::configure(int kode)
     mKode = kode;
     PeminjamanData* data = mRepository->get(kode);
     mKodeMember = data->kodeMember();
-    mNamaMember = data->namaDepanMember() + " " + data->namaBelakangMember();
+    mNamaMember = data->namaMember();
     mTanggalPeminjaman = data->tanggalPeminjaman();
     if (!mTanggalPeminjaman.isValid()) mTanggalPeminjaman = QDate::currentDate();
     mLamaPeminjaman = data->lamaPeminjaman();
@@ -54,7 +54,7 @@ void PeminjamanEditViewModel::setKodeMember(int newKodeMember)
     emit kodeMemberChanged();
 
     MemberData* data = RepositoryManager::getInstance()->getMember()->get(mKodeMember);
-    mNamaMember = data->namaDepan() + " " + data->namaBelakang();
+    mNamaMember = data->nama();
     delete data;
 
     emit namaMemberChanged();

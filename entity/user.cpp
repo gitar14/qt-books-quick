@@ -31,3 +31,8 @@ UserData::UserRole UserData::role() const
 {
     return mRole;
 }
+
+QString UserData::nama() const
+{
+    return mNamaDepan + " " + mNamaBelakang;
+}
