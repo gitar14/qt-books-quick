@@ -179,25 +179,28 @@ void PengadaanRepository::updateAllBuku(int kode, QList<PengadaanBukuData *> lis
     interalUpdateAllBuku(kode, list);
 
     QHash<QString, QVariant> queryBinds;
+    QString queryString = "DELETE FROM"
+                          "  Pengadaan "
+                          "WHERE "
+                          " kd_detail_pengadaan = :pengadaan";
 
-    QList<int> ignoredDelete(list.count());
+    if (list.count() > 0) {
+        QList<int> ignoredDelete(list.count());
 
-    for (int i = 0; i < list.count(); i++) {
-        ignoredDelete[i] = list.at(i)->kodeBuku();
+        for (int i = 0; i < list.count(); i++) {
+            ignoredDelete[i] = list.at(i)->kodeBuku();
+        }
+
+        queryString.append(QStringLiteral(" AND kd_buku NOT IN (%1)")
+                           .arg(SQLHelper::generateArrayBinds(
+                                ":ignored_kode",
+                                ignoredDelete,
+                                queryBinds
+                                   )));
     }
 
-    // TODO: Not work when bukuList is empty
     QSqlQuery query;
-    query.prepare(QStringLiteral("DELETE FROM"
-                                 "  Pengadaan "
-                                 "WHERE "
-                                 " kd_detail_pengadaan = :pengadaan AND"
-                                 " kd_buku NOT IN (%1)")
-                      .arg(SQLHelper::generateArrayBinds(
-                          ":ignored_kode",
-                          ignoredDelete,
-                          queryBinds
-                          )));
+    query.prepare(queryString);
 
     query.bindValue(":pengadaan", kode);
     SQLHelper::applyBindMaps(query, queryBinds);
