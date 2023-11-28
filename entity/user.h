@@ -15,6 +15,7 @@ public:
         AdminRole = 0,
         PegawaiRole
     };
+    Q_ENUM(UserRole)
 
     UserData(const QString &id = "",
              const QString &namaDepan = "",

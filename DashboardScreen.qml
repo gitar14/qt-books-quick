@@ -66,7 +66,7 @@ Item {
 
                     model: ListModel {
                         Component.onCompleted: {
-                            if (UserManager.loggedUser.role != 0) {
+                            if (UserManager.loggedUser.role != UserData.AdminRole) {
                                 remove(count - 2)
                             }
                         }

@@ -30,12 +30,12 @@ void PeminjamanViewModel::setTextQuery(const QString &newTextQuery)
     refresh();
 }
 
-PeminjamanViewModel::StatusFilter PeminjamanViewModel::statusFilter() const
+PeminjamanData::StatusFilter PeminjamanViewModel::statusFilter() const
 {
     return mStatusFilter;
 }
 
-void PeminjamanViewModel::setStatusFilter(StatusFilter newStatusFilter)
+void PeminjamanViewModel::setStatusFilter(PeminjamanData::StatusFilter newStatusFilter)
 {
     if (mStatusFilter == newStatusFilter)
         return;
@@ -46,28 +46,8 @@ void PeminjamanViewModel::setStatusFilter(StatusFilter newStatusFilter)
 
 void PeminjamanViewModel::refresh()
 {
-    PeminjamanRepository::StatusFilter statusFilter;
-
-    switch (mStatusFilter) {
-    case SemuaStatus:
-        statusFilter = PeminjamanRepository::SemuaStatus;
-        break;
-    case BelumDikembalikanStatus:
-        statusFilter = PeminjamanRepository::BelumDikembalikanStatus;
-        break;
-    case MelewatiTenggatStatus:
-        statusFilter = PeminjamanRepository::MelewatiTenggatStatus;
-        break;
-    case SudahDikembalikanStatus:
-        statusFilter = PeminjamanRepository::SudahDikembalikanStatus;
-        break;
-    default:
-        qWarning() << "Unrecognized status filter" << mStatusFilter;
-        break;
-    }
-
     QList<PeminjamanData*> prevList = mList;
-    mList = mRepository->getList(statusFilter);
+    mList = mRepository->getList(mStatusFilter);
 
     emit listChanged();
 

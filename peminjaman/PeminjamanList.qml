@@ -25,22 +25,22 @@ Item {
                 model: ListModel {
                     ListElement {
                        text: "Semua"
-                       value: PeminjamanViewModel.SemuaStatus
+                       value: PeminjamanData.SemuaStatus
                     }
 
                     ListElement {
                         text: "Belum Dikembalikan"
-                        value: PeminjamanViewModel.BelumDikembalikanStatus
+                        value: PeminjamanData.BelumDikembalikanStatus
                     }
 
                     ListElement {
                         text: "Belum Dikembalikan Melewati Tenggat"
-                        value: PeminjamanViewModel.MelewatiTenggatStatus
+                        value: PeminjamanData.MelewatiTenggatStatus
                     }
 
                     ListElement {
                         text: "Sudah Dikembalikan"
-                        value: PeminjamanViewModel.SudahDikembalikanStatus
+                        value: PeminjamanData.SudahDikembalikanStatus
                     }
                 }
                 valueRole: "value"

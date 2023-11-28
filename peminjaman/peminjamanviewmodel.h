@@ -11,7 +11,7 @@ class PeminjamanViewModel : public QObject
     Q_OBJECT
     Q_PROPERTY(QList<PeminjamanData *> list READ list NOTIFY listChanged FINAL)
     Q_PROPERTY(QString textQuery READ textQuery WRITE setTextQuery NOTIFY textQueryChanged FINAL)
-    Q_PROPERTY(StatusFilter statusFilter READ statusFilter WRITE setStatusFilter NOTIFY statusFilterChanged FINAL)
+    Q_PROPERTY(PeminjamanData::StatusFilter statusFilter READ statusFilter WRITE setStatusFilter NOTIFY statusFilterChanged FINAL)
     Q_PROPERTY(PeminjamanDetailData *selectedData READ selectedData NOTIFY selectedDataChanged FINAL)
     Q_PROPERTY(bool hasSelectedItem READ hasSelectedItem NOTIFY hasSelectedItemChanged)
     Q_PROPERTY(QList<PeminjamanBukuData *> selectedBukuList READ selectedBukuList NOTIFY selectedBukuListChanged FINAL)
@@ -20,19 +20,11 @@ class PeminjamanViewModel : public QObject
 public:
     explicit PeminjamanViewModel(QObject *parent = nullptr);
 
-    enum StatusFilter {
-        SemuaStatus = 0,
-        BelumDikembalikanStatus,
-        MelewatiTenggatStatus,
-        SudahDikembalikanStatus
-    };
-    Q_ENUM(StatusFilter)
-
     QList<PeminjamanData *> list() const;
     QString textQuery() const;
     void setTextQuery(const QString &newTextQuery);
-    StatusFilter statusFilter() const;
-    void setStatusFilter(StatusFilter newStatusFilter);
+    PeminjamanData::StatusFilter statusFilter() const;
+    void setStatusFilter(PeminjamanData::StatusFilter newStatusFilter);
     PeminjamanDetailData *selectedData() const;
     bool hasSelectedItem() const;
 
@@ -61,7 +53,7 @@ private:
     PeminjamanRepository *mRepository;
     QList<PeminjamanData*> mList;
     QString mTextQuery;
-    StatusFilter mStatusFilter = BelumDikembalikanStatus;
+    PeminjamanData::StatusFilter mStatusFilter = PeminjamanData::BelumDikembalikanStatus;
     int mSelectedIndex;
     PeminjamanDetailData* mSelectedData;
     QList<PeminjamanBukuData*> mSelectedBukuList;

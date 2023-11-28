@@ -10,14 +10,7 @@ class PeminjamanRepository : public QObject
 public:
     explicit PeminjamanRepository(QObject *parent = nullptr);
 
-    enum StatusFilter {
-        SemuaStatus = 0,
-        BelumDikembalikanStatus,
-        MelewatiTenggatStatus,
-        SudahDikembalikanStatus
-    };
-
-    QList<PeminjamanData*> getList(StatusFilter statusFilter);
+    QList<PeminjamanData*> getList(PeminjamanData::StatusFilter statusFilter);
     PeminjamanDetailData* get(int kode);
     int add(int kodeMember, QString idUser, QDate tanggal, int lama);
     void update(int kode, int kodeMember, QDate tanggal, int lama);

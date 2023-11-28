@@ -18,6 +18,14 @@ class PeminjamanData : public QObject {
     Q_PROPERTY(QDate tenggatPengembalian READ tenggatPengembalian CONSTANT)
     Q_PROPERTY(bool sudahDikembalikan READ sudahDikembalikan CONSTANT)
 public:
+    enum StatusFilter {
+        SemuaStatus = 0,
+        BelumDikembalikanStatus,
+        MelewatiTenggatStatus,
+        SudahDikembalikanStatus
+    };
+    Q_ENUM(StatusFilter)
+
     PeminjamanData(
         int kode = -1,
         int kodeMember = -1,

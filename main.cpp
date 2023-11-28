@@ -29,6 +29,8 @@
 #include "textfielddata.h"
 #include "combofielddata.h"
 #include "texthighlighter.h"
+#include "entity/user.h"
+#include "entity/peminjaman.h"
 
 #define PACKAGE "Kelompok7.Perpus"
 
@@ -56,8 +58,10 @@ int main(int argc, char *argv[])
     qmlRegisterType<PeminjamanEditViewModel>(PACKAGE, 1, 0, "PeminjamanEditViewModel");
     qmlRegisterType<PengembalianViewModel>(PACKAGE, 1, 0, "PengembalianViewModel");
     qmlRegisterType<SettingViewModel>(PACKAGE, 1, 0, "SettingViewModel");
-    qmlRegisterType<TextFieldData>(PACKAGE, 1, 0, "TextFieldData");
-    qmlRegisterType<ComboFieldData>(PACKAGE, 1, 0, "ComboFieldData");
+    qmlRegisterUncreatableType<TextFieldData>(PACKAGE, 1, 0, "TextFieldData", "Only for typing");
+    qmlRegisterUncreatableType<ComboFieldData>(PACKAGE, 1, 0, "ComboFieldData", "Only for typing");
+    qmlRegisterUncreatableType<UserData>(PACKAGE, 1, 0, "UserData", "Only for typing");
+    qmlRegisterUncreatableType<PeminjamanData>(PACKAGE, 1, 0, "PeminjamanData", "Only for typing");
     qmlRegisterSingletonInstance(PACKAGE, 1, 0, "ConnectionManager", ConnectionManager::getInstance());
     qmlRegisterSingletonInstance(PACKAGE, 1, 0, "UserManager", UserManager::getInstance());
     qmlRegisterSingletonInstance(PACKAGE, 1, 0, "TextHighlighter", TextHighlighter::getInstance());

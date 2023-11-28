@@ -9,7 +9,7 @@ PeminjamanRepository::PeminjamanRepository(QObject *parent)
 
 }
 
-QList<PeminjamanData *> PeminjamanRepository::getList(StatusFilter statusFilter)
+QList<PeminjamanData *> PeminjamanRepository::getList(PeminjamanData::StatusFilter statusFilter)
 {
     QString queryString = "SELECT "
                           "   Detail_Peminjaman.kd_detail_peminjaman,"
@@ -27,15 +27,15 @@ QList<PeminjamanData *> PeminjamanRepository::getList(StatusFilter statusFilter)
     QStringList filterList;
 
     switch (statusFilter) {
-    case MelewatiTenggatStatus:
+    case PeminjamanData::MelewatiTenggatStatus:
         filterList.append("DATE("
                           " Detail_Peminjaman.tanggal_peminjaman, "
                           " Detail_Peminjaman.lama_peminjaman || ' days'"
                           ") < DATE('now')");
-    case BelumDikembalikanStatus:
+    case PeminjamanData::BelumDikembalikanStatus:
         filterList.append("Detail_Peminjaman.tanggal_pengembalian IS NULL");
         break;
-    case SudahDikembalikanStatus:
+    case PeminjamanData::SudahDikembalikanStatus:
         filterList.append("Detail_Peminjaman.tanggal_pengembalian IS NOT NULL");
         break;
     }
