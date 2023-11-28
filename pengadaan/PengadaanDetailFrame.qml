@@ -59,13 +59,13 @@ BaseDetailFrame {
         }
 
         Label {
-            text: currentViewModel.selectedBukuList.count > 0 ?  "Buku" : "Buku kosong"
+            text: bukuListView.count > 0 ? "Buku" : "Buku Kosong"
             Layout.columnSpan: 2
             Layout.alignment: Qt.AlignHCenter
-
         }
 
         ListView {
+            id: bukuListView
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.columnSpan: 2
