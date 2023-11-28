@@ -47,10 +47,10 @@ QList<UserData *> UserRepository::getAllPegawai(QString textQuery)
 
     while (query.next()) {
         result.append(new UserData(
-                          query.value(0).toString(),
-                          query.value(1).toString(),
-                          query.value(2).toString(),
-            query.value(3).toInt() == UserData::AdminRole ? UserData::AdminRole : UserData::PegawaiRole));
+            query.value(0).toString(),
+            query.value(1).toString(),
+            query.value(2).toString(),
+            UserData::PegawaiRole));
     }
 
 
