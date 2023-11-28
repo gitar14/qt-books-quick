@@ -176,4 +176,12 @@ namespace SQLHelper {
         return QStringLiteral("INSERT INTO %1 ON DUPLICATE KEY UPDATE %2").arg(insertQuery, updateQuery);
     }
 
+    void configureMySqlConnection(QSqlDatabase &db)
+    {
+        QSqlQuery query(db);
+
+        if (!query.exec("SET sql_mode=(SELECT CONCAT(@@sql_mode,',PIPES_AS_CONCAT'))"))
+            qFatal() << "Cannot enable PIPES_AS_CONCAT MySQL mode " << query.lastError().text();
+    }
+
 }

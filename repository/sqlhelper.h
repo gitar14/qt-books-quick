@@ -21,6 +21,7 @@ namespace SQLHelper {
     void applyBindMaps(QSqlQuery& query, const QHash<QString, QVariant>& binds);
     void initializeDatabase(QSqlDatabase& db);
     void clearDatabase(QSqlDatabase& db);
+    void configureMySqlConnection(QSqlDatabase& db);
 
     /**
      * @brief createUpsertQuery Create upsert query

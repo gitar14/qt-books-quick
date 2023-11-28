@@ -118,6 +118,7 @@ void ConnectionManager::openMySql(bool rememberConfig, QString host, int port, Q
     }
 
     SQLHelper::initializeDatabase(db);
+    SQLHelper::configureMySqlConnection(db);
 
     emit connected();
 }
