@@ -17,7 +17,7 @@ SettingViewModel::~SettingViewModel()
 
 void SettingViewModel::clearDatabase()
 {
-    QSqlDatabase db;
+    QSqlDatabase db = QSqlDatabase::database();
     SQLHelper::clearDatabase(db);
     SQLHelper::initializeDatabase(db);
 }

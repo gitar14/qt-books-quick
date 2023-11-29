@@ -247,7 +247,7 @@ const QStringList PengadaanRepository::bukuCandidateKey = {"kd_detail_pengadaan"
 
 void PengadaanRepository::interalUpdateAllBuku(int kode, QList<PengadaanBukuData *> list)
 {
-    QSqlDatabase db;
+    QSqlDatabase db = QSqlDatabase::database();
     QSqlQuery query(db);
     for (int i = 0; i < list.count(); i++) {
         const PengadaanBukuData* data = list.at(i);

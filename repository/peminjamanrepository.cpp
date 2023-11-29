@@ -11,7 +11,7 @@ PeminjamanRepository::PeminjamanRepository(QObject *parent)
 
 QList<PeminjamanData *> PeminjamanRepository::getList(PeminjamanData::StatusFilter statusFilter)
 {
-    QSqlDatabase db;
+    QSqlDatabase db = QSqlDatabase::database();
     QString queryString = "SELECT "
                           "   Detail_Peminjaman.kd_detail_peminjaman,"
                           "   Detail_Peminjaman.kd_member,"
@@ -354,7 +354,7 @@ const QStringList PeminjamanRepository::bukuCandidateKey = {"kd_detail_peminjama
 
 void PeminjamanRepository::internalUpdateAllBuku(int kode, QList<PeminjamanBukuData *> bukuList)
 {
-    QSqlDatabase db;
+    QSqlDatabase db = QSqlDatabase::database();
     QSqlQuery query(db);
     const int count = bukuList.count();
     for (int i = 0; i < count; i++){

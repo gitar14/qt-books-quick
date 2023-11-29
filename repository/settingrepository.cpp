@@ -26,7 +26,7 @@ const QStringList SettingRepository::tableCandidateKey = {"pengaturan_key"};
 
 void SettingRepository::set(QString key, QVariant value)
 {
-    QSqlDatabase db;
+    QSqlDatabase db = QSqlDatabase::database();
     QSqlQuery query(db);
     query.prepare(SQLHelper::createUpsertQuery(
         db,
@@ -43,7 +43,7 @@ void SettingRepository::set(QString key, QVariant value)
     query.bindValue(":key", key);
     query.bindValue(":value", value.toString());
     if (!query.exec())
-        qFatal() << "Cannot update Pengaturan " << query.lastError().text();
+        qFatal() << "Cannot update Pengaturan " << query.lastError().text() << query.lastQuery();
 }
 
 QVariant SettingRepository::get(QString key)
