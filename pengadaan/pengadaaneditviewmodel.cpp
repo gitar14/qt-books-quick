@@ -129,7 +129,7 @@ void PengadaanEditViewModel::submit()
         mRepository->addAllBuku(newKode, mBukuList);
     }
     else {
-        mRepository->update(newKode, sumberField()->value());
+        mRepository->update(newKode, sumberField()->value(), mTanggal);
         mRepository->updateAllBuku(newKode, mBukuList);
     }
 }

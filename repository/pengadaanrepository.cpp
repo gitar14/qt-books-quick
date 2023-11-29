@@ -95,16 +95,18 @@ int PengadaanRepository::add(QString sumber, QString idUser, QDate tanggalPengad
     return query.lastInsertId().toInt();
 }
 
-void PengadaanRepository::update(int kode, QString sumber)
+void PengadaanRepository::update(int kode, QString sumber, QDate tanggalPengadaan)
 {
     QSqlQuery query;
-    query.prepare("UPDATE Detail_Pengadaan "
-                  " SET sumber = :sumber "
+    query.prepare("UPDATE Detail_Pengadaan SET"
+                  " sumber = :sumber,"
+                  " tanggal_pengadaan = :tanggal "
                   "WHERE "
                   " kd_detail_pengadaan = :kode"
                   );
     query.bindValue(":kode", kode);
     query.bindValue(":sumber", sumber);
+    query.bindValue(":tanggal", tanggalPengadaan);
 
     if (!query.exec())
         qFatal() << "Cannot update Pengadaan " << query.lastError().text();
