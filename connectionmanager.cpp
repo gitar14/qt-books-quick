@@ -3,8 +3,8 @@
 #include <QSqlError>
 #include <QStandardPaths>
 #include <QDir>
-#include "sqlhelper.h"
-#include "configurationmanager.h"
+#include "repository/sqlhelper.h"
+#include "repositorymanager.h"
 
 #define CONFIG_ROOT "connection"
 #define CONNECTION_KEY "rememberedDatabase"
@@ -118,6 +118,7 @@ void ConnectionManager::openMySql(bool rememberConfig, QString host, int port, Q
     }
 
     SQLHelper::initializeDatabase(db);
+    SQLHelper::configureMySqlConnection(db);
 
     emit connected();
 }
@@ -152,19 +153,20 @@ void ConnectionManager::clearRememberedConfiguration()
 }
 
 ConnectionManager::ConnectionManager(QObject *parent)
-    : QObject{parent}
+    : QObject{parent},
+    mRepository{RepositoryManager::getInstance()->getConfiguration()}
 {
     loadConfig();
 }
 
 void ConnectionManager::loadConfig()
 {
-    mConfig = ConfigurationManager::getInstance()->get(CONFIG_ROOT).toMap();
+    mConfig = mRepository->get(CONFIG_ROOT).toMap();
     mMySqlConfig = mConfig[MYSQL_KEY].toMap();
 }
 
 void ConnectionManager::storeConfig()
 {
     mConfig[MYSQL_KEY] = mMySqlConfig;
-    ConfigurationManager::getInstance()->set(CONFIG_ROOT, mConfig);
+    mRepository->set(CONFIG_ROOT, mConfig);
 }

@@ -6,12 +6,11 @@
         <file>icons/homework-black.svg</file>
     </qresource>
     <qresource prefix="/">
-        <file>UserScreen.qml</file>
-        <file>UserList.qml</file>
-        <file>UserEditDialog.qml</file>
-        <file>UserDetailFrame.qml</file>
         <file>icons/assignment-ind-black.svg</file>
         <file>icons/user-black.svg</file>
         <file>icons/buku-black.svg</file>
+        <file>icons/arrow-down.svg</file>
+        <file>icons/chevron-left.svg</file>
+        <file>icons/chevron-right.svg</file>
     </qresource>
 </RCC>

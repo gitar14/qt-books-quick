@@ -4,25 +4,33 @@
 #include <QtSql>
 #include <QDir>
 
-#include "kategorimodel.h"
-#include "kategorifiltermodel.h"
-#include "booklistmodel.h"
-#include "booklistdetailmodel.h"
-#include "penerbitmodel.h"
-#include "penerbitfiltermodel.h"
-#include "pengadaanbukumodel.h"
-#include "editablepengadaanbukumodel.h"
-#include "pengadaanmodel.h"
-#include "membermodel.h"
-#include "editablepeminjamanbukumodel.h"
+#include "userloginviewmodel.h"
+#include "kategoriviewmodel.h"
+#include "kategorieditviewmodel.h"
+#include "bukupilihviewmodel.h"
+#include "bukuviewmodel.h"
+#include "bukueditviewmodel.h"
+#include "penerbitviewmodel.h"
+#include "penerbiteditviewmodel.h"
+#include "pengadaanviewmodel.h"
+#include "pengadaaneditviewmodel.h"
+#include "memberpilihviewmodel.h"
+#include "memberviewmodel.h"
+#include "membereditviewmodel.h"
 #include "connectionmanager.h"
-#include "settingsmodel.h"
+#include "settingviewmodel.h"
 #include "usermanager.h"
-#include "usermodel.h"
-#include "peminjamanmodel.h"
-#include "peminjamanbukumodel.h"
-#include "peminjamandendamodel.h"
+#include "userbuatadminviewmodel.h"
+#include "userpegawaiviewmodel.h"
+#include "userpegawaieditviewmodel.h"
+#include "peminjamaneditviewmodel.h"
+#include "peminjamanviewmodel.h"
+#include "pengembalianviewmodel.h"
+#include "textfielddata.h"
+#include "combofielddata.h"
 #include "texthighlighter.h"
+#include "entity/user.h"
+#include "entity/peminjaman.h"
 
 #define PACKAGE "Kelompok7.Perpus"
 
@@ -30,22 +38,30 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<BookListModel>(PACKAGE, 1, 0, "BookListModel");
-    qmlRegisterType<BookListDetailModel>(PACKAGE, 1, 0, "BookListDetailModel");
-    qmlRegisterType<KategoriModel>(PACKAGE, 1, 0, "KategoriModel");
-    qmlRegisterType<KategoriFilterModel>(PACKAGE, 1, 0, "KategoriFilterModel");
-    qmlRegisterType<PenerbitModel>(PACKAGE, 1, 0, "PenerbitModel");
-    qmlRegisterType<PenerbitFilterModel>(PACKAGE, 1, 0, "PenerbitFilterModel");
-    qmlRegisterType<PengadaanBukuModel>(PACKAGE, 1, 0, "PengadaanBukuModel");
-    qmlRegisterType<EditablePengadaanBukuModel>(PACKAGE, 1, 0, "EditablePengadaanBukuModel");
-    qmlRegisterType<PengadaanModel>(PACKAGE, 1, 0, "PengadaanModel");
-    qmlRegisterType<MemberModel>(PACKAGE, 1, 0, "MemberModel");
-    qmlRegisterType<EditablePeminjamanBukuModel>(PACKAGE, 1, 0, "EditablePeminjamanBukuModel");
-    qmlRegisterType<UserModel>(PACKAGE,1,0,"UserModel");
-    qmlRegisterType<PeminjamanModel>(PACKAGE, 1, 0, "PeminjamanModel");
-    qmlRegisterType<PeminjamanBukuModel>(PACKAGE, 1, 0, "PeminjamanBukuModel");
-    qmlRegisterType<PeminjamanDendaModel>(PACKAGE, 1, 0, "PeminjamanDendaModel");
-    qmlRegisterType<SettingsModel>(PACKAGE, 1, 0, "SettingsModel");
+    qmlRegisterType<BukuPilihViewModel>(PACKAGE, 1, 0, "BukuPilihViewModel");
+    qmlRegisterType<BukuViewModel>(PACKAGE, 1, 0, "BukuViewModel");
+    qmlRegisterType<BukuEditViewModel>(PACKAGE, 1, 0, "BukuEditViewModel");
+    qmlRegisterType<KategoriViewModel>(PACKAGE, 1, 0, "KategoriViewModel");
+    qmlRegisterType<KategoriEditViewModel>(PACKAGE, 1, 0, "KategoriEditViewModel");
+    qmlRegisterType<PenerbitViewModel>(PACKAGE, 1, 0, "PenerbitViewModel");
+    qmlRegisterType<PenerbitEditViewModel>(PACKAGE, 1, 0, "PenerbitEditViewModel");
+    qmlRegisterType<PengadaanViewModel>(PACKAGE, 1, 0, "PengadaanViewModel");
+    qmlRegisterType<PengadaanEditViewModel>(PACKAGE, 1, 0, "PengadaanEditViewModel");
+    qmlRegisterType<MemberPilihViewModel>(PACKAGE, 1, 0, "MemberPilihViewModel");
+    qmlRegisterType<MemberViewModel>(PACKAGE, 1, 0, "MemberViewModel");
+    qmlRegisterType<MemberEditViewModel>(PACKAGE, 1, 0, "MemberEditViewModel");
+    qmlRegisterType<UserPegawaiViewModel>(PACKAGE,1,0, "UserPegawaiViewModel");
+    qmlRegisterType<UserPegawaiEditViewModel>(PACKAGE,1,0, "UserPegawaiEditViewModel");
+    qmlRegisterType<UserBuatAdminViewModel>(PACKAGE,1,0,"UserBuatAdminViewModel");
+    qmlRegisterType<UserLoginViewModel>(PACKAGE, 1, 0, "UserLoginViewModel");
+    qmlRegisterType<PeminjamanViewModel>(PACKAGE, 1, 0, "PeminjamanViewModel");
+    qmlRegisterType<PeminjamanEditViewModel>(PACKAGE, 1, 0, "PeminjamanEditViewModel");
+    qmlRegisterType<PengembalianViewModel>(PACKAGE, 1, 0, "PengembalianViewModel");
+    qmlRegisterType<SettingViewModel>(PACKAGE, 1, 0, "SettingViewModel");
+    qmlRegisterUncreatableType<TextFieldData>(PACKAGE, 1, 0, "TextFieldData", "Only for typing");
+    qmlRegisterUncreatableType<ComboFieldData>(PACKAGE, 1, 0, "ComboFieldData", "Only for typing");
+    qmlRegisterUncreatableType<UserData>(PACKAGE, 1, 0, "UserData", "Only for typing");
+    qmlRegisterUncreatableType<PeminjamanData>(PACKAGE, 1, 0, "PeminjamanData", "Only for typing");
     qmlRegisterSingletonInstance(PACKAGE, 1, 0, "ConnectionManager", ConnectionManager::getInstance());
     qmlRegisterSingletonInstance(PACKAGE, 1, 0, "UserManager", UserManager::getInstance());
     qmlRegisterSingletonInstance(PACKAGE, 1, 0, "TextHighlighter", TextHighlighter::getInstance());

@@ -6,7 +6,7 @@ import QtQuick.Layouts
 import Kelompok7.Perpus
 
 Item {
-    property string currentView: "BukuScreen.qml"
+    property string currentView: "buku/BukuScreen.qml"
 
     Loader {
         anchors.left: parent.left
@@ -52,7 +52,7 @@ Item {
 
                     Label {
                         Layout.fillWidth: true
-                        text: UserManager.loggedUserName
+                        text: UserManager.loggedUser.nama
                     }
 
                 }
@@ -66,38 +66,38 @@ Item {
 
                     model: ListModel {
                         Component.onCompleted: {
-                            if (UserManager.loggedUserRole != UserManager.AdminRole) {
+                            if (UserManager.loggedUser.role != UserData.AdminRole) {
                                 remove(count - 2)
                             }
                         }
 
                         ListElement {
                             name: "Buku"
-                            view: "BukuScreen.qml"
+                            view: "buku/BukuScreen.qml"
                         }
                         ListElement {
                             name: "Kategori"
-                            view: "KategoriScreen.qml"
+                            view: "kategori/KategoriScreen.qml"
                         }
                         ListElement{
                             name : "Penerbit"
-                            view : "PenerbitScreen.qml"
+                            view : "penerbit/PenerbitScreen.qml"
                         }
                         ListElement{
                             name : "Member"
-                            view : "MemberScreen.qml"
+                            view : "member/MemberScreen.qml"
                         }
                         ListElement {
                             name: "Pengadaan Buku"
-                            view: "PengadaanScreen.qml"
+                            view: "pengadaan/PengadaanScreen.qml"
                         }
                         ListElement {
                             name: "Peminjaman Buku"
-                            view: "PeminjamanScreen.qml"
+                            view: "peminjaman/PeminjamanScreen.qml"
                         }
                         ListElement {
                             name: "Pegawai"
-                            view: "UserScreen.qml"
+                            view: "user/UserScreen.qml"
                         }
 
                         ListElement {

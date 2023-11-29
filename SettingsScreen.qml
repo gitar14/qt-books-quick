@@ -17,8 +17,8 @@ Page {
     }
 
 
-    SettingsModel {
-        id: settingModel
+    SettingViewModel {
+        id: viewModel
     }
 
     ColumnLayout {
@@ -42,8 +42,8 @@ Page {
                 SpinBox {
                     Layout.minimumWidth: 200
                     editable: true
-                    value: settingModel.dendaPerHari
-                    onValueChanged: settingModel.dendaPerHari = value
+                    value: viewModel.dendaPerHari
+                    onValueChanged: viewModel.dendaPerHari = value
                     from: 0
                     to: 1000000
                 }
