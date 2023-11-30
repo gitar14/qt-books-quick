@@ -39,17 +39,11 @@ QList<BukuData *> BukuRepository::getList(QList<int> ignoredKode, QString textQu
                   "   Buku.kd_buku,"
                   "   Buku.judul,"
                   "   Buku.penulis,"
-                  "   Buku.jumlah_hilang,"
-                  "   Buku.tahun_terbit,"
                   "   Kategori.kd_kategori,"
-                  "   Kategori.nama_kategori,"
-                  "   Penerbit.kd_penerbit,"
-                  "   Penerbit.nama_penerbit "
+                  "   Kategori.nama_kategori "
                   "FROM Buku"
                   "   JOIN Kategori ON"
-                  "       Buku.kd_kategori = Kategori.kd_kategori "
-                  "   JOIN Penerbit ON"
-                  "       Penerbit.kd_penerbit = Buku.kd_penerbit ";
+                  "       Buku.kd_kategori = Kategori.kd_kategori ";
 
     if (filterList.length() > 0)
         queryString.append("WHERE ").append(filterList.join(" AND "));
@@ -65,22 +59,18 @@ QList<BukuData *> BukuRepository::getList(QList<int> ignoredKode, QString textQu
     QList<BukuData*> result;
     while (query.next()) {
         result.append(new BukuData(
-            query.value("Buku.kd_buku").toInt(),
-            query.value("Buku.judul").toString(),
-            query.value("Buku.penulis").toString(),
-            query.value("Buku.jumlah_hilang").toInt(),
-            query.value("Buku.tahun_terbit").toInt(),
-            query.value("Kategori.kd_kategori").toInt(),
-            query.value("Kategori.nama_kategori").toString(),
-            query.value("Penerbit.kd_penerbit").toInt(),
-            query.value("Penerbit.nama_penerbit").toString()
+            query.value(0).toInt(),
+            query.value(1).toString(),
+            query.value(2).toString(),
+            query.value(3).toInt(),
+            query.value(4).toString()
             ));
     }
 
     return result;
 }
 
-BukuData* BukuRepository::getBukuData(int kode)
+BukuDetailData *BukuRepository::getBukuData(int kode)
 {
     QSqlQuery query;
     query.prepare("SELECT"
@@ -105,7 +95,7 @@ BukuData* BukuRepository::getBukuData(int kode)
         qFatal() << "Cannot get buku data " << query.lastError().text();
 
     if (query.next()) {
-        return new BukuData(
+        return new BukuDetailData(
             query.value("Buku.kd_buku").toInt(),
             query.value("Buku.judul").toString(),
             query.value("Buku.penulis").toString(),
@@ -117,7 +107,7 @@ BukuData* BukuRepository::getBukuData(int kode)
             query.value("Penerbit.nama_penerbit").toString()
             );
     } else {
-        return new BukuData();
+        return new BukuDetailData();
     }
 }
 

@@ -8,14 +8,14 @@
 class BukuViewModel : public BukuPilihViewModel
 {
     Q_OBJECT
-    Q_PROPERTY(const BukuData* selectedData READ selectedData NOTIFY selectedDataChanged)
+    Q_PROPERTY(const BukuDetailData* selectedData READ selectedData NOTIFY selectedDataChanged)
     Q_PROPERTY(int selectedJumlahPengadaan READ selectedJumlahPengadaan NOTIFY selectedJumlahPengadaanChanged)
     Q_PROPERTY(int selectedJumlahDipinjam READ selectedJumlahDipinjam NOTIFY selectedJumlahDipinjamChanged)
     QML_ELEMENT
 public:
     explicit BukuViewModel(QObject *parent = nullptr);
 
-    BukuData *selectedData() const;
+    BukuDetailData *selectedData() const;
     int selectedJumlahPengadaan() const;
     int selectedJumlahDipinjam() const;
 
@@ -30,7 +30,7 @@ private slots:
     void refreshSelectedData();
 
 private:
-    BukuData* mSelectedData;
+    BukuDetailData* mSelectedData;
     int mSelectedJumlahPengadaan;
     int mSelectedJumlahDipinjam;
 };

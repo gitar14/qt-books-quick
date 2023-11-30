@@ -28,7 +28,7 @@ BukuEditViewModel::~BukuEditViewModel()
 
 void BukuEditViewModel::configure(int kode)
 {
-    BukuData* data = kode == -1 ? new BukuData() :
+    BukuDetailData* data = kode == -1 ? new BukuDetailData() :
                          RepositoryManager::getInstance()->getBuku()->getBukuData(kode);
 
     mKode = kode;

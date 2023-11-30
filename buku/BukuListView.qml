@@ -23,16 +23,20 @@ ListView {
             padding: 16
 
             Text {
+                text: modelData.namaKategori
+                font.pixelSize: 12
+            }
+
+            Text {
                 text: TextHighlighter.highlightText(modelData.judul, highlightedText)
                 textFormat: Text.StyledText
+                font.pixelSize: 16
+                font.bold: true
             }
 
             Text {
                 text: modelData.penulis
-            }
-
-            Text {
-                text: modelData.namaKategori
+                font.pixelSize: 14
             }
         }
     }

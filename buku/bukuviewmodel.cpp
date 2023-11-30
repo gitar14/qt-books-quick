@@ -13,7 +13,7 @@ BukuViewModel::BukuViewModel(QObject *parent)
     init();
 }
 
-BukuData *BukuViewModel::selectedData() const
+BukuDetailData *BukuViewModel::selectedData() const
 {
     return mSelectedData;
 }
@@ -37,13 +37,13 @@ void BukuViewModel::refreshSelectedData()
 {
     RepositoryManager* manager = RepositoryManager::getInstance();
 
-    BukuData* prevData = mSelectedData;
+    BukuDetailData* prevData = mSelectedData;
     if (selectedKode() != -1) {
         mSelectedData = mRepository->getBukuData(selectedKode());
         mSelectedJumlahPengadaan = manager->getPengadaan()->getJumlahPengadaanBuku(selectedKode());
         mSelectedJumlahDipinjam = manager->getPeminjaman()->getJumlahBukuDipinjam(selectedKode());
     } else {
-        mSelectedData = new BukuData();
+        mSelectedData = new BukuDetailData();
         mSelectedJumlahPengadaan = 0;
         mSelectedJumlahDipinjam = 0;
     }

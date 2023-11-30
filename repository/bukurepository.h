@@ -11,7 +11,7 @@ public:
     explicit BukuRepository(QObject *parent = nullptr);
 
     QList<BukuData*> getList(QList<int> ignoredKode, QString textQuery, int kategoriFilter, int penerbitFiter);
-    BukuData *getBukuData(int kode);
+    BukuDetailData *getBukuData(int kode);
     void addNew(
         QString judul,
         QString penulis,
