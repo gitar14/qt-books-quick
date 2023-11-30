@@ -8,7 +8,7 @@ ApplicationWindow {
     width: 960
     height: 640
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("QuickPerpus")
 
     property int sidebarRadius: 32
     property int sidebarWidth: 250
