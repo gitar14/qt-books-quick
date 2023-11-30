@@ -8,7 +8,6 @@ Item {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    property int selectedIndex: -1
     property KategoriViewModel currentViewModel
     signal addClicked()
 
