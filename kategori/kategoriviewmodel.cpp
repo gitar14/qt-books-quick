@@ -11,6 +11,11 @@ KategoriViewModel::KategoriViewModel(QObject *parent)
     connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));
 }
 
+KategoriViewModel::~KategoriViewModel()
+{
+    qDeleteAll(mList);
+}
+
 
 void KategoriViewModel::setSelectedIndex(int index)
 {

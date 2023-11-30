@@ -15,6 +15,7 @@ class KategoriViewModel : public QObject
     QML_ELEMENT
 public:
     explicit KategoriViewModel(QObject *parent = nullptr);
+    ~KategoriViewModel();
 
     Q_INVOKABLE void setSelectedIndex(int index);
     QString textQuery() const;
