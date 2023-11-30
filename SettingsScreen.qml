@@ -28,6 +28,7 @@ Page {
         anchors.margins: 16
 
         Control {
+            visible: viewModel.canChangeDenda
             Layout.fillWidth: true
             padding: 16
 
@@ -43,7 +44,7 @@ Page {
                     Layout.minimumWidth: 200
                     editable: true
                     value: viewModel.dendaPerHari
-                    onValueChanged: viewModel.dendaPerHari = value
+                    onValueChanged: if (viewModel.canChangeDenda) viewModel.dendaPerHari = value
                     from: 0
                     to: 1000000
                 }
