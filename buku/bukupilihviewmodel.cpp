@@ -18,13 +18,6 @@ BukuPilihViewModel::BukuPilihViewModel(QObject *parent)
     connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));
 }
 
-BukuPilihViewModel::~BukuPilihViewModel()
-{
-    qDeleteAll(mKategoriFilterList);
-    qDeleteAll(mPenerbitFilterList);
-    qDeleteAll(mList);
-}
-
 QList<BukuData *> BukuPilihViewModel::list() const
 {
     return mList;
@@ -52,12 +45,10 @@ void BukuPilihViewModel::setSelectedIndex(int index)
 
 void BukuPilihViewModel::refresh()
 {
-    QList<BukuData*> prevList = mList;
     mList = mRepository->getList(mIgnoredKode, mTextQuery, mKategoriFilter, mPenerbitFilter);
     refreshSelectedItem();
 
     emit listChanged();
-    qDeleteAll(prevList);
 }
 
 void BukuPilihViewModel::refreshSelectedItem()
