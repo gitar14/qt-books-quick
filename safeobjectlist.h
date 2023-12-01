@@ -2,8 +2,12 @@
 #define SAFEOBJECTLIST_H
 
 #include <QList>
+#include <concepts>
 
 template <typename T>
+concept IsQObject = std::is_base_of<QObject, T>::value;
+
+template <IsQObject T>
 class SafeObjectList : public QList<T*> {
     using ListType = QList<T*>;
 
