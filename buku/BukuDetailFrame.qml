@@ -69,12 +69,22 @@ BaseDetailFrame {
         }
 
         Label {
+            text: "Tahun Terbit"
+        }
+
+        Label {
+            Layout.fillWidth: true
+            text: currentViewModel.selectedData.tahunTerbit
+        }
+
+
+        Label {
             text: "Jumlah Pengadaan"
         }
 
         Label {
             Layout.fillWidth: true
-            text: currentViewModel.selectedJumlahPengadaan
+            text: currentViewModel.selectedDataJumlah.pengadaan
         }
 
         Label {
@@ -92,7 +102,7 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: currentViewModel.selectedJumlahPengadaan - currentViewModel.selectedData.jumlahHilang
+            text: currentViewModel.selectedDataJumlah.tidakHilang
         }
 
         Label {
@@ -101,7 +111,7 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: currentViewModel.selectedJumlahDipinjam
+            text: currentViewModel.selectedDataJumlah.dipinjam
         }
 
         Label {
@@ -110,18 +120,8 @@ BaseDetailFrame {
 
         Label {
             Layout.fillWidth: true
-            text: currentViewModel.selectedJumlahPengadaan - currentViewModel.selectedData.jumlahHilang - currentViewModel.selectedJumlahDipinjam
+            text: currentViewModel.selectedDataJumlah.tersedia
         }
-
-        Label {
-            text: "Tahun Terbit"
-        }
-
-        Label {
-            Layout.fillWidth: true
-            text: currentViewModel.selectedData.tahunTerbit
-        }
-
 
         Rectangle {
             Layout.columnSpan: 2

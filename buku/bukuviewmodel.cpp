@@ -5,9 +5,40 @@
 #include "repository/pengadaanrepository.h"
 #include "repository/peminjamanrepository.h"
 
+BukuJumlahViewData::BukuJumlahViewData(int jumlahPengadaan, int jumlahHilang, int jumlahDipinjam)
+    : QObject(),
+    mPengadaan{jumlahPengadaan},
+    mTidakHilang{jumlahPengadaan - jumlahHilang},
+    mDipinjam{jumlahDipinjam},
+    mTersedia{mTidakHilang - jumlahDipinjam}
+{
+
+}
+
+int BukuJumlahViewData::pengadaan() const
+{
+    return mPengadaan;
+}
+
+int BukuJumlahViewData::tidakHilang() const
+{
+    return mTidakHilang;
+}
+
+int BukuJumlahViewData::dipinjam() const
+{
+    return mDipinjam;
+}
+
+int BukuJumlahViewData::tersedia() const
+{
+    return mTersedia;
+}
+
 BukuViewModel::BukuViewModel(QObject *parent)
     : BukuPilihViewModel{parent},
-    mSelectedData{nullptr}
+    mSelectedData{nullptr},
+    mSelectedDataJumlah{new BukuJumlahViewData()}
 {
     connect(this, SIGNAL(selectedKodeChanged()), this, SLOT(refreshSelectedData()));
     init();
@@ -16,16 +47,6 @@ BukuViewModel::BukuViewModel(QObject *parent)
 BukuDetailData *BukuViewModel::selectedData() const
 {
     return mSelectedData;
-}
-
-int BukuViewModel::selectedJumlahPengadaan() const
-{
-    return mSelectedJumlahPengadaan;
-}
-
-int BukuViewModel::selectedJumlahDipinjam() const
-{
-    return mSelectedJumlahDipinjam;
 }
 
 void BukuViewModel::removeSelected()
@@ -40,19 +61,25 @@ void BukuViewModel::refreshSelectedData()
     BukuDetailData* prevData = mSelectedData;
     if (selectedKode() != -1) {
         mSelectedData = mRepository->getBukuData(selectedKode());
-        mSelectedJumlahPengadaan = manager->getPengadaan()->getJumlahPengadaanBuku(selectedKode());
-        mSelectedJumlahDipinjam = manager->getPeminjaman()->getJumlahBukuDipinjam(selectedKode());
+        mSelectedDataJumlah.reset(new BukuJumlahViewData(
+            manager->getPengadaan()->getJumlahPengadaanBuku(selectedKode()),
+            mSelectedData->jumlahHilang(),
+            manager->getPeminjaman()->getJumlahBukuDipinjam(selectedKode())
+            ));
     } else {
         mSelectedData = new BukuDetailData();
-        mSelectedJumlahPengadaan = 0;
-        mSelectedJumlahDipinjam = 0;
+        mSelectedDataJumlah.reset(new BukuJumlahViewData());
     }
     mSelectedData->setParent(this);
 
     emit selectedDataChanged();
-    emit selectedJumlahPengadaanChanged();
-    emit selectedJumlahDipinjamChanged();
+    emit selectedDataJumlahChanged();
 
     if (prevData != nullptr)
         delete prevData;
+}
+
+BukuJumlahViewData* BukuViewModel::selectedDataJumlah() const
+{
+    return mSelectedDataJumlah.get();
 }
