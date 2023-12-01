@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include "repository/kategorirepository.h"
+#include "safeobjectlist.h"
 
 class KategoriViewModel : public QObject
 {
@@ -15,7 +16,6 @@ class KategoriViewModel : public QObject
     QML_ELEMENT
 public:
     explicit KategoriViewModel(QObject *parent = nullptr);
-    ~KategoriViewModel();
 
     Q_INVOKABLE void setSelectedIndex(int index);
     QString textQuery() const;
@@ -41,10 +41,10 @@ signals:
 
 private:
     KategoriRepository *mRepository;
-    QList<KategoriData*> mList;
+    SafeObjectList<KategoriData> mList;
     int mSelectedIndex;
     QString mTextQuery;
-    KategoriData *mSelectedData = nullptr;
+    QScopedPointer<KategoriData, QScopedPointerDeleteLater> mSelectedData;
 
     void refreshSelectedItem();
 };

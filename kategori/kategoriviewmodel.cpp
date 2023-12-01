@@ -4,18 +4,11 @@
 
 KategoriViewModel::KategoriViewModel(QObject *parent)
     : QObject{parent},
-    mRepository{RepositoryManager::getInstance()->getKategori()},
-    mSelectedData{nullptr}
+    mRepository{RepositoryManager::getInstance()->getKategori()}
 {
     refresh();
     connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));
 }
-
-KategoriViewModel::~KategoriViewModel()
-{
-    qDeleteAll(mList);
-}
-
 
 void KategoriViewModel::setSelectedIndex(int index)
 {
@@ -45,17 +38,12 @@ void KategoriViewModel::removeSelected()
 
 void KategoriViewModel::refreshSelectedItem()
 {
-    KategoriData* prevData = mSelectedData;
     if (mSelectedIndex < 0 || mSelectedIndex >= mList.length())
-        mSelectedData = new KategoriData();
-    else mSelectedData = mRepository->get(mList.at(mSelectedIndex)->kode());
-    mSelectedData->setParent(this);
+        mSelectedData.reset(new KategoriData());
+    else mSelectedData.reset(mRepository->get(mList.at(mSelectedIndex)->kode()));
 
     emit selectedDataChanged();
     emit hasSelectedItemChanged();
-
-    if (prevData != nullptr)
-        delete prevData;
 }
 
 QList<KategoriData *> KategoriViewModel::list() const
@@ -70,16 +58,13 @@ bool KategoriViewModel::hasSelectedItem() const
 
 KategoriData *KategoriViewModel::selectedData() const
 {
-    return mSelectedData;
+    return mSelectedData.get();
 }
 
 void KategoriViewModel::refresh()
 {
-    QList<KategoriData*> prevList = mList;
     mList = mRepository->getAll(mTextQuery);
 
     emit listChanged();
     refreshSelectedItem();
-
-    qDeleteAll(prevList);
 }

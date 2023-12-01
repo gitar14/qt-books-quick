@@ -12,11 +12,9 @@ KategoriEditViewModel::KategoriEditViewModel(QObject *parent)
 
 void KategoriEditViewModel::configure(int kode)
 {
-    KategoriData* data = mRepository->get(kode);
+    QScopedPointer<KategoriData> data(kode != - 1 ? mRepository->get(kode) : new KategoriData());
     mKode = data->kode();
     mNamaField->setValue(data->nama());
-
-    delete data;
 
     emit isNewChanged();
 }
