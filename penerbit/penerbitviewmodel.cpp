@@ -32,6 +32,7 @@ void PenerbitViewModel::setTextQuery(const QString &newTextQuery)
         return;
     mTextQuery = newTextQuery;
     emit textQueryChanged();
+    refresh();
 }
 
 void PenerbitViewModel::setSelectedIndex(int index)
