@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include "repository/userrepository.h"
+#include "safeobjectlist.h"
 
 class UserPegawaiViewModel : public QObject
 {
@@ -40,10 +41,10 @@ private slots:
 
 private:
     UserRepository* mRepository;
-    QList<UserData*> mList;
+    SafeObjectList<UserData> mList;
     QString mTextQuery;
     int mSelectedIndex;
-    UserData* mSelectedData;
+    QScopedPointer<UserData> mSelectedData;
 
     void refreshSelectedItem();
 };

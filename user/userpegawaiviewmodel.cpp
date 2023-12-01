@@ -3,8 +3,7 @@
 
 UserPegawaiViewModel::UserPegawaiViewModel(QObject *parent)
     : QObject{parent},
-    mRepository{RepositoryManager::getInstance()->getUser()},
-    mSelectedData{nullptr}
+    mRepository{RepositoryManager::getInstance()->getUser()}
 {
     refresh();
     connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));
@@ -37,33 +36,24 @@ void UserPegawaiViewModel::setSelectedIndex(int newSelectedIndex)
 
 UserData *UserPegawaiViewModel::selectedData() const
 {
-    return mSelectedData;
+    return mSelectedData.get();
 }
 
 void UserPegawaiViewModel::refresh()
-{
-    QList<UserData*> prevList = mList;
-    mList = mRepository->getAllPegawai(mTextQuery);
+{    mList = mRepository->getAllPegawai(mTextQuery);
 
     emit listChanged();
     refreshSelectedItem();
-
-    qDeleteAll(prevList);
 }
 
 void UserPegawaiViewModel::refreshSelectedItem()
 {
-    UserData* prevData = mSelectedData;
     if (mSelectedIndex < 0 || mSelectedIndex >= mList.count())
-        mSelectedData = new UserData();
-    else mSelectedData = mRepository->get(mList.at(mSelectedIndex)->id());
-    mSelectedData->setParent(this);
+        mSelectedData.reset(new UserData());
+    else mSelectedData.reset(mRepository->get(mList.at(mSelectedIndex)->id()));
 
     emit selectedDataChanged();
     emit hasSelectedItemChanged();
-
-    if (prevData != nullptr)
-        delete prevData;
 }
 
 bool UserPegawaiViewModel::hasSelectedItem() const

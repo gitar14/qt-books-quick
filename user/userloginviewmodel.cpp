@@ -33,23 +33,22 @@ bool UserLoginViewModel::isValid() const
 
 bool UserLoginViewModel::login()
 {
-    UserData* userData = mRepository->get(mIdField->value());
+    std::unique_ptr<UserData> userData(mRepository->get(mIdField->value()));
 
     if (userData->id().length() == 0) {
         mErrorText = "User tidak ada";
         emit errorTextChanged();
-        delete userData;
         return false;
     }
 
     if (!UserUseCase::checkUserPassword(mRepository, mIdField->value(), mPasswordField->value())) {
         mErrorText = "Password salah";
         emit errorTextChanged();
-        delete userData;
         return false;
     }
 
-    UserManager::getInstance()->setLoggedUser(userData);
+    UserManager::getInstance()->setLoggedUser(userData.get());
+    userData.release();
     return true;
 }
 

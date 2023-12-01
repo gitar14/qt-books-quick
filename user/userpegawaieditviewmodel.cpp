@@ -12,12 +12,10 @@ void UserPegawaiEditViewModel::configure(QString id)
     mIsNew = id == "";
 
     if (!mIsNew) {
-        UserData* data = mRepository->get(id);
+        QScopedPointer<UserData> data(mRepository->get(id));
         idField()->setValue(data->id());
         namaDepanField()->setValue(data->namaDepan());
         namaBelakakngField()->setValue(data->namaBelakang());
-        \
-        delete data;
     } else {
         idField()->setValue("");
         namaDepanField()->setValue("");
