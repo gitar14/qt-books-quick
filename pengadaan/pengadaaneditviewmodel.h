@@ -6,6 +6,7 @@
 #include "textfielddata.h"
 #include "repository/pengadaanrepository.h"
 #include "repository/bukurepository.h"
+#include "scopedobjectlist.h"
 
 class PengadaanEditViewModel : public QObject
 {
@@ -19,7 +20,6 @@ class PengadaanEditViewModel : public QObject
     QML_ELEMENT
 public:
     explicit PengadaanEditViewModel(QObject *parent = nullptr);
-    ~PengadaanEditViewModel();
 
     Q_INVOKABLE void configure(int kode = -1);
 
@@ -53,7 +53,7 @@ private:
     int mKode;
     TextFieldData* mSumberField;
     QDate mTanggal;
-    QList<PengadaanBukuData*> mBukuList;
+    ScopedObjectList<PengadaanBukuData> mBukuList;
     QList<int> mKodeBukuList;
     bool mIsBukuAvailable;
 

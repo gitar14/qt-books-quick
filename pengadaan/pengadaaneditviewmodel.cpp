@@ -15,29 +15,20 @@ PengadaanEditViewModel::PengadaanEditViewModel(QObject *parent)
     connect(mSumberField, SIGNAL(isValidChanged()), this, SIGNAL(isValidChanged()));
 }
 
-PengadaanEditViewModel::~PengadaanEditViewModel()
-{
-    qDeleteAll(mBukuList);
-}
-
 void PengadaanEditViewModel::configure(int kode)
 {
     mKode = kode;
-    PengadaanData* data = mRepository->get(kode);
+    QScopedPointer<PengadaanData> data(mRepository->get(kode));
     mSumberField->setValue(data->sumber());
     mTanggal = data->tanggalPengadaan();
     if (!mTanggal.isValid()) mTanggal = QDate::currentDate();
-    delete data;
 
-    QList<PengadaanBukuData*> prevList = mBukuList;
     mBukuList = mRepository->getBukuList(kode);
 
     refreshBukuAvailable();
 
     emit tanggalChanged();
     emit bukuListChanged();
-
-    qDeleteAll(prevList);
 }
 
 TextFieldData *PengadaanEditViewModel::sumberField() const
@@ -62,10 +53,8 @@ void PengadaanEditViewModel::appendBuku(int kode)
         return;
     }
 
-    BukuData* buku = RepositoryManager::getInstance()->getBuku()->getBukuData(kode);
+    QScopedPointer<BukuData> buku(RepositoryManager::getInstance()->getBuku()->getBukuData(kode));
     PengadaanBukuData* data = new PengadaanBukuData(buku->kode(), 0, buku->judul());
-    delete buku;
-
     mBukuList.append(data);
 
     refreshBukuAvailable();
@@ -74,13 +63,10 @@ void PengadaanEditViewModel::appendBuku(int kode)
 
 void PengadaanEditViewModel::removeBuku(int index)
 {
-    PengadaanBukuData* buku = mBukuList[index];
     mBukuList.remove(index);
 
     refreshBukuAvailable();
     emit bukuListChanged();
-
-    delete buku;
 }
 
 QList<int> PengadaanEditViewModel::kodeBukuList() const

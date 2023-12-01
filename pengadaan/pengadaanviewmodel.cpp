@@ -4,15 +4,10 @@
 PengadaanViewModel::PengadaanViewModel(QObject *parent)
     : QObject{parent},
     mRepository{RepositoryManager::getInstance()->getPengadaan()},
-    mSelectedData{new PengadaanDetailData()}
+    mSelectedData(new PengadaanDetailData())
 {
     refresh();
     connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));
-}
-
-PengadaanViewModel::~PengadaanViewModel()
-{
-    qDeleteAll(mList.begin(), mList.end());
 }
 
 QList<PengadaanData*> PengadaanViewModel::list() const
@@ -42,7 +37,7 @@ void PengadaanViewModel::setSelectedIndex(int newSelectedIndex)
 
 PengadaanDetailData *PengadaanViewModel::selectedData() const
 {
-    return mSelectedData;
+    return mSelectedData.get();
 }
 
 QList<PengadaanBukuData*> PengadaanViewModel::selectedBukuList() const
@@ -52,7 +47,6 @@ QList<PengadaanBukuData*> PengadaanViewModel::selectedBukuList() const
 
 void PengadaanViewModel::refresh()
 {
-    qDeleteAll(mList.begin(), mList.end());
     mList = RepositoryManager::getInstance()->getPengadaan()->getList(mTextQuery);
 
     emit listChanged();
@@ -61,19 +55,15 @@ void PengadaanViewModel::refresh()
 
 void PengadaanViewModel::refreshSelectedItem()
 {
-    PengadaanDetailData* prevData = mSelectedData;
     if (mSelectedIndex < 0 || mSelectedIndex >= mList.count())
-        mSelectedData = new PengadaanDetailData();
-    else mSelectedData = mRepository->get(mList.at(mSelectedIndex)->kode());
-    mSelectedData->setParent(this);
+        mSelectedData.reset(new PengadaanDetailData());
+    else mSelectedData.reset(mRepository->get(mList.at(mSelectedIndex)->kode()));
 
     mSelectedBukuList = mRepository->getBukuList(mSelectedData->kode());
 
     emit selectedDataChanged();
     emit hasSelectedItemChanged();
     emit selectedBukuListChanged();
-
-    delete prevData;
 }
 
 bool PengadaanViewModel::hasSelectedItem() const

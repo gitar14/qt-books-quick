@@ -12,13 +12,22 @@ class ScopedObjectList : public QList<T*> {
     using ListType = QList<T*>;
 
     void deleteAllItems() {
-        for (int i = 0; i < ListType::count(); i++) {
-            ListType::at(i)->deleteLater();
+        deleteItems(0, ListType::count());
+    }
+
+    void deleteItems(qsizetype from, qsizetype count) {
+        for (int i = 0; i < count; i++) {
+            ListType::at(from + i)->deleteLater();
         }
     }
 public:
     ~ScopedObjectList() {
         deleteAllItems();
+    }
+
+    void remove(qsizetype i, qsizetype n = 1) {
+        deleteItems(i, n);
+        ListType::remove(i, n);
     }
 
     void clear() {

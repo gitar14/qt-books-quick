@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include "repository/pengadaanrepository.h"
+#include "scopedobjectlist.h"
 
 class PengadaanViewModel : public QObject
 {
@@ -16,7 +17,6 @@ class PengadaanViewModel : public QObject
     QML_ELEMENT
 public:
     explicit PengadaanViewModel(QObject *parent = nullptr);
-    ~PengadaanViewModel();
 
     QList<PengadaanData *> list() const;
 
@@ -44,11 +44,11 @@ public slots:
 
 private:
     PengadaanRepository* mRepository;
-    QList<PengadaanData*> mList;
+    ScopedObjectList<PengadaanData> mList;
     QString mTextQuery;
     int mSelectedIndex;
-    PengadaanDetailData *mSelectedData;
-    QList<PengadaanBukuData*> mSelectedBukuList;
+    QScopedPointer<PengadaanDetailData> mSelectedData;
+    ScopedObjectList<PengadaanBukuData> mSelectedBukuList;
 
     void refreshSelectedItem();
 };
