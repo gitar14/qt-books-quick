@@ -24,7 +24,7 @@ private slots:
     void refreshSelectedData();
 
 private:
-    MemberData* mSelectedData;
+    QScopedPointer<MemberData, QScopedPointerDeleteLater> mSelectedData;
 };
 
 #endif // MEMBERVIEWMODEL_H

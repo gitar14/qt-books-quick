@@ -18,15 +18,13 @@ void MemberEditViewModel::configure(int kode)
 {
     mKode = kode;
 
-    MemberData* data = mRepository->get(mKode);
+    QScopedPointer<MemberData> data(mKode != -1 ? mRepository->get(mKode) : new MemberData());
 
     mNamaDepanField->setValue(data->namaDepan());
     mNamaBelakangField->setValue(data->namaBelakang());
     if (data->tanggalLahir().isValid())
         setTanggalLahir(data->tanggalLahir());
     else setTanggalLahir(QDate::currentDate());
-
-    delete data;
 
     emit isNewChanged();
     emit isValidChanged();

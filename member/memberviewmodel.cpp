@@ -1,7 +1,7 @@
 #include "memberviewmodel.h"
 
 MemberViewModel::MemberViewModel(QObject *parent)
-    : MemberPilihViewModel{parent}, mSelectedData{nullptr}
+    : MemberPilihViewModel{parent}
 {
     connect(this, SIGNAL(selectedKodeChanged()), this, SLOT(refreshSelectedData()));
     init();
@@ -10,7 +10,7 @@ MemberViewModel::MemberViewModel(QObject *parent)
 
 MemberData *MemberViewModel::selectedData() const
 {
-    return mSelectedData;
+    return mSelectedData.get();
 }
 
 void MemberViewModel::removeSelectedItem()
@@ -20,14 +20,9 @@ void MemberViewModel::removeSelectedItem()
 
 void MemberViewModel::refreshSelectedData()
 {
-    MemberData* prevData = mSelectedData;
     if (selectedKode() == -1)
-        mSelectedData = new MemberData();
-    else mSelectedData =  mRepository->get(selectedKode());
-    mSelectedData->setParent(this);
+        mSelectedData.reset(new MemberData());
+    else mSelectedData.reset(mRepository->get(selectedKode()));
 
     emit selectedDataChanged();
-
-    if (prevData != nullptr)
-        delete prevData;
 }

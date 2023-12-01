@@ -2,14 +2,10 @@
 #include "repositorymanager.h"
 
 MemberPilihViewModel::MemberPilihViewModel(QObject *parent)
-    : QObject{parent}, mRepository{RepositoryManager::getInstance()->getMember()}
+    : QObject{parent},
+    mRepository{RepositoryManager::getInstance()->getMember()}
 {
     connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));
-}
-
-MemberPilihViewModel::~MemberPilihViewModel()
-{
-    qDeleteAll(mList);
 }
 
 QList<MemberData *> MemberPilihViewModel::list() const
@@ -57,13 +53,10 @@ void MemberPilihViewModel::init()
 
 void MemberPilihViewModel::refresh()
 {
-    QList<MemberData*> prevList = mList;
     mList = mRepository->getAll(mTextQuery);
 
     emit listChanged();
     refreshSelectedItem();
-
-    qDeleteAll(prevList);
 }
 
 void MemberPilihViewModel::refreshSelectedItem()
