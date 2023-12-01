@@ -47,7 +47,7 @@ private slots:
     void refreshSelectedData();
 
 private:
-    BukuDetailData* mSelectedData;
+    QScopedPointer<BukuDetailData, QScopedPointerDeleteLater> mSelectedData;
     QScopedPointer<BukuJumlahViewData, QScopedPointerDeleteLater> mSelectedDataJumlah;
 };
 

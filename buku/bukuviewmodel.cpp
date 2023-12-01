@@ -37,7 +37,7 @@ int BukuJumlahViewData::tersedia() const
 
 BukuViewModel::BukuViewModel(QObject *parent)
     : BukuPilihViewModel{parent},
-    mSelectedData{nullptr},
+    mSelectedData{new BukuDetailData()},
     mSelectedDataJumlah{new BukuJumlahViewData()}
 {
     connect(this, SIGNAL(selectedKodeChanged()), this, SLOT(refreshSelectedData()));
@@ -46,7 +46,7 @@ BukuViewModel::BukuViewModel(QObject *parent)
 
 BukuDetailData *BukuViewModel::selectedData() const
 {
-    return mSelectedData;
+    return mSelectedData.get();
 }
 
 void BukuViewModel::removeSelected()
@@ -58,25 +58,21 @@ void BukuViewModel::refreshSelectedData()
 {
     RepositoryManager* manager = RepositoryManager::getInstance();
 
-    BukuDetailData* prevData = mSelectedData;
     if (selectedKode() != -1) {
-        mSelectedData = mRepository->getBukuData(selectedKode());
+        mSelectedData.reset(mRepository->getBukuData(selectedKode()));
         mSelectedDataJumlah.reset(new BukuJumlahViewData(
             manager->getPengadaan()->getJumlahPengadaanBuku(selectedKode()),
             mSelectedData->jumlahHilang(),
             manager->getPeminjaman()->getJumlahBukuDipinjam(selectedKode())
             ));
     } else {
-        mSelectedData = new BukuDetailData();
+        mSelectedData.reset(new BukuDetailData());
         mSelectedDataJumlah.reset(new BukuJumlahViewData());
     }
     mSelectedData->setParent(this);
 
     emit selectedDataChanged();
     emit selectedDataJumlahChanged();
-
-    if (prevData != nullptr)
-        delete prevData;
 }
 
 BukuJumlahViewData* BukuViewModel::selectedDataJumlah() const
