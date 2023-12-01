@@ -20,16 +20,11 @@ BukuEditViewModel::BukuEditViewModel(QObject *parent)
     connect(mPenerbitField, SIGNAL(isValidChanged()), this, SIGNAL(isValidChanged()));
 }
 
-BukuEditViewModel::~BukuEditViewModel()
-{
-    qDeleteAll(mKategoriList);
-    qDeleteAll(mPenerbitList);
-}
-
 void BukuEditViewModel::configure(int kode)
 {
-    BukuDetailData* data = kode == -1 ? new BukuDetailData() :
-                         RepositoryManager::getInstance()->getBuku()->getBukuData(kode);
+    QScopedPointer<BukuDetailData> data(
+        kode == -1 ? new BukuDetailData() :
+            RepositoryManager::getInstance()->getBuku()->getBukuData(kode));
 
     mKode = kode;
     mJudulField->setValue(data->judul());
@@ -37,7 +32,6 @@ void BukuEditViewModel::configure(int kode)
     mJumlahHilang = data->jumlahHilang();
     mTahunTerbit = data->tahunTerbit();
 
-    QList<KategoriData*> prevKategoriList = mKategoriList;
     mKategoriList = RepositoryManager::getInstance()->getKategori()->getAll("");
     emit kategoriListChanged();
 
@@ -50,7 +44,6 @@ void BukuEditViewModel::configure(int kode)
     }
     mKategoriField->setIndex(kategoriIndex);
 
-    QList<PenerbitData*> prevPenerbitList = mPenerbitList;
     mPenerbitList = RepositoryManager::getInstance()->getPenerbit()->getAll("");
     emit penerbitListChanged();
 
@@ -66,11 +59,6 @@ void BukuEditViewModel::configure(int kode)
     emit jumlahHilangChanged();
     emit tahunTerbitChanged();
     emit isNewChanged();
-
-    qDeleteAll(prevKategoriList);
-    qDeleteAll(prevPenerbitList);
-
-    delete data;
 }
 
 TextFieldData *BukuEditViewModel::judulField() const

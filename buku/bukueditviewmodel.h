@@ -6,6 +6,7 @@
 #include "combofielddata.h"
 #include "repository/kategorirepository.h"
 #include "repository/penerbitrepository.h"
+#include "safeobjectlist.h"
 
 class BukuEditViewModel : public QObject
 {
@@ -22,7 +23,6 @@ class BukuEditViewModel : public QObject
     Q_PROPERTY(bool isValid READ isValid NOTIFY isValidChanged)
 public:
     explicit BukuEditViewModel(QObject *parent = nullptr);
-    ~BukuEditViewModel();
 
     Q_INVOKABLE void configure(int kode = -1);
 
@@ -67,8 +67,8 @@ private:
 
     ComboFieldData* mKategoriField;
     ComboFieldData* mPenerbitField;
-    QList<KategoriData*> mKategoriList;
-    QList<PenerbitData*> mPenerbitList;
+    SafeObjectList<KategoriData> mKategoriList;
+    SafeObjectList<PenerbitData> mPenerbitList;
 };
 
 #endif // BUKUEDITVIEWMODEL_H
