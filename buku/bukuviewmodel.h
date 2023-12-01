@@ -48,7 +48,7 @@ private slots:
 
 private:
     BukuDetailData* mSelectedData;
-    QScopedPointer<BukuJumlahViewData> mSelectedDataJumlah;
+    QScopedPointer<BukuJumlahViewData, QScopedPointerDeleteLater> mSelectedDataJumlah;
 };
 
 #endif // BUKUVIEWMODEL_H
