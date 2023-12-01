@@ -4,8 +4,7 @@
 
 PenerbitViewModel::PenerbitViewModel(QObject *parent)
     : QObject{parent},
-    mRepository{RepositoryManager::getInstance()->getPenerbit()},
-    mSelectedData{nullptr}
+    mRepository{RepositoryManager::getInstance()->getPenerbit()}
 {
     refresh();
     connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));
@@ -14,16 +13,12 @@ PenerbitViewModel::PenerbitViewModel(QObject *parent)
 
 void PenerbitViewModel::refreshSelectedItem()
 {
-    PenerbitData* prevData = mSelectedData;
     if (mSelectedIndex < 0 || mSelectedIndex >= mList.count())
-        mSelectedData = new PenerbitData();
-    else mSelectedData = mRepository->get(mList.at(mSelectedIndex)->kode());
+        mSelectedData.reset(new PenerbitData());
+    else mSelectedData.reset(mRepository->get(mList.at(mSelectedIndex)->kode()));
 
     emit selectedDataChanged();
     emit hasSelectedItemChanged();
-
-    if (prevData != nullptr)
-        delete prevData;
 }
 
 QString PenerbitViewModel::textQuery() const
@@ -57,7 +52,7 @@ QList<PenerbitData *> PenerbitViewModel::list() const
 
 PenerbitData *PenerbitViewModel::selectedData() const
 {
-    return mSelectedData;
+    return mSelectedData.get();
 }
 
 bool PenerbitViewModel::hasSelectedItem() const
@@ -67,11 +62,8 @@ bool PenerbitViewModel::hasSelectedItem() const
 
 void PenerbitViewModel::refresh()
 {
-    QList<PenerbitData*> prevList = mList;
     mList = mRepository->getAll(mTextQuery);
     emit listChanged();
 
     refreshSelectedItem();
-
-    qDeleteAll(prevList);
 }

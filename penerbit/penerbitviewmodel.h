@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include "repository/penerbitrepository.h"
+#include "safeobjectlist.h"
 
 class PenerbitViewModel : public QObject
 {
@@ -37,9 +38,9 @@ public slots:
 
 private:
     PenerbitRepository* mRepository;
-    QList<PenerbitData*> mList;
+    SafeObjectList<PenerbitData> mList;
     int mSelectedIndex;
-    PenerbitData *mSelectedData = nullptr;
+    QScopedPointer<PenerbitData, QScopedPointerDeleteLater> mSelectedData;
     QString mTextQuery;
 
     void refreshSelectedItem();
