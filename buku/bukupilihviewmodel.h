@@ -6,7 +6,7 @@
 #include "repository/kategorirepository.h"
 #include "repository/penerbitrepository.h"
 #include "repository/bukurepository.h"
-#include "safeobjectlist.h"
+#include "scopedobjectlist.h"
 
 class BukuPilihViewModel : public QObject
 {
@@ -69,7 +69,7 @@ protected:
     BukuRepository* mRepository;
 
 private:
-    SafeObjectList<BukuData> mList;
+    ScopedObjectList<BukuData> mList;
     QList<int> mIgnoredKode;
     int mSelectedIndex;
     int mSelectedKode;
@@ -77,9 +77,9 @@ private:
 
     QString mTextQuery;
     int mKategoriFilter{-1};
-    SafeObjectList<KategoriData> mKategoriFilterList;
+    ScopedObjectList<KategoriData> mKategoriFilterList;
     int mPenerbitFilter{-1};
-    SafeObjectList<PenerbitData> mPenerbitFilterList;
+    ScopedObjectList<PenerbitData> mPenerbitFilterList;
 
     void refreshSelectedItem();
 };

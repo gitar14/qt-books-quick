@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include "repository/kategorirepository.h"
-#include "safeobjectlist.h"
+#include "scopedobjectlist.h"
 
 class KategoriViewModel : public QObject
 {
@@ -41,7 +41,7 @@ signals:
 
 private:
     KategoriRepository *mRepository;
-    SafeObjectList<KategoriData> mList;
+    ScopedObjectList<KategoriData> mList;
     int mSelectedIndex;
     QString mTextQuery;
     QScopedPointer<KategoriData, QScopedPointerDeleteLater> mSelectedData;

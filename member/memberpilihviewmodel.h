@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include "repository/memberrepository.h"
-#include "safeobjectlist.h"
+#include "scopedobjectlist.h"
 
 class MemberPilihViewModel : public QObject
 {
@@ -41,7 +41,7 @@ protected:
 
 private:
     bool mIsInitialized = false;
-    SafeObjectList<MemberData> mList;
+    ScopedObjectList<MemberData> mList;
     int mSelectedIndex;
     int mSelectedKode;
     QString mTextQuery;

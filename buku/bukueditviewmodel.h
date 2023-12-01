@@ -6,7 +6,7 @@
 #include "combofielddata.h"
 #include "repository/kategorirepository.h"
 #include "repository/penerbitrepository.h"
-#include "safeobjectlist.h"
+#include "scopedobjectlist.h"
 
 class BukuEditViewModel : public QObject
 {
@@ -67,8 +67,8 @@ private:
 
     ComboFieldData* mKategoriField;
     ComboFieldData* mPenerbitField;
-    SafeObjectList<KategoriData> mKategoriList;
-    SafeObjectList<PenerbitData> mPenerbitList;
+    ScopedObjectList<KategoriData> mKategoriList;
+    ScopedObjectList<PenerbitData> mPenerbitList;
 };
 
 #endif // BUKUEDITVIEWMODEL_H

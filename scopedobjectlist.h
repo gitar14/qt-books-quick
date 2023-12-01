@@ -1,5 +1,5 @@
-#ifndef SAFEOBJECTLIST_H
-#define SAFEOBJECTLIST_H
+#ifndef SCOPEDOBJECTLIST_H
+#define SCOPEDOBJECTLIST_H
 
 #include <QList>
 #include <concepts>
@@ -8,7 +8,7 @@ template <typename T>
 concept IsQObject = std::is_base_of<QObject, T>::value;
 
 template <IsQObject T>
-class SafeObjectList : public QList<T*> {
+class ScopedObjectList : public QList<T*> {
     using ListType = QList<T*>;
 
     void deleteAllItems() {
@@ -17,7 +17,7 @@ class SafeObjectList : public QList<T*> {
         }
     }
 public:
-    ~SafeObjectList() {
+    ~ScopedObjectList() {
         deleteAllItems();
     }
 
@@ -34,4 +34,4 @@ public:
     }
 };
 
-#endif // SAFEOBJECTLIST_H
+#endif // SCOPEDOBJECTLIST_H
