@@ -4,8 +4,7 @@
 PeminjamanViewModel::PeminjamanViewModel(QObject *parent)
     : QObject{parent},
     mRepository{RepositoryManager::getInstance()->getPeminjaman()},
-    mSelectedDenda{new PeminjamanDendaCalculator(this)},
-    mSelectedData{nullptr}
+    mSelectedDenda{new PeminjamanDendaCalculator(this)}
 {
     connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));
     refresh();
@@ -45,15 +44,11 @@ void PeminjamanViewModel::setStatusFilter(PeminjamanData::StatusFilter newStatus
 }
 
 void PeminjamanViewModel::refresh()
-{
-    QList<PeminjamanData*> prevList = mList;
-    mList = mRepository->getList(mStatusFilter);
+{    mList = mRepository->getList(mStatusFilter);
 
     emit listChanged();
 
     refreshSelectedItem();
-
-    qDeleteAll(prevList);
 }
 
 PeminjamanDendaCalculator *PeminjamanViewModel::selectedDenda() const
@@ -81,7 +76,7 @@ QList<PeminjamanBukuData *> PeminjamanViewModel::selectedBukuList() const
 
 PeminjamanDetailData *PeminjamanViewModel::selectedData() const
 {
-    return mSelectedData;
+    return mSelectedData.get();
 }
 
 
@@ -91,25 +86,18 @@ void PeminjamanViewModel::refreshSelectedItem()
     if (mSelectedIndex >= 0 && mSelectedIndex < mList.length())
         kode = mList.at(mSelectedIndex)->kode();
 
-    PeminjamanDetailData* prevData = mSelectedData;
-
-    mSelectedData = mRepository->get(kode);
+    mSelectedData.reset(mRepository->get(kode));
 
     mSelectedDenda->setDendaTerlambatPerBuku(mSelectedData->dendaTerlambatPerBuku());
     mSelectedDenda->setTenggatPengembalian(mSelectedData->tenggatPengembalian());
     mSelectedDenda->setTanggalPengembalian(mSelectedData->tanggalPengembalian());
 
-    QList<PeminjamanBukuData*> prevBukuList = mSelectedBukuList;
     mSelectedBukuList = mRepository->getBukuList(kode);
     mSelectedDenda->setBukuList(mSelectedBukuList);
-    qDeleteAll(prevBukuList.begin(), prevBukuList.end());
 
     emit selectedDataChanged();
     emit hasSelectedItemChanged();
     emit selectedBukuListChanged();
-
-    if (prevData != nullptr)
-        delete prevData;
 }
 
 bool PeminjamanViewModel::hasSelectedItem() const

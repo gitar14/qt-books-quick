@@ -5,6 +5,7 @@
 #include <QQmlEngine>
 #include "repository/peminjamanrepository.h"
 #include "peminjamandendacalculator.h"
+#include "scopedobjectlist.h"
 
 class PeminjamanViewModel : public QObject
 {
@@ -51,12 +52,12 @@ signals:
 
 private:
     PeminjamanRepository *mRepository;
-    QList<PeminjamanData*> mList;
+    ScopedObjectList<PeminjamanData> mList;
     QString mTextQuery;
     PeminjamanData::StatusFilter mStatusFilter = PeminjamanData::BelumDikembalikanStatus;
     int mSelectedIndex;
-    PeminjamanDetailData* mSelectedData;
-    QList<PeminjamanBukuData*> mSelectedBukuList;
+    QScopedPointer<PeminjamanDetailData> mSelectedData;
+    ScopedObjectList<PeminjamanBukuData> mSelectedBukuList;
     PeminjamanDendaCalculator* mSelectedDenda;
 
     void refreshSelectedItem();

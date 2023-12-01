@@ -11,23 +11,16 @@ PeminjamanEditViewModel::PeminjamanEditViewModel(QObject *parent)
 
 }
 
-PeminjamanEditViewModel::~PeminjamanEditViewModel()
-{
-    qDeleteAll(mBukuList);
-}
-
 void PeminjamanEditViewModel::configure(int kode)
 {
     mKode = kode;
-    PeminjamanData* data = mRepository->get(kode);
+    QScopedPointer<PeminjamanData> data(kode != -1 ? mRepository->get(kode) : new PeminjamanData());
     mKodeMember = data->kodeMember();
     mNamaMember = data->namaMember();
     mTanggalPeminjaman = data->tanggalPeminjaman();
     if (!mTanggalPeminjaman.isValid()) mTanggalPeminjaman = QDate::currentDate();
     mLamaPeminjaman = data->lamaPeminjaman();
-    delete data;
 
-    QList<PeminjamanBukuData*> prevList = mBukuList;
     mBukuList = mRepository->getBukuList(kode);
 
     emit kodeMemberChanged();
@@ -37,8 +30,6 @@ void PeminjamanEditViewModel::configure(int kode)
     emit bukuListChanged();
 
     refreshAvailableBuku();
-
-    qDeleteAll(prevList);
 }
 
 int PeminjamanEditViewModel::kodeMember() const
@@ -53,9 +44,8 @@ void PeminjamanEditViewModel::setKodeMember(int newKodeMember)
     mKodeMember = newKodeMember;
     emit kodeMemberChanged();
 
-    MemberData* data = RepositoryManager::getInstance()->getMember()->get(mKodeMember);
+    QScopedPointer<MemberData> data(RepositoryManager::getInstance()->getMember()->get(mKodeMember));
     mNamaMember = data->nama();
-    delete data;
 
     emit namaMemberChanged();
 }
@@ -98,9 +88,8 @@ QList<PeminjamanBukuData *> PeminjamanEditViewModel::bukuList() const
 
 void PeminjamanEditViewModel::appendBuku(int kodeBuku)
 {
-    BukuData* buku = RepositoryManager::getInstance()->getBuku()->getBukuData(kodeBuku);
+    QScopedPointer<BukuData> buku(RepositoryManager::getInstance()->getBuku()->getBukuData(kodeBuku));
     mBukuList.append(new PeminjamanBukuData(buku->kode(), buku->judul(), 0));
-    delete buku;
     emit bukuListChanged();
 
     refreshAvailableBuku();
@@ -108,7 +97,6 @@ void PeminjamanEditViewModel::appendBuku(int kodeBuku)
 
 void PeminjamanEditViewModel::removeBuku(int index)
 {
-    delete mBukuList[index];
     mBukuList.remove(index);
     emit bukuListChanged();
 

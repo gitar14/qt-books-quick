@@ -5,6 +5,7 @@
 #include <QQmlEngine>
 #include "repository/peminjamanrepository.h"
 #include "peminjamandendacalculator.h"
+#include "scopedobjectlist.h"
 
 class PengembalianViewModel : public QObject
 {
@@ -33,7 +34,7 @@ private:
     PeminjamanRepository* mRepository;
     int mKode;
     QDate mTanggalPengembalian;
-    QList<PeminjamanBukuData*> mBukuList;
+    ScopedObjectList<PeminjamanBukuData> mBukuList;
     PeminjamanDendaCalculator* mDenda;
 };
 

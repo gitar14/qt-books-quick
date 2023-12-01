@@ -15,11 +15,9 @@ void PengembalianViewModel::configure(int kode)
 {
     mKode = kode;
 
-    PeminjamanData* data = mRepository->get(mKode);
+    QScopedPointer<PeminjamanData> data(mRepository->get(mKode));
     mDenda->setTenggatPengembalian(data->tanggalPeminjaman().addDays(data->lamaPeminjaman()));
-    delete data;
 
-    QList<PeminjamanBukuData*> prevList = mBukuList;
     mBukuList = mRepository->getBukuList(mKode);
     mDenda->setBukuList(mBukuList);
 
@@ -28,8 +26,6 @@ void PengembalianViewModel::configure(int kode)
     mDenda->setDendaTerlambatPerBuku(RepositoryManager::getInstance()->getSetting()->getDendaPerHari());
 
     emit bukuListChanged();
-
-    qDeleteAll(prevList.begin(), prevList.end());
 }
 
 QDate PengembalianViewModel::tanggalPengembalian() const
