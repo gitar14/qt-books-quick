@@ -1,23 +1,19 @@
 #include "peminjaman.h"
 
-PeminjamanData::PeminjamanData(
-    int kode,
+PeminjamanData::PeminjamanData(int kode,
     int kodeMember,
     QString namaDepanMember,
     QString namaBelakangMember,
     QDate tanggalPeminjaman,
     int lamaPeminjaman,
-    QDate tanggalPengembalian,
-    int dendaTerlambatPerBuku
-    ): QObject(),
+    QDate tanggalPengembalian): QObject(),
     mKode{kode},
     mKodeMember{kodeMember},
     mNamaDepanMember{namaDepanMember},
     mNamaBelakangMember{namaBelakangMember},
     mTanggalPeminjaman{tanggalPeminjaman},
     mLamaPeminjaman{lamaPeminjaman},
-    mTanggalPengembalian{tanggalPengembalian},
-    mDendaTerlambatPerBuku{dendaTerlambatPerBuku}
+    mTanggalPengembalian{tanggalPengembalian}
 {
 
 }
@@ -56,11 +52,6 @@ int PeminjamanData::lamaPeminjaman() const
 QDate PeminjamanData::tanggalPengembalian() const
 {
     return mTanggalPengembalian;
-}
-
-int PeminjamanData::dendaTerlambatPerBuku() const
-{
-    return mDendaTerlambatPerBuku;
 }
 
 QString PeminjamanData::namaMember() const
@@ -121,7 +112,8 @@ PeminjamanDetailData::PeminjamanDetailData(int kode,
                                            const QString &pengembalianUserId,
                                            const QString &pengembalianUserNamaDepan,
                                            const QString &pengembalianUserNamaBelakang)
-    : PeminjamanData(kode, kodeMember, namaDepanMember, namaBelakangMember, tanggalPeminjaman, lamaPeminjaman, tanggalPengembalian, dendaTerlambatPerBuku),
+    : PeminjamanData(kode, kodeMember, namaDepanMember, namaBelakangMember, tanggalPeminjaman, lamaPeminjaman, tanggalPengembalian),
+    mDendaTerlambatPerBuku(dendaTerlambatPerBuku),
     mPeminjamanUserId(peminjamanUserId),
     mPeminjamanUserNamaDepan(peminjamanUserNamaDepan),
     mPeminjamanUserNamaBelakang(peminjamanUserNamaBelakang),
@@ -129,6 +121,11 @@ PeminjamanDetailData::PeminjamanDetailData(int kode,
     mPengembalianUserNamaDepan(pengembalianUserNamaDepan),
     mPengembalianUserNamaBelakang(pengembalianUserNamaBelakang)
 {}
+
+int PeminjamanDetailData::dendaTerlambatPerBuku() const
+{
+    return mDendaTerlambatPerBuku;
+}
 
 QString PeminjamanDetailData::peminjamanUserId() const
 {

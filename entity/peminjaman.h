@@ -13,7 +13,6 @@ class PeminjamanData : public QObject {
     Q_PROPERTY(QDate tanggalPeminjaman READ tanggalPeminjaman CONSTANT FINAL)
     Q_PROPERTY(int lamaPeminjaman READ lamaPeminjaman CONSTANT FINAL)
     Q_PROPERTY(QDate tanggalPengembalian READ tanggalPengembalian CONSTANT FINAL)
-    Q_PROPERTY(int dendaTerlambatPerBuku READ dendaTerlambatPerBuku CONSTANT FINAL)
     Q_PROPERTY(QString namaMember READ namaMember CONSTANT)
     Q_PROPERTY(QDate tenggatPengembalian READ tenggatPengembalian CONSTANT)
     Q_PROPERTY(bool sudahDikembalikan READ sudahDikembalikan CONSTANT)
@@ -33,8 +32,7 @@ public:
         QString namaBelakangMember = "",
         QDate tanggalPeminjaman = QDate(),
         int lamaPeminjaman = 0,
-        QDate tanggalPengembalian = QDate(),
-        int dendaTerlambatPerBuku = 0
+        QDate tanggalPengembalian = QDate()
         );
 
     int kode() const;
@@ -44,7 +42,6 @@ public:
     QDate tanggalPeminjaman() const;
     int lamaPeminjaman() const;
     QDate tanggalPengembalian() const;
-    int dendaTerlambatPerBuku() const;
 
     QString namaMember() const;
     QDate tenggatPengembalian() const;
@@ -58,11 +55,11 @@ private:
     QDate mTanggalPeminjaman;
     int mLamaPeminjaman;
     QDate mTanggalPengembalian;
-    int mDendaTerlambatPerBuku;
 };
 
 class PeminjamanDetailData : public PeminjamanData {
     Q_OBJECT
+    Q_PROPERTY(int dendaTerlambatPerBuku READ dendaTerlambatPerBuku CONSTANT FINAL)
     Q_PROPERTY(QString peminjamanUserId READ peminjamanUserId CONSTANT FINAL)
     Q_PROPERTY(QString peminjamanUserNamaDepan READ peminjamanUserNamaDepan CONSTANT FINAL)
     Q_PROPERTY(QString peminjamanUserNamaBelakang READ peminjamanUserNamaBelakang CONSTANT FINAL)
@@ -87,6 +84,8 @@ public:
                          const QString &pengembalianUserNamaDepan = "",
                          const QString &pengembalianUserNamaBelakang = "");
 
+    int dendaTerlambatPerBuku() const;
+
     QString peminjamanUserId() const;
     QString peminjamanUserNamaDepan() const;
     QString peminjamanUserNamaBelakang() const;
@@ -97,6 +96,7 @@ public:
     QString peminjamanUserNama() const;
     QString pengembalianUserNama() const;
 private:
+    int mDendaTerlambatPerBuku;
     QString mPeminjamanUserId;
     QString mPeminjamanUserNamaDepan;
     QString mPeminjamanUserNamaBelakang;

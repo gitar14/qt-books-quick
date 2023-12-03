@@ -19,8 +19,7 @@ QList<PeminjamanData *> PeminjamanRepository::getList(PeminjamanData::StatusFilt
                           "   Member.nama_belakang_member,"
                           "   Detail_Peminjaman.tanggal_peminjaman,"
                           "   Detail_Peminjaman.lama_peminjaman,"
-                          "   Detail_Peminjaman.tanggal_pengembalian,"
-                          "   Detail_Peminjaman.denda_terlambat_perbuku "
+                          "   Detail_Peminjaman.tanggal_pengembalian "
                           "FROM Detail_Peminjaman "
                           "JOIN Member"
                           "   ON Member.kd_member = Detail_Peminjaman.kd_member";
@@ -65,8 +64,7 @@ QList<PeminjamanData *> PeminjamanRepository::getList(PeminjamanData::StatusFilt
             query.value(3).toString(),
             query.value(4).toDate(),
             query.value(5).toInt(),
-            query.value(6).toDate(),
-            query.value(7).toInt()
+            query.value(6).toDate()
             ));
     }
 
