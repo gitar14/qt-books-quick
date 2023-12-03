@@ -16,13 +16,12 @@ PenerbitEditViewModel::PenerbitEditViewModel(QObject *parent)
 
 void PenerbitEditViewModel::configure(int kode)
 {
-    PenerbitData* data = mRepository->get(kode);
+    QScopedPointer<PenerbitDetailData> data(kode != -1 ? mRepository->get(kode)
+                                                       : new PenerbitDetailData());
 
     mKode = data->kode();
     mNamaField->setValue(data->nama());
     mAlamatField->setValue(data->alamat());
-
-    delete data;
 
     emit isNewChanged();
 }

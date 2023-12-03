@@ -39,13 +39,11 @@ Item  {
                 }
 
                 Label {
+                    Layout.fillWidth: true
                     text: TextHighlighter.highlightText(modelData.nama, currentViewModel.textQuery)
-                    Layout.alignment: Qt.AlignHCenter
+                    horizontalAlignment: Qt.AlignHCenter
                     textFormat: Label.StyledText
-                }
-                Label {
-                    text: modelData.alamat
-                    Layout.alignment: Qt.AlignHCenter
+                    wrapMode: Label.Wrap
                 }
             }
         }

@@ -14,8 +14,7 @@ QList<PenerbitData *> PenerbitRepository::getAll(QString textQuery)
     QHash<QString,QVariant>binds;
     QString queryString="SELECT "
                           "   kd_penerbit,"
-                          "   nama_penerbit,"
-                          "   alamat_penerbit "
+                          "   nama_penerbit "
                           "FROM Penerbit";
     if (textQuery.length()){
         queryString+= " WHERE nama_penerbit LIKE :textQuery";
@@ -31,14 +30,14 @@ QList<PenerbitData *> PenerbitRepository::getAll(QString textQuery)
     QList<PenerbitData*> result;
 
     while (query.next()) {
-        result.append(new PenerbitData(query.value(0).toInt(), query.value(1).toString(),
-                                       query.value(2).toString()));
+        result.append(new PenerbitData(query.value(0).toInt(),
+                                       query.value(1).toString()));
     }
 
     return result;
 }
 
-PenerbitData *PenerbitRepository::get(int kode)
+PenerbitDetailData *PenerbitRepository::get(int kode)
 {
     QSqlQuery query;
     query.prepare("SELECT "
@@ -52,8 +51,10 @@ PenerbitData *PenerbitRepository::get(int kode)
     if (!query.exec())
         qFatal() << "Cannot get Penerbit " << query.lastError().text();
 
-    return query.next() ? new PenerbitData(query.value(0).toInt(), query.value(1).toString(),
-                                           query.value(2).toString()) : new PenerbitData();
+    return query.next() ? new PenerbitDetailData(query.value(0).toInt(),
+                                                 query.value(1).toString(),
+                                                 query.value(2).toString())
+                        : new PenerbitDetailData();
 }
 
 void PenerbitRepository::add(QString nama, QString alamat)

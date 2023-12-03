@@ -14,7 +14,7 @@ PenerbitViewModel::PenerbitViewModel(QObject *parent)
 void PenerbitViewModel::refreshSelectedItem()
 {
     if (mSelectedIndex < 0 || mSelectedIndex >= mList.count())
-        mSelectedData.reset(new PenerbitData());
+        mSelectedData.reset(new PenerbitDetailData());
     else mSelectedData.reset(mRepository->get(mList.at(mSelectedIndex)->kode()));
 
     emit selectedDataChanged();
@@ -51,7 +51,7 @@ QList<PenerbitData *> PenerbitViewModel::list() const
     return mList;
 }
 
-PenerbitData *PenerbitViewModel::selectedData() const
+PenerbitDetailData *PenerbitViewModel::selectedData() const
 {
     return mSelectedData.get();
 }

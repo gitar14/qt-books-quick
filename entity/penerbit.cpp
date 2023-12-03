@@ -1,10 +1,9 @@
 #include "penerbit.h"
 
-PenerbitData::PenerbitData(int kode, const QString &nama, const QString &alamat)
+PenerbitData::PenerbitData(int kode, const QString &nama)
     : QObject(),
     mKode(kode),
-    mNama(nama),
-    mAlamat(alamat)
+    mNama(nama)
 {}
 
 int PenerbitData::kode() const
@@ -17,7 +16,14 @@ QString PenerbitData::nama() const
     return mNama;
 }
 
-QString PenerbitData::alamat() const
+PenerbitDetailData::PenerbitDetailData(int kode, const QString &nama, const QString &alamat)
+    : PenerbitData(kode, nama),
+    mAlamat(alamat)
+{
+
+}
+
+QString PenerbitDetailData::alamat() const
 {
     return mAlamat;
 }

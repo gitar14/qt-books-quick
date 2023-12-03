@@ -10,7 +10,7 @@ class PenerbitViewModel : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QList<PenerbitData*> list READ list NOTIFY listChanged FINAL)
-    Q_PROPERTY(PenerbitData* selectedData READ selectedData NOTIFY selectedDataChanged)
+    Q_PROPERTY(PenerbitDetailData* selectedData READ selectedData NOTIFY selectedDataChanged)
     Q_PROPERTY(bool hasSelectedItem READ hasSelectedItem NOTIFY hasSelectedItemChanged)
     Q_PROPERTY(QString textQuery READ textQuery WRITE setTextQuery NOTIFY textQueryChanged)
     QML_ELEMENT
@@ -24,7 +24,7 @@ public:
     Q_INVOKABLE void removeSelected();
 
     QList<PenerbitData *> list() const;
-    PenerbitData *selectedData() const;
+    PenerbitDetailData *selectedData() const;
     bool hasSelectedItem() const;
 
 signals:
@@ -40,7 +40,7 @@ private:
     PenerbitRepository* mRepository;
     ScopedObjectList<PenerbitData> mList;
     int mSelectedIndex;
-    QScopedPointer<PenerbitData, QScopedPointerDeleteLater> mSelectedData;
+    QScopedPointer<PenerbitDetailData, QScopedPointerDeleteLater> mSelectedData;
     QString mTextQuery;
 
     void refreshSelectedItem();

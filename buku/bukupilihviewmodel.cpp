@@ -12,7 +12,7 @@ BukuPilihViewModel::BukuPilihViewModel(QObject *parent)
     mKategoriFilterList.prepend(new KategoriData(-1, "Semua"));
 
     mPenerbitFilterList = repositoryManager->getPenerbit()->getAll("");
-    mPenerbitFilterList.prepend(new PenerbitData(-1, "Semua", ""));
+    mPenerbitFilterList.prepend(new PenerbitData(-1, "Semua"));
 
     mRepository = repositoryManager->getBuku(),
     connect(mRepository, SIGNAL(dataChanged()), this, SLOT(refresh()));

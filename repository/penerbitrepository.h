@@ -11,7 +11,7 @@ public:
     explicit PenerbitRepository(QObject *parent = nullptr);
 
     QList<PenerbitData*> getAll(QString textQuery);
-    PenerbitData* get(int kode);
+    PenerbitDetailData *get(int kode);
     void add(QString nama, QString alamat);
     void edit(int kode, QString nama, QString alamat);
     void remove(int kode);
