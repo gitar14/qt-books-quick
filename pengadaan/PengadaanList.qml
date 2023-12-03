@@ -26,11 +26,17 @@ Item {
             onClicked: pengadaanListView.currentIndex = index
             padding: 16
 
-            contentItem: Label {
-                id: pengadaanListItemContent
-                text: TextHighlighter.highlightText(modelData.sumber, currentViewModel.textQuery)
-                verticalAlignment: Qt.AlignVCenter
-                textFormat: Label.StyledText
+            contentItem: ColumnLayout {
+                Label {
+                    text: TextHighlighter.highlightText(modelData.sumber, currentViewModel.textQuery)
+                    textFormat: Label.StyledText
+                    font.pixelSize: 16
+                    font.bold: true
+                }
+
+                Label {
+                    text: Qt.formatDate(modelData.tanggalPengadaan, locale, Locale.LongFormat)
+                }
             }
         }
     }
