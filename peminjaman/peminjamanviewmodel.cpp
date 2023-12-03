@@ -59,8 +59,9 @@ PeminjamanDendaCalculator *PeminjamanViewModel::selectedDenda() const
 
 void PeminjamanViewModel::tandaiBelumDikembalikanSelected()
 {
-    mRepository->tandaiBelumDikembalikan(mSelectedData->kode());
-    mRepository->resetDendaBuku(mSelectedData->kode());
+    int kode = mSelectedData->kode();
+    mRepository->tandaiBelumDikembalikan(kode);
+    mRepository->resetDendaBuku(kode);
 }
 
 void PeminjamanViewModel::removeSelectedItem()
