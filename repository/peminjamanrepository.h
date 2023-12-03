@@ -25,6 +25,7 @@ public:
     void resetDendaBuku(int kode);
 
     int getJumlahBukuDipinjam(int kodeBuku);
+    QList<int> getMemberPeminjamanBelumDikembalikanList();
 signals:
     void dataChanged();
 private:

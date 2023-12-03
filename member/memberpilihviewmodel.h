@@ -13,6 +13,7 @@ class MemberPilihViewModel : public QObject
     Q_PROPERTY(int selectedKode READ selectedKode NOTIFY selectedKodeChanged FINAL)
     Q_PROPERTY(bool hasSelectedItem READ hasSelectedItem NOTIFY hasSelectedItemChanged)
     Q_PROPERTY(QString textQuery READ textQuery WRITE setTextQuery NOTIFY textQueryChanged FINAL)
+    Q_PROPERTY(QList<int> ignoredKode READ ignoredKode WRITE setIgnoredKode NOTIFY ignoredKodeChanged FINAL)
     QML_ELEMENT
 public:
     explicit MemberPilihViewModel(QObject *parent = nullptr);
@@ -27,11 +28,16 @@ public:
 
     Q_INVOKABLE void init();
 
+    QList<int> ignoredKode() const;
+    void setIgnoredKode(const QList<int> &newIgnoredKode);
+
 signals:
     void listChanged();
     void selectedKodeChanged();
     void hasSelectedItemChanged();
     void textQueryChanged();
+
+    void ignoredKodeChanged();
 
 public slots:
     void refresh();
@@ -45,6 +51,7 @@ private:
     int mSelectedIndex;
     int mSelectedKode;
     QString mTextQuery;
+    QList<int> mIgnoredKode;
 
     void refreshSelectedItem();
 };

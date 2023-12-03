@@ -11,6 +11,7 @@ class PeminjamanEditViewModel : public QObject
     Q_PROPERTY(bool isNew READ isNew NOTIFY isNewChanged)
     Q_PROPERTY(int kodeMember READ kodeMember WRITE setKodeMember NOTIFY kodeMemberChanged FINAL)
     Q_PROPERTY(QString namaMember READ namaMember NOTIFY namaMemberChanged FINAL)
+    Q_PROPERTY(QList<int> ignoredMemberKode READ ignoredMemberKode NOTIFY ignoredMemberKodeChanged FINAL)
     Q_PROPERTY(QDate tanggalPeminjaman READ tanggalPeminjaman WRITE setTanggalPeminjaman NOTIFY tanggalPeminjamanChanged FINAL)
     Q_PROPERTY(int lamaPeminjaman READ lamaPeminjaman WRITE setLamaPeminjaman NOTIFY lamaPeminjamanChanged FINAL)
     Q_PROPERTY(QList<PeminjamanBukuData *> bukuList READ bukuList NOTIFY bukuListChanged FINAL)
@@ -40,6 +41,8 @@ public:
 
     Q_INVOKABLE void submit();
 
+    QList<int> ignoredMemberKode() const;
+
 signals:
     void isNewChanged();
     void kodeMemberChanged();
@@ -49,6 +52,7 @@ signals:
     void bukuListChanged();
     void kodeBukuListChanged();
     void isBukuAvailableChanged();
+    void ignoredMemberKodeChanged();
 
 private:
     PeminjamanRepository* mRepository;
@@ -61,6 +65,7 @@ private:
     QList<PeminjamanBukuData*> mBukuList;
     QList<int> mKodeBukuList;
     int mIsBukuAvailable;
+    QList<int> mIgnoredMemberKode;
 
     void refreshAvailableBuku();
 };

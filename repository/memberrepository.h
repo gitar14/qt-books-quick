@@ -11,7 +11,7 @@ class MemberRepository : public QObject
 public:
     explicit MemberRepository(QObject *parent = nullptr);
 
-    QList<MemberData*> getAll(QString textQuery);
+    QList<MemberData*> getAll(QList<int> ignoredKode, QString textQuery);
     MemberDetailData* get(int kode);
     void add(QString namaDepan, QString namaBelakang, QDate tanggalLahir);
     void edit(int kode, QString namaDepan, QString namaBelakang, QDate tanggalLahir);

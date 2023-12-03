@@ -53,10 +53,24 @@ void MemberPilihViewModel::init()
 
 void MemberPilihViewModel::refresh()
 {
-    mList = mRepository->getAll(mTextQuery);
+    mList = mRepository->getAll(mIgnoredKode, mTextQuery);
 
     emit listChanged();
     refreshSelectedItem();
+}
+
+void MemberPilihViewModel::setIgnoredKode(const QList<int> &newIgnoredKode)
+{
+    if (mIgnoredKode == newIgnoredKode)
+        return;
+    mIgnoredKode = newIgnoredKode;
+    emit ignoredKodeChanged();
+    refresh();
+}
+
+QList<int> MemberPilihViewModel::ignoredKode() const
+{
+    return mIgnoredKode;
 }
 
 void MemberPilihViewModel::refreshSelectedItem()

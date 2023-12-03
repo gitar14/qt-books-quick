@@ -9,7 +9,7 @@ MemberRepository::MemberRepository(QObject *parent)
 
 }
 
-QList<MemberData *> MemberRepository::getAll(QString textQuery)
+QList<MemberData *> MemberRepository::getAll(QList<int> ignoredKode, QString textQuery)
 {
     QHash<QString,QVariant>binds;
     QString queryString = "SELECT "
@@ -17,9 +17,21 @@ QList<MemberData *> MemberRepository::getAll(QString textQuery)
                           "   nama_depan_member,"
                           "   nama_belakang_member "
                           "FROM Member";
+    QStringList filterList;
+
     if (textQuery.length() > 0) {
-        queryString += " WHERE (nama_depan_member || ' ' || nama_belakang_member) LIKE :textQuery";
+        filterList.append("(nama_depan_member || ' ' || nama_belakang_member) LIKE :textQuery");
         binds[":textQuery"]="%"+ textQuery +"%";
+    }
+
+    if (ignoredKode.length() > 0) {
+        filterList.append(QStringLiteral("kd_member NOT IN (%1)").arg(
+            SQLHelper::generateArrayBinds(":ignored_kode_", ignoredKode, binds)
+            ));
+    }
+
+    if (filterList.length() > 0) {
+        queryString += " WHERE " + filterList.join(" AND ");
     }
 
     QSqlQuery query;

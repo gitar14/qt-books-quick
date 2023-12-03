@@ -356,6 +356,23 @@ int PeminjamanRepository::getJumlahBukuDipinjam(int kodeBuku)
     return query.next() ? query.value(0).toInt() : 0;
 }
 
+QList<int> PeminjamanRepository::getMemberPeminjamanBelumDikembalikanList()
+{
+    QSqlQuery query;
+    if (!query.exec("SELECT "
+                    "   kd_member "
+                    "FROM Detail_Peminjaman "
+                    "WHERE tanggal_pengembalian IS NULL"))
+        qFatal() << "Cannot get member dengan peminjaman belum dikembalikan " << query.lastError().text();
+
+    QList<int> result;
+
+    while (query.next())
+        result.append(query.value(0).toInt());
+
+    return result;
+}
+
 const QStringList PeminjamanRepository::bukuCandidateKey = {"kd_detail_peminjaman", "kd_buku"};
 
 void PeminjamanRepository::internalUpdateAllBuku(int kode, QList<PeminjamanBukuData *> bukuList)

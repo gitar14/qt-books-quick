@@ -4,6 +4,7 @@
 #include "repository/memberrepository.h"
 #include "repository/userrepository.h"
 #include "usermanager.h"
+#include <algorithm>
 
 PeminjamanEditViewModel::PeminjamanEditViewModel(QObject *parent)
     : QObject{parent}, mRepository{RepositoryManager::getInstance()->getPeminjaman()}
@@ -23,11 +24,20 @@ void PeminjamanEditViewModel::configure(int kode)
 
     mBukuList = mRepository->getBukuList(kode);
 
+    mIgnoredMemberKode = mRepository->getMemberPeminjamanBelumDikembalikanList();
+
+    if (kode != -1) {
+        qsizetype index = mIgnoredMemberKode.indexOf(mKodeMember);
+        if (index != -1)
+            mIgnoredMemberKode.remove(index);
+    }
+
     emit kodeMemberChanged();
     emit namaMemberChanged();
     emit tanggalPeminjamanChanged();
     emit lamaPeminjamanChanged();
     emit bukuListChanged();
+    emit ignoredMemberKodeChanged();
 
     refreshAvailableBuku();
 }
@@ -142,4 +152,9 @@ void PeminjamanEditViewModel::refreshAvailableBuku()
 bool PeminjamanEditViewModel::isNew() const
 {
     return mKode == -1;
+}
+
+QList<int> PeminjamanEditViewModel::ignoredMemberKode() const
+{
+    return mIgnoredMemberKode;
 }
