@@ -20,8 +20,8 @@ Page {
             }
 
             SearchField {
-//                 text: peminjamanBukuModel.textQuery
-//                 onTextChanged: peminjamanBukuModel.textQuery = text
+                 text: viewModel.textQuery
+                 onTextChanged: viewModel.textQuery = text
             }
         }
     }

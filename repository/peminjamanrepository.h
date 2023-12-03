@@ -10,7 +10,7 @@ class PeminjamanRepository : public QObject
 public:
     explicit PeminjamanRepository(QObject *parent = nullptr);
 
-    QList<PeminjamanData*> getList(PeminjamanData::StatusFilter statusFilter);
+    QList<PeminjamanData*> getList(PeminjamanData::StatusFilter statusFilter, QString textQuery);
     PeminjamanDetailData* get(int kode);
     int add(int kodeMember, QString idUser, QDate tanggal, int lama);
     void update(int kode, int kodeMember, QDate tanggal, int lama);

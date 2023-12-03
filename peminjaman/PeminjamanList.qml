@@ -71,7 +71,7 @@ Item {
 
                 contentItem: ColumnLayout {
                     Label {
-                        text: modelData.namaMember
+                        text: TextHighlighter.highlightText(modelData.namaMember, currentViewModel.textQuery)
                         font.pixelSize: 16
                         font.bold: true
                     }

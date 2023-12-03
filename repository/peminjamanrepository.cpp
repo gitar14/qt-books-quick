@@ -9,7 +9,7 @@ PeminjamanRepository::PeminjamanRepository(QObject *parent)
 
 }
 
-QList<PeminjamanData *> PeminjamanRepository::getList(PeminjamanData::StatusFilter statusFilter)
+QList<PeminjamanData *> PeminjamanRepository::getList(PeminjamanData::StatusFilter statusFilter, QString textQuery)
 {
     QSqlDatabase db = QSqlDatabase::database();
     QString queryString = "SELECT "
@@ -23,7 +23,7 @@ QList<PeminjamanData *> PeminjamanRepository::getList(PeminjamanData::StatusFilt
                           "FROM Detail_Peminjaman "
                           "JOIN Member"
                           "   ON Member.kd_member = Detail_Peminjaman.kd_member";
-
+    QHash<QString, QVariant> bindsMap;
     QStringList filterList;
 
     switch (statusFilter) {
@@ -46,12 +46,20 @@ QList<PeminjamanData *> PeminjamanRepository::getList(PeminjamanData::StatusFilt
         break;
     }
 
+    if (textQuery.length() > 0) {
+        filterList.append("(Member.nama_depan_member || ' ' || Member.nama_belakang_member) LIKE :text_query");
+        bindsMap[":text_query"] = "%" + textQuery + "%";
+    }
+
     if (filterList.length() > 0)
         queryString.append(QStringLiteral(" WHERE %1").arg(filterList.join(" AND ")));
 
     QSqlQuery query(db);
 
-    if (!query.exec(queryString))
+    query.prepare(queryString);
+    SQLHelper::applyBindMaps(query, bindsMap);
+
+    if (!query.exec())
         qFatal() << "Cannot query Peminjaman " << query.lastError().text();
 
     QList<PeminjamanData*> result;

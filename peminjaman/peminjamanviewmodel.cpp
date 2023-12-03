@@ -44,7 +44,8 @@ void PeminjamanViewModel::setStatusFilter(PeminjamanData::StatusFilter newStatus
 }
 
 void PeminjamanViewModel::refresh()
-{    mList = mRepository->getList(mStatusFilter);
+{
+    mList = mRepository->getList(mStatusFilter, mTextQuery);
 
     emit listChanged();
 
