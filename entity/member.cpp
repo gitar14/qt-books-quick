@@ -1,16 +1,12 @@
 #include "member.h"
 
-MemberData::MemberData(
-    int kode,
+MemberData::MemberData(int kode,
     const QString &namaDepan,
-    const QString &namaBelakang,
-    const QDate &tanggalLahir
-    )
+    const QString &namaBelakang)
     : QObject(),
     mKode(kode),
     mNamaDepan(namaDepan),
-    mNamaBelakang(namaBelakang),
-    mTanggalLahir(tanggalLahir)
+    mNamaBelakang(namaBelakang)
 {}
 
 
@@ -29,17 +25,28 @@ QString MemberData::namaBelakang() const
     return mNamaBelakang;
 }
 
-QDate MemberData::tanggalLahir() const
-{
-    return mTanggalLahir;
-}
-
 QString MemberData::nama() const
 {
     return mNamaDepan + " " + mNamaBelakang;
 }
 
-int MemberData::umur() const
+
+MemberDetailData::MemberDetailData(int kode,
+                                   const QString &namaDepan,
+                                   const QString &namaBelakang,
+                                   const QDate &tanggalLahir)
+    : MemberData(kode, namaDepan, namaBelakang),
+    mTanggalLahir(tanggalLahir)
+{
+
+}
+
+QDate MemberDetailData::tanggalLahir() const
+{
+    return mTanggalLahir;
+}
+
+int MemberDetailData::umur() const
 {
     QDate now = QDate::currentDate();
     int age = now.year() - mTanggalLahir.year();

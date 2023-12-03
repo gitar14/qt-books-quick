@@ -9,12 +9,12 @@
 class MemberViewModel : public MemberPilihViewModel
 {
     Q_OBJECT
-    Q_PROPERTY(MemberData *selectedData READ selectedData NOTIFY selectedDataChanged FINAL)
+    Q_PROPERTY(MemberDetailData *selectedData READ selectedData NOTIFY selectedDataChanged FINAL)
     QML_ELEMENT
 public:
     explicit MemberViewModel(QObject *parent = nullptr);
 
-    MemberData *selectedData() const;
+    MemberDetailData *selectedData() const;
 
     Q_INVOKABLE void removeSelectedItem();
 
@@ -24,7 +24,7 @@ private slots:
     void refreshSelectedData();
 
 private:
-    QScopedPointer<MemberData, QScopedPointerDeleteLater> mSelectedData;
+    QScopedPointer<MemberDetailData, QScopedPointerDeleteLater> mSelectedData;
 };
 
 #endif // MEMBERVIEWMODEL_H

@@ -12,7 +12,7 @@ public:
     explicit MemberRepository(QObject *parent = nullptr);
 
     QList<MemberData*> getAll(QString textQuery);
-    MemberData* get(int kode);
+    MemberDetailData* get(int kode);
     void add(QString namaDepan, QString namaBelakang, QDate tanggalLahir);
     void edit(int kode, QString namaDepan, QString namaBelakang, QDate tanggalLahir);
     void remove(int kode);

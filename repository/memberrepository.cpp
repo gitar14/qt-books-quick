@@ -15,8 +15,7 @@ QList<MemberData *> MemberRepository::getAll(QString textQuery)
     QString queryString = "SELECT "
                           "   kd_member,"
                           "   nama_depan_member,"
-                          "   nama_belakang_member,"
-                          "   tanggal_lahir "
+                          "   nama_belakang_member "
                           "FROM Member";
     if (textQuery.length() > 0) {
         queryString += " WHERE (nama_depan_member || ' ' || nama_belakang_member) LIKE :textQuery";
@@ -36,15 +35,14 @@ QList<MemberData *> MemberRepository::getAll(QString textQuery)
         result.push_back(new MemberData(
             query.value(0).toInt(),
             query.value(1).toString(),
-            query.value(2).toString(),
-            query.value(3).toDate()
+            query.value(2).toString()
             ));
     }
 
     return result;
 }
 
-MemberData *MemberRepository::get(int kode)
+MemberDetailData *MemberRepository::get(int kode)
 {
     QSqlQuery query;
     query.prepare("SELECT "
@@ -59,12 +57,12 @@ MemberData *MemberRepository::get(int kode)
     if (!query.exec())
         qFatal() << "Cannot get Member data " << query.lastError().text();
 
-    return query.next() ? new MemberData(
+    return query.next() ? new MemberDetailData(
         query.value(0).toInt(),
         query.value(1).toString(),
         query.value(2).toString(),
         query.value(3).toDate()
-               ) : new MemberData();
+               ) : new MemberDetailData();
 }
 
 void MemberRepository::add(QString namaDepan, QString namaBelakang, QDate tanggalLahir)

@@ -42,15 +42,9 @@ Item {
                     text: TextHighlighter.highlightText(modelData.nama, currentViewModel.textQuery)
                     horizontalAlignment: Qt.AlignHCenter
                     wrapMode: Label.Wrap
-                    maximumLineCount: 2
                     elide: Text.ElideRight
                     textFormat: Label.StyledText
-                }
-                Label {
-                    Layout.fillWidth: true
-                    text: Qt.formatDate(modelData.tanggalLahir, locale, locale.LongFormat)
-                    horizontalAlignment: Qt.AlignHCenter
-                    wrapMode: Text.Wrap
+                    maximumLineCount: 3
                 }
             }
         }

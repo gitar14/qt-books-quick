@@ -8,7 +8,7 @@ MemberViewModel::MemberViewModel(QObject *parent)
 }
 
 
-MemberData *MemberViewModel::selectedData() const
+MemberDetailData *MemberViewModel::selectedData() const
 {
     return mSelectedData.get();
 }
@@ -21,7 +21,7 @@ void MemberViewModel::removeSelectedItem()
 void MemberViewModel::refreshSelectedData()
 {
     if (selectedKode() == -1)
-        mSelectedData.reset(new MemberData());
+        mSelectedData.reset(new MemberDetailData());
     else mSelectedData.reset(mRepository->get(selectedKode()));
 
     emit selectedDataChanged();

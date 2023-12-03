@@ -18,7 +18,8 @@ void MemberEditViewModel::configure(int kode)
 {
     mKode = kode;
 
-    QScopedPointer<MemberData> data(mKode != -1 ? mRepository->get(mKode) : new MemberData());
+    QScopedPointer<MemberDetailData> data(mKode != -1 ? mRepository->get(mKode)
+                                                      : new MemberDetailData());
 
     mNamaDepanField->setValue(data->namaDepan());
     mNamaBelakangField->setValue(data->namaBelakang());
