@@ -15,17 +15,15 @@ Item {
         id: userGrid
         onCurrentIndexChanged: currentViewModel.setSelectedIndex(currentIndex)
         model: currentViewModel.list
-        cellHeight: 108
 
         delegate: CardDelegate {
             width: GridView.view.itemWidth
             height: GridView.view.itemHeight
             highlighted: GridView.isCurrentItem
             onClicked: GridView.view.currentIndex = index
-            padding: 16
+            padding: 8
 
             contentItem: ColumnLayout {
-                spacing: 2
 
                 Image {
                     source: "qrc:/icons/user-black.svg"
@@ -36,9 +34,6 @@ Item {
                     sourceSize.width: 48
                     sourceSize.height: 48
                 }
-                Rectangle {
-                    Layout.fillHeight: true
-                }
 
                 Label {
                     text: TextHighlighter.highlightText(modelData.nama,
@@ -46,7 +41,7 @@ Item {
                     Layout.fillWidth: true
                     horizontalAlignment: Qt.AlignHCenter
                     textFormat: Label.StyledText
-                    maximumLineCount: 2
+                    maximumLineCount: 3
                     elide: Label.ElideRight
                     wrapMode: Label.Wrap
                 }

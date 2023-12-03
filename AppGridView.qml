@@ -10,7 +10,7 @@ GridView {
     anchors.bottom: parent.bottom
     anchors.topMargin: 16
     height: parent.height
-    cellWidth: 125
+    cellWidth: 128
     cellHeight: 150
 
     property int itemWidth: cellWidth - 8

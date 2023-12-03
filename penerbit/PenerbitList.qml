@@ -17,12 +17,11 @@ Item  {
         model: currentViewModel.list
 
         onCurrentIndexChanged: currentViewModel.setSelectedIndex(currentIndex)
-        cellHeight: 125
 
         delegate: CardDelegate {
             width: GridView.view.cellWidth - 8
             height: GridView.view.cellHeight - 8
-            padding: 16
+            padding: 8
             highlighted: GridView.isCurrentItem
             onClicked: penerbitGridView.currentIndex = index
 
@@ -44,6 +43,8 @@ Item  {
                     horizontalAlignment: Qt.AlignHCenter
                     textFormat: Label.StyledText
                     wrapMode: Label.Wrap
+                    maximumLineCount: 3
+                    elide: Label.ElideRight
                 }
             }
         }

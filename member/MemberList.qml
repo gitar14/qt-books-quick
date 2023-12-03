@@ -24,7 +24,7 @@ Item {
             height: GridView.view.cellHeight - 8
             highlighted: GridView.isCurrentItem
             onClicked: memberGridView.currentIndex = index
-            padding: 16
+            padding: 8
 
             contentItem: ColumnLayout{
                 Image {

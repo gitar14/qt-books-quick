@@ -15,18 +15,15 @@ Item {
         id: kategoriGrid
         onCurrentIndexChanged: currentViewModel.setSelectedIndex(currentIndex)
         model: currentViewModel.list
-        cellHeight: 100
 
         delegate: CardDelegate {
             width: GridView.view.cellWidth - 8
             height: GridView.view.cellHeight - 8
             highlighted: GridView.isCurrentItem
             onClicked: GridView.view.currentIndex = index
-            padding: 16
+            padding: 8
 
             contentItem: ColumnLayout {
-                spacing: 2
-
                 Image {
                     source: "qrc:/icons/buku-black.svg"
                     fillMode: Image.PreserveAspectFit
@@ -40,7 +37,11 @@ Item {
                 Label {
                     text: TextHighlighter.highlightText(modelData.nama, currentViewModel.textQuery)
                     textFormat: Label.StyledText
-                    Layout.alignment: Qt.AlignHCenter
+                    Layout.fillWidth: true
+                    horizontalAlignment: Qt.AlignHCenter
+                    wrapMode: Label.Wrap
+                    maximumLineCount: 3
+                    elide: Label.ElideRight
                 }
             }
         }
