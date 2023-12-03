@@ -39,7 +39,11 @@ void MemberPilihViewModel::setTextQuery(const QString &newTextQuery)
 
 void MemberPilihViewModel::setSelectedIndex(int index)
 {
+    if (index == mSelectedIndex)
+        return;
+
     mSelectedIndex = index;
+    emit selectedIndexChanged();
     refreshSelectedItem();
 }
 
@@ -82,4 +86,29 @@ void MemberPilihViewModel::refreshSelectedItem()
     emit selectedKodeChanged();
     emit hasSelectedItemChanged();
 
+}
+
+void MemberPilihViewModel::setSelectedKode(int newSelectedKode)
+{
+    if (mSelectedKode == newSelectedKode)
+        return;
+    mSelectedKode = newSelectedKode;
+
+    int index = -1;
+    for (int i = 0; i < mList.length(); i++) {
+        if (mList.at(i)->kode() == newSelectedKode) {
+            index = i;
+            break;
+        }
+    }
+    mSelectedIndex = index;
+
+    emit selectedKodeChanged();
+    emit selectedIndexChanged();
+    emit hasSelectedItemChanged();
+}
+
+int MemberPilihViewModel::selectedIndex() const
+{
+    return mSelectedIndex;
 }

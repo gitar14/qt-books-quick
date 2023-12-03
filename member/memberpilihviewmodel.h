@@ -10,7 +10,8 @@ class MemberPilihViewModel : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QList<MemberData *> list READ list NOTIFY listChanged FINAL)
-    Q_PROPERTY(int selectedKode READ selectedKode NOTIFY selectedKodeChanged FINAL)
+    Q_PROPERTY(int selectedKode READ selectedKode WRITE setSelectedKode NOTIFY selectedKodeChanged FINAL)
+    Q_PROPERTY(int selectedIndex READ selectedIndex WRITE setSelectedIndex NOTIFY selectedIndexChanged FINAL)
     Q_PROPERTY(bool hasSelectedItem READ hasSelectedItem NOTIFY hasSelectedItemChanged)
     Q_PROPERTY(QString textQuery READ textQuery WRITE setTextQuery NOTIFY textQueryChanged FINAL)
     Q_PROPERTY(QList<int> ignoredKode READ ignoredKode WRITE setIgnoredKode NOTIFY ignoredKodeChanged FINAL)
@@ -24,12 +25,16 @@ public:
     QString textQuery() const;
     void setTextQuery(const QString &newTextQuery);
 
-    Q_INVOKABLE void setSelectedIndex(int index);
+    void setSelectedIndex(int index);
 
     Q_INVOKABLE void init();
 
     QList<int> ignoredKode() const;
     void setIgnoredKode(const QList<int> &newIgnoredKode);
+
+    void setSelectedKode(int newSelectedKode);
+
+    int selectedIndex() const;
 
 signals:
     void listChanged();
@@ -38,6 +43,8 @@ signals:
     void textQueryChanged();
 
     void ignoredKodeChanged();
+
+    void selectedIndexChanged();
 
 public slots:
     void refresh();

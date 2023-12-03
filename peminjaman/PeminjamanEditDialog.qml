@@ -67,6 +67,7 @@ Dialog {
                     onClicked: {
                         memberPilihDialog.viewModel.init()
                         memberPilihDialog.viewModel.ignoredKode = dialog.viewModel.ignoredMemberKode
+                        memberPilihDialog.viewModel.selectedKode = dialog.viewModel.kodeMember
                         memberPilihDialog.open()
                     }
                     text: "Ganti"

@@ -16,7 +16,7 @@ Item {
         id: memberGridView
         model: currentViewModel.list
 
-        onCurrentIndexChanged: currentViewModel.setSelectedIndex(currentIndex)
+        onCurrentIndexChanged: currentViewModel.selectedIndex = currentIndex
 
         delegate: CardDelegate {
             property var itemData: model

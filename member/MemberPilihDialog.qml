@@ -11,27 +11,31 @@ Dialog {
     standardButtons: Dialog.Ok | Dialog.Cancel
     width: 400
 
-    property MemberViewModel viewModel: MemberViewModel {}
+    property MemberPilihViewModel viewModel: MemberPilihViewModel {}
 
     ColumnLayout {
         anchors.fill: parent
 
         TextField {
             Layout.fillWidth: true
+            text: viewModel.textQuery
+            onTextChanged: viewModel.textQuery = text
         }
 
         ListView {
             id: memberListView
             Layout.fillHeight: true
             Layout.fillWidth: true
-            onCurrentIndexChanged: viewModel.setSelectedIndex(currentIndex)
+            currentIndex: viewModel.selectedIndex
+            onCurrentIndexChanged: viewModel.selectedIndex = currentIndex
             model: viewModel.list
+            spacing: 8
 
             delegate: CardDelegate {
                 property var itemData: model
                 highlighted: ListView.isCurrentItem
                 onClicked: memberListView.currentIndex = index
-                text: modelData.nama
+                text: TextHighlighter.highlightText(modelData.nama, viewModel.textQuery)
             }
         }
     }
