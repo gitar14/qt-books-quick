@@ -6,7 +6,7 @@ import Kelompok7.Perpus
 Dialog {
     parent: Overlay.overlay
     anchors.centerIn: parent
-    contentHeight: parent.height
+    contentHeight: rootLayout.implicitHeight
     modal: true
     standardButtons: Dialog.Ok | Dialog.Cancel
 
@@ -14,6 +14,7 @@ Dialog {
 
 
     ColumnLayout {
+        id: rootLayout
         anchors.fill: parent
 
         TextField {
@@ -29,6 +30,7 @@ Dialog {
             model: viewModel.list
             onCurrentIndexChanged: viewModel.setSelectedIndex(currentIndex)
 //            highlightedText: listModel.textQuery
+            implicitHeight: contentHeight
         }
     }
 }

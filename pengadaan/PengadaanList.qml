@@ -25,6 +25,7 @@ Item {
             width: ListView.view.width
             onClicked: pengadaanListView.currentIndex = index
             padding: 16
+            clip: true
 
             contentItem: ColumnLayout {
                 Label {

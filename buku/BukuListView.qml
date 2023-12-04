@@ -8,6 +8,7 @@ ListView {
     property string highlightedText: ""
     id: bukuListView
     spacing: 8
+    clip: true
 
     delegate: CardDelegate {
         property var listView: ListView.view

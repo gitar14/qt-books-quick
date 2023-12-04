@@ -60,6 +60,7 @@ Item {
             model: currentViewModel.list
             spacing: 8
             onCurrentIndexChanged: currentViewModel.setSelectedIndex(currentIndex)
+            clip: true
 
             delegate: CardDelegate {
                 id: peminjamanlistItem

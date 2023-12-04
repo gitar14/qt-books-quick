@@ -135,6 +135,7 @@ BaseDetailFrame {
             Layout.fillWidth: true
             model: currentViewModel.selectedBukuList
             spacing: 8
+            clip: true
 
             delegate: Pane {
                 width: ListView.view.width
