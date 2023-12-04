@@ -16,7 +16,6 @@ Item {
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: 16
-        anchors.bottomMargin: 64 + 16 + 16
 
         BukuFilter {
             currentViewModel: list.currentViewModel
@@ -29,6 +28,7 @@ Item {
             onCurrentIndexChanged: currentViewModel.setSelectedIndex(currentIndex)
             model: currentViewModel.list
             highlightedText: currentViewModel.textQuery
+            bottomMargin: 64 + 16
         }
     }
 

@@ -18,6 +18,7 @@ Item {
         model: currentViewModel.list
         onCurrentIndexChanged: currentViewModel.setSelectedIndex(currentIndex)
         spacing: 8
+        bottomMargin: 64 + 16
 
         delegate: CardDelegate {
             id: pengadaanListItem

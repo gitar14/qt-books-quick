@@ -61,6 +61,7 @@ Item {
             spacing: 8
             onCurrentIndexChanged: currentViewModel.setSelectedIndex(currentIndex)
             clip: true
+            bottomMargin: 64 + 16
 
             delegate: CardDelegate {
                 id: peminjamanlistItem
