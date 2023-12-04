@@ -15,6 +15,7 @@ Item {
     Frame {
         anchors.centerIn: parent
         width: 384
+        background: CardBackground {}
 
         ColumnLayout {
             anchors.fill: parent

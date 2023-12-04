@@ -1,6 +1,7 @@
 ﻿import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Controls.Material
 import Kelompok7.Perpus
 
 Item {
@@ -20,10 +21,14 @@ Item {
     }
 
     Frame {
+        id: frame
         anchors.centerIn: parent
         width: 384
         contentHeight: stackView.currentItem.implicitHeight
         clip: true
+        background: CardBackground {
+
+        }
 
         StackView {
             id: stackView

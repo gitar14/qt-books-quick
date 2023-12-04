@@ -14,62 +14,71 @@ Item {
     Frame {
         anchors.centerIn: parent
         width: 384
-        height: Math.min(parent.height - 64, columnLayout.height)
+        height: Math.min(parent.height - 64, rootLayout.implicitHeight)
+        background: CardBackground {}
 
-        Flickable {
-            contentHeight: columnLayout.height
-            clip: true
+        ColumnLayout {
+            id: rootLayout
             anchors.fill: parent
 
-            ColumnLayout {
-                id: columnLayout
-                width: parent.width
+            Label {
+                text: "Buat Akun Admin"
+                Layout.alignment: Qt.AlignHCenter
+                font.pixelSize: 20
+                padding: 8
+            }
 
-                Label {
-                    text: "Buat Akun Admin"
-                    Layout.alignment: Qt.AlignHCenter
-                    font.pixelSize: 20
-                }
+            Flickable {
+                contentHeight: columnLayout.height
+                implicitHeight: contentHeight
+                clip: true
+                Layout.fillHeight: true
+                Layout.fillWidth: true
 
-                AppTextField {
-                    title: "ID"
-                    field: viewModel.idField
-                    validator: RegularExpressionValidator {
-                        regularExpression: /(?:\d|\w)*/
+                ColumnLayout {
+                    id: columnLayout
+                    width: parent.width
+
+                    AppTextField {
+                        title: "ID"
+                        field: viewModel.idField
+                        validator: RegularExpressionValidator {
+                            regularExpression: /(?:\d|\w)*/
+                        }
+                    }
+
+                    AppTextField {
+                        title: "Nama Depan"
+                        field: viewModel.namaDepanField
+                    }
+
+                    AppTextField {
+                        title: "Nama Belakang"
+                        field: viewModel.namaBelakakngField
+                    }
+
+                    AppTextField {
+                        title: "Password"
+                        field: viewModel.password
+                        echoMode: TextInput.Password
+                    }
+
+                    AppTextField {
+                        title: "Password Ulang"
+                        field: viewModel.passwordUlang
+                        echoMode: TextInput.Password
                     }
                 }
+            }
 
-                AppTextField {
-                    title: "Nama Depan"
-                    field: viewModel.namaDepanField
-                }
-
-                AppTextField {
-                    title: "Nama Belakang"
-                    field: viewModel.namaBelakakngField
-                }
-
-                AppTextField {
-                    title: "Password"
-                    field: viewModel.password
-                    echoMode: TextInput.Password
-                }
-
-                AppTextField {
-                    title: "Password Ulang"
-                    field: viewModel.passwordUlang
-                    echoMode: TextInput.Password
-                }
-
-                Button {
-                    Layout.alignment: Qt.AlignRight
-                    text: "Buat Akun"
-                    highlighted: true
-                    enabled: viewModel.isValid
-                    onClicked: {
-                        viewModel.submit()
-                        userCreated()
-                    }
+            Button {
+                Layout.alignment: Qt.AlignRight
+                text: "Buat Akun"
+                highlighted: true
+                enabled: viewModel.isValid
+                onClicked: {
+                    viewModel.submit()
+                    userCreated()
                 }
             }
         }
