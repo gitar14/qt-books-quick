@@ -77,7 +77,7 @@ ApplicationWindow {
                 from: (mainStackView.mirrored ? -1 : 1) * mainStackView.width
                 to: 0
                 duration: 1000
-                easing.type: Easing.OutCubic
+                easing.type: Easing.InOutCubic
             }
         }
 
@@ -86,7 +86,7 @@ ApplicationWindow {
                 from: 0
                 to: (mainStackView.mirrored ? -1 : 1) * -mainStackView.width
                 duration: 1000
-                easing.type: Easing.OutCubic
+                easing.type: Easing.InOutCubic
             }
         }
 
@@ -95,7 +95,7 @@ ApplicationWindow {
                 from: (mainStackView.mirrored ? -1 : 1) * -mainStackView.width
                 to: 0
                 duration: 1000
-                easing.type: Easing.OutCubic
+                easing.type: Easing.InOutCubic
             }
         }
 
@@ -104,7 +104,7 @@ ApplicationWindow {
                 from: 0
                 to: (mainStackView.mirrored ? -1 : 1) * mainStackView.width
                 duration: 1000
-                easing.type: Easing.OutCubic
+                easing.type: Easing.InOutCubic
             }
         }
     }
