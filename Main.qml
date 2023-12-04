@@ -52,7 +52,7 @@ ApplicationWindow {
 
         UserBuatAdminScreen {
             onUserCreated: {
-                mainStackView.push(userLogin)
+                mainStackView.replace(userLogin)
             }
         }
     }
@@ -71,6 +71,42 @@ ApplicationWindow {
         id: mainStackView
         anchors.fill: parent
         initialItem: splashScreen
+
+        pushEnter: Transition {
+            XAnimator {
+                from: (mainStackView.mirrored ? -1 : 1) * mainStackView.width
+                to: 0
+                duration: 1000
+                easing.type: Easing.OutCubic
+            }
+        }
+
+        pushExit: Transition {
+            XAnimator {
+                from: 0
+                to: (mainStackView.mirrored ? -1 : 1) * -mainStackView.width
+                duration: 1000
+                easing.type: Easing.OutCubic
+            }
+        }
+
+        replaceEnter: Transition {
+            XAnimator {
+                from: (mainStackView.mirrored ? -1 : 1) * -mainStackView.width
+                to: 0
+                duration: 1000
+                easing.type: Easing.OutCubic
+            }
+        }
+
+        replaceExit: Transition {
+            XAnimator {
+                from: 0
+                to: (mainStackView.mirrored ? -1 : 1) * mainStackView.width
+                duration: 1000
+                easing.type: Easing.OutCubic
+            }
+        }
     }
 
 }

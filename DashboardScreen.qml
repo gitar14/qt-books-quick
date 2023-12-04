@@ -6,9 +6,58 @@ import QtQuick.Layouts
 import Kelompok7.Perpus
 
 Item {
-    property string currentView: "buku/BukuScreen.qml"
+    property int selectedScreenIndex: 0
 
-    Loader {
+    function setSelectedScreenIndex(index) {
+        selectedScreenIndex = index
+        dashboardStackView.replace(screenList.get(index).view)
+    }
+
+    ListModel {
+        id: screenList
+        Component.onCompleted: {
+            if (UserManager.loggedUser.role != UserData.AdminRole) {
+                remove(count - 2)
+            }
+        }
+
+        ListElement {
+            name: "Buku"
+            view: "buku/BukuScreen.qml"
+        }
+        ListElement {
+            name: "Kategori"
+            view: "kategori/KategoriScreen.qml"
+        }
+        ListElement{
+            name : "Penerbit"
+            view : "penerbit/PenerbitScreen.qml"
+        }
+        ListElement{
+            name : "Member"
+            view : "member/MemberScreen.qml"
+        }
+        ListElement {
+            name: "Pengadaan Buku"
+            view: "pengadaan/PengadaanScreen.qml"
+        }
+        ListElement {
+            name: "Peminjaman Buku"
+            view: "peminjaman/PeminjamanScreen.qml"
+        }
+        ListElement {
+            name: "Pegawai"
+            view: "user/UserScreen.qml"
+        }
+
+        ListElement {
+            name: "Pengaturan"
+            view: "SettingsScreen.qml"
+        }
+    }
+
+    StackView {
+        id: dashboardStackView
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: parent.right
@@ -16,7 +65,7 @@ Item {
 
         anchors.leftMargin: sidebarWidth - sidebarRadius
 
-        source: currentView
+        initialItem: screenList.get(0).view
     }
 
     Frame {
@@ -63,54 +112,13 @@ Item {
                 Layout.alignment: Qt.AlignTop
 
                 Repeater {
-
-                    model: ListModel {
-                        Component.onCompleted: {
-                            if (UserManager.loggedUser.role != UserData.AdminRole) {
-                                remove(count - 2)
-                            }
-                        }
-
-                        ListElement {
-                            name: "Buku"
-                            view: "buku/BukuScreen.qml"
-                        }
-                        ListElement {
-                            name: "Kategori"
-                            view: "kategori/KategoriScreen.qml"
-                        }
-                        ListElement{
-                            name : "Penerbit"
-                            view : "penerbit/PenerbitScreen.qml"
-                        }
-                        ListElement{
-                            name : "Member"
-                            view : "member/MemberScreen.qml"
-                        }
-                        ListElement {
-                            name: "Pengadaan Buku"
-                            view: "pengadaan/PengadaanScreen.qml"
-                        }
-                        ListElement {
-                            name: "Peminjaman Buku"
-                            view: "peminjaman/PeminjamanScreen.qml"
-                        }
-                        ListElement {
-                            name: "Pegawai"
-                            view: "user/UserScreen.qml"
-                        }
-
-                        ListElement {
-                            name: "Pengaturan"
-                            view: "SettingsScreen.qml"
-                        }
-                    }
+                    model: screenList
 
                     delegate: ItemDelegate {
                         id: sidebarDelegate
                         width: parent.width
-                        onClicked: currentView = view
-                        highlighted: currentView === view
+                        onClicked: setSelectedScreenIndex(index)
+                        highlighted: selectedScreenIndex === index
 
                         contentItem: Label {
                             text: name
