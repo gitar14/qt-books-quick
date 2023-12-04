@@ -5,6 +5,7 @@ import Kelompok7.Perpus
 import "../"
 
 Item {
+    id: list
     Layout.fillHeight: true
     Layout.fillWidth: true
 
@@ -17,39 +18,8 @@ Item {
         anchors.margins: 16
         anchors.bottomMargin: 64 + 16 + 16
 
-        GridLayout {
-            columns: 2
-            rowSpacing: 0
-
-            Label {
-                text: "Kategori"
-            }
-
-            Label {
-                text: "Penerbit"
-            }
-
-            ComboBox {
-                model: currentViewModel.kategoriFilterList
-                valueRole: "kode"
-                textRole: "nama"
-                editable: true
-                currentIndex: 0
-                onCurrentValueChanged: currentViewModel.kategoriFilter = currentValue
-                Layout.fillWidth: true
-                Layout.maximumWidth: 200
-            }
-
-            ComboBox {
-                model: currentViewModel.penerbitFilterList
-                valueRole: "kode"
-                textRole: "nama"
-                editable: true
-                currentIndex: 0
-                onCurrentValueChanged: currentViewModel.penerbitFilter = currentValue
-                Layout.fillWidth: true
-                Layout.maximumWidth: 200
-            }
+        BukuFilter {
+            currentViewModel: list.currentViewModel
         }
 
         BukuListView {

@@ -19,8 +19,12 @@ Dialog {
 
         TextField {
             Layout.fillWidth: true
-//            text: listModel.textQuery
-//            onTextChanged: listModel.textQuery = text
+            text: viewModel.textQuery
+            onTextChanged: viewModel.textQuery = text
+        }
+
+        BukuFilter {
+            currentViewModel: viewModel
         }
 
         BukuListView {
@@ -29,7 +33,7 @@ Dialog {
             Layout.fillWidth: true
             model: viewModel.list
             onCurrentIndexChanged: viewModel.setSelectedIndex(currentIndex)
-//            highlightedText: listModel.textQuery
+            highlightedText: viewModel.textQuery
             implicitHeight: contentHeight
         }
     }
