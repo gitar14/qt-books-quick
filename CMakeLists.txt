@@ -149,6 +149,7 @@ qt_add_qml_module(appqt-books-qml
     QML_FILES AppSpinField.qml
     SOURCES
     SOURCES scopedobjectlist.h
+    QML_FILES SplashScreen.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

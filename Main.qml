@@ -15,8 +15,17 @@ ApplicationWindow {
 
     Component.onCompleted: {
         TextHighlighter.setHighlightColor(Material.shade(Material.accent, Material.Shade500));
-        if (!ConnectionManager.connectByRemembered()) {
-            mainStackView.push("ConnectionScreen.qml");
+    }
+
+    Component {
+        id:  splashScreen
+
+        SplashScreen {
+            onSplashEnd: {
+                if (!ConnectionManager.connectByRemembered()) {
+                    mainStackView.push("ConnectionScreen.qml");
+                }
+            }
         }
     }
 
@@ -61,6 +70,7 @@ ApplicationWindow {
     StackView {
         id: mainStackView
         anchors.fill: parent
+        initialItem: splashScreen
     }
 
 }
