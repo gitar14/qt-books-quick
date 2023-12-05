@@ -7,19 +7,22 @@
 SettingViewModel::SettingViewModel(QObject *parent)
     : QObject{parent},
     mRepository{RepositoryManager::getInstance()->getSetting()},
-    mCanChangeDenda{UserManager::getInstance()->loggedUser()->role() == UserData::AdminRole}
+    mIsAdmin{UserManager::getInstance()->loggedUser()->role() == UserData::AdminRole}
 {
     mDendaPerHari = mRepository->getDendaPerHari();
 }
 
 SettingViewModel::~SettingViewModel()
 {
-    if (mCanChangeDenda)
+    if (mIsAdmin)
         mRepository->setDendaPerHari(mDendaPerHari);
 }
 
 void SettingViewModel::clearDatabase()
 {
+    if (!isAdmin())
+        qFatal() << "Non admin user caanot clear database";
+
     QSqlDatabase db = QSqlDatabase::database();
     SQLHelper::clearDatabase(db);
     SQLHelper::initializeDatabase(db);
@@ -32,7 +35,7 @@ int SettingViewModel::dendaPerHari() const
 
 void SettingViewModel::setDendaPerHari(int newDendaPerHari)
 {
-    if (!mCanChangeDenda)
+    if (!mIsAdmin)
         qFatal() << "Non admin user must not change denda";
     if (mDendaPerHari == newDendaPerHari)
         return;
@@ -40,7 +43,7 @@ void SettingViewModel::setDendaPerHari(int newDendaPerHari)
     emit dendaPerHariChanged();
 }
 
-bool SettingViewModel::canChangeDenda() const
+bool SettingViewModel::isAdmin() const
 {
-    return mCanChangeDenda;
+    return mIsAdmin;
 }

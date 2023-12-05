@@ -28,7 +28,7 @@ Page {
         anchors.margins: 16
 
         Control {
-            visible: viewModel.canChangeDenda
+            visible: viewModel.isAdmin
             Layout.fillWidth: true
             padding: 16
 
@@ -44,7 +44,7 @@ Page {
                     Layout.minimumWidth: 200
                     editable: true
                     value: viewModel.dendaPerHari
-                    onValueChanged: if (viewModel.canChangeDenda) viewModel.dendaPerHari = value
+                    onValueChanged: if (viewModel.isAdmin) viewModel.dendaPerHari = value
                     from: 0
                     to: 1000000
                 }
@@ -58,6 +58,7 @@ Page {
         }
 
         CardDelegate {
+            visible: viewModel.isAdmin
             Layout.fillWidth: true
             text: "Bersihkan Database"
             onClicked: {

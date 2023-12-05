@@ -9,7 +9,7 @@ class SettingViewModel : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int dendaPerHari READ dendaPerHari WRITE setDendaPerHari NOTIFY dendaPerHariChanged)
-    Q_PROPERTY(bool canChangeDenda READ canChangeDenda CONSTANT)
+    Q_PROPERTY(bool isAdmin READ isAdmin CONSTANT)
     QML_ELEMENT
 public:
     explicit SettingViewModel(QObject *parent = nullptr);
@@ -19,15 +19,14 @@ public:
     int dendaPerHari() const;
     void setDendaPerHari(int newDendaPerHari);
 
-    bool canChangeDenda() const;
+    bool isAdmin() const;
 
 signals:
-
     void dendaPerHariChanged();
 private:
     SettingRepository* mRepository;
     int mDendaPerHari;
-    bool mCanChangeDenda;
+    bool mIsAdmin;
 };
 
 #endif // SETTINGVIEWMODEL_H
