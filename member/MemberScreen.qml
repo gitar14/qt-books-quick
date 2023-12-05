@@ -9,12 +9,14 @@ Page {
     header: ToolBar {
         RowLayout {
             anchors.fill: parent
+            anchors.leftMargin: sidebarRadius
 
             Label {
                 Layout.fillWidth: true
                 text: "Member"
                 horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter
+                font.pixelSize: 20
             }
 
             SearchField {

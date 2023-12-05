@@ -6,10 +6,9 @@ Page {
     leftPadding: sidebarRadius
 
     header: ToolBar {
-        leftPadding: sidebarRadius
-
         RowLayout {
             anchors.fill: parent
+            anchors.leftMargin: sidebarRadius
 
             RoundButton {
                 Material.background: "transparent"

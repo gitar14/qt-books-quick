@@ -9,6 +9,7 @@ Page {
     header: ToolBar {
         Label {
             anchors.fill: parent
+            anchors.leftMargin: sidebarRadius
             text: "Pengaturan"
             horizontalAlignment: Qt.AlignHCenter
             verticalAlignment: Qt.AlignVCenter
