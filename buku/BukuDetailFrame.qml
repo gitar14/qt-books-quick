@@ -11,126 +11,144 @@ BaseDetailFrame {
     signal deleteClicked()
 
 
-    GridLayout {
+    ColumnLayout {
         anchors.fill: parent
-        columns: 2
-        columnSpacing: 16
         visible: currentViewModel.hasSelectedItem
 
         Label {
-            Layout.columnSpan: 2
             text: "Detail Buku"
             font.pixelSize: 24
         }
 
-        Label {
-            text: "Kode"
-        }
-
-        Label {
+        TabBar {
+            id: tabBar
+            Layout.leftMargin: -16
+            Layout.rightMargin: -16
             Layout.fillWidth: true
-            text: currentViewModel.selectedData.kode
+            Material.background: "transparent"
+
+
+            TabButton {
+                text: "Dasar"
+            }
+
+            TabButton {
+                text: "Ketersediaan"
+            }
         }
 
-        Label {
-            text: "Judul"
-        }
+        StackLayout {
+            currentIndex: tabBar.currentIndex
+            Layout.topMargin: 8
+            Layout.bottomMargin: 8
 
-        Label {
-            Layout.fillWidth: true
-            text: currentViewModel.selectedData.judul
-        }
+            ColumnLayout {
+                Label {
+                    text: "Judul"
+                }
 
-        Label {
-            text: "Penulis"
-        }
+                Label {
+                    text: currentViewModel.selectedData.judul
+                    font.bold: true
+                }
 
-        Label {
-            Layout.fillWidth: true
-            text: currentViewModel.selectedData.penulis
-        }
+                Label {
+                    text: "Penulis"
+                }
 
-        Label {
-            text: "Kategori"
-        }
+                Label {
+                    text: currentViewModel.selectedData.penulis
+                    font.bold: true
+                }
 
-        Label {
-            Layout.fillWidth: true
-            text: currentViewModel.selectedData.namaKategori
-        }
+                Label {
+                    text: "Kategori"
+                }
 
-        Label {
-            text: "Penerbit"
-        }
+                Label {
+                    text: currentViewModel.selectedData.namaKategori
+                    font.bold: true
+                }
 
-        Label{
-            text: currentViewModel.selectedData.namaPenerbit
-            Layout.fillWidth: true
-        }
+                Label {
+                    text: "Penerbit"
+                }
 
-        Label {
-            text: "Tahun Terbit"
-        }
+                Label{
+                    text: currentViewModel.selectedData.namaPenerbit
+                    Layout.fillWidth: true
+                    font.bold: true
+                }
 
-        Label {
-            Layout.fillWidth: true
-            text: currentViewModel.selectedData.tahunTerbit
-        }
+                Label {
+                    text: "Tahun Terbit"
+                }
 
+                Label {
+                    text: currentViewModel.selectedData.tahunTerbit
+                    font.bold: true
+                }
+            }
 
-        Label {
-            text: "Jumlah Pengadaan"
-        }
+            GridLayout {
+                Layout.fillWidth: true
+                columns: 2
 
-        Label {
-            Layout.fillWidth: true
-            text: currentViewModel.selectedDataJumlah.pengadaan
-        }
+                Label {
+                    Layout.fillWidth: true
+                    text: "Jumlah Pengadaan"
+                }
 
-        Label {
-            text: "Jumlah Hilang"
-        }
+                Label {
+                    Layout.alignment: Qt.AlignRight
+                    text: currentViewModel.selectedDataJumlah.pengadaan
+                }
 
-        Label {
-           Layout.fillWidth: true
-           text: currentViewModel.selectedData.jumlahHilang
-        }
+                Label {
+                    Layout.fillWidth: true
+                    text: "Jumlah Hilang"
+                }
 
-        Label {
-            text: "Jumlah Tidak Hilang"
-        }
+                Label {
+                   Layout.alignment: Qt.AlignRight
+                   text: currentViewModel.selectedData.jumlahHilang
+                }
 
-        Label {
-            Layout.fillWidth: true
-            text: currentViewModel.selectedDataJumlah.tidakHilang
-        }
+                Label {
+                    Layout.fillWidth: true
+                    text: "Jumlah Tidak Hilang"
+                }
 
-        Label {
-            text: "Jumlah Dipinjam"
-        }
+                Label {
+                    Layout.alignment: Qt.AlignRight
+                    text: currentViewModel.selectedDataJumlah.tidakHilang
+                }
 
-        Label {
-            Layout.fillWidth: true
-            text: currentViewModel.selectedDataJumlah.dipinjam
-        }
+                Label {
+                    Layout.fillWidth: true
+                    text: "Jumlah Dipinjam"
+                }
 
-        Label {
-            text: "Jumlah Tersedia"
-        }
+                Label {
+                    Layout.alignment: Qt.AlignRight
+                    text: currentViewModel.selectedDataJumlah.dipinjam
+                }
 
-        Label {
-            Layout.fillWidth: true
-            text: currentViewModel.selectedDataJumlah.tersedia
-        }
+                Label {
+                    Layout.fillWidth: true
+                    text: "Jumlah Tersedia"
+                }
 
-        Rectangle {
-            Layout.columnSpan: 2
-            Layout.fillHeight: true
+                Label {
+                    Layout.alignment: Qt.AlignRight
+                    text: currentViewModel.selectedDataJumlah.tersedia
+                }
+            }
+
         }
 
         RowLayout {
-            Layout.columnSpan: 2
-
+            Layout.alignment: Qt.AlignRight
 
             Button {
                 text: "Edit"
@@ -140,12 +158,14 @@ BaseDetailFrame {
             Button {
                 text: "Hapus"
                 onClicked: deleteClicked()
+                highlighted: true
+                Material.accent: Material.Red
             }
         }
     }
 
     Label {
-        text: "Tidak Ada Data Buku"
+        text: "Tidak ada buku yang terpilih"
         visible: !currentViewModel.hasSelectedItem
     }
 }

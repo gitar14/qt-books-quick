@@ -10,92 +10,98 @@ BaseDetailFrame {
     signal editClicked()
     signal deleteClicked()
 
-    GridLayout {
+    ColumnLayout {
         anchors.fill: parent
-        columnSpacing: 16
         visible: currentViewModel.hasSelectedItem
-        columns: 2
 
         Text {
-            Layout.columnSpan: 2
-            text: "Pengadaan Detail"
+            text: "Detail Pengadaan"
             font.pixelSize: 24
         }
 
-        Label {
-            text: "Kode"
-        }
-
-        Label {
-            text: currentViewModel.selectedData.kode
+        TabBar {
+            id: tabBar
             Layout.fillWidth: true
+            Layout.leftMargin: -16
+            Layout.rightMargin: -16
+            Material.background: "transparent"
+
+            TabButton {
+                text: "Dasar"
+            }
+
+            TabButton {
+                text: "Buku"
+            }
         }
 
-        Label {
-            text: "Pennambah"
-        }
+        StackLayout {
+            currentIndex: tabBar.currentIndex
+            Layout.topMargin: 8
+            Layout.bottomMargin: 8
 
-        Label {
-            text: currentViewModel.selectedData.userNama
-            Layout.fillWidth: true
-        }
-
-        Label {
-            text: "Sumber"
-        }
-
-        Label {
-            text: currentViewModel.selectedData.sumber
-            Layout.fillWidth: true
-        }
-
-        Label{
-            text: "Tanggal"
-        }
-
-        Label{
-            text: Qt.formatDate(currentViewModel.selectedData.tanggalPengadaan, locale, locale.LongFormat)
-            Layout.fillWidth: true
-        }
-
-        Label {
-            text: bukuListView.count > 0 ? "Buku" : "Buku Kosong"
-            Layout.columnSpan: 2
-            Layout.alignment: Qt.AlignHCenter
-        }
-
-        ListView {
-            id: bukuListView
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            Layout.columnSpan: 2
-            model: currentViewModel.selectedBukuList
-            spacing: 8
-            clip: true
-
-            delegate: Pane {
-                width: ListView.view.width
-                padding: 16
-
-                background: Rectangle {
-                    border.color: "#dedede"
-                    border.width: 1
-                    radius: 16
+            ColumnLayout {
+                Label {
+                    text: "Sumber"
                 }
 
-                contentItem: ColumnLayout {
-                    Label {
-                        text: modelData.judul
+                Label {
+                    text: currentViewModel.selectedData.sumber
+                    font.bold: true
+                }
+
+                Label {
+                    text: "Penambah"
+                }
+
+                Label {
+                    text: currentViewModel.selectedData.userNama
+                    font.bold: true
+                }
+
+                Label{
+                    text: "Tanggal"
+                }
+
+                Label{
+                    text: Qt.formatDate(currentViewModel.selectedData.tanggalPengadaan, locale, Locale.LongFormat)
+                    font.bold: true
+                }
+            }
+
+            ListView {
+                id: bukuListView
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                model: currentViewModel.selectedBukuList
+                spacing: 8
+                clip: true
+
+                delegate: Pane {
+                    width: ListView.view.width
+                    padding: 16
+
+                    background: Rectangle {
+                        border.color: "#dedede"
+                        border.width: 1
+                        radius: 16
                     }
-                    Label {
-                        text: modelData.jumlah
+
+                    contentItem: ColumnLayout {
+                        Label {
+                            text: modelData.judul
+                            font.bold: true
+                        }
+                        Label {
+                            text: modelData.jumlah
+                        }
                     }
                 }
             }
         }
 
         Row {
-            Layout.columnSpan: 2
+            Layout.alignment: Qt.AlignRight
             spacing: 8
 
             Button {
@@ -106,6 +112,8 @@ BaseDetailFrame {
             Button {
                 text: "Hapus"
                 onClicked: deleteClicked()
+                highlighted: true
+                Material.accent: Material.Red
             }
         }
 
@@ -113,6 +121,6 @@ BaseDetailFrame {
 
     Label {
         visible: !currentViewModel.hasSelectedItem
-        text: "Tidak ada item yang terpilih"
+        text: "Tidak ada pengadaan yang terpilih"
     }
 }

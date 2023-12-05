@@ -9,43 +9,30 @@ BaseDetailFrame {
     signal editClicked()
     signal deleteClicked()
 
-    GridLayout {
+    ColumnLayout {
         anchors.fill: parent
-        columns: 2
-        columnSpacing: 16
         visible: currentViewModel.hasSelectedItem
 
         Text {
-            Layout.columnSpan: 2
-            text: "Kategori Detail"
+            text: "Detail Kategori"
             font.pixelSize: 24
         }
 
         Label {
-            text: "Kode"
+            text: "Nama Kategori"
         }
 
         Label {
-            Layout.fillWidth: true
-            text: currentViewModel.selectedData.kode
-        }
-
-        Label {
-            text: "Jenis"
-        }
-
-        Label {
-            Layout.fillWidth: true
+            font.bold: true
             text: currentViewModel.selectedData.nama
         }
 
         Rectangle {
             Layout.fillHeight: true
-            Layout.columnSpan: 2
         }
 
         RowLayout {
-            Layout.columnSpan: 2
+            Layout.alignment: Qt.AlignRight
 
             Button {
                 text: "Edit"
@@ -55,6 +42,8 @@ BaseDetailFrame {
             Button {
                 text: "Hapus"
                 onClicked: deleteClicked()
+                highlighted: true
+                Material.accent: Material.Red
             }
         }
     }

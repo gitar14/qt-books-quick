@@ -9,10 +9,8 @@ BaseDetailFrame {
     signal editClicked()
     signal deleteClicked()
 
-    GridLayout {
+    ColumnLayout {
         anchors.fill: parent
-        columns: 2
-        columnSpacing: 16
         visible: currentViewModel.hasSelectedItem
 
         Label {
@@ -20,7 +18,7 @@ BaseDetailFrame {
         }
 
         Label {
-            Layout.fillWidth: true
+            font.bold: true
             text: currentViewModel.selectedData.id
         }
 
@@ -29,7 +27,7 @@ BaseDetailFrame {
         }
 
         Label {
-            Layout.fillWidth: true
+            font.bold: true
             text: currentViewModel.selectedData.namaDepan
         }
 
@@ -38,17 +36,16 @@ BaseDetailFrame {
         }
 
         Label {
-            Layout.fillWidth: true
+            font.bold: true
             text: currentViewModel.selectedData.namaBelakang
         }
 
         Item {
             Layout.fillHeight: true
-            Layout.columnSpan: 2
         }
 
         RowLayout {
-            Layout.columnSpan: 2
+            Layout.alignment: Qt.AlignRight
 
             Button {
                 text: "Edit"
@@ -58,6 +55,8 @@ BaseDetailFrame {
             Button {
                 text: "Hapus"
                 onClicked: deleteClicked()
+                highlighted: true
+                Material.accent: Material.Red
             }
         }
     }

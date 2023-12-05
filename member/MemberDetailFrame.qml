@@ -9,52 +9,40 @@ BaseDetailFrame {
     signal editClicked()
     signal deleteClicked()
 
-    GridLayout{
+    ColumnLayout {
         anchors.fill: parent
-        columns: 2
-        columnSpacing: 16
         visible: currentViewModel.hasSelectedItem
 
         Text {
-            Layout.columnSpan: 2
-            text: "Member Detail"
+            text: "Detail Member"
             font.pixelSize: 24
         }
 
         Label{
-        text: "Kode"
+            text: "Nama Depan"
         }
 
         Label{
-            Layout.fillWidth: true
-        text: currentViewModel.selectedData.kode
+            font.bold: true
+            text:  currentViewModel.selectedData.namaDepan
         }
 
         Label{
-        text: "Nama Depan"
+            text: "Nama Belakang"
         }
 
         Label{
-             Layout.fillWidth: true
-        text:  currentViewModel.selectedData.namaDepan
+            font.bold: true
+            text: currentViewModel.selectedData.namaBelakang
         }
 
         Label{
-        text: "Nama Belakang"
+            text: "Tanggal Lahir"
         }
 
         Label{
-             Layout.fillWidth: true
-        text: currentViewModel.selectedData.namaBelakang
-        }
-
-        Label{
-        text: "Tanggal Lahir"
-        }
-
-        Label{
-             Layout.fillWidth: true
-        text:  Qt.formatDate(currentViewModel.selectedData.tanggalLahir, locale, locale.LongFormat)
+            font.bold: true
+            text:  Qt.formatDate(currentViewModel.selectedData.tanggalLahir, locale, Locale.LongFormat)
         }
 
         Label {
@@ -62,30 +50,31 @@ BaseDetailFrame {
         }
 
         Label {
-            Layout.fillWidth: true
+            font.bold: true
             text: currentViewModel.selectedData.umur + " tahun"
         }
 
         Item{
-        Layout.columnSpan: 2
-        Layout.fillHeight: true
+            Layout.fillHeight: true
         }
 
         Row {
-        Layout.columnSpan: 2
-        spacing: 8
-        Button{
-        text: "Edit"
-            onClicked: editClicked()
-        }
-        Button{
-            text: "Hapus"
+            Layout.alignment: Qt.AlignRight
+            spacing: 8
+            Button{
+                text: "Edit"
+                onClicked: editClicked()
+            }
+            Button{
+                text: "Hapus"
                 onClicked: deleteClicked()
-        }
+                highlighted: true
+                Material.accent: Material.Red
+            }
         }
     }
     Label {
-        text: "Tidak Ada Data"
+        text: "Tidak member yang terpilih"
         visible: !currentViewModel.hasSelectedItem
     }
 }

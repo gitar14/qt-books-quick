@@ -9,25 +9,13 @@ BaseDetailFrame {
     signal editClicked()
     signal deleteClicked()
 
-    GridLayout{
+    ColumnLayout {
         anchors.fill: parent
-        columns: 2
         visible: currentViewModel.hasSelectedItem
-        columnSpacing: 16
 
         Text {
-            Layout.columnSpan: 2
-            text: "Penerbit Detail"
+            text: "Detail Penerbit"
             font.pixelSize: 24
-        }
-
-        Label{
-            text: "Kode"
-        }
-
-        Label{
-            Layout.fillWidth: true
-            text: currentViewModel.selectedData.kode
         }
 
         Label{
@@ -35,7 +23,7 @@ BaseDetailFrame {
         }
 
         Label{
-            Layout.fillWidth: true
+            font.bold: true
             text: currentViewModel.selectedData.nama
         }
 
@@ -44,17 +32,16 @@ BaseDetailFrame {
         }
 
         Label{
-            Layout.fillWidth: true
+            font.bold: true
             text: currentViewModel.selectedData.alamat
         }
 
         Item{
-            Layout.columnSpan: 2
             Layout.fillHeight: true
         }
 
         Row {
-            Layout.columnSpan: 2
+            Layout.alignment: Qt.AlignRight
             spacing: 8
             Button{
                 text: "Edit"
@@ -63,11 +50,13 @@ BaseDetailFrame {
             Button{
                 text: "Hapus"
                 onClicked: deleteClicked()
+                highlighted: true
+                Material.accent: Material.Red
             }
         }
     }
     Label {
-        text: "Tidak Ada Data"
+        text: "Tidak penerbit yang terpilih"
         visible: !currentViewModel.hasSelectedItem
     }
 }
