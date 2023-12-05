@@ -12,6 +12,7 @@ ApplicationWindow {
 
     property int sidebarRadius: 32
     property int sidebarWidth: 250
+    property bool intoMain: false
 
     Component.onCompleted: {
         TextHighlighter.setHighlightColor(Material.shade(Material.accent, Material.Shade500));
@@ -62,6 +63,7 @@ ApplicationWindow {
 
         UserLoginScreen {
             onLoggedIn: {
+                intoMain = true
                 mainStackView.push("DashboardScreen.qml")
             }
         }
@@ -72,7 +74,7 @@ ApplicationWindow {
         anchors.fill: parent
         initialItem: splashScreen
 
-        pushEnter: Transition {
+        property Transition normalPushEnter: Transition {
             XAnimator {
                 from: (mainStackView.mirrored ? -1 : 1) * mainStackView.width
                 to: 0
@@ -81,7 +83,26 @@ ApplicationWindow {
             }
         }
 
-        pushExit: Transition {
+        property Transition intoMainPushEnter: Transition {
+            OpacityAnimator {
+                duration: 0
+                from: 0
+                to: 0
+            }
+
+            SequentialAnimation {
+                PauseAnimation {
+                    duration: 600
+                }
+                OpacityAnimator {
+                    duration: 250
+                    from: 0
+                    to: 1
+                }
+            }
+        }
+
+        property Transition normalPushExit: Transition {
             XAnimator {
                 from: 0
                 to: (mainStackView.mirrored ? -1 : 1) * -mainStackView.width
@@ -89,6 +110,19 @@ ApplicationWindow {
                 easing.type: Easing.InOutCubic
             }
         }
+
+        property Transition intoMainPushExit: Transition {
+            ScaleAnimator {
+                from: 1
+                to: 0
+                duration: 500
+                easing.type: Easing.InOutCubic
+            }
+        }
+
+        pushEnter: !intoMain ? normalPushEnter : intoMainPushEnter
+
+        pushExit: !intoMain ? normalPushExit : intoMainPushExit
 
         replaceEnter: Transition {
             XAnimator {
