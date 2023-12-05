@@ -84,7 +84,8 @@ ApplicationWindow {
         }
 
         property Transition intoMainPushEnter: Transition {
-            OpacityAnimator {
+            NumberAnimation {
+                properties: "opacity"
                 duration: 0
                 from: 0
                 to: 0
