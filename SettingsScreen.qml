@@ -23,8 +23,8 @@ Page {
 
     ColumnLayout {
         anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: Math.min(parent.width - 32, 512)
         anchors.margins: 16
 
         Control {
@@ -63,6 +63,14 @@ Page {
             text: "Bersihkan Database"
             onClicked: {
                 settingModel.clearDatabase();
+            }
+        }
+
+        CardDelegate {
+            Layout.fillWidth: true
+            text: "Tentang"
+            onClicked: {
+                dashboardStackView.push("AboutScreen.qml")
             }
         }
     }

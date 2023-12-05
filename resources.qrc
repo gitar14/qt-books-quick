@@ -14,5 +14,7 @@
         <file>icons/chevron-right.svg</file>
         <file>lottie/splash.json</file>
         <file>lottie/splash.mp4</file>
+        <file>icons/qt.png</file>
+        <file>icons/arrow-back.svg</file>
     </qresource>
 </RCC>
