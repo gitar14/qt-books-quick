@@ -9,6 +9,7 @@ Item {
     property int selectedScreenIndex: 0
 
     function setSelectedScreenIndex(index) {
+        if (selectedScreenIndex === index) return
         selectedScreenIndex = index
         dashboardStackView.replace(screenList.get(index).view)
     }
@@ -66,6 +67,33 @@ Item {
         anchors.leftMargin: sidebarWidth - sidebarRadius
 
         initialItem: screenList.get(0).view
+
+        replaceEnter: Transition {
+            NumberAnimation {
+                properties: "opacity"
+                from: 0
+                to: 0
+                duration: 0
+            }
+
+            SequentialAnimation {
+                PauseAnimation {
+                    duration: 250
+                }
+                OpacityAnimator {
+                    from: 0
+                    to: 1
+                    duration: 250
+                }
+            }
+        }
+        replaceExit: Transition {
+            OpacityAnimator {
+                from: 1
+                to: 0
+                duration: 100
+            }
+        }
     }
 
     Frame {
