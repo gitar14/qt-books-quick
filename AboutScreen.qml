@@ -68,19 +68,19 @@ Page {
                             }
 
                             ListElement {
-                                name: "Dida Athallah"
+                                name: "Dida Attallah E"
                                 avatar: "https://avatars.githubusercontent.com/u/149646493?s=64&v=4"
                                 ghUsername: "savze7"
                             }
 
                             ListElement {
-                                name: "Narindira"
+                                name: "Narindera Jati P"
                                 avatar: "https://avatars.githubusercontent.com/u/147364376?s=64&v=4"
                                 ghUsername: "jep333"
                             }
 
                             ListElement {
-                                name: "Revano"
+                                name: "Raden Revano"
                                 avatar: "https://avatars.githubusercontent.com/u/150409296?s=64&v=4"
                                 ghUsername: "vanoathalla"
                             }
